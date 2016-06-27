@@ -1,0 +1,169 @@
+1   extract ocr stuff out into its own libraries.
+
+2   add module for other abilities such as reading large amounts of text and matching an answer
+
+
+YOUR FREE API KEY: 9642dd40-1c73-11e6-a057-97f4c970893c
+EXAMPLE : curl -X GET -H "api-key: 9642dd40-1c73-11e6-a057-97f4c970893c" "http://api.cortical.io/rest/retinas"
+
+
+3   I still have to do the modified verison and test it. this is where it tests
+    the answers with added text to match the longest one.
+
+4    I have to make it faster - the main problem is finding the term that most
+    matches the question. so I need to speed that up. quite a bit. and give some
+    small indicator that its still thinking about it. a mouse move is the only
+    real option. perhaps order the terms alphanumerically, then if the one we're
+    about to check is the same as the one we just did then skip it. We can also
+    say if its longer than our closest option like if our score is 22 and its
+    length makes it have 22+ insertions then skip it, this could also be if its
+    too short. that should help a bit.
+
+5   try it with db2. Also make a DB from quizlet https://quizlet.com/24289043/comptia-network-acronyms-and-vocabulary-flash-cards/
+
+
+
+I'm unfamiliar with string similarity algorithms except for Levenshtein Distance because that's what I'm using and it has turned out to be less than ideal.
+
+So I've kind of got an idea of a recursive algorithm I'd like to implement but I want to know if it exists already so I can leverage other's expertise.
+
+Here's the algorithm by example:
+
+> string 1: "Paul Johnson"
+>
+> string 2: "John Paulson"
+
+step 1: find all longest matches
+
+> Match 1: "Paul"
+>
+> Match 2: "John"
+>
+> Match 3: "son"
+>
+> Match 4: " "
+
+step 2: Calculate scores for each match with this formula: ((match.len/string.len)*match.len) This allows longer strings to be weighted more
+
+> Match 1: (4/12)*4 = 1.333...
+>
+> Match 2: 1.333...
+>
+> Match 3: .75
+>
+> Match 4: .083
+
+
+
+
+
+New Algorithm:
+
+Find ALL Longest Common Substrings
+
+up vote
+0
+down vote
+favorite
+This program returns the score of how similar one string is to another according to the following rules:
+
+isolate only the longest (non-overlaping) matching substrings.
+score every longest substring found with this formula:
+(substring.length / ((string1.length + string2.length) / 2)) * substring.length
+
+return score.
+STEP 1 Example:
+
+string1 = ABCD
+
+string2 = ZBCA
+
+Deconstructing string1: (list of substring in order)
+
+ABCD
+
+ABC
+
+AB
+
+A (also found in string2)
+
+BCD
+
+BC (also found in string2)
+
+B (also found in string2 but ignored - part of a longer substring)
+
+CD
+
+C (also found in string2 but ignored - part of a longer substring)
+
+D
+
+Matches: A, BC
+
+STEP 2 Example: (substring.length / ((string1.length + string2.length) / 2)) * substring.length
+
+A: (1/((4+4)/2)) * 1 = .25
+
+BC: (2/((4+4)/2)) * 2 = 1
+
+Step 3 Example: .25 + 1 = 1.25, Return 1.25
+Here's an example of longer strings of variable length:
+
+string1 = Approximate This
+
+string2 = Appropriate That Thing
+
+Approximate This
+
+Approximate Thi
+
+...
+
+A
+
+pproximate This
+
+... ...
+
+s
+
+Matches: Appro, ate, i, th, i (2 single i's in both, not two th's in both)
+
+Appro: (5/((16+22)/2)) * 5 = 1.3157894736842105263157894736842
+
+ate: (3/((16+22)/2)) * 3 = 0.47368421052631578947368421052632
+
+i: (1/((16+22)/2)) * 1 = 0.05263157894736842105263157894737
+
+th: (2/((16+22)/2)) * 2 = 0.21052631578947368421052631578947
+
+i: (1/((16+22)/2)) * 1 = 0.05263157894736842105263157894737
+
+Return: 2.1052631578947368421052631578947
+
+
+
+
+
+6   Things to do now:
+      1. Modified is no longer important now that we're not using levenshtein
+          Distance. So re-factor everything to either take it out or something.
+      2. Backwards search needs a second best option.
+      3. would be cool to adjust the amount of score's we let through. right now
+          we're simply taking the best score and any tie breakers. but it would
+          be cool to say take the top 3% of scores, or even better, the scores
+          at the top of the S curve.
+      4. make a module that gets a specific area on the screen and you press to
+          refresh. that way we can use this for gathering vocab from cards or
+          something.
+      5. if you feel radical go all the way and implement iris to make a real
+          semantic network to use. of course do that in tcl, not autoit.
+          a. If you did make a semantic network you might could use that to read
+              the text and automate the process of develop this database.
+              i. If you did that you could package this up and sell it for $250
+                  a pop, with free updates.
+              ii. I'd rather make a monthly fee though, so don't do this except
+                  on a little side business.
+      6. change tooltip to move mouse.

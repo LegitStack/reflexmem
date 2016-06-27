@@ -1,0 +1,6 @@
+Exception: STATUS_ACCESS_VIOLATION at eip=0057E6E0
+eax=00003500 ebx=802441C4 ecx=802E5FE4 edx=00000100 esi=802441CC edi=802441CC
+ebp=0000D120 esp=0028BFF0 program=C:\sites\AutOCR\tesseract\tesseract.exe, pid 10536, thread main
+cs=0023 ds=002B es=002B fs=0053 gs=002B ss=002B
+Stack trace:
+Frame     Function  Args

@@ -1,0 +1,45 @@
+Func ExplicitSaveQA()
+
+  If $ACTIVE = false Then
+    return $ACTIVE
+  EndIf
+
+  local $doa = false
+  if $CLICKI = 0 then
+    $doa = true
+  endif
+  ClearCache(1)
+
+  If Not FileExists(_PathFull(@ScriptDir & "\output\0.txt")) Then
+    return FileExists(_PathFull(@ScriptDir & "\output\0.txt"))
+  EndIf
+
+  local $read, $file, $filepath, $question, $answer
+  $pos = MouseGetPos()
+  If $doa == false Then
+    $CLICKS[0] = $pos[0]
+    $CLICKS[1] = $pos[1]
+  Elseif $doa == true Then
+
+    $filepath = GetOutputPath() & "\0.txt"
+    $file = FileOpen($filepath, $FO_READ)
+    $read = FileRead($file)
+    FileClose($file)
+    $question = $read
+
+    $CLICKS[2] = $pos[0]
+    $CLICKS[3] = $pos[1]
+    SaveScreen($CLICKS[0],$CLICKS[1],$CLICKS[2],$CLICKS[3])
+
+    $filepath = GetOutputPath() & "\1.txt"
+    $file = FileOpen($filepath, $FO_READ)
+    $read = FileRead($file)
+    FileClose($file)
+    $answer = $read
+    MsgBox(64, "question is", $question)
+    MsgBox(64, "question is", $answer)
+
+    InsertQAIntoDB($question, $answer)
+    InsertQAIntoDB($answer, $question)
+  EndIf
+EndFunc

@@ -1,0 +1,3 @@
+Run notepad.exe  max
+sleep 2000
+send {ENTER}

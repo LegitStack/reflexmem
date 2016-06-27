@@ -1,0 +1,4 @@
+http://www.structurise.com/textract/documentation/
+
+https://www.autoitscript.com/forum/topic/89310-textract-screen-ocr-udf/
+
