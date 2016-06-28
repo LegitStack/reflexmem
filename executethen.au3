@@ -26,16 +26,18 @@ Func InterpretFileThen($file)
   Local $i = 1
   local $statement
   local $line
-  local $ret
+  local $ret[1]
   While $i < UBound($file)
     if $file[$i] == "" or $file[$i] == " " then
     else
       $line = StringReplace ($file[$i], " ", @CRLF, 1)
       $statement = StringSplit($line, @CRLF)
-      $ret = $ret & @CRLF & ActionMapThen($statement[1], $statement[3])
+      $ret[ubound($ret) - 1] = ActionMapThen($statement[1], $statement[3])
+      ReDim $ret[ubound($ret) + 1]
     endif
     $i = $i + 1
   WEnd
+  return $ret
 EndFunc
 
 
@@ -44,34 +46,26 @@ Func ActionMapThen($command, $arguments)
     Case "sleep" ; miliseconds
       return "Sleep(" & $arguments & ")"
     Case "send" ; keystrokes {KEY}
-      return "Send(" & $arguments & ")"
+      return "Send('" & $arguments & "')"
     Case "click" ; primary secondary, x, y
       $args = StringSplit($arguments, " ", 2)
-      return "MouseClick(" & $args[0] & "," & $args[1] & "," & $args[2] & ")"
+      return "MouseClick('" & $args[0] & "'," & $args[1] & "," & $args[2] & ")"
     Case "mouse" ; x, y
       $args = StringSplit($arguments, " ", 2)
       return "MouseMove(" & $args[0] & "," & $args[1] & ")"
     Case "wheel" ; up down
-      return "MouseWheel(" & $arguments & ")"
+      return "MouseWheel('" & $arguments & "')"
     case "clip" ; text
       return "ClipPut(" & $arguments & ")"
     Case "run" ; programname.exe, .\ c:\somewhere\  , max min hide
       $args = StringSplit($arguments, " ", 2)
       if Ubound($args) == 3 then
-        _arrayDisplay($args, "args")
-        if $args[2] == "max" then
-          return "Run(" & $args[0] & "," & $args[1] & "," & @SW_MAXIMIZE & ")"
-        elseif $args[2] == "min" then
-          return "Run(" & $args[0] & "," & $args[1] & "," & @SW_MINIMIZE & ")"
-        elseif $args[2] == "hide" then
-          return "Run(" & $args[0] & "," & $args[1] & "," & @SW_HIDE & ")"
-        else
-          return "Run(" & $args[0] & "," & $args[1] & ")"
-        endif
+          ;_arrayDisplay($args, "args")
+          return "Run('" & $args[0] & "', '" & $args[1] & "'," & Execute($args[2]) & ")"
       elseif Ubound($args) == 2 then
-        return "Run(" & $args[0] & "," & $args[1] & ")"
+        return "Run('" & $args[0] & "', '" & $args[1] & "')"
       else
-        return "Run(" & $arguments & ")"
+        return "Run('" & $arguments & "')"
       endif
     Case Else
     ;case keydown

@@ -50,7 +50,7 @@ Func ActionMapIf($command, $arguments)
       $args = StringSplit($arguments, " ", 2)
       return "ClipGet() " & $args[0] & " " & "'" & $args[1] & "'"
     ;Case "window" ; up down
-
+      ;if $tcounts[$c] > 250
     ;Case "time" ; skip, mon tue wed thu fri sat sun, @hour, @min, @Sec
     ;  $args = StringSplit($arguments, " ", 2)
     ;  return "@HOUR $args[2]"

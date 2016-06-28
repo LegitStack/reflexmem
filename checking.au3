@@ -1,36 +1,45 @@
 #include <.\executeif.au3>
 #include <.\executethen.au3>
 
-
-;Get a list of triggers
-
+;Get a list of triggers and behaviors
 global $triggers[1]
-;$triggers[0] = "ClipGet() == 'whatever'"
-;$triggers[0] = "$xcount == 2"
-$triggers[0] = ReadFileIf(0);"ClipGet() == 'whatever' and $xcount == 3"
+global $behaviors[100][1]
+global $tcounts[1]
 
+local $i = 0
+While FileExists(_PathFull(@ScriptDir & "\scripts\if") & "\" & $i & ".txt")
 
-global $behavior[1]
-;$triggers[0] = "ClipGet() == 'whatever'"
-;$triggers[0] = "$xcount == 2"
-$behavior[0] = ReadFileThen(0)
+  ReDim $triggers[$i + 1]
+  ReDim $behaviors[100][$i + 1]
+  ReDim $tcounts[$i + 1]
+  $triggers[$i] = ReadFileIf($i)
+  $temp = ReadFileThen($i)
+  $j = 0
+  For $t In $temp
+    $behaviors[$j][$i] = $t
+    $j = $j + 1
+  next
+  $i = $i + 1
+WEnd
 
-;MsgBox(64,$behavior[0], $triggers[0])
-
-global $xcount = 0
+;watch for triggers and do each behaviors
 While 1
-  sleep(3)
-  ;check for triggers
-  if Execute($triggers[0]) then
-    ;if it exists then do this stuff
-    ;MsgBox(64, $triggers[0],$behavior[0])
-    Execute($behavior[0])
-  endif
+  sleep(3000)
+  for $c = 0 to ubound($triggers)-1
+    $tcounts[$c] = $tcounts[$c] + 1
+    if Execute($triggers[$c]) then
 
-  ;maintain loop
-  if $xcount == 1000 then
-    $xcount = 0
-  else
-    $xcount = $xcount +1
-  endif
+      for $i = 0 to 100
+        if $behaviors[$i][$c] == ""  then
+          $i = 101
+        else
+          msgbox(64,"executing",$behaviors[$i][$c])
+          sleep(2000)
+          Execute($behaviors[$i][$c])
+        endif
+      next
+      $tcounts[$c] = 0
+
+    endif
+  next
 WEnd
