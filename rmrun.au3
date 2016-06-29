@@ -59,12 +59,12 @@ Func PopulateGui()
       Case Else
         For $i = 0 To ubound($idCheckbox) - 1
           If $msg == $idCheckbox[$i] Then
-            If _IsChecked($idCheckbox[0]) Then
+            If _IsChecked($idCheckbox[$i]) Then
               $trigs[$i] = 1
-              MsgBox($MB_SYSTEMMODAL, "", "aThe checkbox is checked.", 0, $hGUI)
+              ;MsgBox($MB_SYSTEMMODAL, $msg, "aThe checkbox is checked.", 0, $hGUI)
             Else
               $trigs[$i] = ""
-              MsgBox($MB_SYSTEMMODAL, "", "aThe checkbox is not checked.", 0, $hGUI)
+              ;MsgBox($MB_SYSTEMMODAL, $msg, "aThe checkbox is not checked.", 0, $hGUI)
             EndIf
           Endif
         Next
@@ -89,20 +89,21 @@ Func PopulateGui()
       Case Else
         For $i = 0 To ubound($idCheckbox) - 1
           If $msg == $idCheckbox[$i] Then
-            If _IsChecked($idCheckbox[0]) Then
+            If _IsChecked($idCheckbox[$i]) Then
               $trigs[$i] = 1
-              MsgBox($MB_SYSTEMMODAL, "", "The checkbox is checked.", 0, $hGUI)
+              ;MsgBox($MB_SYSTEMMODAL, $msg, "The checkbox is checked.", 0, $hGUI)
             Else
               $trigs[$i] = ""
-              MsgBox($MB_SYSTEMMODAL, "", "The checkbox is not checked.", 0, $hGUI)
+              ;MsgBox($MB_SYSTEMMODAL, $msg, "The checkbox is not checked.", 0, $hGUI)
             EndIf
           Endif
-        Next ; whatever
+        Next ;
 
+        ;_arrayDisplay($trigs, "trigs")
+        ;_arrayDisplay($triggers, "triggers")
         ;check for triggers
         ;sleep(3000)
-        if $pause == true then
-        else
+        if $pause == false then
           for $c = 0 to ubound($triggers)-1
             if $trigs[$c] == 1 then
               $tcounts[$c] = $tcounts[$c] + 1
