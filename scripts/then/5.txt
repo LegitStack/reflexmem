@@ -1,0 +1,3 @@
+_IsPressed('01')
+_IsPressed('02')
+click primary

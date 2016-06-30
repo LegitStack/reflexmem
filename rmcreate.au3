@@ -42,12 +42,13 @@ Func CreateTriggers()
 	Global $hGroup = GUICtrlCreateGroup("Triggers", 				20, 	10, 	280, 450)
 
 	Global $hButton = GUICtrlCreateButton("Key is Pressed", 		35, 	35, 	250, 35)
-	Global $hButton1 = GUICtrlCreateButton("Mouse is Clicked", 	35, 	80, 	250, 35)
-	Global $hButton2 = GUICtrlCreateButton("Clipboard Contains",35, 	125, 	250, 35)
+	Global $hButton1 = GUICtrlCreateButton("Mouse is Clicked", 	35, 	80, 	250, 35) ;done
+	Global $hButton2 = GUICtrlCreateButton("Clipboard Contains",35, 	125, 	250, 35) ;done
 	Global $hButton3 = GUICtrlCreateButton("Window Exists", 		35, 	170, 	250, 35)
 	Global $hButton4 = GUICtrlCreateButton("Date and Time is", 	35, 	215, 	250, 35)
 	Global $hButton5 = GUICtrlCreateButton("Image on Screen", 	35, 	260, 	250, 35)
 	Global $hButton6 = GUICtrlCreateButton("Text on Screen", 		35, 	305, 	250, 35)
+	Global $hButton0 = GUICtrlCreateButton("Help", 							35, 	350, 	250, 35)
 
 	Global $hButton16 = GUICtrlCreateButton("Done With Triggers", 20, 475, 280, 50)
 	GUICtrlSetFont(-1, 10)
@@ -71,7 +72,7 @@ Func CreateBehaviors()
 	Global $hButton11 = GUICtrlCreateButton("Mouse Click", 				330, 	215, 	250, 35) ;done
 	Global $hButton12 = GUICtrlCreateButton("Scroll Mouse Wheel", 330, 	260, 	250, 35) ;done
 	Global $hButton13 = GUICtrlCreateButton("Copy Text", 					330, 	305, 	250, 35) ;done
-	Global $hButton14 = GUICtrlCreateButton("Run Program", 				330, 	350, 	250, 35)
+	Global $hButton14 = GUICtrlCreateButton("Run Program", 				330, 	350, 	250, 35) ;done
 	Global $hButton15 = GUICtrlCreateButton("Wait", 							330, 	395, 	250, 35) ;done
 
 	Global $hButton17 = GUICtrlCreateButton("Done With Behaviors", 	310, 	475, 	280, 50)
@@ -182,6 +183,11 @@ Func SetLabel1()
 			if GUICtrlRead($hLabel1) <> $data Then
 				GUICtrlSetData($hLabel1, $data)
 			EndIf
+		elseif $a[4] == $hButton0 Then
+			$data = "Two things to keep in mind: Triggers are additive and behaviors are carried out in the order that they are created." & @CRLF & @CRLF & "All triggers must be satisfied in order for the behavior to be carried out." & @CRLF & "You can make upto 100 triggers and 100 behaviors."
+			if GUICtrlRead($hLabel1) <> $data Then
+				GUICtrlSetData($hLabel1, $data)
+			EndIf
 		Else
 			;GUICtrlSetData($g_idX, $a[0])
 			;GUICtrlSetData($g_idY, $a[1])
@@ -189,12 +195,403 @@ Func SetLabel1()
 	EndIf
 EndFunc
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Specific Triggers
+
+Func KeyPressedTrigger()
+	Local $hChild7 = GUICreate("Key Pressed Trigger", 400, 640, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("Which key(s) should be pressed for this Trigger?", 20, 20, 360, 40)
+	GUICtrlSetStyle(-1, $SS_CENTER)
+	local $button71 = GUICtrlCreateButton("Single Letter or Number", 20, 60, 160, 30)
+	local $button72 = GUICtrlCreateButton("Enter", 220, 60, 160, 30)
+	local $button73 = GUICtrlCreateButton("Space", 20, 100, 160, 30)
+	local $button74 = GUICtrlCreateButton("Shift", 220, 100, 160, 30)
+	local $button75 = GUICtrlCreateButton("Alt", 20, 140, 160, 30)
+	local $button76 = GUICtrlCreateButton("Control", 220, 140, 160, 30)
+	local $button77 = GUICtrlCreateButton("Left", 20, 180, 160, 30)
+	local $button78 = GUICtrlCreateButton("Right", 220, 180, 160, 30)
+	local $button79 = GUICtrlCreateButton("Up", 20, 220, 160, 30)
+	local $button710 = GUICtrlCreateButton("Down", 220, 220, 160, 30)
+	local $button711 = GUICtrlCreateButton("Tab", 20, 260, 160, 30)
+	local $button712 = GUICtrlCreateButton("Escape", 220,260, 160, 30)
+	local $button713 = GUICtrlCreateButton("Page Up", 20, 300, 160, 30)
+	local $button714 = GUICtrlCreateButton("Page Down", 220, 300, 160, 30)
+	local $button715 = GUICtrlCreateButton("Home", 20, 340, 160, 30)
+	local $button716 = GUICtrlCreateButton("End", 220, 340, 160, 30)
+	local $button717 = GUICtrlCreateButton("Delete", 20, 380, 160, 30)
+	local $button718 = GUICtrlCreateButton("Backspace", 220, 380, 160, 30)
+	local $button719 = GUICtrlCreateButton("Caps Lock", 20, 420, 160, 30)
+	local $button720 = GUICtrlCreateButton("Num Lock", 220, 420, 160, 30)
+	local $button721 = GUICtrlCreateButton("Print Screen", 20, 460, 160, 30)
+	local $button722 = GUICtrlCreateButton("Windows Key", 220, 460, 160, 30)
+	local $button723 = GUICtrlCreateButton("Insert", 20, 500, 160, 30)
+	local $button724 = GUICtrlCreateButton("Shift + Other Keys", 220, 500, 160, 30)
+	local $button725 = GUICtrlCreateButton("Alt + Other Keys", 20, 540, 160, 30)
+	local $button726 = GUICtrlCreateButton("Control + Other Keys", 220, 540, 160, 30)
+	local $button727 = GUICtrlCreateButton("Special Symbols ({}^+#!)", 20, 580, 160, 30)
+	local $button728 = GUICtrlCreateButton("F Keys", 220, 580, 160, 30)
+	GUISetState()
+
+	local $totrig = ""
+	Local $sAnswer = ""
+	local $Shift = false
+	local $alt = false
+	local $control = false
+
+	While 1
+		$hMsg = GUIGetMsg()
+		Switch $hMsg
+			Case $GUI_EVENT_CLOSE
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button71
+				$sAnswer = InputBox("Key Press Trigger", "What single key should be the trigger? (Letters, numbers and these symbols allowed: @$%&*()-_=~/|\[];:?)", "a", "")
+				$sAnswer = StringReplace($sAnswer, "{", "")
+				$sAnswer = StringReplace($sAnswer, "}", "")
+				$sAnswer = StringReplace($sAnswer, "^", "")
+				$sAnswer = StringReplace($sAnswer, "+", "")
+				$sAnswer = StringReplace($sAnswer, "!", "")
+				$sAnswer = StringReplace($sAnswer, "#", "")
+				$totrig = StringLeft($sAnswer, 1)
+				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button72
+				$totrig = "{ENTER}"
+				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button73
+				$totrig = "{SPACE}"
+				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button74
+				$totrig = "{LSHIFT}"
+				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button75
+				$totrig = "{ALT}"
+				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button76
+				$totrig = "{LCTRL}"
+				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button77
+				$totrig = "{LEFT}"
+				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button78
+				$totrig = "{RIGHT}"
+				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button79
+				$totrig = "{UP}"
+				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button710
+				$totrig = "{DOWN}"
+				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button711
+				$totrig = "{TAB}"
+				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button712
+				$totrig = "{ESCAPE}"
+				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button713
+				$totrig = "{PGUP}"
+				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button714
+				$totrig = "{PGDN}"
+				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button715
+				$totrig = "{HOME}"
+				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button716
+				$totrig = "{END}"
+				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button717
+				$totrig = "{DELETE}"
+				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button718
+				$totrig = "{BACKSPACE}"
+				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button719
+				$totrig = "{CAPSLOCK}"
+				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button720
+				$totrig = "{NUMLOCK}"
+				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button721
+				$totrig = "{PRINTSCREEN}"
+				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button722
+				$totrig = "{LWIN}"
+				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button723
+				$totrig = "{INSERT}"
+				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button724 ;shift
+				$shift = true
+			Case $button725 ;alt
+				$alt = true
+			Case $button726 ;Control
+				$control = true
+				msgbox(64, "info", "")
+			Case $button727 ;Special keys
+				$hChild7a = GUICreate("Special Symbol Key Press Trigger", 400, 280, -1, -1, -1, -1, $hChild7)
+				GUICtrlCreateLabel("Which special symbol should be set as the key press trigger?", 20, 20, 360, 40)
+				GUICtrlSetStyle(-1, $SS_CENTER)
+				$button7a1 = GUICtrlCreateButton("{", 20, 80, 160, 40)
+				$button7a2 = GUICtrlCreateButton("}", 220, 80, 160, 40)
+				$button7a3 = GUICtrlCreateButton("^", 20, 140, 160, 40)
+				$button7a4 = GUICtrlCreateButton("+", 220, 140, 160, 40)
+				$button7a5 = GUICtrlCreateButton("#", 20, 200, 160, 40)
+				$button7a6 = GUICtrlCreateButton("!", 220, 200, 160, 40)
+				GUISetState()
+				local $totrig = ""
+				While 1
+					$hMsg = GUIGetMsg()
+					Switch $hMsg
+						Case $GUI_EVENT_CLOSE
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a1
+							$totrig = "{{}"
+							addKeyPressToTrigger($shift, $alt, $control, $totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a2
+							$totrig = "{}}"
+							addKeyPressToTrigger($shift, $alt, $control, $totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a3
+							$totrig = "{^}"
+							addKeyPressToTrigger($shift, $alt, $control, $totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a4
+							$totrig = "{+}"
+							addKeyPressToTrigger($shift, $alt, $control, $totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a5
+							$totrig = "{#}"
+							addKeyPressToTrigger($shift, $alt, $control, $totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a6
+							$totrig = "{!}"
+							addKeyPressToTrigger($shift, $alt, $control, $totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+					EndSwitch
+				WEnd
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button728 ;F keys
+				$hChild7a = GUICreate("Function Key Press Trigger", 400, 440, -1, -1, -1, -1, $hChild7)
+				GUICtrlCreateLabel("Which F key should be set as the keypress trigger?", 20, 20, 360, 40)
+				GUICtrlSetStyle(-1, $SS_CENTER)
+				$button7a1 = GUICtrlCreateButton("F1", 20, 80, 160, 40)
+				$button7a2 = GUICtrlCreateButton("F2", 220, 80, 160, 40)
+				$button7a3 = GUICtrlCreateButton("F3", 20, 140, 160, 40)
+				$button7a4 = GUICtrlCreateButton("F4", 220, 140, 160, 40)
+				$button7a5 = GUICtrlCreateButton("F5", 20, 200, 160, 40)
+				$button7a6 = GUICtrlCreateButton("F6", 220, 200, 160, 40)
+				$button7a7 = GUICtrlCreateButton("F7", 20, 260, 160, 40)
+				$button7a8 = GUICtrlCreateButton("F8", 220, 260, 160, 40)
+				$button7a9 = GUICtrlCreateButton("F9", 20, 320, 160, 40)
+				$button7a10 = GUICtrlCreateButton("F10", 220, 320, 160, 40)
+				$button7a11 = GUICtrlCreateButton("F11", 20, 380, 160, 40)
+				$button7a12 = GUICtrlCreateButton("F12", 220, 380, 160, 40)
+				GUISetState()
+				local $totrig = ""
+				While 1
+					$hMsg = GUIGetMsg()
+					Switch $hMsg
+						Case $GUI_EVENT_CLOSE
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a1
+							$totrig = "{F1}"
+							addKeyPressToTrigger($shift, $alt, $control, $totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a2
+							$totrig = "{F2}"
+							addKeyPressToTrigger($shift, $alt, $control, $totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a3
+							$totrig = "{F3}"
+							addKeyPressToTrigger($shift, $alt, $control, $totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a4
+							$totrig = "{F4}"
+							addKeyPressToTrigger($shift, $alt, $control, $totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a5
+							$totrig = "{F5}"
+							addKeyPressToTrigger($shift, $alt, $control, $totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a6
+							$totrig = "{F6}"
+							addKeyPressToTrigger($shift, $alt, $control, $totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a7
+							$totrig = "{F7}"
+							addKeyPressToTrigger($shift, $alt, $control, $totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a8
+							$totrig = "{F8}"
+							addKeyPressToTrigger($shift, $alt, $control, $totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a9
+							$totrig = "{F9}"
+							addKeyPressToTrigger($shift, $alt, $control, $totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a10
+							$totrig = "{F10}"
+							addKeyPressToTrigger($shift, $alt, $control, $totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a11
+							$totrig = "{F11}"
+							addKeyPressToTrigger($shift, $alt, $control, $totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a12
+							$totrig = "{F12}"
+							addKeyPressToTrigger($shift, $alt, $control, $totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+					EndSwitch
+				WEnd
+				GUIDelete($hChild7)
+				ExitLoop
+		EndSwitch
+	WEnd
+EndFunc
+
+
+Func addKeyPressToTrigger($shift, $alt, $control, $data)
+;HotKeySet("^a", "GetPos") ;control
+;HotKeySet("+a", "GetPos") ;  Shift
+;HotKeySet("!a", "GetPos") ;alt
+	local $totrig = ""
+	if $shift then
+		$totrig = $totrig & "+"
+	endif
+	if $alt then
+		$totrig = $totrig & "!"
+	endif
+	if $control then
+		$totrig = $totrig & "^"
+	endif
+	$totrig = "HotKeySet('" & $totrig & $data & "', 'HotKeyTrigger'){*}"
+
+	AddToTrigger($totrig)
+EndFunc
+
+
 
 Func ClipboardTrigger()
 	Local $sAnswer = InputBox("Clipboard Trigger", "What text?", "Planet Earth", "")
 	local $totrig = "ClipGet() == '" & $sAnswer &"'"
 	AddToTrigger($totrig)
+EndFunc
+
+
+Func MouseClickTrigger()
+	Local $hChild1 = GUICreate("Mouse Click Trigger", 400, 200, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("Which button should be the trigger if cliked?", 20, 20, 360, 35)
+	GUICtrlSetStyle(-1, $SS_CENTER)
+	local $button1a1 = GUICtrlCreateButton("Primary (left)", 20, 80, 160, 60)
+	local $button1a2 = GUICtrlCreateButton("Secondary (right)", 220, 80, 160, 60)
+	GUISetState()
+
+	local $totrig = ""
+	While 1
+		$hMsg = GUIGetMsg()
+		Switch $hMsg
+			Case $GUI_EVENT_CLOSE
+				GUIDelete($hChild1)
+				ExitLoop
+			Case $button1a1
+				$totrig = "_IsPressed('01')"
+				AddToTrigger($totrig)
+				GUIDelete($hChild1)
+				ExitLoop
+			Case $button1a2
+				$totrig = "_IsPressed('02')"
+				AddToTrigger($totrig)
+				GUIDelete($hChild1)
+				ExitLoop
+		EndSwitch
+	WEnd
 EndFunc
 
 
@@ -216,11 +613,33 @@ Func ClipboardBehavior()
 EndFunc
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+
 Func WaitBehavior()
 	Local $sAnswer = InputBox("Wait Behavior", "For how long should ReflexMem do nothing in miliseconds? (Max = 10000)", "1000", "")
 	local $totrig = "sleep " & $sAnswer
 	AddToBehavior($totrig)
 EndFunc
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 
 
 Func SendKeysBehavior()
@@ -563,7 +982,14 @@ Func addSendToBehavior($shift, $alt, $control, $data)
 EndFunc
 
 
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 Func KeyDownBehavior()
@@ -763,6 +1189,16 @@ Func KeyDownBehavior()
 EndFunc
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
 Func KeyUpBehavior()
 	Local $hChild9 = GUICreate("Key Up Behavior", 400, 360, -1, -1, -1, -1, $hGUI)
 	GUICtrlCreateLabel("Which key(s) should be unpressed?", 20, 20, 360, 40)
@@ -960,6 +1396,17 @@ Func KeyUpBehavior()
 EndFunc
 
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
 Func MouseMoveBehavior()
 	msgbox(64, "Mouse Move Behavior", "Click ok, then click on the screen at the location you'd like the mouse to move")
 
@@ -979,6 +1426,17 @@ Func MouseMoveBehavior()
 	AddToBehavior($totrig)
 EndFunc
 
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 Func MouseClickBehavior()
@@ -1011,6 +1469,17 @@ Func MouseClickBehavior()
 EndFunc
 
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
 Func MouseWheelBehavior()
 	Local $hChild12 = GUICreate("Mouse Wheel Behavior", 400, 200, -1, -1, -1, -1, $hGUI)
 	GUICtrlCreateLabel("Which direction should mouse wheel scroll?", 20, 20, 360, 35)
@@ -1039,6 +1508,17 @@ Func MouseWheelBehavior()
 		EndSwitch
 	WEnd
 EndFunc
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 
 
 Func RunProgramBehavior()
@@ -1087,6 +1567,17 @@ Func RunProgramBehavior()
 		EndSwitch
 	WEnd
 EndFunc
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 
 
 Func AddToBehavior($data)
@@ -1153,6 +1644,10 @@ While 1
 		Case $GUI_EVENT_CLOSE
 			GUIDelete($hGUI)
 			Exit
+		Case $hButton
+			KeyPressTrigger()
+		Case $hButton1
+			MouseClickTrigger()
 		Case $hButton2
 			ClipboardTrigger()
 		Case $hButton16

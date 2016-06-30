@@ -45,7 +45,11 @@ EndFunc
 
 
 Func ActionMapIf($command, $arguments)
-  return $command  & " " & $arguments
+  if $arguments == "" then
+    return $command
+  else
+    return $command  & " " & $arguments
+  endif
   ;Switch $command
     ;Case "clipboard" ; text
     ;  $args = StringSplit($arguments, " ", 2)

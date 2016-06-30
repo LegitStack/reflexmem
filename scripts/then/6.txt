@@ -1,0 +1,2 @@
+click primary
+click secondary

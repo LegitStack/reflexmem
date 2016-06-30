@@ -28,8 +28,72 @@ Func GetTriggers()
     $i = $i + 1
   WEnd
 
+  global $hotkeys[100][Ubound($triggers)]
+  local $hotloc
+  local $endloc
+  local $middle
+  for $i = 0 to Ubound($triggers)-1
+    while StringInStr($triggers[$i], "HotKeySet(", 1)
+      $hotloc = StringInStr($triggers[$i], "HotKeySet(", 1)
+      $endloc = StringInStr($triggers[$i], ")", 1,1,$hotloc+15)
+      $middle = StringMid($triggers[$i], $hotloc, $endloc-$hotloc+1)
+      $triggers[$i] = stringleft($triggers[$i], $hotloc-1) & stringright($triggers[$i], stringlen($triggers[$i])-$endloc)
+      for $j = 0 to 100
+        if $hotkeys[$j][$i] = "" then
+          $hotkeys[$j][$i] = $middle
+        endif
+      next
+      MsgBox(64, $hotloc, $endloc)
+      MsgBox(64, $middle, $trigger)
+      Execute($middle)
+
+    WEnd
+    $idCheckbox[$i] = GUICtrlCreateCheckbox("IF     " & $triggers[$i] & "     THEN     " & $behaviors[0][$i] & "     ...", 10, ($i+1)*25, 500, 25)
+  next
+"HotKeySet('" & $totrig & $data & "', 'HotKeyTrigger'){*}"
+
 EndFunc
 
+
+Func HotKeyTrigger()
+  ;$msg = GUIGetMsg()
+  ;Switch $msg
+  ;    Case -3
+  ;        Exit
+  ;    Case Else
+  ;        For $i = 0 To $loop - 1
+  ;            If $msg = $Guiarr[$i][0] Then _Enable ($Guiarr[$i][0],$Guiarr[$i][1])
+  ;        Next
+  ;EndSwitch
+  ;  Switch @HotKeyPressed
+  ;    Case "^!u"
+  ;        SendUnicode("ü")
+  ;    Case "^!o"
+  ;        SendUnicode("ö")
+  ;    Case "^!i"
+  ;        SendUnicode("ï")
+  ;  EndSwitch
+  ;  Execute( the behavior that matches the trigger that contains the @hotkeypressed)
+
+  if $pause == false then
+    for $c = 0 to ubound($triggers)-1
+      if $trigs[$c] == 1 then
+        for $j = 0 to 100
+          if StringInStr($hotkeys[$j][$c], @HotKeyPressed) > 0 then
+            for $i = 0 to 100
+              if $behaviors[$i][$c] == ""  then
+                $i = 101
+              else
+                ;msgbox(64,"executing",$behaviors[$i][$c])     ;sleep(2000)
+                Execute($behaviors[$i][$c])
+              endif
+            next
+          endif
+        next
+      endif
+    next
+  endif
+EndFunc
 
 Func PopulateGui()
 
