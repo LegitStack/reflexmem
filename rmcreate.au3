@@ -213,6 +213,38 @@ Func ClipboardBehavior()
 	AddToBehavior($totrig)
 EndFunc
 
+Func MouseClickBehavior()
+	Local $hChild11 = GUICreate("Mouse Click Behavior", 400, 200, -1, -1, -1, -1, $hGUI)
+
+	GUICtrlCreateLabel("Which button should be cliked?", 20, 20, 360, 35)
+	GUICtrlSetStyle(-1, $SS_CENTER)
+
+	local $button111 = GUICtrlCreateButton("Primary (left)", 20, 80, 160, 60)
+	local $button112 = GUICtrlCreateButton("Secondary (right)", 220, 80, 160, 60)
+
+	GUISetState()
+
+	local $totrig = ""
+
+	While 1
+		$hMsg = GUIGetMsg()
+		Switch $hMsg
+			Case $GUI_EVENT_CLOSE
+				GUIDelete($hChild11)
+				ExitLoop
+			Case $button111
+				$totrig = "click primary"
+				AddToBehavior($totrig)
+				GUIDelete($hChild11)
+				ExitLoop
+			Case $button112
+				$totrig = "click secondary"
+				AddToBehavior($totrig)
+				GUIDelete($hChild11)
+				ExitLoop
+		EndSwitch
+	WEnd
+EndFunc
 
 Func AddToBehavior($data)
 	if $behaviorText == "" then
@@ -297,6 +329,8 @@ While 1
 		Case $GUI_EVENT_CLOSE
 			GUIDelete($hGUI)
 			Exit
+		Case $hButton11
+			MouseClickBehavior()
 		Case $hButton13
 			ClipboardBehavior()
 		Case $hButton17

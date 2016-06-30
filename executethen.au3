@@ -48,8 +48,7 @@ Func ActionMapThen($command, $arguments)
     Case "send" ; keystrokes {KEY}
       return "Send('" & $arguments & "')"
     Case "click" ; primary secondary, x, y
-      $args = StringSplit($arguments, " ", 2)
-      return "MouseClick('" & $args[0] & "'," & $args[1] & "," & $args[2] & ")"
+      return "MouseClick('" & $arguments & "')"
     Case "mouse" ; x, y
       $args = StringSplit($arguments, " ", 2)
       return "MouseMove(" & $args[0] & "," & $args[1] & ")"
