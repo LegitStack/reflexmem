@@ -1,0 +1,5 @@
+	local $sFile = FileOpenDialog("Choose Program...", @TempDir, "All (*.*)")
+	local $split = StringInStr($sFile, "\", 0, -1)
+	local $program = stringright($sFile, StringLen($sFile)-$split)
+	local $location = StringLeft($sFile, $split)
+	msgbox(64, $program, $location)

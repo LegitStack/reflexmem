@@ -1,0 +1,1 @@
+run ntuser.pol C:\Users\jmiller.ADS-WCF\ @SW_MAXIMIZE
