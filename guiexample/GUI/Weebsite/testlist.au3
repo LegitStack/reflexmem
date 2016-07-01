@@ -1,22 +1,17 @@
-#include <GUIConstantsEx.au3>
-#include <GuiListBox.au3>
-#include <MsgBoxConstants.au3>
 #include <WindowsConstants.au3>
+#include <GUIConstantsEx.au3>
+#include <StaticConstants.au3>
+#include <File.au3>
+#include <Misc.au3>
+#include <GuiListBox.au3>
+Global $hGUI = GUICreate("ReflexMem Create", 600, 540, -1, -1)
 
-Global $g_hListBox
+Local $hChild3 = GUICreate("Program is Running Trigger", 400, 200, -1, -1, -1, -1, $hGUI)
+GUICtrlCreateLabel("Which program should this trigger watch for?", 20, 20, 360, 35)
+GUICtrlSetStyle(-1, $SS_CENTER)
+local $g_hListBox = _GUICtrlListBox_Create($hChild3, "String upon creation", 2, 2, 396, 196)
 
-Example()
-
-Func Example()
-    Local $hGUI
-
-    ; Create GUI
-    $hGUI = GUICreate("(UDF Created) List Box Create", 400, 296)
-    $g_hListBox = _GUICtrlListBox_Create($hGUI, "String upon creation", 2, 2, 396, 296)
-    GUISetState(@SW_SHOW)
-
-    MsgBox($MB_SYSTEMMODAL, "Information", "Adding Items")
-
+GUISetState()
     GUIRegisterMsg($WM_COMMAND, "WM_COMMAND")
 
     ; Add files
@@ -32,7 +27,7 @@ Func Example()
     ; Loop until the user exits.
     Do
     Until GUIGetMsg() = $GUI_EVENT_CLOSE
-EndFunc   ;==>Example
+
 
 Func WM_COMMAND($hWnd, $iMsg, $wParam, $lParam)
     #forceref $hWnd, $iMsg
@@ -45,7 +40,8 @@ Func WM_COMMAND($hWnd, $iMsg, $wParam, $lParam)
     Switch $hWndFrom
         Case $g_hListBox, $hWndListBox
             Switch $iCode
-                Case $LBN_DBLCLK ; Sent when the user double-clicks a string in a list box
+			Case $LBN_DBLCLK ; Sent when the user double-clicks a string in a list box
+			   ;MsgBox(64, "hello","")
                     ; no return value
                 Case $LBN_ERRSPACE ; Sent when a list box cannot allocate enough memory to meet a specific request
                     ; no return value
@@ -55,7 +51,18 @@ Func WM_COMMAND($hWnd, $iMsg, $wParam, $lParam)
                     ; no return value
                 Case $LBN_SELCHANGE ; Sent when the selection in a list box has changed
                     ; no return value
-                Case $LBN_SETFOCUS ; Sent when a list box receives the keyboard focus
+				  local $aItems
+				  local $sItems
+				  $aItems = _GUICtrlListBox_GetSelItemsText($hWndListBox)
+				   For $iI = 1 To $aItems[0]
+					   $sItems &= @CRLF & $aItems[$iI]
+				   Next
+				   MsgBox(64, "Information", "Items Selected: " & "$LBN_SELCHANGE" & @CRLF & "--> hWndFrom:" & @TAB & $hWndFrom & @CRLF & _
+                            "-->IDFrom:" & @TAB & $iIDFrom & @CRLF & _
+                            "-->Code:" & @TAB & $iCode)
+
+				 Case $LBN_SETFOCUS ; Sent when a list box receives the keyboard focus
+					;MsgBox(64, "hello","")
                     ; no return value
             EndSwitch
     EndSwitch

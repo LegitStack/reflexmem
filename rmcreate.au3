@@ -3,7 +3,8 @@
 #include <StaticConstants.au3>
 #include <File.au3>
 #include <Misc.au3>
-
+#include <GuiListView.au3>
+#include <GuiComboBox.au3>
 
 Global $hGUI = GUICreate("ReflexMem Create", 600, 540, -1, -1)
 Global $triggerText = ""
@@ -41,10 +42,10 @@ Func CreateTriggers()
 
 	Global $hGroup = GUICtrlCreateGroup("Triggers", 				20, 	10, 	280, 450)
 
-	Global $hButton = GUICtrlCreateButton("Key is Pressed", 		35, 	35, 	250, 35)
+	Global $hButton = GUICtrlCreateButton("Key is Pressed", 		35, 	35, 	250, 35) ;done
 	Global $hButton1 = GUICtrlCreateButton("Mouse is Clicked", 	35, 	80, 	250, 35) ;done
 	Global $hButton2 = GUICtrlCreateButton("Clipboard Contains",35, 	125, 	250, 35) ;done
-	Global $hButton3 = GUICtrlCreateButton("Window Exists", 		35, 	170, 	250, 35)
+	Global $hButton3 = GUICtrlCreateButton("Program is Running",35, 	170, 	250, 35) ;done
 	Global $hButton4 = GUICtrlCreateButton("Date and Time is", 	35, 	215, 	250, 35)
 	Global $hButton5 = GUICtrlCreateButton("Image on Screen", 	35, 	260, 	250, 35)
 	Global $hButton6 = GUICtrlCreateButton("Text on Screen", 		35, 	305, 	250, 35)
@@ -551,7 +552,7 @@ Func addKeyPressToTrigger($shift, $alt, $control, $data)
 	if $control then
 		$totrig = $totrig & "^"
 	endif
-	$totrig = "HotKeySet('" & $totrig & $data & "', 'HotKeyTrigger'){*}"
+	$totrig = "HotKeySet('" & $totrig & $data & "', 'HotKeyTrigger')"
 
 	AddToTrigger($totrig)
 EndFunc
@@ -592,6 +593,212 @@ Func MouseClickTrigger()
 				ExitLoop
 		EndSwitch
 	WEnd
+EndFunc
+
+
+Func ProgramRunsTrigger()
+	Local $hChild3 = GUICreate("Program is Running Trigger", 400, 640, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("Which program should this trigger watch for?", 20, 20, 360, 35)
+	GUICtrlSetStyle(-1, $SS_CENTER)
+	$listview = GUICtrlCreateListView("List of Running Programs", 2, 50, 396, 496, BitOR($LVS_NOSORTHEADER, $LVS_SINGLESEL))
+	;get programs
+	local $processes = ProcessList()
+	;_arrayDisplay($processes)
+	; Add files
+	for $i = 0 to ubound($processes)-1
+		_GUICtrlListView_AddItem($listview, $processes[$i][0], 1)
+	next
+	local $button3a = GUICtrlCreateButton("Select Program", 20, 560, 113, 60)
+	local $button3c = GUICtrlCreateButton("Other", 143, 560, 113, 60)
+	local $button3b = GUICtrlCreateButton("Cancel", 266, 560, 113, 60)
+	GUISetState()
+
+	local $totrig = ""
+	While 1
+		$hMsg = GUIGetMsg()
+		Switch $hMsg
+			Case $GUI_EVENT_CLOSE
+				GUIDelete($hChild3)
+				ExitLoop
+			Case $button3b
+				GUIDelete($hChild3)
+				ExitLoop
+			Case $button3a
+        $totrig = _GUICtrlListView_GetSelectedIndices($listview)
+				$totrig = "ProcessExists('" & $processes[$totrig][0] & "')"
+				AddToTrigger($totrig)
+				GUIDelete($hChild3)
+				ExitLoop
+			Case $button3c
+				$totrig = InputBox("Program is Running Trigger", "What is the name of the program?", "chrome.exe", "")
+				$totrig = "ProcessExists('" & $totrig & "')"
+				AddToTrigger($totrig)
+				GUIDelete($hChild3)
+				ExitLoop
+		EndSwitch
+	WEnd
+
+EndFunc
+
+
+
+Func DateToTrigger()
+	Local $hChild4 = GUICreate("Date and Time Trigger", 620, 130, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("What kind of date should this trigger be?", 20, 20, 600, 35)
+	GUICtrlSetStyle(-1, $SS_CENTER)
+	local $button4a = GUICtrlCreateButton("Everyday", 10, 50, 140, 60)
+	local $button4b = GUICtrlCreateButton("On a day of the Week", 160, 50, 140, 60)
+	local $button4c = GUICtrlCreateButton("On a day of the Month", 310, 50, 140, 60)
+	local $button4d = GUICtrlCreateButton("Cancel", 460, 50, 140, 60)
+	GUISetState()
+
+	local $datething = ""
+	While 1
+		$hMsg = GUIGetMsg()
+		Switch $hMsg
+			Case $GUI_EVENT_CLOSE
+				GUIDelete($hChild3)
+				ExitLoop
+			Case $button4a
+				ExitLoop
+			Case $button4b
+				$datething = "week"
+				Local $hChild4a = GUICreate("Date and Time Trigger", 620, 630, -1, -1, -1, -1, $hChild4)
+				GUICtrlCreateLabel("What which day of the Week?", 20, 20, 600, 35)
+				GUICtrlSetStyle(-1, $SS_CENTER)
+				$listview1 = GUICtrlCreateListView("Days of the Week", 2, 50, 396, 496, BitOR($LVS_NOSORTHEADER, $LVS_SINGLESEL))
+				local $days = [1,2,3,4,5,6,7]
+				_GUICtrlListView_AddItem($listview1, "Sunday", 1)
+				_GUICtrlListView_AddItem($listview1, "Monday", 1)
+				_GUICtrlListView_AddItem($listview1, "Tuesday", 1)
+				_GUICtrlListView_AddItem($listview1, "Wednesday", 1)
+				_GUICtrlListView_AddItem($listview1, "Thursday", 1)
+				_GUICtrlListView_AddItem($listview1, "Friday", 1)
+				_GUICtrlListView_AddItem($listview1, "Saturday", 1)
+
+				local $button4a1 = GUICtrlCreateButton("Submit Day", 20, 560, 113, 60)
+				local $button4b2 = GUICtrlCreateButton("Cancel", 266, 560, 113, 60)
+				GUISetState()
+
+				local $datenumber
+				While 1
+					$hMsg = GUIGetMsg()
+					Switch $hMsg
+						Case $GUI_EVENT_CLOSE
+							GUIDelete($hChild4a)
+							ExitLoop
+						Case $button4a1
+							$datenumber = _GUICtrlListView_GetSelectedIndices($listview1) + 1
+							TimeToTrigger($datething, $datenumber)
+							ExitLoop
+						Case $button4b2
+							GUIDelete($hChild4a)
+							ExitLoop
+					EndSwitch
+				WEnd
+				GUIDelete($hChild4)
+				ExitLoop
+			Case $button4c
+				$datething = "month"
+				Local $hChild4a = GUICreate("Date and Time Trigger", 620, 630, -1, -1, -1, -1, $hChild4)
+				GUICtrlCreateLabel("What which day of the Month?", 20, 20, 600, 35)
+				GUICtrlSetStyle(-1, $SS_CENTER)
+				$listview1 = GUICtrlCreateListView("Days of the Month", 2, 50, 396, 496, BitOR($LVS_NOSORTHEADER, $LVS_SINGLESEL))
+				local $days = ["01","02","03","04","05","06","07","08","09","10","11","12","13","14","15", _
+											 "16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"]
+			  for $i to Ubound($days)-1
+					_GUICtrlListView_AddItem($listview1, $days[$i], 1)
+				next
+
+				local $button4a1 = GUICtrlCreateButton("Submit Day", 20, 560, 113, 60)
+				local $button4b2 = GUICtrlCreateButton("Cancel", 266, 560, 113, 60)
+				GUISetState()
+
+				local $datenumber
+				While 1
+					$hMsg = GUIGetMsg()
+					Switch $hMsg
+						Case $GUI_EVENT_CLOSE
+							GUIDelete($hChild4a)
+							ExitLoop
+						Case $button4a1
+							$datenumber = $days[_GUICtrlListView_GetSelectedIndices($listview1)]
+							TimeToTrigger($datething, $datenumber)
+							ExitLoop
+						Case $button4b2
+							GUIDelete($hChild4a)
+							ExitLoop
+					EndSwitch
+				WEnd
+				GUIDelete($hChild4)
+				ExitLoop
+			Case $button4d
+				ExitLoop
+		EndSwitch
+	WEnd
+EndFunc
+
+Func TimeToTrigger($datething, $datenumber)
+	local $totrig
+	if $datething == "everyday" then
+	elseif $datething == "week" then
+		$totrig = "@WDAY == " & $datenumber
+	elseif $datething == "month" then
+		$totrig = "@MDAY == '" & $datenumber & "'"
+	endif
+
+	Local $hChild4a = GUICreate("Date and Time Trigger", 620, 630, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("For what time of the day should this trigger be set?", 20, 20, 600, 35)
+	GUICtrlSetStyle(-1, $SS_CENTER)
+	$listview1 = GUICtrlCreateListView("Hour", 2, 50, 396, 496, BitOR($LVS_NOSORTHEADER, $LVS_SINGLESEL))
+	$listview2 = GUICtrlCreateListView("Minutes", 2, 50, 396, 496, BitOR($LVS_NOSORTHEADER, $LVS_SINGLESEL))
+	$listview3 = GUICtrlCreateListView("Seconds", 2, 50, 396, 496, BitOR($LVS_NOSORTHEADER, $LVS_SINGLESEL))
+	local $hours = ["00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15", _
+								  "16","17","18","19","20","21","22","23"]
+  local $minutes = ["00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15", _
+								   "16","17","18","19","20","21","22","23","24","25","26","27","28","29","30", _
+									 "31","32","33","34","35","36","37","38","39","40","41","42","43","44","45", _
+									 "46","47","48","49","50","51","52","53","54","55","56","57","58","59","50", _
+									 "56","57","58","59"]
+	local $seconds = ["00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15", _
+								   "16","17","18","19","20","21","22","23","24","25","26","27","28","29","30", _
+									 "31","32","33","34","35","36","37","38","39","40","41","42","43","44","45", _
+									 "46","47","48","49","50","51","52","53","54","55","56","57","58","59","50", _
+									 "56","57","58","59"]
+	for $i to Ubound($days)-1
+		_GUICtrlListView_AddItem($listview1, $hours[$i], 1)
+	next
+	for $i to Ubound($minutes)-1
+		_GUICtrlListView_AddItem($listview2, $minutes[$i], 1)
+		_GUICtrlListView_AddItem($listview3, $seconds[$i], 1)
+	next
+
+	local $button4a1 = GUICtrlCreateButton("Submit Day", 20, 560, 113, 60)
+	local $button4b2 = GUICtrlCreateButton("Cancel", 266, 560, 113, 60)
+	GUISetState()
+
+	local $datenumber
+	While 1
+		$hMsg = GUIGetMsg()
+		Switch $hMsg
+			Case $GUI_EVENT_CLOSE
+				GUIDelete($hChild3)
+				ExitLoop
+			Case $button4a1
+				$myhour = $hours[_GUICtrlListView_GetSelectedIndices($listview1)]
+				$mymin = $minutes[_GUICtrlListView_GetSelectedIndices($listview2)]
+				$mysec = $seconds[_GUICtrlListView_GetSelectedIndices($listview3)]
+				$totrig = $totrig & " And @HOUR == " & $myhour & " And @MIN == " & $mymin " And @SEC == " & $mysec
+				AddToTrigger($totrig)
+				GUIDelete($hChild4a)
+				ExitLoop
+			Case $button4b2
+				GUIDelete($hChild4a)
+				ExitLoop
+		EndSwitch
+	WEnd
+	GUIDelete($hChild4)
+	ExitLoop
 EndFunc
 
 
@@ -1650,6 +1857,10 @@ While 1
 			MouseClickTrigger()
 		Case $hButton2
 			ClipboardTrigger()
+		Case $hButton3
+			ProgramRunsTrigger()
+		Case $hButton4
+			DateToTrigger()
 		Case $hButton16
 			SaveTrigger()
 			HideTriggers()
