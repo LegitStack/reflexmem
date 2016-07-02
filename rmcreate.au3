@@ -653,13 +653,16 @@ Func DateToTrigger()
 	GUISetState()
 
 	local $datething = ""
+	local $datenumber
 	While 1
 		$hMsg = GUIGetMsg()
 		Switch $hMsg
 			Case $GUI_EVENT_CLOSE
-				GUIDelete($hChild3)
+				GUIDelete($hChild4)
 				ExitLoop
 			Case $button4a
+				TimeToTrigger($datething, $datenumber)
+				GUIDelete($hChild4)
 				ExitLoop
 			Case $button4b
 				$datething = "week"
@@ -680,7 +683,7 @@ Func DateToTrigger()
 				local $button4b2 = GUICtrlCreateButton("Cancel", 266, 560, 113, 60)
 				GUISetState()
 
-				local $datenumber
+
 				While 1
 					$hMsg = GUIGetMsg()
 					Switch $hMsg
@@ -688,9 +691,12 @@ Func DateToTrigger()
 							GUIDelete($hChild4a)
 							ExitLoop
 						Case $button4a1
-							$datenumber = _GUICtrlListView_GetSelectedIndices($listview1) + 1
-							TimeToTrigger($datething, $datenumber)
-							ExitLoop
+							if _GUICtrlListView_GetSelectedIndices($listview1) <> "" then
+							else
+								$datenumber = _GUICtrlListView_GetSelectedIndices($listview1) + 1
+								TimeToTrigger($datething, $datenumber)
+								ExitLoop
+							endif
 						Case $button4b2
 							GUIDelete($hChild4a)
 							ExitLoop
@@ -714,7 +720,7 @@ Func DateToTrigger()
 				local $button4b2 = GUICtrlCreateButton("Cancel", 266, 560, 113, 60)
 				GUISetState()
 
-				local $datenumber
+
 				While 1
 					$hMsg = GUIGetMsg()
 					Switch $hMsg
@@ -722,8 +728,11 @@ Func DateToTrigger()
 							GUIDelete($hChild4a)
 							ExitLoop
 						Case $button4a1
-							$datenumber = $days[_GUICtrlListView_GetSelectedIndices($listview1)]
-							TimeToTrigger($datething, $datenumber)
+							if _GUICtrlListView_GetSelectedIndices($listview1) <> "" then
+							else
+								$datenumber = $days[_GUICtrlListView_GetSelectedIndices($listview1)]
+								TimeToTrigger($datething, $datenumber)
+							endif
 							ExitLoop
 						Case $button4b2
 							GUIDelete($hChild4a)
@@ -742,9 +751,9 @@ Func TimeToTrigger($datething, $datenumber)
 	local $totrig
 	if $datething == "everyday" then
 	elseif $datething == "week" then
-		$totrig = "@WDAY == " & $datenumber
+		$totrig = "@WDAY == " & $datenumber & " And "
 	elseif $datething == "month" then
-		$totrig = "@MDAY == '" & $datenumber & "'"
+		$totrig = "@MDAY == '" & $datenumber & "' And "
 	endif
 
 	Local $hChild4a = GUICreate("Date and Time Trigger", 620, 630, -1, -1, -1, -1, $hGUI)
@@ -765,10 +774,10 @@ Func TimeToTrigger($datething, $datenumber)
 									 "31","32","33","34","35","36","37","38","39","40","41","42","43","44","45", _
 									 "46","47","48","49","50","51","52","53","54","55","56","57","58","59","50", _
 									 "56","57","58","59"]
-	for $i to Ubound($days)-1
+	for $i = 0 to Ubound($hours)-1
 		_GUICtrlListView_AddItem($listview1, $hours[$i], 1)
 	next
-	for $i to Ubound($minutes)-1
+	for $i = 0 to Ubound($minutes)-1
 		_GUICtrlListView_AddItem($listview2, $minutes[$i], 1)
 		_GUICtrlListView_AddItem($listview3, $seconds[$i], 1)
 	next
@@ -777,7 +786,7 @@ Func TimeToTrigger($datething, $datenumber)
 	local $button4b2 = GUICtrlCreateButton("Cancel", 266, 560, 113, 60)
 	GUISetState()
 
-	local $datenumber
+
 	While 1
 		$hMsg = GUIGetMsg()
 		Switch $hMsg
@@ -785,12 +794,16 @@ Func TimeToTrigger($datething, $datenumber)
 				GUIDelete($hChild3)
 				ExitLoop
 			Case $button4a1
-				$myhour = $hours[_GUICtrlListView_GetSelectedIndices($listview1)]
-				$mymin = $minutes[_GUICtrlListView_GetSelectedIndices($listview2)]
-				$mysec = $seconds[_GUICtrlListView_GetSelectedIndices($listview3)]
-				$totrig = $totrig & " And @HOUR == " & $myhour & " And @MIN == " & $mymin " And @SEC == " & $mysec
-				AddToTrigger($totrig)
-				GUIDelete($hChild4a)
+				if $myhour <> "" Or $mymin <> "" Or $mysec <> "" then
+					MsgBox(64, "Notification", "You must make selections.")
+				else
+					$myhour = $hours[_GUICtrlListView_GetSelectedIndices($listview1)]
+					$mymin = $minutes[_GUICtrlListView_GetSelectedIndices($listview2)]
+					$mysec = $seconds[_GUICtrlListView_GetSelectedIndices($listview3)]
+					$totrig = $totrig & " @HOUR == " & $myhour & " And @MIN == " & $mymin " And @SEC == " & $mysec
+					AddToTrigger($totrig)
+					GUIDelete($hChild4a)
+				endif
 				ExitLoop
 			Case $button4b2
 				GUIDelete($hChild4a)
@@ -798,7 +811,6 @@ Func TimeToTrigger($datething, $datenumber)
 		EndSwitch
 	WEnd
 	GUIDelete($hChild4)
-	ExitLoop
 EndFunc
 
 
