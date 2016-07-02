@@ -702,7 +702,7 @@ Func DateToTrigger()
 							ExitLoop
 					EndSwitch
 				WEnd
-				GUIDelete($hChild4)
+				;GUIDelete($hChild4)
 				ExitLoop
 			Case $button4c
 				$datething = "month"
@@ -739,7 +739,7 @@ Func DateToTrigger()
 							ExitLoop
 					EndSwitch
 				WEnd
-				GUIDelete($hChild4)
+				;GUIDelete($hChild4)
 				ExitLoop
 			Case $button4d
 				ExitLoop
@@ -794,15 +794,17 @@ Func TimeToTrigger($datething, $datenumber)
 				GUIDelete($hChild3)
 				ExitLoop
 			Case $button4a1
-				if $myhour <> "" Or $mymin <> "" Or $mysec <> "" then
-					MsgBox(64, "Notification", "You must make selections.")
-				else
-					$myhour = $hours[_GUICtrlListView_GetSelectedIndices($listview1)]
-					$mymin = $minutes[_GUICtrlListView_GetSelectedIndices($listview2)]
-					$mysec = $seconds[_GUICtrlListView_GetSelectedIndices($listview3)]
-					$totrig = $totrig & " @HOUR == " & $myhour & " And @MIN == " & $mymin " And @SEC == " & $mysec
-					AddToTrigger($totrig)
-					GUIDelete($hChild4a)
+				if isdeclared($myhour) and  isdeclared($mymin) and  isdeclared($mysec) then
+					if $myhour <> "" Or $mymin <> "" Or $mysec <> "" then
+						MsgBox(64, "Notification", "You must make selections.")
+					else
+						$myhour = $hours[_GUICtrlListView_GetSelectedIndices($listview1)]
+						$mymin = $minutes[_GUICtrlListView_GetSelectedIndices($listview2)]
+						$mysec = $seconds[_GUICtrlListView_GetSelectedIndices($listview3)]
+						$totrig = $totrig & " @HOUR == " & $myhour & " And @MIN == " & $mymin " And @SEC == " & $mysec
+						AddToTrigger($totrig)
+						GUIDelete($hChild4a)
+					endif
 				endif
 				ExitLoop
 			Case $button4b2
