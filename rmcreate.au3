@@ -46,7 +46,7 @@ Func CreateTriggers()
 	Global $hButton1 = GUICtrlCreateButton("Mouse is Clicked", 	35, 	80, 	250, 35) ;done
 	Global $hButton2 = GUICtrlCreateButton("Clipboard Contains",35, 	125, 	250, 35) ;done
 	Global $hButton3 = GUICtrlCreateButton("Program is Running",35, 	170, 	250, 35) ;done
-	Global $hButton4 = GUICtrlCreateButton("Date and Time is", 	35, 	215, 	250, 35)
+	Global $hButton4 = GUICtrlCreateButton("Date and Time is", 	35, 	215, 	250, 35) ;done
 	Global $hButton5 = GUICtrlCreateButton("Image on Screen", 	35, 	260, 	250, 35)
 	Global $hButton6 = GUICtrlCreateButton("Text on Screen", 		35, 	305, 	250, 35)
 	Global $hButton0 = GUICtrlCreateButton("Help", 							35, 	350, 	250, 35)
@@ -812,6 +812,23 @@ Func TimeToTrigger($datething, $datenumber)
 				ExitLoop
 		EndSwitch
 	WEnd
+EndFunc
+
+
+
+Func ImageOnScreenTrigger()
+	local $w1 = (@desktopwidth/2)-100
+	local $w2 = (@desktopwidth/2)+100
+	local $h1 = (@desktopheight/2)-100
+	local $h2 = (@desktopheight/2)+100
+	local $x1,$y1
+	local $result = _ImageSearchArea("help.png",1,$w1,$h1,$w2,$h2,$x1,$y1,25)
+	if $result = 1 Then
+	 $w = False
+	Else
+	 ResetView(301)
+	 $x = $x + 1
+	EndIf
 EndFunc
 
 
