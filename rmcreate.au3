@@ -670,7 +670,6 @@ Func DateToTrigger()
 				GUICtrlCreateLabel("What which day of the Week?", 20, 20, 600, 35)
 				GUICtrlSetStyle(-1, $SS_CENTER)
 				$listview1 = GUICtrlCreateListView("Days of the Week", 2, 50, 396, 496, BitOR($LVS_NOSORTHEADER, $LVS_SINGLESEL))
-				local $days = [1,2,3,4,5,6,7]
 				_GUICtrlListView_AddItem($listview1, "Sunday", 1)
 				_GUICtrlListView_AddItem($listview1, "Monday", 1)
 				_GUICtrlListView_AddItem($listview1, "Tuesday", 1)
@@ -683,7 +682,6 @@ Func DateToTrigger()
 				local $button4b2 = GUICtrlCreateButton("Cancel", 266, 560, 113, 60)
 				GUISetState()
 
-
 				While 1
 					$hMsg = GUIGetMsg()
 					Switch $hMsg
@@ -691,7 +689,8 @@ Func DateToTrigger()
 							GUIDelete($hChild4a)
 							ExitLoop
 						Case $button4a1
-							if _GUICtrlListView_GetSelectedIndices($listview1) <> "" then
+							if _GUICtrlListView_GetSelectedIndices($listview1) == "" then
+								msgbox(64, "Date and Time Trigger", "You must select a day.")
 							else
 								$datenumber = _GUICtrlListView_GetSelectedIndices($listview1) + 1
 								TimeToTrigger($datething, $datenumber)
@@ -702,18 +701,18 @@ Func DateToTrigger()
 							ExitLoop
 					EndSwitch
 				WEnd
-				;GUIDelete($hChild4)
+				GUIDelete($hChild4)
 				ExitLoop
 			Case $button4c
 				$datething = "month"
 				Local $hChild4a = GUICreate("Date and Time Trigger", 620, 630, -1, -1, -1, -1, $hChild4)
 				GUICtrlCreateLabel("What which day of the Month?", 20, 20, 600, 35)
 				GUICtrlSetStyle(-1, $SS_CENTER)
-				$listview1 = GUICtrlCreateListView("Days of the Month", 2, 50, 396, 496, BitOR($LVS_NOSORTHEADER, $LVS_SINGLESEL))
+				$listview2 = GUICtrlCreateListView("Days of the Month", 2, 50, 396, 496, BitOR($LVS_NOSORTHEADER, $LVS_SINGLESEL))
 				local $days = ["01","02","03","04","05","06","07","08","09","10","11","12","13","14","15", _
 											 "16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"]
-			  for $i to Ubound($days)-1
-					_GUICtrlListView_AddItem($listview1, $days[$i], 1)
+			  for $i = 0 to Ubound($days)-1
+					_GUICtrlListView_AddItem($listview2, $days[$i], 1)
 				next
 
 				local $button4a1 = GUICtrlCreateButton("Submit Day", 20, 560, 113, 60)
@@ -728,9 +727,10 @@ Func DateToTrigger()
 							GUIDelete($hChild4a)
 							ExitLoop
 						Case $button4a1
-							if _GUICtrlListView_GetSelectedIndices($listview1) <> "" then
+							if _GUICtrlListView_GetSelectedIndices($listview2) == "" then
+								msgbox(64, "Date and Time Trigger", "You must select a day.")
 							else
-								$datenumber = $days[_GUICtrlListView_GetSelectedIndices($listview1)]
+								$datenumber = $days[_GUICtrlListView_GetSelectedIndices($listview2)]
 								TimeToTrigger($datething, $datenumber)
 							endif
 							ExitLoop
@@ -739,7 +739,7 @@ Func DateToTrigger()
 							ExitLoop
 					EndSwitch
 				WEnd
-				;GUIDelete($hChild4)
+				GUIDelete($hChild4)
 				ExitLoop
 			Case $button4d
 				ExitLoop
@@ -759,9 +759,9 @@ Func TimeToTrigger($datething, $datenumber)
 	Local $hChild4a = GUICreate("Date and Time Trigger", 620, 630, -1, -1, -1, -1, $hGUI)
 	GUICtrlCreateLabel("For what time of the day should this trigger be set?", 20, 20, 600, 35)
 	GUICtrlSetStyle(-1, $SS_CENTER)
-	$listview1 = GUICtrlCreateListView("Hour", 2, 50, 396, 496, BitOR($LVS_NOSORTHEADER, $LVS_SINGLESEL))
-	$listview2 = GUICtrlCreateListView("Minutes", 2, 50, 396, 496, BitOR($LVS_NOSORTHEADER, $LVS_SINGLESEL))
-	$listview3 = GUICtrlCreateListView("Seconds", 2, 50, 396, 496, BitOR($LVS_NOSORTHEADER, $LVS_SINGLESEL))
+	$listview1 = _GUICtrlListView_Create($hChild4a, "Hour", 2, 50, 100, 100)
+	$listview2 = _GUICtrlListView_Create($hChild4a, "Minutes", 102, 50, 100, 100)
+	$listview3 = _GUICtrlListView_Create($hChild4a, "Seconds", 204, 50, 100, 100)
 	local $hours = ["00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15", _
 								  "16","17","18","19","20","21","22","23"]
   local $minutes = ["00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15", _
@@ -782,37 +782,36 @@ Func TimeToTrigger($datething, $datenumber)
 		_GUICtrlListView_AddItem($listview3, $seconds[$i], 1)
 	next
 
-	local $button4a1 = GUICtrlCreateButton("Submit Day", 20, 560, 113, 60)
+	local $button4a1 = GUICtrlCreateButton("Submit Time", 20, 560, 113, 60)
 	local $button4b2 = GUICtrlCreateButton("Cancel", 266, 560, 113, 60)
 	GUISetState()
 
-
+	local $myhour
+	local $mymin
+	local $mysec
 	While 1
 		$hMsg = GUIGetMsg()
 		Switch $hMsg
 			Case $GUI_EVENT_CLOSE
-				GUIDelete($hChild3)
+				GUIDelete($hChild4a)
 				ExitLoop
 			Case $button4a1
-				if isdeclared($myhour) and  isdeclared($mymin) and  isdeclared($mysec) then
-					if $myhour <> "" Or $mymin <> "" Or $mysec <> "" then
-						MsgBox(64, "Notification", "You must make selections.")
-					else
-						$myhour = $hours[_GUICtrlListView_GetSelectedIndices($listview1)]
-						$mymin = $minutes[_GUICtrlListView_GetSelectedIndices($listview2)]
-						$mysec = $seconds[_GUICtrlListView_GetSelectedIndices($listview3)]
-						$totrig = $totrig & " @HOUR == " & $myhour & " And @MIN == " & $mymin " And @SEC == " & $mysec
-						AddToTrigger($totrig)
-						GUIDelete($hChild4a)
-					endif
+				if $myhour <> "" Or $mymin <> "" Or $mysec <> "" then
+					MsgBox(64, "Notification", "You must make selections.")
+				else
+					$myhour = $hours[_GUICtrlListView_GetSelectedIndices($listview1)]
+					$mymin = $minutes[_GUICtrlListView_GetSelectedIndices($listview2)]
+					$mysec = $seconds[_GUICtrlListView_GetSelectedIndices($listview3)]
+					$totrig = $totrig & " @HOUR == '" & $myhour & "' And @MIN == '" & $mymin & "' And @SEC == '" & $mysec & "'"
+					AddToTrigger($totrig)
+					GUIDelete($hChild4a)
+					ExitLoop
 				endif
-				ExitLoop
 			Case $button4b2
 				GUIDelete($hChild4a)
 				ExitLoop
 		EndSwitch
 	WEnd
-	GUIDelete($hChild4)
 EndFunc
 
 

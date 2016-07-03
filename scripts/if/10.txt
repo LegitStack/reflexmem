@@ -1,0 +1,1 @@
+@WDAY == 7 And  @HOUR == 03 And @MIN == 03 And @SEC == 03
