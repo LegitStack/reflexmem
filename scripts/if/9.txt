@@ -1,1 +1,0 @@
- @HOUR == 02 And @MIN == 02 And @SEC == 02

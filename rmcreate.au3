@@ -34,6 +34,7 @@ Func HideTriggers()
 	GUICtrlSetState($hButton4, $GUI_HIDE)
 	GUICtrlSetState($hButton5, $GUI_HIDE)
 	GUICtrlSetState($hButton6, $GUI_HIDE)
+	GUICtrlSetState($hButton0, $GUI_HIDE)
 	GUICtrlSetState($hButton16, $GUI_HIDE)
 	GUICtrlSetState($hGroup, $GUI_HIDE)
 	GUICtrlSetState($hLabel1, $GUI_HIDE)
@@ -49,9 +50,9 @@ Func CreateTriggers()
 	Global $hButton2 = GUICtrlCreateButton("Clipboard Contains",35, 	125, 	250, 35) ;done
 	Global $hButton3 = GUICtrlCreateButton("Program is Running",35, 	170, 	250, 35) ;done
 	Global $hButton4 = GUICtrlCreateButton("Date and Time is", 	35, 	215, 	250, 35) ;done
-	Global $hButton5 = GUICtrlCreateButton("Image on Screen", 	35, 	260, 	250, 35)
+	Global $hButton5 = GUICtrlCreateButton("Image on Screen", 	35, 	260, 	250, 35) ;done
 	Global $hButton6 = GUICtrlCreateButton("Text on Screen", 		35, 	305, 	250, 35)
-	Global $hButton0 = GUICtrlCreateButton("Help", 							35, 	350, 	250, 35)
+	Global $hButton0 = GUICtrlCreateButton("Help", 							35, 	350, 	250, 35) ;done
 
 	Global $hButton16 = GUICtrlCreateButton("Done With Triggers", 20, 475, 280, 50)
 	GUICtrlSetFont(-1, 10)
@@ -867,7 +868,7 @@ Func ImageOnScreenTrigger()
 				GUIDelete($hMain_GUI)
 				GetAreaImageScreenTrigger($sBMP_Path)
         ExitLoop
-			Case $hFile_Button
+			Case $sFile_Button
 				local $sFile = FileOpenDialog("Choose Image...", @ScriptDir & "\images.bmp", "All (*.*)")
 				GUIDelete($hMain_GUI)
 				GetAreaImageScreenTrigger($sFile)
@@ -897,7 +898,7 @@ Func GetAreaImageScreenTrigger($imagefile)
 	; Create GUI
 	local $hMain_GUI = GUICreate("Image On Screen Trigger", 380, 80, -1, -1, -1, -1, $hGUI)
 
-	local $hRect_Button   = GUICtrlCreateButton("Select Region on Screen",  20, 20, 160, 40)
+	local $sRect_Button   = GUICtrlCreateButton("Select Region on Screen",  20, 20, 160, 40)
 	local $sFull_Button   = GUICtrlCreateButton("Search Full Screen",  200, 20, 160, 40)
 
 	GUISetState()
@@ -911,17 +912,17 @@ Func GetAreaImageScreenTrigger($imagefile)
 				GUIDelete($hMain_GUI)
         ;FileDelete(@ScriptDir & "\Rect.bmp")
         ExitLoop
-      Case $hRect_Button
+      Case $sRect_Button
 	      GUISetState(@SW_HIDE, $hMain_GUI)
 	      Mark_Rect($iX1, $iY1, $iX2, $iY2, $aPos, $sMsg, $sBMP_Path)
 	      ; Capture selected area
 	      GUISetState(@SW_SHOW, $hMain_GUI)
-				$totrig = "_ImageSearchArea('" & $imagefile & "',1," & $iX1 & "," & $iY1 & "," & $iX2 & "," & $iY2 & "," & $iX1 & "," & $iY1 & "," & $acc & ")"
+				$totrig = "_ImageSearchArea('" & $imagefile & "',1," & $iX1 & "," & $iY1 & "," & $iX2 & "," & $iY2 & ", $X1, $Y1, " & $acc & ")"
 				AddToTrigger($totrig)
 				GUIDelete($hMain_GUI)
         ExitLoop
-			Case $hFull_Button
-				$totrig = "_ImageSearchArea('" & $imagefile & "',1," & 0 & "," & 0 & "," & @DesktopWidth & "," & @DesktopHeight & "," & $iX1 & "," & $iY1 & "," & $acc & ")"
+			Case $sFull_Button
+				$totrig = "_ImageSearchArea('" & $imagefile & "',1," & 0 & "," & 0 & "," & @DesktopWidth & "," & @DesktopHeight & ", $X1, $Y1, " & $acc & ")"
 				AddToTrigger($totrig)
 				GUIDelete($hMain_GUI)
         ExitLoop
@@ -1027,9 +1028,14 @@ EndFunc
 
 
 
+Func TextOnScreenTrigger()
 
+	; This is like Image on screen but it will take a image of the full screen
+	; and run ocr on it, then search the text for the text you want.
 
+	msgbox(64, "Text On Screen Trigger", "This feature is only supported on paid versions of ReflexMem.")
 
+EndFunc
 
 
 
@@ -2112,6 +2118,8 @@ While 1
 			DateToTrigger()
 		Case $hButton5
 			ImageOnScreenTrigger()
+		Case $hButton6
+			TextOnScreenTrigger()
 		Case $hButton16
 			SaveTrigger()
 			HideTriggers()

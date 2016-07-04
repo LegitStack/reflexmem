@@ -21,7 +21,7 @@ Func ReflexGui()
   Local $hGUI = GUICreate("Reflex Memory Startup", 600, 300)
   Local $idCreate = GUICtrlCreateButton("Create", 30, 270, 85, 25)
   Local $idRun = GUICtrlCreateButton("Run", 120, 270, 85, 25)
-  Local $idClose = GUICtrlCreateButton("Close", 210, 270, 85, 25)
+  Local $idAbout = GUICtrlCreateButton("About", 210, 270, 85, 25)
 
   GUISetState(@SW_SHOW, $hGUI)
 
@@ -35,6 +35,9 @@ Func ReflexGui()
         ExitLoop
       Case $idCreate
         run("rmcreate.exe")
+        ExitLoop
+      Case $idAbout
+        MsgBox(64, "About ReflexMem", "ReflexMem is an attempt to create non-coding trigger-based automation on windows. It was created by Jordan Miller and is free to use. If you have feedback about this product or find this software useful please contact me at legitstack@gmail.com. Donations are welcome.")
         ExitLoop
     EndSwitch
   wend

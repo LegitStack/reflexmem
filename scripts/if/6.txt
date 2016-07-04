@@ -1,1 +1,0 @@
-_IsPressed('01') And _IsPressed('02')
