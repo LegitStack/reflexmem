@@ -7,11 +7,6 @@
 GetTriggers()
 PopulateGui()
 
-Global $paused = false
-
-Global $X1
-Global $Y1
-
 ;Get a list of triggers and behaviors
 Func GetTriggers()
 
@@ -34,10 +29,10 @@ Func GetTriggers()
     $i = $i + 1
   WEnd
 
-  global $hotkeys[100][Ubound($triggers)]
-  local $hotloc
-  local $endloc
-  local $middle
+;  global $hotkeys[100][Ubound($triggers)]
+;  local $hotloc
+;  local $endloc
+;  local $middle
   ;_arrayDisplay($triggers)
 
 ;  for $i = 0 to Ubound($triggers)-1
@@ -142,7 +137,9 @@ Func PopulateGui()
   local $trigs[Ubound($triggers)]
   local $msg
   local $pause = false
-
+  local $paused = false
+  Local $X1
+  local $Y1
   ; Loop until the user exits.
   While 1
     ;check for changes from user.
@@ -196,7 +193,7 @@ Func PopulateGui()
             EndIf
           Endif
         Next ;
-        local $paused = false
+
         ;;_arrayDisplay($trigs, "trigs")
         ;;_arrayDisplay($triggers, "triggers")
         ;check for triggers
@@ -205,7 +202,7 @@ Func PopulateGui()
           for $c = 0 to ubound($triggers)-1
             if $trigs[$c] == 1 then
               $tcounts[$c] = $tcounts[$c] + 1
-              
+
               if Execute($triggers[$c]) then
                 for $i = 0 to 100
                   if $behaviors[$i][$c] == ""  then

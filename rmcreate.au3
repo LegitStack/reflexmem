@@ -7,12 +7,16 @@
 #include <GuiComboBox.au3>
 #Include <ScreenCapture.au3>
 
+EraseExtraThen()
+EraseExtraIf()
 
 Global $hGUI = GUICreate("ReflexMem Create", 600, 725, -1, -1)
 Global $triggerText = ""
 Global $triggerNumber = 0
 Global $behaviorText = ""
 
+global $mytriggers[100]
+global $mybehavors[100]
 Func DeleteTriggers()
 	GUICtrlDelete ( $hButton )
 	GUICtrlDelete ( $hButton1 )
@@ -38,6 +42,9 @@ Func HideTriggers()
 	GUICtrlSetState($hButton16, $GUI_HIDE)
 	GUICtrlSetState($hGroup, $GUI_HIDE)
 	GUICtrlSetState($hLabel1, $GUI_HIDE)
+	GUICtrlSetState($hlisttrigs, $GUI_HIDE)
+	GUICtrlSetState($hButtonCancel1, $GUI_HIDE)
+
 EndFunc
 
 
@@ -57,8 +64,12 @@ Func CreateTriggers()
 	Global $hButton16 = GUICtrlCreateButton("Done With Triggers", 20, 655, 280, 50)
 	GUICtrlSetFont(-1, 10)
 
-	Global $hLabel1 = GUICtrlCreateLabel("", 330, 35, 240, 400)
+	Global $hlisttrigs = GUICTRLCreateListView("Triggers                               ", 330, 245, 240, 380)
+	Global $hButtonCancel1 = GUICtrlCreateButton("Cancel", 330, 655, 240, 50)
+
+	Global $hLabel1 = GUICtrlCreateLabel("", 330, 35, 240, 300)
 	GUICtrlSetStyle(-1, $SS_CENTER)
+
 
 	GUISetState()
 
@@ -85,7 +96,10 @@ Func CreateBehaviors()
 	Global $hButton17 = GUICtrlCreateButton("Done With Behaviors",310, 	655, 	280, 50) ;done
 	GUICtrlSetFont(-1, 10)
 
-	Global $hLabel = GUICtrlCreateLabel("", 35, 35, 240, 400)
+	Global $hlistbehavs = GUICTRLCreateListView("Behaviors                             ", 35, 245, 240, 380)
+	Global $hButtonCancel2 = GUICtrlCreateButton("Cancel", 35, 655, 240, 50)
+
+	Global $hLabel = GUICtrlCreateLabel("", 35, 35, 240, 300)
 	GUICtrlSetStyle(-1, $SS_CENTER)
 
 	GUISetState()
@@ -254,7 +268,7 @@ Func KeyPressedTrigger()
 	local $button724 = GUICtrlCreateButton("Shift + Other Keys", 220, 500, 160, 30)
 	local $button725 = GUICtrlCreateButton("Alt + Other Keys", 20, 540, 160, 30)
 	local $button726 = GUICtrlCreateButton("Control + Other Keys", 220, 540, 160, 30)
-	local $button727 = GUICtrlCreateButton("Special Symbols ({}^+#!)", 20, 580, 160, 30)
+	local $button727 = GUICtrlCreateButton("Special Symbols (+)", 20, 580, 160, 30)
 	local $button728 = GUICtrlCreateButton("F Keys", 220, 580, 160, 30)
 	GUISetState()
 
@@ -271,7 +285,7 @@ Func KeyPressedTrigger()
 				GUIDelete($hChild7)
 				ExitLoop
 			Case $button71
-				$sAnswer = InputBox("Key Press Trigger", "What single key should be the trigger? (Letters, numbers and these symbols allowed: @$%&*()-_=~/|\[];:?)", "a", "")
+				$sAnswer = InputBox("Key Press Trigger", "What single key should be the trigger? (Letters and numbers allowed.)", "a", "")
 				$sAnswer = StringReplace($sAnswer, "{", "")
 				$sAnswer = StringReplace($sAnswer, "}", "")
 				$sAnswer = StringReplace($sAnswer, "^", "")
@@ -403,12 +417,7 @@ Func KeyPressedTrigger()
 				$hChild7a = GUICreate("Special Symbol Key Press Trigger", 400, 280, -1, -1, -1, -1, $hChild7)
 				GUICtrlCreateLabel("Which special symbol should be set as the key press trigger?", 20, 20, 360, 40)
 				GUICtrlSetStyle(-1, $SS_CENTER)
-				$button7a1 = GUICtrlCreateButton("{", 20, 80, 160, 40)
-				$button7a2 = GUICtrlCreateButton("}", 220, 80, 160, 40)
-				$button7a3 = GUICtrlCreateButton("^", 20, 140, 160, 40)
 				$button7a4 = GUICtrlCreateButton("+", 220, 140, 160, 40)
-				$button7a5 = GUICtrlCreateButton("#", 20, 200, 160, 40)
-				$button7a6 = GUICtrlCreateButton("!", 220, 200, 160, 40)
 				GUISetState()
 				local $totrig = ""
 				While 1
@@ -417,33 +426,8 @@ Func KeyPressedTrigger()
 						Case $GUI_EVENT_CLOSE
 							GUIDelete($hChild7a)
 							ExitLoop
-						Case $button7a1
-							$totrig = "{{}"
-							addKeyPressToTrigger($shift, $alt, $control, $totrig)
-							GUIDelete($hChild7a)
-							ExitLoop
-						Case $button7a2
-							$totrig = "{}}"
-							addKeyPressToTrigger($shift, $alt, $control, $totrig)
-							GUIDelete($hChild7a)
-							ExitLoop
-						Case $button7a3
-							$totrig = "{^}"
-							addKeyPressToTrigger($shift, $alt, $control, $totrig)
-							GUIDelete($hChild7a)
-							ExitLoop
 						Case $button7a4
 							$totrig = "{+}"
-							addKeyPressToTrigger($shift, $alt, $control, $totrig)
-							GUIDelete($hChild7a)
-							ExitLoop
-						Case $button7a5
-							$totrig = "{#}"
-							addKeyPressToTrigger($shift, $alt, $control, $totrig)
-							GUIDelete($hChild7a)
-							ExitLoop
-						Case $button7a6
-							$totrig = "{!}"
 							addKeyPressToTrigger($shift, $alt, $control, $totrig)
 							GUIDelete($hChild7a)
 							ExitLoop
@@ -1238,20 +1222,27 @@ EndFunc
 
 
 
-
-
-
-
-
-
-
 Func AddToTrigger($data)
+	_GUICtrlListView_AddItem($hlisttrigs, $data, 1)
+	local $i = 0
+	for $i = 0 to 99
+		if $mytriggers[$i] == "" then
+			$mytriggers[$i] =	$data
+			$i = 100
+		endIf
+	next
+EndFunc
+
+
+
+
+Func AddToTrigger2($data)
 	if $triggerText == "" then
 		$triggerText = $data
 	else
 		$triggerText = $triggerText & " And " & $data
 	endif
-	msgbox(64,"trigger text", $triggerText)
+;	msgbox(64,"trigger text", $triggerText)
 EndFunc
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Specific Behaviors
@@ -2253,14 +2244,24 @@ EndFunc
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-
 Func AddToBehavior($data)
+	_GUICtrlListView_AddItem($hlistbehavs, $data, 1)
+	local $i = 0
+	for $i = 0 to 99
+		if $mybehavors[$i] == "" then
+			$mybehavors[$i] =	$data
+			$i = 100
+		endIf
+	next
+EndFunc
+
+Func AddToBehavior2($data)
 	if $behaviorText == "" then
 		$behaviorText = $data
 	else
 		$behaviorText = $behaviorText & @CRLF & $data
 	endif
-	msgbox(64,"Behavior text", $behaviorText)
+;	msgbox(64,"Behavior text", $behaviorText)
 EndFunc
 
 
@@ -2270,8 +2271,15 @@ EndFunc
 
 
 Func SaveTrigger()
-	;get trigger file number, save as global
 	local $i = 0
+
+	for $i = 0 to 99
+		if $mytriggers[$i] <> "" then
+			AddToTrigger2($mytriggers[$i])
+		endIf
+	next
+	;get trigger file number, save as global
+	$i = 0
 	While FileExists(_PathFull(@ScriptDir & "\scripts\if") & "\" & $i & ".txt")
 		$i = $i + 1
 	WEnd
@@ -2292,6 +2300,14 @@ Func SaveTrigger()
 EndFunc
 
 Func SaveBehavior()
+	local $i = 0
+
+	for $i = 0 to 99
+		if $mybehavors[$i] <> "" then
+			AddToBehavior2($mybehavors[$i])
+		endIf
+	next
+
 
 	local $file = _PathFull(@ScriptDir & "\scripts\then") & "\" & $triggerNumber & ".txt"
 
@@ -2337,6 +2353,12 @@ While 1
 			HideTriggers()
 			CreateBehaviors()
 			ExitLoop
+		Case $hButtonCancel1
+			EraseExtraThen()
+			EraseExtraIf()
+			GUIDelete($hGUI)
+			ReturnToMain()
+			Exit
 		case Else
 			SetLabel1()
 	EndSwitch
@@ -2378,6 +2400,12 @@ While 1
 		Case $hButton17
 			SaveBehavior()
 			ExitLoop
+		Case $hButtonCancel2
+			EraseExtraThen()
+			EraseExtraIf()
+			GUIDelete($hGUI)
+			ReturnToMain()
+			Exit
 		case Else
 			SetLabel()
 	EndSwitch
@@ -2390,4 +2418,27 @@ Func ReturnToMain()
 	Run("reflexmem.exe")
 	GUIDelete($hGUI)
 	Exit
+EndFunc
+
+
+Func EraseExtraIf()
+	$i = 0
+	While FileExists(_PathFull(@ScriptDir & "\scripts\if\") & $i & ".txt")
+		if FileExists(_PathFull(@ScriptDir & "\scripts\then\") & $i & ".txt") then
+		else
+			FileDelete(_PathFull(@ScriptDir & "\scripts\if\") & $i & ".txt")
+		endIf
+		$i = $i + 1
+	WEnd
+EndFunc
+
+Func EraseExtraThen()
+	$i = 0
+	While FileExists(_PathFull(@ScriptDir & "\scripts\then") & "\" & $i & ".txt")
+		if FileExists(_PathFull(@ScriptDir & "\scripts\if") & "\" & $i & ".txt") then
+		else
+			FileDelete(_PathFull(@ScriptDir & "\scripts\then") & "\" & $i & ".txt")
+		endIf
+		$i = $i + 1
+	WEnd
 EndFunc
