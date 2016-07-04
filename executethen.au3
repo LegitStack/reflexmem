@@ -56,6 +56,15 @@ Func ActionMapThen($command, $arguments)
       return "MouseWheel('" & $arguments & "')"
     case "clip" ; text
       return "ClipPut('" & $arguments & "')"
+    case "unpause" ; text
+      return "$paused = false"
+    case "pause" ; text
+      return "$paused = true"
+    case "exit" ; text
+      return "Exit"
+    case "message" ; text
+      $args = StringSplit($arguments, " ", 2)
+      return "MsgBox(64, '" & $args[0] & "','" & $args[1] & "')"
     Case "run" ; programname.exe, .\ c:\somewhere\  , max min hide
       $args = StringSplit($arguments, " ", 2)
       if Ubound($args) == 3 then

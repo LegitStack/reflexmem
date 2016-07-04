@@ -18,17 +18,17 @@
 
 ReflexGui()
 Func ReflexGui()
-  Local $hGUI = GUICreate("Reflex Memory Startup", 600, 300)
-  Local $idCreate = GUICtrlCreateButton("Create", 30, 270, 85, 25)
-  Local $idRun = GUICtrlCreateButton("Run", 120, 270, 85, 25)
-  Local $idAbout = GUICtrlCreateButton("About", 210, 270, 85, 25)
+  Local $hGUI = GUICreate("Reflex Memory Startup", 470, 80)
+  Local $idCreate = GUICtrlCreateButton("Create", 20, 20, 130, 40)
+  Local $idRun = GUICtrlCreateButton("Run", 170, 20, 130, 40)
+  Local $idAbout = GUICtrlCreateButton("About", 320, 20, 130, 40)
 
   GUISetState(@SW_SHOW, $hGUI)
 
   ; Loop until the user exits.
   While 1
     Switch GUIGetMsg()
-      Case $GUI_EVENT_CLOSE, $idClose
+      Case $GUI_EVENT_CLOSE
         ExitLoop
       Case $idRun
         run("rmrun.exe")

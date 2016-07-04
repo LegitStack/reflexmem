@@ -8,7 +8,7 @@
 #Include <ScreenCapture.au3>
 
 
-Global $hGUI = GUICreate("ReflexMem Create", 600, 540, -1, -1)
+Global $hGUI = GUICreate("ReflexMem Create", 600, 725, -1, -1)
 Global $triggerText = ""
 Global $triggerNumber = 0
 Global $behaviorText = ""
@@ -43,7 +43,7 @@ EndFunc
 
 Func CreateTriggers()
 
-	Global $hGroup = GUICtrlCreateGroup("Triggers", 				20, 	10, 	280, 450)
+	Global $hGroup = GUICtrlCreateGroup("Triggers", 				20, 	10, 	280, 540)
 
 	Global $hButton = GUICtrlCreateButton("Key is Pressed", 		35, 	35, 	250, 35) ;done
 	Global $hButton1 = GUICtrlCreateButton("Mouse is Clicked", 	35, 	80, 	250, 35) ;done
@@ -52,9 +52,9 @@ Func CreateTriggers()
 	Global $hButton4 = GUICtrlCreateButton("Date and Time is", 	35, 	215, 	250, 35) ;done
 	Global $hButton5 = GUICtrlCreateButton("Image on Screen", 	35, 	260, 	250, 35) ;done
 	Global $hButton6 = GUICtrlCreateButton("Text on Screen", 		35, 	305, 	250, 35)
-	Global $hButton0 = GUICtrlCreateButton("Help", 							35, 	350, 	250, 35) ;done
+	Global $hButton0 = GUICtrlCreateButton("Help", 							35, 	575, 	250, 35) ;done
 
-	Global $hButton16 = GUICtrlCreateButton("Done With Triggers", 20, 475, 280, 50)
+	Global $hButton16 = GUICtrlCreateButton("Done With Triggers", 20, 655, 280, 50)
 	GUICtrlSetFont(-1, 10)
 
 	Global $hLabel1 = GUICtrlCreateLabel("", 330, 35, 240, 400)
@@ -67,7 +67,7 @@ EndFunc
 
 Func CreateBehaviors()
 
-	Global $hGroup1 = GUICtrlCreateGroup("Behaviors", 						310, 	10, 	280, 450)
+	Global $hGroup1 = GUICtrlCreateGroup("Behaviors", 						310, 	10, 	280, 615)
 
 	Global $hButton7 = GUICtrlCreateButton("Send Keys",						330, 	35, 	250, 35) ;done
 	Global $hButton8 = GUICtrlCreateButton("Key Down", 						330, 	80, 	250, 35) ;done
@@ -77,9 +77,12 @@ Func CreateBehaviors()
 	Global $hButton12 = GUICtrlCreateButton("Scroll Mouse Wheel", 330, 	260, 	250, 35) ;done
 	Global $hButton13 = GUICtrlCreateButton("Copy Text", 					330, 	305, 	250, 35) ;done
 	Global $hButton14 = GUICtrlCreateButton("Run Program", 				330, 	350, 	250, 35) ;done
-	Global $hButton15 = GUICtrlCreateButton("Wait", 							330, 	395, 	250, 35) ;done
-
-	Global $hButton17 = GUICtrlCreateButton("Done With Behaviors", 	310, 	475, 	280, 50)
+	Global $hButton18 = GUICtrlCreateButton("Display Message",		330, 	395, 	250, 35) ;done
+	Global $hButton15 = GUICtrlCreateButton("Wait", 							330, 	440, 	250, 35) ;done
+	Global $hButton19 = GUICtrlCreateButton("Pause Program", 			330, 	485, 	250, 35) ;done
+	Global $hButton20 = GUICtrlCreateButton("UnPause Program", 		330, 	530, 	250, 35) ;done
+	Global $hButton21 = GUICtrlCreateButton("Exit ReflexMem", 		330, 	575, 	250, 35) ;done
+	Global $hButton17 = GUICtrlCreateButton("Done With Behaviors",310, 	655, 	280, 50) ;done
 	GUICtrlSetFont(-1, 10)
 
 	Global $hLabel = GUICtrlCreateLabel("", 35, 35, 240, 400)
@@ -545,18 +548,202 @@ Func addKeyPressToTrigger($shift, $alt, $control, $data)
 ;HotKeySet("^a", "GetPos") ;control
 ;HotKeySet("+a", "GetPos") ;  Shift
 ;HotKeySet("!a", "GetPos") ;alt
+	if $data 			== "{BACKSPACE}" 	then
+		$data = "08"
+	elseif $data 	== "{TAB}" 				then
+		$data = "09"
+	elseif $data 	== "{ENTER}" 			then
+		$data = "0D"
+	elseif $data 	== "{LSHIFT}"			then
+		$data = "10"
+	elseif $data 	== "{LCTRL}"			then
+		$data = "11"
+	elseif $data 	== "{ALT}" 				then
+		$data = "12"
+	elseif $data 	== "{PAUSE}"			then
+		$data = "13"
+	elseif $data 	== "{CAPSLOCK}"		then
+		$data = "14"
+	elseif $data 	== "{ESCAPE}"			then
+		$data = "1B"
+	elseif $data 	== "{SPACE}" 			then
+		$data = "20"
+	elseif $data 	== "{PGUP}" 			then
+		$data = "21"
+	elseif $data 	== "{PGDN}"				then
+		$data = "22"
+	elseif $data 	== "{END}" 				then
+		$data = "23"
+	elseif $data 	== "{HOME}" 			then
+		$data = "24"
+	elseif $data 	== "{LEFT}"				then
+		$data = "25"
+	elseif $data 	== "{UP}" 				then
+		$data = "26"
+	elseif $data 	== "{RIGHT}"			then
+		$data = "27"
+	elseif $data 	== "{DOWN}" 			then
+		$data = "28"
+	elseif $data 	== "{PRINTSCREEN}"then
+		$data = "2C"
+	elseif $data 	== "{INSERT}"			then
+		$data = "2D"
+	elseif $data 	== "{DELETE}"			then
+		$data = "2E"
+	elseif $data 	== "{NUMLOCK}"		then
+		$data = "90"
+	elseif $data 	== "{LWIN}"				then
+		$data = "5B"
+	elseif $data 	== "{F1}"					then
+		$data = "70"
+	elseif $data 	== "{F2}"					then
+		$data = "71"
+	elseif $data 	== "{F3}"					then
+		$data = "72"
+	elseif $data 	== "{F4}"					then
+		$data = "73"
+	elseif $data 	== "{F5}"					then
+		$data = "74"
+	elseif $data 	== "{F6}"					then
+		$data = "75"
+	elseif $data 	== "{F7}"					then
+		$data = "76"
+	elseif $data 	== "{F8}"					then
+		$data = "77"
+	elseif $data 	== "{F9}"					then
+		$data = "78"
+	elseif $data 	== "{F10}"				then
+		$data = "79"
+	elseif $data 	== "{F11}"				then
+		$data = "7A"
+	elseif $data 	== "{F12}"				then
+		$data = "7B"
+	elseif $data 	== "0" 						then
+		$data = "30"
+	elseif $data 	== "1" 						then
+		$data = "31"
+	elseif $data 	== "2" 						then
+		$data = "32"
+	elseif $data 	== "3" 						then
+		$data = "33"
+	elseif $data 	== "4" 						then
+		$data = "34"
+	elseif $data 	== "5" 						then
+		$data = "35"
+	elseif $data 	== "6" 						then
+		$data = "36"
+	elseif $data 	== "7" 						then
+		$data = "37"
+	elseif $data 	== "8" 						then
+		$data = "38"
+	elseif $data 	== "9" 						then
+		$data = "39"
+	elseif $data 	== "9" 						then
+		$data = "39"
+	elseif $data 	== "{!}"					then
+		$data = "6B"
+	elseif $data 	== "{#}"					then
+		$data = "6B"
+	elseif $data 	== "{+}"					then
+		$data = "6B"
+	elseif $data 	== "{^}"					then
+		$data = "6B"
+	elseif $data 	== "{}}" 					then
+		$data = "6B"
+	elseif $data 	== "{{}" 					then
+		$data = "6B"
+	elseif $data 	== ";"						then
+		$data = "BA"
+	elseif $data 	== "="						then
+		$data = "BB"
+	elseif $data 	== ","						then
+		$data = "BC"
+	elseif $data 	== "-"						then
+		$data = "BD"
+	elseif $data 	== "." 						then
+		$data = "BE"
+	elseif $data 	== "/" 						then
+		$data = "BF"
+	elseif $data 	== "`"						then
+		$data = "C0"
+	elseif $data 	== "["						then
+		$data = "DB"
+	elseif $data 	== "\" 						then
+		$data = "DC"
+	elseif $data 	== "]" 						then
+		$data = "DD"
+	elseif $data 	== "*" 						then
+		$data = "6A"
+	elseif $data 	== "A" Or $data == "a" then
+	 	$data = "41"
+	elseif $data 	== "B" Or $data == "b" then
+		$data = "42"
+	elseif $data 	== "C" Or $data == "c" 	then
+		$data = "43"
+	elseif $data 	== "D" Or $data == "d" 	then
+		$data = "44"
+	elseif $data 	== "E" Or $data == "e" 	then
+		$data = "45"
+	elseif $data 	== "F" Or $data == "f" 	then
+		$data = "46"
+	elseif $data 	== "G" Or $data == "g" 	then
+		$data = "47"
+	elseif $data 	== "H" Or $data == "h" 	then
+		$data = "48"
+	elseif $data 	== "I" Or $data == "i" 	then
+		$data = "49"
+	elseif $data 	== "J" Or $data == "j" 	then
+		$data = "4A"
+	elseif $data 	== "K" Or $data == "k" 	then
+		$data = "4B"
+	elseif $data 	== "L" Or $data == "l" 	then
+		$data = "4C"
+	elseif $data 	== "M" Or $data == "m" 	then
+		$data = "4D"
+	elseif $data 	== "N" Or $data == "n" 	then
+		$data = "4E"
+	elseif $data 	== "O" Or $data == "o" 	then
+		$data = "4F"
+	elseif $data 	== "P" Or $data == "p" 	then
+		$data = "50"
+	elseif $data 	== "Q" Or $data == "q" 	then
+		$data = "51"
+	elseif $data 	== "R" Or $data == "r" 	then
+		$data = "52"
+	elseif $data 	== "S" Or $data == "s" 	then
+		$data = "53"
+	elseif $data 	== "T" Or $data == "t" 	then
+		$data = "54"
+	elseif $data 	== "U" Or $data == "u" 	then
+		$data = "55"
+	elseif $data 	== "V" Or $data == "v" 	then
+		$data = "56"
+	elseif $data 	== "W" Or $data == "w" 	then
+		$data = "57"
+	elseif $data 	== "X" Or $data == "x" 	then
+		$data = "58"
+	elseif $data 	== "Y" Or $data == "y" 	then
+		$data = "59"
+	elseif $data 	== "Z" Or $data == "z" 	then
+		$data = "5A"
+	else
+		$data = "6B"
+	endif
 	local $totrig = ""
 	if $shift then
-		$totrig = $totrig & "+"
+;		$totrig = $totrig & "+"
+		$totrig = "_IsPressed('10') And "
 	endif
 	if $alt then
-		$totrig = $totrig & "!"
+;		$totrig = $totrig & "!"
+		$totrig = "_IsPressed('12') And "
 	endif
 	if $control then
-		$totrig = $totrig & "^"
+;		$totrig = $totrig & "^"
+		$totrig = "_IsPressed('11') And "
 	endif
-	$totrig = "HotKeySet('" & $totrig & $data & "', 'HotKeyTrigger')"
-
+;	$totrig = "HotKeySet('" & $totrig & $data & "', 'HotKeyTrigger')"
+	$totrig = $totrig & "_IsPressed('" & $data & "')"
 	AddToTrigger($totrig)
 EndFunc
 
@@ -652,7 +839,7 @@ Func DateToTrigger()
 	local $button4a = GUICtrlCreateButton("Everyday", 10, 50, 140, 60)
 	local $button4b = GUICtrlCreateButton("On a day of the Week", 160, 50, 140, 60)
 	local $button4c = GUICtrlCreateButton("On a day of the Month", 310, 50, 140, 60)
-	local $button4d = GUICtrlCreateButton("Cancel", 460, 50, 140, 60)
+	local $button4d = GUICtrlCreateButton("Cancel", 460, 50, 140, 60) ; placeholder for "specific date trigger"
 	GUISetState()
 
 	local $datething = ""
@@ -745,6 +932,7 @@ Func DateToTrigger()
 				GUIDelete($hChild4)
 				ExitLoop
 			Case $button4d
+				GUIDelete($hChild4)
 				ExitLoop
 		EndSwitch
 	WEnd
@@ -1890,6 +2078,30 @@ EndFunc
 
 
 
+Func MessageBoxBehavior()
+	Local $title = InputBox("Display Message Behavior", "What would you like the title of the message to be?", "Alert" , "")
+	Local $message = InputBox("Display Message Behavior", "What would you like the message to be?", "Hello World!", "")
+	local $totrig = "message " & $title & " " & $message
+	AddToBehavior($totrig)
+EndFunc
+
+Func PauseReflexMemBehavior()
+	Msgbox(64, "Pause ReflexMem Behavior", "Pause ReflexMem Behavior added successfully.")
+	local $totrig = "message " & $title & " " & $message
+	AddToBehavior($totrig)
+EndFunc
+
+Func UnPauseReflexMemBehavior()
+	Msgbox(64, "Pause ReflexMem Behavior", "UnPause ReflexMem Behavior added successfully.")
+	local $totrig = "message " & $title & " " & $message
+	AddToBehavior($totrig)
+EndFunc
+
+Func ExitReflexMemBehavior()
+	Msgbox(64, "Pause ReflexMem Behavior", "Exit ReflexMem Behavior added successfully.")
+	local $totrig = "message " & $title & " " & $message
+	AddToBehavior($totrig)
+EndFunc
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -2107,7 +2319,7 @@ While 1
 			GUIDelete($hGUI)
 			Exit
 		Case $hButton
-			KeyPressTrigger()
+			KeyPressedTrigger()
 		Case $hButton1
 			MouseClickTrigger()
 		Case $hButton2
@@ -2153,8 +2365,16 @@ While 1
 			ClipboardBehavior()
 		Case $hButton14
 			RunProgramBehavior()
+		Case $hButton18
+			MessageBoxBehavior()
 		Case $hButton15
 			WaitBehavior()
+		Case $hButton19
+			PauseReflexMemBehavior()
+		Case $hButton20
+			UnPauseReflexMemBehavior()
+		Case $hButton21
+			ExitReflexMemBehavior()
 		Case $hButton17
 			SaveBehavior()
 			ExitLoop

@@ -34,22 +34,23 @@ Func InterpretFileIf($file)
   While $i < UBound($file)
     if $file[$i] == "" or $file[$i] == " " then
     else
-      $line = StringReplace ($file[$i], " ", @CRLF, 1)
-      $statement = StringSplit($line, @CRLF)
-      $ret = ActionMapIf($statement[1], $statement[3])
+      ;$line = StringReplace ($file[$i], " ", @CRLF, 1)
+      ;$statement = StringSplit($line, @CRLF)
+      ;_arrayDisplay($statement)
+      $ret = $file[$i]
     endif
     $i = $i + 1
   WEnd
   return $ret
 EndFunc
+;Planet Earth
 
-
-Func ActionMapIf($command, $arguments)
-  if $arguments == "" then
-    return $command
-  else
-    return $command  & " " & $arguments
-  endif
+Func ActionMapIf($command);, $arguments)
+  ;if $arguments == "" then
+  ;  return $command
+  ;else
+  ;  return $command  & " " & $arguments
+  ;endif
   ;Switch $command
     ;Case "clipboard" ; text
     ;  $args = StringSplit($arguments, " ", 2)
