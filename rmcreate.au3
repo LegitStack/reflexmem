@@ -1,3 +1,4 @@
+#RequireAdmin
 #include <WindowsConstants.au3>
 #include <GUIConstantsEx.au3>
 #include <StaticConstants.au3>
@@ -6,6 +7,7 @@
 #include <GuiListView.au3>
 #include <GuiComboBox.au3>
 #Include <ScreenCapture.au3>
+#include <.\mkfolders.au3>
 
 EraseExtraThen()
 EraseExtraIf()
@@ -17,6 +19,9 @@ Global $behaviorText = ""
 
 global $mytriggers[100]
 global $mybehavors[100]
+
+VarifyFolders()
+
 Func DeleteTriggers()
 	GUICtrlDelete ( $hButton )
 	GUICtrlDelete ( $hButton1 )
@@ -67,7 +72,7 @@ Func CreateTriggers()
 	Global $hlisttrigs = GUICTRLCreateListView("Triggers                               ", 330, 245, 240, 380)
 	Global $hButtonCancel1 = GUICtrlCreateButton("Cancel", 330, 655, 240, 50)
 
-	Global $hLabel1 = GUICtrlCreateLabel("", 330, 35, 240, 300)
+	Global $hLabel1 = GUICtrlCreateLabel("", 330, 35, 240, 200)
 	GUICtrlSetStyle(-1, $SS_CENTER)
 
 
@@ -99,7 +104,7 @@ Func CreateBehaviors()
 	Global $hlistbehavs = GUICTRLCreateListView("Behaviors                             ", 35, 245, 240, 380)
 	Global $hButtonCancel2 = GUICtrlCreateButton("Cancel", 35, 655, 240, 50)
 
-	Global $hLabel = GUICtrlCreateLabel("", 35, 35, 240, 300)
+	Global $hLabel = GUICtrlCreateLabel("", 35, 35, 240, 200)
 	GUICtrlSetStyle(-1, $SS_CENTER)
 
 	GUISetState()

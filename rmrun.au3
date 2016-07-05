@@ -1,8 +1,12 @@
+#RequireAdmin
 #include <GUIConstantsEx.au3>
 #include <MsgBoxConstants.au3>
 #include <.\executeif.au3>
 #include <.\executethen.au3>
 #include <Misc.au3>
+#include <.\mkfolders.au3>
+
+VarifyFolders()
 
 GetTriggers()
 PopulateGui()
@@ -123,10 +127,12 @@ Func PopulateGui()
 
   Local $hGUI = GUICreate("Reflex Memory Run", 600, 300)
   Local $idCheckbox[100]
+  Local $idDelete[100]
   ;_arrayDisplay($triggers)
   for $i = 0 to Ubound($triggers)-1
     if $triggers[$i] <> "" then
       $idCheckbox[$i] = GUICtrlCreateCheckbox("IF     " & $triggers[$i] & "     THEN     " & $behaviors[0][$i] & "     ...", 10, ($i+1)*25, 500, 25)
+      $idDelete[$i] = GUICtrlCreateButton("Delete", 520, ($i+1)*25, 60, 25)
     endif
   next
   ;GUICtrlSetResizing(-1, $GUI_DOCKLEFT + $GUI_DOCKTOP)
@@ -161,6 +167,11 @@ Func PopulateGui()
               $trigs[$i] = ""
               ;MsgBox($MB_SYSTEMMODAL, $msg, "aThe checkbox is not checked.", 0, $hGUI)
             EndIf
+          elseif $msg == $idDelete[$i] then
+            FileDelete(_PathFull(@ScriptDir & "\scripts\if\") & $i & ".txt")
+            FileDelete(_PathFull(@ScriptDir & "\scripts\then\") & $i & ".txt")
+            GUICtrlDelete ( $idCheckbox[$i] )
+            $trigs[$i] = ""
           Endif
         Next
     EndSwitch
