@@ -18,7 +18,7 @@ Global $triggerNumber = 0
 Global $behaviorText = ""
 
 global $mytriggers[100]
-global $mybehavors[100]
+global $mybehaviors[100]
 
 VarifyFolders()
 
@@ -33,6 +33,7 @@ Func DeleteTriggers()
 	GUICtrlDelete ( $hButton16 )
 	GUICtrlDelete ( $hGroup )
 	GUICtrlDelete ( $hLabel1 )
+
 EndFunc
 
 Func HideTriggers()
@@ -49,7 +50,7 @@ Func HideTriggers()
 	GUICtrlSetState($hLabel1, $GUI_HIDE)
 	GUICtrlSetState($hlisttrigs, $GUI_HIDE)
 	GUICtrlSetState($hButtonCancel1, $GUI_HIDE)
-
+	GUICtrlSetState($hButtonDelete1, $GUI_HIDE)
 EndFunc
 
 
@@ -70,7 +71,8 @@ Func CreateTriggers()
 	GUICtrlSetFont(-1, 10)
 
 	Global $hlisttrigs = GUICTRLCreateListView("Triggers                               ", 330, 245, 240, 380)
-	Global $hButtonCancel1 = GUICtrlCreateButton("Cancel", 330, 655, 240, 50)
+	Global $hButtonCancel1 = GUICtrlCreateButton("Cancel", 330, 655, 110, 50)
+	Global $hButtonDelete1 = GUICtrlCreateButton("Delete", 460, 655, 110, 50)
 
 	Global $hLabel1 = GUICtrlCreateLabel("", 330, 35, 240, 200)
 	GUICtrlSetStyle(-1, $SS_CENTER)
@@ -95,14 +97,15 @@ Func CreateBehaviors()
 	Global $hButton14 = GUICtrlCreateButton("Run Program", 				330, 	350, 	250, 35) ;done
 	Global $hButton18 = GUICtrlCreateButton("Display Message",		330, 	395, 	250, 35) ;done
 	Global $hButton15 = GUICtrlCreateButton("Wait", 							330, 	440, 	250, 35) ;done
-	Global $hButton19 = GUICtrlCreateButton("Pause Program", 			330, 	485, 	250, 35) ;done
-	Global $hButton20 = GUICtrlCreateButton("UnPause Program", 		330, 	530, 	250, 35) ;done
+	Global $hButton19 = GUICtrlCreateButton("Ignore Triggers",		330, 	485, 	250, 35) ;done
+	Global $hButton20 = GUICtrlCreateButton("Observe Triggers", 	330, 	530, 	250, 35) ;done
 	Global $hButton21 = GUICtrlCreateButton("Exit ReflexMem", 		330, 	575, 	250, 35) ;done
 	Global $hButton17 = GUICtrlCreateButton("Done With Behaviors",310, 	655, 	280, 50) ;done
 	GUICtrlSetFont(-1, 10)
 
 	Global $hlistbehavs = GUICTRLCreateListView("Behaviors                             ", 35, 245, 240, 380)
-	Global $hButtonCancel2 = GUICtrlCreateButton("Cancel", 35, 655, 240, 50)
+	Global $hButtonCancel2 = GUICtrlCreateButton("Cancel", 35, 655, 110, 50)
+	Global $hButtonDelete2 = GUICtrlCreateButton("Delete", 165, 655, 110, 50)
 
 	Global $hLabel = GUICtrlCreateLabel("", 35, 35, 240, 200)
 	GUICtrlSetStyle(-1, $SS_CENTER)
@@ -152,7 +155,7 @@ Func SetLabel()
 				GUICtrlSetData($hlabel, $data)
 			EndIf
 		elseif $a[4] == $hButton14 Then
-			$data = "Run a program." & @CRLF & @CRLF & "What is the program's name?" & @CRLF & "Where is it located?"
+			$data = "Run a program." & @CRLF & @CRLF & "Which program?" & @CRLF & "How should it appear?"
 			if GUICtrlRead($hlabel) <> $data Then
 				GUICtrlSetData($hlabel, $data)
 			EndIf
@@ -161,6 +164,27 @@ Func SetLabel()
 			if GUICtrlRead($hlabel) <> $data Then
 				GUICtrlSetData($hlabel, $data)
 			EndIf
+		elseif $a[4] == $hButton18 Then
+			$data = "Display Informational Message." & @CRLF & @CRLF & "What message?"
+			if GUICtrlRead($hlabel) <> $data Then
+				GUICtrlSetData($hlabel, $data)
+			EndIf
+		elseif $a[4] == $hButton19 Then
+				$data = "Ignore Triggers behavior will tell ReflexMem to ignore anything it my see as a trigger so that it does no behaviors. Ignore Triggers is usually used in conjunction with Observe Triggers so that one can have two keys that can turn triggers off and on."
+				if GUICtrlRead($hlabel) <> $data Then
+				GUICtrlSetData($hlabel, $data)
+			EndIf
+		elseif $a[4] == $hButton20 Then
+				$data = "Observe Triggers behavior will tell ReflexMem to notice everything it my see as a trigger and do the coresponding set of behaviors. Observe Triggers is usually used in conjunction with Ignore Triggers so that one can have two keys that can turn triggers off and on."
+				if GUICtrlRead($hlabel) <> $data Then
+				GUICtrlSetData($hlabel, $data)
+			EndIf
+		elseif $a[4] == $hButton21 Then
+				$data = "Exits the ReflexMem program."
+				if GUICtrlRead($hlabel) <> $data Then
+				GUICtrlSetData($hlabel, $data)
+			EndIf
+
 		Else
 			;GUICtrlSetData($g_idX, $a[0])
 			;GUICtrlSetData($g_idY, $a[1])
@@ -417,7 +441,6 @@ Func KeyPressedTrigger()
 				$alt = true
 			Case $button726 ;Control
 				$control = true
-				msgbox(64, "info", "")
 			Case $button727 ;Special keys
 				$hChild7a = GUICreate("Special Symbol Key Press Trigger", 400, 280, -1, -1, -1, -1, $hChild7)
 				GUICtrlCreateLabel("Which special symbol should be set as the key press trigger?", 20, 20, 360, 40)
@@ -740,8 +763,10 @@ EndFunc
 
 Func ClipboardTrigger()
 	Local $sAnswer = InputBox("Clipboard Trigger", "What text?", "Planet Earth", "")
-	local $totrig = "ClipGet() == '" & $sAnswer &"'"
-	AddToTrigger($totrig)
+	if $sAnswer <> "" then
+		local $totrig = "ClipGet() == '" & $sAnswer &"'"
+		AddToTrigger($totrig)
+	endif
 EndFunc
 
 
@@ -845,10 +870,10 @@ Func DateToTrigger()
 				ExitLoop
 			Case $button4b
 				$datething = "week"
-				Local $hChild4a = GUICreate("Date and Time Trigger", 620, 630, -1, -1, -1, -1, $hChild4)
-				GUICtrlCreateLabel("What which day of the Week?", 20, 20, 600, 35)
+				Local $hChild4a = GUICreate("Date and Time Trigger", 220, 330, -1, -1, -1, -1, $hChild4)
+				GUICtrlCreateLabel("What which day of the Week?", 20, 20, 180, 35)
 				GUICtrlSetStyle(-1, $SS_CENTER)
-				$listview1 = GUICtrlCreateListView("Days of the Week", 2, 50, 396, 496, BitOR($LVS_NOSORTHEADER, $LVS_SINGLESEL))
+				$listview1 = GUICtrlCreateListView("Days of the Week", 4, 50, 212, 200, BitOR($LVS_NOSORTHEADER, $LVS_SINGLESEL))
 				_GUICtrlListView_AddItem($listview1, "Sunday", 1)
 				_GUICtrlListView_AddItem($listview1, "Monday", 1)
 				_GUICtrlListView_AddItem($listview1, "Tuesday", 1)
@@ -857,8 +882,8 @@ Func DateToTrigger()
 				_GUICtrlListView_AddItem($listview1, "Friday", 1)
 				_GUICtrlListView_AddItem($listview1, "Saturday", 1)
 
-				local $button4a1 = GUICtrlCreateButton("Submit Day", 20, 560, 113, 60)
-				local $button4b2 = GUICtrlCreateButton("Cancel", 266, 560, 113, 60)
+				local $button4a1 = GUICtrlCreateButton("Submit Day", 10, 260, 90, 60)
+				local $button4b2 = GUICtrlCreateButton("Cancel", 120, 260, 90, 60)
 				GUISetState()
 
 				While 1
@@ -884,18 +909,18 @@ Func DateToTrigger()
 				ExitLoop
 			Case $button4c
 				$datething = "month"
-				Local $hChild4a = GUICreate("Date and Time Trigger", 620, 630, -1, -1, -1, -1, $hChild4)
-				GUICtrlCreateLabel("What which day of the Month?", 20, 20, 600, 35)
+				Local $hChild4a = GUICreate("Date and Time Trigger", 220, 750, -1, -1, -1, -1, $hChild4)
+				GUICtrlCreateLabel("What which day of the Month?", 20, 20, 180, 35)
 				GUICtrlSetStyle(-1, $SS_CENTER)
-				$listview2 = GUICtrlCreateListView("Days of the Month", 2, 50, 396, 496, BitOR($LVS_NOSORTHEADER, $LVS_SINGLESEL))
+				$listview2 = GUICtrlCreateListView("Days of the Month", 4, 50, 212, 616, BitOR($LVS_NOSORTHEADER, $LVS_SINGLESEL))
 				local $days = ["01","02","03","04","05","06","07","08","09","10","11","12","13","14","15", _
 											 "16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"]
 			  for $i = 0 to Ubound($days)-1
 					_GUICtrlListView_AddItem($listview2, $days[$i], 1)
 				next
 
-				local $button4a1 = GUICtrlCreateButton("Submit Day", 20, 560, 113, 60)
-				local $button4b2 = GUICtrlCreateButton("Cancel", 266, 560, 113, 60)
+				local $button4a1 = GUICtrlCreateButton("Submit Day", 10, 680, 90, 60)
+				local $button4b2 = GUICtrlCreateButton("Cancel", 120, 680, 90, 60)
 				GUISetState()
 
 
@@ -936,12 +961,12 @@ Func TimeToTrigger($datething, $datenumber)
 		$totrig = "@MDAY == '" & $datenumber & "' And "
 	endif
 
-	Local $hChild4a = GUICreate("Date and Time Trigger", 620, 630, -1, -1, -1, -1, $hGUI)
-	GUICtrlCreateLabel("For what time of the day should this trigger be set?", 20, 20, 600, 35)
+	Local $hChild4a = GUICreate("Date and Time Trigger", 320, 630, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("For what time of the day should this trigger be set?", 20, 20, 270, 35)
 	GUICtrlSetStyle(-1, $SS_CENTER)
-	$listview1 = _GUICtrlListView_Create($hChild4a, "Hour", 2, 50, 100, 100)
-	$listview2 = _GUICtrlListView_Create($hChild4a, "Minutes", 102, 50, 100, 100)
-	$listview3 = _GUICtrlListView_Create($hChild4a, "Seconds", 204, 50, 100, 100)
+	$listview1 = _GUICtrlListView_Create($hChild4a, "Hour", 4, 50, 94, 500)
+	$listview2 = _GUICtrlListView_Create($hChild4a, "Minutes", 108, 50, 100, 500)
+	$listview3 = _GUICtrlListView_Create($hChild4a, "Seconds", 216, 50, 100, 500)
 	local $hours = ["00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15", _
 								  "16","17","18","19","20","21","22","23"]
   local $minutes = ["00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15", _
@@ -962,8 +987,8 @@ Func TimeToTrigger($datething, $datenumber)
 		_GUICtrlListView_AddItem($listview3, $seconds[$i], 1)
 	next
 
-	local $button4a1 = GUICtrlCreateButton("Submit Time", 20, 560, 113, 60)
-	local $button4b2 = GUICtrlCreateButton("Cancel", 266, 560, 113, 60)
+	local $button4a1 = GUICtrlCreateButton("Submit Time", 10, 560, 100, 60)
+	local $button4b2 = GUICtrlCreateButton("Cancel", 210, 560, 100, 60)
 	GUISetState()
 
 	local $myhour
@@ -1218,11 +1243,52 @@ EndFunc
 
 
 
+Func DeleteThisTrigger()
+	local $index = _GUICtrlListView_GetSelectedIndices($hlisttrigs)
+	if $index == "" then
+		msgbox(64, "Delete Button", "You must select a trigger to delete first.")
+		return
+	endif
+	_GUICtrlListView_DeleteItemsSelected($hlisttrigs)
+	$mytriggers[$index] = ""
+	local $blanksfound = true
+	while $blanksfound == true
+		$blanksfound = false
+		for $i = 0 to ubound($mytriggers)-2
+			if $mytriggers[$i] == "" then
+				$mytriggers[$i] = $mytriggers[$i+1]
+				$mytriggers[$i+1] = ""
+				if $mytriggers[$i] <> "" then
+					$blanksFound = true
+				endif
+			endif
+		next
+	WEnd
+EndFunc
 
 
-
-
-
+Func DeleteThisBehavior()
+	local $index = _GUICtrlListView_GetSelectedIndices($hlistbehavs)
+	if $index == "" then
+		msgbox(64, "Delete Button", "You must select a trigger to delete first.")
+		return
+	endif
+	_GUICtrlListView_DeleteItemsSelected($hlistbehavs)
+	$mybehaviors[$index] = ""
+	local $blanksfound = true
+	while $blanksfound == true
+		$blanksfound = false
+		for $i = 0 to ubound($mybehaviors)-2
+			if $mybehaviors[$i] == "" then
+				$mybehaviors[$i] = $mybehaviors[$i+1]
+				$mybehaviors[$i+1] = ""
+				if $mybehaviors[$i] <> "" then
+					$blanksFound = true
+				endif
+			endif
+		next
+	WEnd
+EndFunc
 
 
 
@@ -1254,8 +1320,10 @@ EndFunc
 
 Func ClipboardBehavior()
 	Local $sAnswer = InputBox("Clipboard Behavior", "What text should be put onto the Clipboard?", "Planet Jupiter", "")
-	local $totrig = "clip " & $sAnswer
-	AddToBehavior($totrig)
+	if $sAnswer <> "" then
+		local $totrig = "clip " & $sAnswer
+		AddToBehavior($totrig)
+	endif
 EndFunc
 
 
@@ -1272,8 +1340,15 @@ EndFunc
 
 Func WaitBehavior()
 	Local $sAnswer = InputBox("Wait Behavior", "For how long should ReflexMem do nothing in miliseconds? (Max = 10000)", "1000", "")
-	local $totrig = "sleep " & $sAnswer
-	AddToBehavior($totrig)
+	if $sAnswer <> "" then
+		if StringIsDigit($sAnswer) And $sAnswer <= 10000 And $sAnswer >= 1 then
+			local $totrig = "sleep " & $sAnswer
+			AddToBehavior($totrig)
+		else
+			msgbox(64, "Wait Behavior", "The wait time must be a number from 1 to 10000 without punctuation.")
+		endif
+
+	endif
 EndFunc
 
 
@@ -1462,7 +1537,6 @@ Func SendKeysBehavior()
 				$alt = true
 			Case $button726 ;Control
 				$control = true
-				msgbox(64, "info", "")
 			Case $button727 ;Special keys
 				$hChild7a = GUICreate("Insert special keys", 400, 280, -1, -1, -1, -1, $hChild7)
 				GUICtrlCreateLabel("Which special symbol should be sent?", 20, 20, 360, 40)
@@ -1668,7 +1742,7 @@ Func KeyDownBehavior()
 		$hMsg = GUIGetMsg()
 		Switch $hMsg
 			Case $GUI_EVENT_CLOSE
-				GUIDelete($hChild7)
+				GUIDelete($hChild8)
 				ExitLoop
 			Case $button81
 				$sAnswer = InputBox("Key Down Behavior", "What single key should be pressed and held down? (Letters, numbers and these symbols allowed: @$%&*()-_=~/|\[];:?)", "a", "")
@@ -1875,7 +1949,7 @@ Func KeyUpBehavior()
 		$hMsg = GUIGetMsg()
 		Switch $hMsg
 			Case $GUI_EVENT_CLOSE
-				GUIDelete($hChild7)
+				GUIDelete($hChild9)
 				ExitLoop
 			Case $button91
 				$sAnswer = InputBox("Key Up Behavior", "What single key should be lifted up? (Letters, numbers and these symbols allowed: @$%&*()-_=~/|\[];:?)", "a", "")
@@ -2054,48 +2128,56 @@ EndFunc
 
 
 Func MouseMoveBehavior()
-	msgbox(64, "Mouse Move Behavior", "Click ok, then click on the screen at the location you'd like the mouse to move")
+	$msgbox = msgbox(1, "Mouse Move Behavior", "Click ok, then click on the screen at the location you'd like the mouse to move")
+	if $msgbox == 1 then
 
-	Local $aPos
-	While 1
-	  $aPos = MouseGetPos()
-		ToolTip("X: " & $aPos[0] & "  Y: " & $aPos[1])
-	  If _IsPressed("01") Then
-			$aPos = MouseGetPos()
-	    ExitLoop
-	  endIf
-	WEnd
+		Local $aPos
+		While 1
+		  $aPos = MouseGetPos()
+			ToolTip("X: " & $aPos[0] & "  Y: " & $aPos[1])
+		  If _IsPressed("01") Then
+				$aPos = MouseGetPos()
+		    ExitLoop
+		  endIf
+		WEnd
 
-	Local $xcord = InputBox("Mouse Move Behavior", "What X coordinate would you like the mouse to move to?", $aPos[0], "")
-	Local $ycord = InputBox("Mouse Move Behavior", "What X coordinate would you like the mouse to move to?", $aPos[1], "")
-	local $totrig = "mouse " & $xcord & " " & $ycord
-	AddToBehavior($totrig)
+		Local $xcord = InputBox("Mouse Move Behavior", "What X coordinate would you like the mouse to move to?", $aPos[0], "")
+		Local $ycord = InputBox("Mouse Move Behavior", "What X coordinate would you like the mouse to move to?", $aPos[1], "")
+		local $totrig = "mouse " & $xcord & " " & $ycord
+		AddToBehavior($totrig)
+	endif
 EndFunc
 
 
 
 Func MessageBoxBehavior()
 	Local $title = InputBox("Display Message Behavior", "What would you like the title of the message to be?", "Alert" , "")
-	Local $message = InputBox("Display Message Behavior", "What would you like the message to be?", "Hello World!", "")
-	local $totrig = "message " & $title & " " & $message
-	AddToBehavior($totrig)
+	if $title <> "" then
+		Local $message = InputBox("Display Message Behavior", "What would you like the message to be?", "Hello World!", "")
+		if $message <> "" then
+			local $totrig = "message " & $title & " " & $message
+			AddToBehavior($totrig)
+		else
+			msgbox(64, "Display Message Behavior", "You must include both a title and a message to successfully create this Behavior")
+		endif
+	endif
 EndFunc
 
 Func PauseReflexMemBehavior()
-	Msgbox(64, "Pause ReflexMem Behavior", "Pause ReflexMem Behavior added successfully.")
-	local $totrig = "message " & $title & " " & $message
+	;Msgbox(64, "Pause ReflexMem Behavior", "Pause ReflexMem Behavior added successfully.")
+	local $totrig = "pause"
 	AddToBehavior($totrig)
 EndFunc
 
 Func UnPauseReflexMemBehavior()
-	Msgbox(64, "Pause ReflexMem Behavior", "UnPause ReflexMem Behavior added successfully.")
-	local $totrig = "message " & $title & " " & $message
+	;Msgbox(64, "Pause ReflexMem Behavior", "UnPause ReflexMem Behavior added successfully.")
+	local $totrig = "unpause"
 	AddToBehavior($totrig)
 EndFunc
 
 Func ExitReflexMemBehavior()
-	Msgbox(64, "Pause ReflexMem Behavior", "Exit ReflexMem Behavior added successfully.")
-	local $totrig = "message " & $title & " " & $message
+	;Msgbox(64, "Pause ReflexMem Behavior", "Exit ReflexMem Behavior added successfully.")
+	local $totrig = "Exit"
 	AddToBehavior($totrig)
 EndFunc
 
@@ -2193,6 +2275,9 @@ EndFunc
 
 Func RunProgramBehavior()
 	local $sFile = FileOpenDialog("Choose Program...", @TempDir, "All (*.*)")
+	if $sFile == "" then
+		return
+	endif
 	local $split = StringInStr($sFile, "\", 0, -1)
 	local $program = stringright($sFile, StringLen($sFile)-$split)
 	local $location = StringLeft($sFile, $split)
@@ -2253,8 +2338,8 @@ Func AddToBehavior($data)
 	_GUICtrlListView_AddItem($hlistbehavs, $data, 1)
 	local $i = 0
 	for $i = 0 to 99
-		if $mybehavors[$i] == "" then
-			$mybehavors[$i] =	$data
+		if $mybehaviors[$i] == "" then
+			$mybehaviors[$i] =	$data
 			$i = 100
 		endIf
 	next
@@ -2308,8 +2393,8 @@ Func SaveBehavior()
 	local $i = 0
 
 	for $i = 0 to 99
-		if $mybehavors[$i] <> "" then
-			AddToBehavior2($mybehavors[$i])
+		if $mybehaviors[$i] <> "" And $mybehaviors[$i] <> "-" then
+			AddToBehavior2($mybehaviors[$i])
 		endIf
 	next
 
@@ -2353,6 +2438,8 @@ While 1
 			ImageOnScreenTrigger()
 		Case $hButton6
 			TextOnScreenTrigger()
+		Case $hButtonDelete1
+			DeleteThisTrigger()
 		Case $hButton16
 			SaveTrigger()
 			HideTriggers()
@@ -2402,6 +2489,8 @@ While 1
 			UnPauseReflexMemBehavior()
 		Case $hButton21
 			ExitReflexMemBehavior()
+		Case $hButtonDelete2
+			DeleteThisBehavior()
 		Case $hButton17
 			SaveBehavior()
 			ExitLoop

@@ -125,7 +125,7 @@ EndFunc
 
 Func PopulateGui()
 
-  Local $hGUI = GUICreate("Reflex Memory Run", 600, 300)
+  Global $hGUI = GUICreate("Reflex Memory Run", 600, 300)
   Local $idCheckbox[100]
   Local $idDelete[100]
   ;_arrayDisplay($triggers)
@@ -142,74 +142,69 @@ Func PopulateGui()
 
   local $trigs[Ubound($triggers)]
   local $msg
-  local $pause = false
-  local $paused = false
+  Global $paused = False
   Local $X1
   local $Y1
-  ; Loop until the user exits.
-  While 1
-    ;check for changes from user.
-    $msg = GUIGetMsg()
-    Switch $msg
-      Case $GUI_EVENT_CLOSE, $idClose
-        Guidelete($hGUI)
-        Exit
-        ExitLoop
-      Case $idStart
-        ExitLoop
-      Case Else
-        For $i = 0 To ubound($idCheckbox) - 1
-          If $msg == $idCheckbox[$i] Then
-            If _IsChecked($idCheckbox[$i]) Then
-              $trigs[$i] = 1
-              ;MsgBox($MB_SYSTEMMODAL, $msg, "aThe checkbox is checked.", 0, $hGUI)
-            Else
+
+  local $loop1 = 1
+  local $loop2 = 1
+  local $loop3 = 1
+
+
+  while $loop1 == 1
+    While $loop2 == 1
+      $msg = GUIGetMsg()
+      Switch $msg
+        Case $GUI_EVENT_CLOSE, $idClose
+          $loop2 = 0
+          $loop1 = 0
+          Guidelete($hGUI)
+          Exit
+        Case $idStart
+          SetUnPause($loop1, $loop2, $loop3, $idStart)
+        Case Else
+          For $i = 0 To ubound($idCheckbox) - 1
+            If $msg == $idCheckbox[$i] Then
+              If _IsChecked($idCheckbox[$i]) Then
+                $trigs[$i] = 1
+              Else
+                $trigs[$i] = ""
+              EndIf
+            elseif $msg == $idDelete[$i] then
+              FileDelete(_PathFull(@ScriptDir & "\scripts\if\") & $i & ".txt")
+              FileDelete(_PathFull(@ScriptDir & "\scripts\then\") & $i & ".txt")
+              GUICtrlDelete ( $idCheckbox[$i] )
+              GUICtrlDelete ( $idDelete[$i] )
               $trigs[$i] = ""
-              ;MsgBox($MB_SYSTEMMODAL, $msg, "aThe checkbox is not checked.", 0, $hGUI)
-            EndIf
-          elseif $msg == $idDelete[$i] then
-            FileDelete(_PathFull(@ScriptDir & "\scripts\if\") & $i & ".txt")
-            FileDelete(_PathFull(@ScriptDir & "\scripts\then\") & $i & ".txt")
-            GUICtrlDelete ( $idCheckbox[$i] )
-            $trigs[$i] = ""
-          Endif
-        Next
-    EndSwitch
-  wend
+            Endif
+          Next
+      EndSwitch
+    wend
 
-  ;;_arrayDisplay($trigs, "trigs")
-  ; Loop until the user exits.
-  While 1
 
-    ;check for changes from user.
-    $msg = GUIGetMsg()
-    Switch $msg
-      Case $GUI_EVENT_CLOSE, $idClose
-        ExitLoop
-      Case $idStart
-        if $pause == true then
-          $pause = true
-        else
-          $pause = false
-        endif
-      Case Else
-        For $i = 0 To ubound($idCheckbox) - 1
-          If $msg == $idCheckbox[$i] Then
-            If _IsChecked($idCheckbox[$i]) Then
-              $trigs[$i] = 1
-              ;MsgBox($MB_SYSTEMMODAL, $msg, "The checkbox is checked.", 0, $hGUI)
-            Else
-              $trigs[$i] = ""
-              ;MsgBox($MB_SYSTEMMODAL, $msg, "The checkbox is not checked.", 0, $hGUI)
-            EndIf
-          Endif
-        Next ;
+    ; Loop until the user exits.
+    While $loop3 == 1
+      ;check for changes from user.
+      $msg = GUIGetMsg()
+      Switch $msg
+        Case $GUI_EVENT_CLOSE, $idClose
+          $loop3 = 0
+          $loop1 = 0
+          Guidelete($hGUI)
+          Exit
+        Case $idStart
+          SetPause($loop1, $loop2, $loop3, $idStart)
+        Case Else
+          For $i = 0 To ubound($idCheckbox) - 1
+            If $msg == $idCheckbox[$i] Then
+              If _IsChecked($idCheckbox[$i]) Then
+                $trigs[$i] = 1
+              Else
+                $trigs[$i] = ""
+              EndIf
+            Endif
+          Next
 
-        ;;_arrayDisplay($trigs, "trigs")
-        ;;_arrayDisplay($triggers, "triggers")
-        ;check for triggers
-        ;sleep(3000)
-        if $pause == false then
           for $c = 0 to ubound($triggers)-1
             if $trigs[$c] == 1 then
               $tcounts[$c] = $tcounts[$c] + 1
@@ -219,7 +214,6 @@ Func PopulateGui()
                   if $behaviors[$i][$c] == ""  then
                     $i = 101
                   else
-                    ;msgbox(64,"executing",$behaviors[$i][$c])     ;sleep(2000)
                     if $paused == true then
                       if $behaviors[$i][$c] == "$paused = false" then
                         Execute($behaviors[$i][$c])
@@ -233,16 +227,61 @@ Func PopulateGui()
               endif
             endif
           next
-        endif
 
-    EndSwitch
+      EndSwitch
 
+    WEnd
   WEnd
 
   ; Delete the previous GUI and all controls.
   GUIDelete($hGUI)
+  Exit
 EndFunc   ;==>Example
+
+Func PauseIt()
+  $paused = true
+EndFunc
+
+Func UnpauseIt()
+  $paused = false
+EndFunc
+
+
+Func SetUnPause(ByRef $loop1, ByRef $loop2, ByRef $loop3, ByRef $idStart)
+  $loop1 = 1
+  $loop2 = 0
+  $loop3 = 1
+  GUICtrlSetData ( $idStart, "Pause" )
+EndFunc
+Func SetPause(ByRef $loop1, ByRef $loop2, ByRef $loop3, ByRef $idStart)
+  $loop1 = 1
+  $loop2 = 1
+  $loop3 = 0
+  GUICtrlSetData ( $idStart, "Start" )
+EndFunc
 
 Func _IsChecked($idControlID)
   Return BitAND(GUICtrlRead($idControlID), $GUI_CHECKED) = $GUI_CHECKED
 EndFunc   ;==>_IsChecked
+
+
+Func _ImageSearchArea($findImage,$resultPosition,$x1,$y1,$right,$bottom,ByRef $x, ByRef $y, $tolerance)
+	;MsgBox(0,"asd","" & $x1 & " " & $y1 & " " & $right & " " & $bottom)
+	if $tolerance>0 then $findImage = "*" & $tolerance & " " & $findImage
+	$result = DllCall("ImageSearchDLL.dll","str","ImageSearch","int",$x1,"int",$y1,"int",$right,"int",$bottom,"str",$findImage)
+
+	; If error exit
+    if $result[0]="0" then return 0
+
+	; Otherwise get the x,y location of the match and the size of the image to
+	; compute the centre of search
+	$array = StringSplit($result[0],"|")
+
+   $x=Int(Number($array[2]))
+   $y=Int(Number($array[3]))
+   if $resultPosition=1 then
+      $x=$x + Int(Number($array[4])/2)
+      $y=$y + Int(Number($array[5])/2)
+   endif
+   return 1
+EndFunc

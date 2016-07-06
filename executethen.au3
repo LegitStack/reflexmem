@@ -32,7 +32,11 @@ Func InterpretFileThen($file)
     else
       $line = StringReplace ($file[$i], " ", @CRLF, 1)
       $statement = StringSplit($line, @CRLF)
-      $ret[ubound($ret) - 1] = ActionMapThen($statement[1], $statement[3])
+      if $statement[0] < 3 then
+        $ret[ubound($ret) - 1] = ActionMapThen($statement[1], "")
+      else
+        $ret[ubound($ret) - 1] = ActionMapThen($statement[1], $statement[3])
+      endif
       ReDim $ret[ubound($ret) + 1]
     endif
     $i = $i + 1
@@ -57,14 +61,15 @@ Func ActionMapThen($command, $arguments)
     case "clip" ; text
       return "ClipPut('" & $arguments & "')"
     case "unpause" ; text
-      return "$paused = false"
+      return "UnpauseIt()"
     case "pause" ; text
-      return "$paused = true"
+      return "PauseIt()"
     case "exit" ; text
       return "Exit"
     case "message" ; text
       $args = StringSplit($arguments, " ", 2)
-      return "MsgBox(64, '" & $args[0] & "','" & $args[1] & "')"
+      $restofargs = StringReplace ($arguments, $args[0] & " ", "", 1 , 1)
+      return "MsgBox(64, '" & $args[0] & "','" & $restofargs & "')"
     Case "run" ; programname.exe, .\ c:\somewhere\  , max min hide
       $args = StringSplit($arguments, " ", 2)
       if Ubound($args) == 3 then
