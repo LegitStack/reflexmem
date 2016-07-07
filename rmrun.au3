@@ -1,11 +1,10 @@
-#RequireAdmin
 #include <GUIConstantsEx.au3>
 #include <MsgBoxConstants.au3>
-#include <.\executeif.au3>
-#include <.\executethen.au3>
+#include <lib\executeif.au3>
+#include <lib\executethen.au3>
 #include <Misc.au3>
-#include <.\mkfolders.au3>
-
+#include <lib\filelocations.au3>
+#include <GuiListView.au3>
 VarifyFolders()
 
 GetTriggers()
@@ -19,7 +18,7 @@ Func GetTriggers()
   global $tcounts[1]
 
   local $i = 0
-  While FileExists(_PathFull(@ScriptDir & "\scripts\if") & "\" & $i & ".txt")
+  While FileExists(GetScriptsPath("if") & $i & ".txt")
     ReDim $triggers[$i + 1]
     ReDim $behaviors[100][$i + 1]
     ReDim $tcounts[$i + 1]
@@ -125,19 +124,44 @@ EndFunc
 
 Func PopulateGui()
 
-  Global $hGUI = GUICreate("Reflex Memory Run", 600, 300)
-  Local $idCheckbox[100]
-  Local $idDelete[100]
+  Global $hGUI = GUICreate("Reflex Memory Run", 610, 660)
+  Local $idCheckbox[Ubound($triggers)]
+  Local $idDelete[Ubound($triggers)]
+  Local $idBlist[Ubound($triggers)]
+  Local $locCx[Ubound($triggers)]
+  Local $locDx[Ubound($triggers)]
+  Local $locBx[Ubound($triggers)]
+
   ;_arrayDisplay($triggers)
+  local $j = 0
+  local $k = 0
+
   for $i = 0 to Ubound($triggers)-1
     if $triggers[$i] <> "" then
-      $idCheckbox[$i] = GUICtrlCreateCheckbox("IF     " & $triggers[$i] & "     THEN     " & $behaviors[0][$i] & "     ...", 10, ($i+1)*25, 500, 25)
-      $idDelete[$i] = GUICtrlCreateButton("Delete", 520, ($i+1)*25, 60, 25)
+      $idCheckbox[$i] = GUICtrlCreateCheckbox($triggers[$i], ($j*300)+10, ($k*150)+10, 290, 25)
+      $idBlist[$i] = GUICTRLCreateListView("Behaviors                             ", ($j*300)+10, ($k*150)+40, 180, 100)
+      for $b = 0 to Ubound($behaviors, 1)-1
+        if $behaviors[$b][$i] <> "" then
+          _GUICtrlListView_AddItem($idBlist[$i], $behaviors[$b][$i], 1)
+        endif
+      next
+      $idDelete[$i] = GUICtrlCreateButton("Delete", ($j*300)+200, ($k*150)+40, 100, 27)
+    endif
+    $locCx[$i] = ($j*300)+10
+    $locDx[$i] = ($j*300)+200
+    $locBx[$i] = ($j*300)+10
+
+    $k = $k + 1
+    if $k == 4 then
+      $k = 0
+      $j = $j+1
     endif
   next
   ;GUICtrlSetResizing(-1, $GUI_DOCKLEFT + $GUI_DOCKTOP)
-  Local $idStart = GUICtrlCreateButton("Start", 420, 270, 85, 25)
-  Local $idClose = GUICtrlCreateButton("Close", 510, 270, 85, 25)
+  Local $idClose = GUICtrlCreateButton("Close", 10, 610, 100, 40)
+  Local $idSlider1 = GUICtrlCreateSlider(120, 620, 370, 30)
+  GUICtrlSetLimit(-1, 100, 0) ; change min/max value GUICtrlSetPos ( controlID, left [, top [, width [, height]]] )
+  Local $idStart = GUICtrlCreateButton("Start", 500, 610, 100, 40)
   GUISetState(@SW_SHOW, $hGUI)
 
   local $trigs[Ubound($triggers)]
@@ -150,6 +174,7 @@ Func PopulateGui()
   local $loop2 = 1
   local $loop3 = 1
 
+  local $blanksfound = true
 
   while $loop1 == 1
     While $loop2 == 1
@@ -163,6 +188,12 @@ Func PopulateGui()
         Case $idStart
           SetUnPause($loop1, $loop2, $loop3, $idStart)
         Case Else
+          ;if _IsPressed('2E') then
+          ;  ;msgbox(64, "msg", $msg)
+          ;  if $msg <> 0 then
+          ;    ToolTip($msg)
+          ;  endif
+          ;endif
           For $i = 0 To ubound($idCheckbox) - 1
             If $msg == $idCheckbox[$i] Then
               If _IsChecked($idCheckbox[$i]) Then
@@ -171,13 +202,49 @@ Func PopulateGui()
                 $trigs[$i] = ""
               EndIf
             elseif $msg == $idDelete[$i] then
-              FileDelete(_PathFull(@ScriptDir & "\scripts\if\") & $i & ".txt")
-              FileDelete(_PathFull(@ScriptDir & "\scripts\then\") & $i & ".txt")
+              FileDelete(GetScriptsPath("if") & $i & ".txt")
+              FileDelete(GetScriptsPath("then") & $i & ".txt")
               GUICtrlDelete ( $idCheckbox[$i] )
               GUICtrlDelete ( $idDelete[$i] )
+              GUICtrlDelete ( $idBlist[$i] )
               $trigs[$i] = ""
+
+          		for $j = 0 to ubound($idCheckbox)-2
+          			if $j >= $i then
+          				$trigs[$j]          = $trigs[$j+1]
+                  $idCheckbox[$j]     = $idCheckbox[$j+1]
+                  $idDelete[$j]       = $idDelete[$j+1]
+                  $idBlist[$j]        = $idBlist[$j+1]
+                  $triggers[$j]       = $triggers[$j+1]
+                  $tcounts[$j]        = $tcounts[$j+1]
+                  for $k = 0 to Ubound($behaviors, 1)-1
+                    $behaviors[$k][$j]  = $behaviors[$k][$j+1]
+                  next
+                  _arrayDisplay($trigs)
+                  _arrayDisplay($triggers)
+                  _arrayDisplay($behaviors)
+                  if FileExists(GetScriptsPath("if") & $j+1 & ".txt") then
+                    msgbox(64, $j, $j+1)
+                    FileMove(GetScriptsPath("if") & $j+1 & ".txt", GetScriptsPath("if") & $j & ".txt", $FC_OVERWRITE)
+                  endif
+                  if FileExists(GetScriptsPath("then") & $j+1 & ".txt") then
+                    FileMove(GetScriptsPath("then") & $j+1 & ".txt", GetScriptsPath("then") & $j & ".txt", $FC_OVERWRITE)
+                  endif
+          				if $trigs[$j] <> "" then
+          					$blanksFound = true
+          				endif
+          			endif
+          		next
+
+            else
+              ;for $i = 0 to ubound($triggers)-1
+                GUICtrlSetPos($idCheckbox[$i],$locCx[$i]-(GUICtrlRead($idSlider1)*50))
+                GUICtrlSetPos($idBlist[$i],   $locBx[$i]-(GUICtrlRead($idSlider1)*50))
+                GUICtrlSetPos($idDelete[$i],  $locDx[$i]-(GUICtrlRead($idSlider1)*50))
+              ;next
             Endif
           Next
+
       EndSwitch
     wend
 

@@ -9,9 +9,8 @@
   a folder called image must be in the same folder as ocr.au3
   a folder called output must be in the same folder as ocr.au3
 #ce ----------------------------------------------------------------------------
-#RequireAdmin
+;#RequireAdmin
 #include <GUIConstantsEx.au3>
-#include <.\mkfolders.au3>
 
 ReflexGui()
 Func ReflexGui()

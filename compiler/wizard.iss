@@ -35,19 +35,28 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked; OnlyBelowVersion: 0,6.1
 
+;[Dirs]
+;Name: "{app}\scripts"
+;Name: "{app}\scripts\if"
+;Name: "{app}\scripts\then\"
+;Name: "{app}\scripts\images\"
+;Name: "{app}\image\"
+
 [Dirs]
-Name: "{app}\scripts"
-Name: "{app}\scripts\if"
-Name: "{app}\scripts\then\"
-Name: "{app}\images\"
+Name: "{userappdata}\ReflexMem\scripts\"
+Name: "{userappdata}\ReflexMem\scripts\if\"
+Name: "{userappdata}\ReflexMem\scripts\then\"
+Name: "{userappdata}\ReflexMem\scripts\images\"
+Name: "{userappdata}\ReflexMem\image\"
+Name: "{app}\lib\"
 
 [Files]
 Source: "C:\sites\reflexmem\reflexmem.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\rmcreate.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\rmrun.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\sites\reflexmem\executeif.au3"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\sites\reflexmem\executethen.au3"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\sites\reflexmem\mkfolders.au3"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\sites\reflexmem\lib\executeif.au3"; DestDir: "{app}\lib\"; Flags: ignoreversion
+Source: "C:\sites\reflexmem\lib\executethen.au3"; DestDir: "{app}\lib\"; Flags: ignoreversion
+Source: "C:\sites\reflexmem\lib\filelocations.au3"; DestDir: "{app}\lib\"; Flags: ignoreversion
 
 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files

@@ -1,4 +1,4 @@
-#RequireAdmin
+
 #include <WindowsConstants.au3>
 #include <GUIConstantsEx.au3>
 #include <StaticConstants.au3>
@@ -7,7 +7,7 @@
 #include <GuiListView.au3>
 #include <GuiComboBox.au3>
 #Include <ScreenCapture.au3>
-#include <.\mkfolders.au3>
+#include <lib\filelocations.au3>
 
 EraseExtraThen()
 EraseExtraIf()
@@ -1057,10 +1057,10 @@ Func ImageOnScreenTrigger()
 	      Mark_Rect($iX1, $iY1, $iX2, $iY2, $aPos, $sMsg, $sBMP_Path)
 	      ; Capture selected area
 				$i = 0
-				While FileExists(_PathFull(@ScriptDir & "\images") & "\" & $i & ".bmp")
+				While FileExists(GetScriptsPath("images") & $i & ".bmp")
 					$i = $i + 1
 				WEnd
-	      $sBMP_Path = @ScriptDir & "\images\" & $i & ".bmp"
+	      $sBMP_Path = GetScriptsPath("images") & $i & ".bmp"
 	    	_ScreenCapture_Capture($sBMP_Path, $iX1, $iY1, $iX2, $iY2, False)
 	      GUISetState(@SW_SHOW, $hMain_GUI)
 	      ; Display image
@@ -1071,7 +1071,7 @@ Func ImageOnScreenTrigger()
 				GetAreaImageScreenTrigger($sBMP_Path)
         ExitLoop
 			Case $sFile_Button
-				local $sFile = FileOpenDialog("Choose Image...", @ScriptDir & "\images.bmp", "All (*.*)")
+				local $sFile = FileOpenDialog("Choose Image...", @DesktopCommonDir, "All (*.*)")
 				GUIDelete($hMain_GUI)
 				GetAreaImageScreenTrigger($sFile)
         ExitLoop
@@ -2370,13 +2370,13 @@ Func SaveTrigger()
 	next
 	;get trigger file number, save as global
 	$i = 0
-	While FileExists(_PathFull(@ScriptDir & "\scripts\if") & "\" & $i & ".txt")
+	While FileExists(GetScriptsPath("if") & $i & ".txt")
 		$i = $i + 1
 	WEnd
 	$triggerNumber = $i
 
 	;save trigger text in if/filenumber.txt
-  local $file = _PathFull(@ScriptDir & "\scripts\if") & "\" & $triggerNumber & ".txt"
+  local $file = GetScriptsPath("if") & $triggerNumber & ".txt"
 
   If Not FileWrite($file, $triggerText) Then
     MsgBox($MB_SYSTEMMODAL, $triggerNumber, "couldn't write trigger")
@@ -2399,7 +2399,7 @@ Func SaveBehavior()
 	next
 
 
-	local $file = _PathFull(@ScriptDir & "\scripts\then") & "\" & $triggerNumber & ".txt"
+	local $file = GetScriptsPath("then") & $triggerNumber & ".txt"
 
 	If Not FileWrite($file, $behaviorText) Then
 		MsgBox($MB_SYSTEMMODAL, $triggerNumber, "couldn't write behavior")
@@ -2517,10 +2517,10 @@ EndFunc
 
 Func EraseExtraIf()
 	$i = 0
-	While FileExists(_PathFull(@ScriptDir & "\scripts\if\") & $i & ".txt")
-		if FileExists(_PathFull(@ScriptDir & "\scripts\then\") & $i & ".txt") then
+	While FileExists(GetScriptsPath("if") & $i & ".txt")
+		if FileExists(GetScriptsPath("then") & $i & ".txt") then
 		else
-			FileDelete(_PathFull(@ScriptDir & "\scripts\if\") & $i & ".txt")
+			FileDelete(GetScriptsPath("if") & $i & ".txt")
 		endIf
 		$i = $i + 1
 	WEnd
@@ -2528,10 +2528,10 @@ EndFunc
 
 Func EraseExtraThen()
 	$i = 0
-	While FileExists(_PathFull(@ScriptDir & "\scripts\then") & "\" & $i & ".txt")
-		if FileExists(_PathFull(@ScriptDir & "\scripts\if") & "\" & $i & ".txt") then
+	While FileExists(GetScriptsPath("then") & $i & ".txt")
+		if FileExists(GetScriptsPath("if") & $i & ".txt") then
 		else
-			FileDelete(_PathFull(@ScriptDir & "\scripts\then") & "\" & $i & ".txt")
+			FileDelete(GetScriptsPath("then") & $i & ".txt")
 		endIf
 		$i = $i + 1
 	WEnd
