@@ -187,6 +187,11 @@ Func PopulateGui()
           Exit
         Case $idStart
           SetUnPause($loop1, $loop2, $loop3, $idStart)
+          for $i = 0 to ubound($triggers)-1
+            GUICtrlSetState($idCheckbox[$i],$GUI_DISABLE)
+            GUICtrlSetState($idDelete[$i],$GUI_DISABLE)
+            GUICtrlSetState($idBlist[$i],$GUI_DISABLE)
+          next
         Case Else
           ;if _IsPressed('2E') then
           ;  ;msgbox(64, "msg", $msg)
@@ -220,11 +225,7 @@ Func PopulateGui()
                   for $k = 0 to Ubound($behaviors, 1)-1
                     $behaviors[$k][$j]  = $behaviors[$k][$j+1]
                   next
-                  _arrayDisplay($trigs)
-                  _arrayDisplay($triggers)
-                  _arrayDisplay($behaviors)
                   if FileExists(GetScriptsPath("if") & $j+1 & ".txt") then
-                    msgbox(64, $j, $j+1)
                     FileMove(GetScriptsPath("if") & $j+1 & ".txt", GetScriptsPath("if") & $j & ".txt", $FC_OVERWRITE)
                   endif
                   if FileExists(GetScriptsPath("then") & $j+1 & ".txt") then
@@ -261,6 +262,11 @@ Func PopulateGui()
           Exit
         Case $idStart
           SetPause($loop1, $loop2, $loop3, $idStart)
+          for $i = 0 to ubound($idCheckbox)-1
+            GUICtrlSetState($idCheckbox[$i],$GUI_ENABLE)
+            GUICtrlSetState($idDelete[$i],$GUI_ENABLE)
+            GUICtrlSetState($idBlist[$i],$GUI_ENABLE)
+          next
         Case Else
           For $i = 0 To ubound($idCheckbox) - 1
             If $msg == $idCheckbox[$i] Then
@@ -335,9 +341,19 @@ EndFunc   ;==>_IsChecked
 Func _ImageSearchArea($findImage,$resultPosition,$x1,$y1,$right,$bottom,ByRef $x, ByRef $y, $tolerance)
 	;MsgBox(0,"asd","" & $x1 & " " & $y1 & " " & $right & " " & $bottom)
 	if $tolerance>0 then $findImage = "*" & $tolerance & " " & $findImage
-	$result = DllCall("ImageSearchDLL.dll","str","ImageSearch","int",$x1,"int",$y1,"int",$right,"int",$bottom,"str",$findImage)
 
-	; If error exit
+  ;method 1
+  ;This works, when running from script, but not from exe.
+	;$result = DllCall(".\lib\dll\ImageSearchDLL.dll", "str", "ImageSearch", "int", $x1, "int", $y1, "int", $right, "int", $bottom, "str", $findImage)
+
+  ;method 2
+  ;This works, when running from script, but not from exe.
+  ;here I call it by a handle instead of by filepath or name
+  $hDLL = DllOpen(_PathFull(@scriptdir & "\lib\dll\ImageSearchDLL.dll"))
+    $result = DllCall($hDLL, "str", "ImageSearch", "int", $x1, "int", $y1, "int", $right, "int", $bottom, "str", $findImage)
+  DllClose($hDLL)
+
+  ; If error exit
     if $result[0]="0" then return 0
 
 	; Otherwise get the x,y location of the match and the size of the image to
