@@ -225,12 +225,12 @@ Func SetLabel1()
 				GUICtrlSetData($hLabel1, $data)
 			EndIf
 		elseif $a[4] == $hButton3 Then
-			$data = "When a certain window is up (when a program is running)." & @CRLF & @CRLF & "Which Window?"
+			$data = "When a program is running)." & @CRLF & @CRLF & "Which Program?"
 			if GUICtrlRead($hLabel1) <> $data Then
 				GUICtrlSetData($hLabel1, $data)
 			EndIf
 		elseif $a[4] == $hButton4 Then
-			$data = "At a certain date and time. Only specify this once per set of triggers." & @CRLF & @CRLF & "What Time?" & @CRLF & "Everyday? On one day of the week? Or on a specific date?"
+			$data = "At a certain date and time. Only specify this once per set of triggers because all triggers must be satisfied to execute behaviors and no two different times are satisfied at the same time." & @CRLF & @CRLF & "What Time?" & @CRLF & "Everyday? On one day of the week? Or on a specific date?"
 			if GUICtrlRead($hLabel1) <> $data Then
 				GUICtrlSetData($hLabel1, $data)
 			EndIf
@@ -858,15 +858,15 @@ Func ProgramRunsTrigger()
 				ExitLoop
 			Case $button3a
         $totrig = _GUICtrlListView_GetSelectedIndices($listview)
+				$name = $processes[$totrig][0] & " is running"
 				$totrig = "ProcessExists('" & $processes[$totrig][0] & "')"
-				$name = $processes[$totrig][0] & " program is running"
 				AddToTrigger($totrig, $name)
 				GUIDelete($hChild3)
 				ExitLoop
 			Case $button3c
 				$totrig = InputBox("Program is Running Trigger", "What is the name of the program?", "chrome.exe", "")
+				$name = $totrig & " is running"
 				$totrig = "ProcessExists('" & $totrig & "')"
-				$name = $totrig & " program is running"
 				AddToTrigger($totrig, $name)
 				GUIDelete($hChild3)
 				ExitLoop
@@ -1104,6 +1104,10 @@ Func ImageOnScreenTrigger()
         ExitLoop
 			Case $sFile_Button
 				local $sFile = FileOpenDialog("Choose Image...", @DesktopCommonDir, "All (*.*)")
+				if $sFile == "" then
+					GUIDelete($hMain_GUI)
+					ExitLoop
+				endif
 				GUIDelete($hMain_GUI)
 				GetAreaImageScreenTrigger($sFile)
         ExitLoop
@@ -1127,6 +1131,9 @@ Func GetAreaImageScreenTrigger($imagefile)
 	; $x = $x + 1
 	;EndIf
 	Local $acc = InputBox("Image On Screen Trigger", "how tolerant do you want this trigger to be? (0 = exact image, 255 = fully tolerant)", "25", "")
+	if @error == 1 then
+		return
+	endif
 	Local $iX1, $iY1, $iX2, $iY2, $aPos, $sMsg, $sBMP_Path
 
 	; Create GUI

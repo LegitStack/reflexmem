@@ -10,8 +10,8 @@ Func GetScriptsPath($exact = "")
     Return _PathFull(@AppDataDir & "\ReflexMem\scripts\then\")
   elseif $exact == "images" then
     Return _PathFull(@AppDataDir & "\ReflexMem\scripts\images\")
-  elseif $exact == "if" then
-    Return _PathFull(@AppDataDir & "\ReflexMem\scripts\if\names")
+  elseif $exact == "names" then
+    Return _PathFull(@AppDataDir & "\ReflexMem\scripts\if\names\")
   elseif $exact == "image" then
     Return _PathFull(@AppDataDir & "\ReflexMem\image\")
   else

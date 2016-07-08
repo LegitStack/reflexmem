@@ -218,6 +218,7 @@ Func PopulateGui()
 
               FileDelete(GetScriptsPath("if") & $i & ".txt")
               FileDelete(GetScriptsPath("then") & $i & ".txt")
+              FileDelete(GetScriptsPath("names") & $i & ".txt")
               GUICtrlDelete ( $idCheckbox[$i] )
               GUICtrlDelete ( $idDelete[$i] )
               GUICtrlDelete ( $idBlist[$i] )
@@ -230,10 +231,11 @@ Func PopulateGui()
                   $idDelete[$j]       = $idDelete[$j+1]
                   $idBlist[$j]        = $idBlist[$j+1]
                   $triggers[$j]       = $triggers[$j+1]
+                  $triggernames[$j]   = $triggernames[$j+1]
                   $tcounts[$j]        = $tcounts[$j+1]
-                  $locCx[$j] = $locCx[$j+1]
-                  $locDx[$j] = $locDx[$j+1]
-                  $locBx[$j] = $locBx[$j+1]
+                  $locCx[$j]          = $locCx[$j+1]
+                  $locDx[$j]          = $locDx[$j+1]
+                  $locBx[$j]          = $locBx[$j+1]
                   for $k = 0 to Ubound($behaviors, 1)-1
                     $behaviors[$k][$j]  = $behaviors[$k][$j+1]
                   next
@@ -242,6 +244,9 @@ Func PopulateGui()
                   endif
                   if FileExists(GetScriptsPath("then") & $j+1 & ".txt") then
                     FileMove(GetScriptsPath("then") & $j+1 & ".txt", GetScriptsPath("then") & $j & ".txt", $FC_OVERWRITE)
+                  endif
+                  if FileExists(GetScriptsPath("names") & $j+1 & ".txt") then
+                    FileMove(GetScriptsPath("names") & $j+1 & ".txt", GetScriptsPath("names") & $j & ".txt", $FC_OVERWRITE)
                   endif
                   if $trigs[$j] <> "" then
                     $blanksFound = true
