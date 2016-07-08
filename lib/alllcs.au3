@@ -67,6 +67,9 @@ Func _ScoreSubs($subs, $s2)
   return $score
 EndFunc
 
+Func AllLCSPercentize($s1, $s2, $score)
+  return $score / ((StringLen($s1) + StringLen($s2))/2)
+EndFunc
 ;GetAllLCS("Approximate This", "Appropriate That Thing")
 ;GetAllLCS("allows multiple customers to connect to a service provider's network, and virtual circuits (VCs, as indicated with the dashed lines) logically interconnect customer sites.56 Kbps to 1.544 MbpsA WAN protocol that operates at the physical and data lyink layers of the OSI Model.", "Dedicated Leased Line")
 ;GetAllLCS("Dedicated Leased Line", "allows multiple customers to connect to a service provider's network, and virtual circuits (VCs, as indicated with the dashed lines) logically interconnect customer sites.56 Kbps to 1.544 MbpsA WAN protocol that operates at the physical and data lyink layers of the OSI Model.")

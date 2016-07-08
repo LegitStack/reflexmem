@@ -141,7 +141,7 @@ Func SetLabel()
 				GUICtrlSetData($hlabel, $data)
 			EndIf
 		elseif $a[4] == $hButton10 Then
-			$data = "Move the mouse to a particular location on the screen." & @CRLF & @CRLF & "What X coordinate?" & @CRLF & "What Y coordinate?"
+			$data = "Move the mouse to a particular location on the screen." & @CRLF & @CRLF & "What X coordinate?" & @CRLF & @CRLF & "What Y coordinate?"
 			if GUICtrlRead($hlabel) <> $data Then
 				GUICtrlSetData($hlabel, $data)
 			EndIf
@@ -161,7 +161,7 @@ Func SetLabel()
 				GUICtrlSetData($hlabel, $data)
 			EndIf
 		elseif $a[4] == $hButton14 Then
-			$data = "Run a program." & @CRLF & @CRLF & "Which program?" & @CRLF & "How should it appear?"
+			$data = "Run a program." & @CRLF & @CRLF & "Which program?" & @CRLF & @CRLF & "How should it appear?"
 			if GUICtrlRead($hlabel) <> $data Then
 				GUICtrlSetData($hlabel, $data)
 			EndIf
@@ -205,7 +205,7 @@ Func SetLabel1()
 
 	if UBound($a) > 4 then
 		if $a[4] == $hButton Then
-			$data = "When you Press a specific key or set of keys on the keyboard." & @CRLF & @CRLF & "Which Key?" & @CRLF & "Include Shift?" & @CRLF & "Include Control?" & @CRLF & "Include Alt?"
+			$data = "When you Press a specific key or set of keys on the keyboard." & @CRLF & @CRLF & "Which Key?" & @CRLF & @CRLF & "Include Shift?" & @CRLF & @CRLF & "Include Control?" & @CRLF & @CRLF & "Include Alt?"
 			if GUICtrlRead($hLabel1) <> $data Then
 				GUICtrlSetData($hLabel1, $data)
 			EndIf
@@ -225,27 +225,27 @@ Func SetLabel1()
 				GUICtrlSetData($hLabel1, $data)
 			EndIf
 		elseif $a[4] == $hButton3 Then
-			$data = "When a program is running)." & @CRLF & @CRLF & "Which Program?"
+			$data = "When a program is running." & @CRLF & @CRLF & "Which Program?"
 			if GUICtrlRead($hLabel1) <> $data Then
 				GUICtrlSetData($hLabel1, $data)
 			EndIf
 		elseif $a[4] == $hButton4 Then
-			$data = "At a certain date and time. Only specify this once per set of triggers because all triggers must be satisfied to execute behaviors and no two different times are satisfied at the same time." & @CRLF & @CRLF & "What Time?" & @CRLF & "Everyday? On one day of the week? Or on a specific date?"
+			$data = "At a certain date and time. Only specify this once per set of triggers because all triggers must be satisfied to execute behaviors and no two different times are satisfied at the same time." & @CRLF & @CRLF & "What Time?" & @CRLF & @CRLF & "Everyday? On one day of the week? Or on a specific date?"
 			if GUICtrlRead($hLabel1) <> $data Then
 				GUICtrlSetData($hLabel1, $data)
 			EndIf
 		elseif $a[4] == $hButton5 Then
-			$data = "When an image is found on the screen. The smaller the image the easier it is to find on the screen." & @CRLF & @CRLF & "Which Image?" & @CRLF & "What portion of the screen?"
+			$data = "When an image is found on the screen. The smaller the image the easier it is to find on the screen." & @CRLF & @CRLF & "Which Image?" & @CRLF & @CRLF & "What portion of the screen?"
 			if GUICtrlRead($hLabel1) <> $data Then
 				GUICtrlSetData($hLabel1, $data)
 			EndIf
 		elseif $a[4] == $hButton6 Then
-			$data = "When certain text is found on the screen." & @CRLF & @CRLF & "What Text?" & @CRLF & "What portion of the screen?"
+			$data = "When certain text is found on the screen. This trigger isn't exact and it works much better with smaller areas of the screen and shorter texts. This trigger is very expensive in terms of time, so if the text it is to look for will always look the exact same using the Image on Screen Trigger may be a better choice." & @CRLF & @CRLF & "What Text?" & @CRLF & @CRLF & "What portion of the screen?" & @CRLF & @CRLF & "How much do you want it to match the given text?"
 			if GUICtrlRead($hLabel1) <> $data Then
 				GUICtrlSetData($hLabel1, $data)
 			EndIf
 		elseif $a[4] == $hButton0 Then
-			$data = "Two things to keep in mind: Triggers are additive and behaviors are carried out in the order that they are created." & @CRLF & @CRLF & "All triggers must be satisfied in order for the behavior to be carried out." & @CRLF & "You can make upto 100 triggers and 100 behaviors."
+			$data = "Two things to keep in mind: Triggers are additive and behaviors are carried out in the order that they are created." & @CRLF & @CRLF & "All triggers must be satisfied in order for the behavior to be carried out." & @CRLF & @CRLF & "You can make upto 100 triggers and 100 behaviors."
 			if GUICtrlRead($hLabel1) <> $data Then
 				GUICtrlSetData($hLabel1, $data)
 			EndIf
@@ -1275,7 +1275,17 @@ Func TextOnScreenTrigger()
 	; and run ocr on it, then search the text for the text you want.
 
 	msgbox(64, "Text On Screen Trigger", "This feature is only supported on paid versions of ReflexMem.")
+	;You'll have to get:
+		;the region of the screen
+		;the text to find
+		;the score from 1 to 100 of how much it must match.
+	;and save it.
 
+	;example of how to test this when running:
+	$s1 = "abcdefghijklmnop"
+$s2 = "abcdefghijklmno"
+	;msgbox(64,"",
+	;if GetAllLCS(savedtext,SaveScreen($throwaway, $left = 0, $top = 0, $right = -1, $bottom = -1, $scrub = false))*100 > $requiredscore then
 EndFunc
 
 

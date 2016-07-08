@@ -38,7 +38,7 @@ EndFunc
 ;= Image =======================================================================
 ;===============================================================================
 
-Func SaveScreen(ByRef $imagecount, $left = 0, $top = 0, $right = -1, $bottom = -1, $scrub = false)
+Func SaveScreen(ByRef $imagecount, $left = 0, $top = 0, $right = -1, $bottom = -1, $scrub = false, $shoulddelete = true)
 
   Local $i = 0
   While FileExists(GetImagePath() & $i & ".png")
@@ -65,6 +65,9 @@ Func SaveScreen(ByRef $imagecount, $left = 0, $top = 0, $right = -1, $bottom = -
 
   local $read = _GetOCR($outimage, $i, $scrub)
 	$imagecount = $i
+	if $shoulddelete then
+		DeleteCache($i)
+	endif
 	return $read
 	;if $addtoall then
 	;	_AddToAnswers($i)
@@ -141,15 +144,19 @@ EndFunc
 ;= Delete ======================================================================
 ;===============================================================================
 
-Func _DeleteImages($startingat = 0)
-	local $i = $startingat
-	if $startingat == 0 then
+Func _DeleteImages($specificfilenumber = 0, $dorest = false)
+	local $i = $specificfilenumber
+	if $specificfilenumber == 0 then
   	FileDelete(GetImagePath() & "*")
 	else
-		While FileExists(GetImagePath() & $i & ".png")
-			FileDelete(GetImagePath() & $i & ".png")
-			$i = $i + 1
-		WEnd
+		if $dorest == false then
+			While FileExists(GetImagePath() & $i & ".png")
+				FileDelete(GetImagePath() & $i & ".png")
+				$i = $i + 1
+			WEnd
+		else
+			FileDelete(GetImagePath() & $specificfilenumber & ".png")
+		endif
 	endif
 EndFunc
 

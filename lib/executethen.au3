@@ -61,9 +61,9 @@ Func ActionMapThen($command, $arguments)
     case "clip" ; text
       return "ClipPut('" & $arguments & "')"
     case "unpause" ; text
-      return "UnpauseIt()"
+      return "Assign('paused',False,2)"
     case "pause" ; text
-      return "PauseIt()"
+      return "Assign('paused',True,2)"
     case "exit" ; text
       return "Exit"
     case "message" ; text

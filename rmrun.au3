@@ -169,6 +169,8 @@ Func PopulateGui()
   Local $idClose = GUICtrlCreateButton("Close", 10, 610, 100, 40)
   Local $idSlider1 = GUICtrlCreateSlider(120, 620, 370, 30)
   GUICtrlSetLimit(-1, 100, 0) ; change min/max value GUICtrlSetPos ( controlID, left [, top [, width [, height]]] )
+  local $pLabel = GUICtrlCreateLabel("", 535, 600, 80, 20)
+  GUICtrlSetFont($pLabel, 7, $FW_NORMAL,  $GUI_FONTITALIC)
   Local $idStart = GUICtrlCreateButton("Start", 500, 610, 100, 40)
   GUISetState(@SW_SHOW, $hGUI)
 
@@ -278,6 +280,7 @@ Func PopulateGui()
           Exit
         Case $idStart
           SetPause($loop1, $loop2, $loop3, $idStart)
+          SetPLabel($pLabel, "")
           for $i = 0 to ubound($idCheckbox)-1
             GUICtrlSetState($idCheckbox[$i],$GUI_ENABLE)
             GUICtrlSetState($idDelete[$i],$GUI_ENABLE)
@@ -303,12 +306,22 @@ Func PopulateGui()
                   if $behaviors[$i][$c] == ""  then
                     $i = 101
                   else
+                    ;msgbox(64, $paused, $behaviors[$i][$c])
                     if $paused == true then
-                      if $behaviors[$i][$c] == "$paused = false" then
+                      SetPLabel($pLabel, "Paused!") ;technically redundant
+                      if $behaviors[$i][$c] == "Assign('paused',False,2)" then
+                        SetPLabel($pLabel, "")
                         Execute($behaviors[$i][$c])
                       endif
                     else
-                      Execute($behaviors[$i][$c])
+                      if $behaviors[$i][$c] == "Exit" then
+                        Exit
+                      else
+                        Execute($behaviors[$i][$c])
+                        if $paused == true then
+                          SetPLabel($pLabel, "Paused!")
+                        endif
+                      endif
                     endif
                   endif
                 next
@@ -327,12 +340,10 @@ Func PopulateGui()
   Exit
 EndFunc   ;==>Example
 
-Func PauseIt()
-  $paused = true
-EndFunc
-
-Func UnpauseIt()
-  $paused = false
+Func SetPLabel($pLabel, $data)
+  if GUICtrlRead($pLabel) <> $data Then
+    GUICtrlSetData($pLabel, $data)
+  EndIf
 EndFunc
 
 
@@ -347,6 +358,7 @@ Func SetPause(ByRef $loop1, ByRef $loop2, ByRef $loop3, ByRef $idStart)
   $loop2 = 1
   $loop3 = 0
   GUICtrlSetData ( $idStart, "Start" )
+  $paused = False
 EndFunc
 
 Func _IsChecked($idControlID)
