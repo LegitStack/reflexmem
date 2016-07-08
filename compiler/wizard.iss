@@ -38,6 +38,7 @@ Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescrip
 [Dirs]
 Name: "{userappdata}\ReflexMem\scripts\"
 Name: "{userappdata}\ReflexMem\scripts\if\"
+Name: "{userappdata}\ReflexMem\scripts\if\names\"
 Name: "{userappdata}\ReflexMem\scripts\then\"
 Name: "{userappdata}\ReflexMem\scripts\images\"
 Name: "{userappdata}\ReflexMem\image\"

@@ -10,6 +10,8 @@ Func GetScriptsPath($exact = "")
     Return _PathFull(@AppDataDir & "\ReflexMem\scripts\then\")
   elseif $exact == "images" then
     Return _PathFull(@AppDataDir & "\ReflexMem\scripts\images\")
+  elseif $exact == "if" then
+    Return _PathFull(@AppDataDir & "\ReflexMem\scripts\if\names")
   elseif $exact == "image" then
     Return _PathFull(@AppDataDir & "\ReflexMem\image\")
   else
@@ -33,6 +35,11 @@ Func VarifyFolders()
    if FileExists(GetScriptsPath("if")) Then
    Else
     DirCreate (GetScriptsPath("if"))
+   EndIf
+
+   if FileExists(GetScriptsPath("names")) Then
+   Else
+    DirCreate (GetScriptsPath("names"))
    EndIf
 
    if FileExists(GetScriptsPath("then")) Then

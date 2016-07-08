@@ -14,11 +14,15 @@ EraseExtraIf()
 
 Global $hGUI = GUICreate("ReflexMem Create", 600, 725, -1, -1)
 Global $triggerText = ""
+Global $triggerTextNames = ""
 Global $triggerNumber = 0
 Global $behaviorText = ""
 
 global $mytriggers[100]
 global $mybehaviors[100]
+
+global $mytriggersnames[100]
+global $mybehaviorsnames[100]
 
 VarifyFolders()
 
@@ -51,20 +55,22 @@ Func HideTriggers()
 	GUICtrlSetState($hlisttrigs, $GUI_HIDE)
 	GUICtrlSetState($hButtonCancel1, $GUI_HIDE)
 	GUICtrlSetState($hButtonDelete1, $GUI_HIDE)
+	GUICtrlSetState($hButton22, $GUI_HIDE)
 EndFunc
 
 
 Func CreateTriggers()
 
-	Global $hGroup = GUICtrlCreateGroup("Triggers", 				20, 	10, 	280, 540)
+	Global $hGroup   = GUICtrlCreateGroup("Triggers", 					20, 	10, 	280, 540)
 
-	Global $hButton = GUICtrlCreateButton("Key is Pressed", 		35, 	35, 	250, 35) ;done
+	Global $hButton  = GUICtrlCreateButton("Key is Pressed", 		35, 	35, 	250, 35) ;done
 	Global $hButton1 = GUICtrlCreateButton("Mouse is Clicked", 	35, 	80, 	250, 35) ;done
-	Global $hButton2 = GUICtrlCreateButton("Clipboard Contains",35, 	125, 	250, 35) ;done
-	Global $hButton3 = GUICtrlCreateButton("Program is Running",35, 	170, 	250, 35) ;done
-	Global $hButton4 = GUICtrlCreateButton("Date and Time is", 	35, 	215, 	250, 35) ;done
-	Global $hButton5 = GUICtrlCreateButton("Image on Screen", 	35, 	260, 	250, 35) ;done
-	Global $hButton6 = GUICtrlCreateButton("Text on Screen", 		35, 	305, 	250, 35)
+	Global $hButton22= GUICtrlCreateButton("Mouse in Region",   35, 	125, 	250, 35) ;done
+	Global $hButton2 = GUICtrlCreateButton("Clipboard Contains",35, 	170, 	250, 35) ;done
+	Global $hButton3 = GUICtrlCreateButton("Program is Running",35, 	215, 	250, 35) ;done
+	Global $hButton4 = GUICtrlCreateButton("Date and Time is", 	35, 	260, 	250, 35) ;done
+	Global $hButton5 = GUICtrlCreateButton("Image on Screen", 	35, 	305, 	250, 35) ;done
+	Global $hButton6 = GUICtrlCreateButton("Text on Screen", 		35, 	350, 	250, 35)
 	Global $hButton0 = GUICtrlCreateButton("Help", 							35, 	575, 	250, 35) ;done
 
 	Global $hButton16 = GUICtrlCreateButton("Done With Triggers", 20, 655, 280, 50)
@@ -85,11 +91,11 @@ EndFunc
 
 Func CreateBehaviors()
 
-	Global $hGroup1 = GUICtrlCreateGroup("Behaviors", 						310, 	10, 	280, 615)
+	Global $hGroup1   = GUICtrlCreateGroup("Behaviors", 					310, 	10, 	280, 615)
 
-	Global $hButton7 = GUICtrlCreateButton("Send Keys",						330, 	35, 	250, 35) ;done
-	Global $hButton8 = GUICtrlCreateButton("Key Down", 						330, 	80, 	250, 35) ;done
-	Global $hButton9 = GUICtrlCreateButton("Key Up", 							330, 	125, 	250, 35) ;done
+	Global $hButton7  = GUICtrlCreateButton("Send Keys",					330, 	35, 	250, 35) ;done
+	Global $hButton8  = GUICtrlCreateButton("Key Down", 					330, 	80, 	250, 35) ;done
+	Global $hButton9  = GUICtrlCreateButton("Key Up", 						330, 	125, 	250, 35) ;done
 	Global $hButton10 = GUICtrlCreateButton("Move Mouse", 				330, 	170, 	250, 35) ;done
 	Global $hButton11 = GUICtrlCreateButton("Mouse Click", 				330, 	215, 	250, 35) ;done
 	Global $hButton12 = GUICtrlCreateButton("Scroll Mouse Wheel", 330, 	260, 	250, 35) ;done
@@ -204,7 +210,12 @@ Func SetLabel1()
 				GUICtrlSetData($hLabel1, $data)
 			EndIf
 		elseif $a[4] == $hButton1 Then
-			$data = "When a button on the mouse is clicked." & @CRLF & @CRLF & "Which Button?" & @CRLF & "What protion of the screen?"
+			$data = "When a button on the mouse is clicked." & @CRLF & @CRLF & "Which Button?"
+			if GUICtrlRead($hLabel1) <> $data Then
+				GUICtrlSetData($hLabel1, $data)
+			EndIf
+		elseif $a[4] == $hButton22 Then
+			$data = "When the mouse cursor enters a region of the screen. Usually used in conjunction with the Mouse Click Trigger resulting in a trigger for when the mouse is clicked in a certain region of the screen." & @CRLF & @CRLF & "What protion of the screen?"
 			if GUICtrlRead($hLabel1) <> $data Then
 				GUICtrlSetData($hLabel1, $data)
 			EndIf
@@ -219,7 +230,7 @@ Func SetLabel1()
 				GUICtrlSetData($hLabel1, $data)
 			EndIf
 		elseif $a[4] == $hButton4 Then
-			$data = "At a certain date and time." & @CRLF & @CRLF & "What Time?" & @CRLF & "Everyday? On one day of the week? Or on a specific date?"
+			$data = "At a certain date and time. Only specify this once per set of triggers." & @CRLF & @CRLF & "What Time?" & @CRLF & "Everyday? On one day of the week? Or on a specific date?"
 			if GUICtrlRead($hLabel1) <> $data Then
 				GUICtrlSetData($hLabel1, $data)
 			EndIf
@@ -560,6 +571,7 @@ Func addKeyPressToTrigger($shift, $alt, $control, $data)
 ;HotKeySet("^a", "GetPos") ;control
 ;HotKeySet("+a", "GetPos") ;  Shift
 ;HotKeySet("!a", "GetPos") ;alt
+	local $name = $data & " key is pressed"
 	if $data 			== "{BACKSPACE}" 	then
 		$data = "08"
 	elseif $data 	== "{TAB}" 				then
@@ -745,18 +757,21 @@ Func addKeyPressToTrigger($shift, $alt, $control, $data)
 	if $shift then
 ;		$totrig = $totrig & "+"
 		$totrig = "_IsPressed('10') And "
+		$name = "{SHIFT} key is pressed And " & $name
 	endif
 	if $alt then
 ;		$totrig = $totrig & "!"
 		$totrig = "_IsPressed('12') And "
+		$name = "{ALT} key is pressed And " & $name
 	endif
 	if $control then
 ;		$totrig = $totrig & "^"
 		$totrig = "_IsPressed('11') And "
+		$name = "{CONTROL} key is pressed And " & $name
 	endif
 ;	$totrig = "HotKeySet('" & $totrig & $data & "', 'HotKeyTrigger')"
 	$totrig = $totrig & "_IsPressed('" & $data & "')"
-	AddToTrigger($totrig)
+	AddToTrigger($totrig, $name)
 EndFunc
 
 
@@ -765,7 +780,8 @@ Func ClipboardTrigger()
 	Local $sAnswer = InputBox("Clipboard Trigger", "What text?", "Planet Earth", "")
 	if $sAnswer <> "" then
 		local $totrig = "ClipGet() == '" & $sAnswer &"'"
-		AddToTrigger($totrig)
+		local $name = "clipboard contains " & $sAnswer
+		AddToTrigger($totrig, $name)
 	endif
 EndFunc
 
@@ -787,15 +803,28 @@ Func MouseClickTrigger()
 				ExitLoop
 			Case $button1a1
 				$totrig = "_IsPressed('01')"
-				AddToTrigger($totrig)
+				$name = "primary mouse button clicked"
+				AddToTrigger($totrig, $name)
 				GUIDelete($hChild1)
 				ExitLoop
 			Case $button1a2
 				$totrig = "_IsPressed('02')"
-				AddToTrigger($totrig)
+				$name = "secondary mouse button clicked"
+				AddToTrigger($totrig, $name)
 				GUIDelete($hChild1)
 				ExitLoop
 		EndSwitch
+	WEnd
+EndFunc
+
+Func MouseAtTrigger()
+	Local $iX1, $iY1, $iX2, $iY2, $aPos, $sMsg, $sBMP_Path
+	local $i, $sFile
+	While 1
+		Mark_Rect($iX1, $iY1, $iX2, $iY2, $aPos, $sMsg, $sBMP_Path)
+		$totrig = "MouseGetPos(0) > " & $iX1 & " And MouseGetPos(1) > " & $iY1 & " And MouseGetPos(0) < " & $iX2 & " And MouseGetPos(1) < " & $iY2
+		AddToTrigger($totrig, "the mouse is found between " & $iX1 & ", " & $iY1 & " and " & $iX2 & ", " & $iY2)
+		ExitLoop
 	WEnd
 EndFunc
 
@@ -830,13 +859,15 @@ Func ProgramRunsTrigger()
 			Case $button3a
         $totrig = _GUICtrlListView_GetSelectedIndices($listview)
 				$totrig = "ProcessExists('" & $processes[$totrig][0] & "')"
-				AddToTrigger($totrig)
+				$name = $processes[$totrig][0] & " program is running"
+				AddToTrigger($totrig, $name)
 				GUIDelete($hChild3)
 				ExitLoop
 			Case $button3c
 				$totrig = InputBox("Program is Running Trigger", "What is the name of the program?", "chrome.exe", "")
 				$totrig = "ProcessExists('" & $totrig & "')"
-				AddToTrigger($totrig)
+				$name = $totrig & " program is running"
+				AddToTrigger($totrig, $name)
 				GUIDelete($hChild3)
 				ExitLoop
 		EndSwitch
@@ -865,7 +896,7 @@ Func DateToTrigger()
 				GUIDelete($hChild4)
 				ExitLoop
 			Case $button4a
-				TimeToTrigger($datething, $datenumber)
+				TimeToTrigger($datething, $datenumber, "everyday at ")
 				GUIDelete($hChild4)
 				ExitLoop
 			Case $button4b
@@ -897,7 +928,7 @@ Func DateToTrigger()
 								msgbox(64, "Date and Time Trigger", "You must select a day.")
 							else
 								$datenumber = _GUICtrlListView_GetSelectedIndices($listview1) + 1
-								TimeToTrigger($datething, $datenumber)
+								TimeToTrigger($datething, $datenumber, "every week on " & ControlListView("Date and Time Trigger", "", $listview1, "GetText", $datenumber-1) & " at ")
 								ExitLoop
 							endif
 						Case $button4b2
@@ -935,7 +966,7 @@ Func DateToTrigger()
 								msgbox(64, "Date and Time Trigger", "You must select a day.")
 							else
 								$datenumber = $days[_GUICtrlListView_GetSelectedIndices($listview2)]
-								TimeToTrigger($datething, $datenumber)
+								TimeToTrigger($datething, $datenumber, "on the " & $datenumber & " of every month at ")
 							endif
 							ExitLoop
 						Case $button4b2
@@ -952,7 +983,7 @@ Func DateToTrigger()
 	WEnd
 EndFunc
 
-Func TimeToTrigger($datething, $datenumber)
+Func TimeToTrigger($datething, $datenumber, $name)
 	local $totrig
 	if $datething == "everyday" then
 	elseif $datething == "week" then
@@ -1008,7 +1039,8 @@ Func TimeToTrigger($datething, $datenumber)
 					$mymin = $minutes[_GUICtrlListView_GetSelectedIndices($listview2)]
 					$mysec = $seconds[_GUICtrlListView_GetSelectedIndices($listview3)]
 					$totrig = $totrig & " @HOUR == '" & $myhour & "' And @MIN == '" & $mymin & "' And @SEC == '" & $mysec & "'"
-					AddToTrigger($totrig)
+					;$name = $
+					AddToTrigger($totrig, $name & $myhour & ":" & $mymin & ":" & $mysec)
 					GUIDelete($hChild4a)
 					ExitLoop
 				endif
@@ -1120,12 +1152,12 @@ Func GetAreaImageScreenTrigger($imagefile)
 	      ; Capture selected area
 	      GUISetState(@SW_SHOW, $hMain_GUI)
 				$totrig = "_ImageSearchArea('" & $imagefile & "',1," & $iX1 & "," & $iY1 & "," & $iX2 & "," & $iY2 & ", $X1, $Y1, " & $acc & ")"
-				AddToTrigger($totrig)
+				AddToTrigger($totrig, "this image: " & $imagefile & " is found between " & $iX1 & ", " & $iY1 & " and " & $iX2 & ", " & $iY2)
 				GUIDelete($hMain_GUI)
         ExitLoop
 			Case $sFull_Button
 				$totrig = "_ImageSearchArea('" & $imagefile & "',1," & 0 & "," & 0 & "," & @DesktopWidth & "," & @DesktopHeight & ", $X1, $Y1, " & $acc & ")"
-				AddToTrigger($totrig)
+				AddToTrigger($totrig, "this image: " & $imagefile & " is found anywhere on the screen")
 				GUIDelete($hMain_GUI)
         ExitLoop
 	    EndSwitch
@@ -1261,6 +1293,8 @@ Func DeleteThisTrigger()
 				if $mytriggers[$i] <> "" then
 					$blanksFound = true
 				endif
+				$mytriggersnames[$i] = $mytriggersnames[$i+1]
+				$mytriggersnames[$i+1] = ""
 			endif
 		next
 	WEnd
@@ -1293,12 +1327,13 @@ EndFunc
 
 
 
-Func AddToTrigger($data)
-	_GUICtrlListView_AddItem($hlisttrigs, $data, 1)
+Func AddToTrigger($data, $name)
+	_GUICtrlListView_AddItem($hlisttrigs, $name, 1)
 	local $i = 0
 	for $i = 0 to 99
 		if $mytriggers[$i] == "" then
 			$mytriggers[$i] =	$data
+			$mytriggersnames[$i] =	$name
 			$i = 100
 		endIf
 	next
@@ -1312,6 +1347,15 @@ Func AddToTrigger2($data)
 		$triggerText = $data
 	else
 		$triggerText = $triggerText & " And " & $data
+	endif
+;	msgbox(64,"trigger text", $triggerText)
+EndFunc
+
+Func AddToTriggerName($name)
+	if $triggerTextNames == "" then
+		$triggerTextNames = $name
+	else
+		$triggerTextNames = $triggerTextNames & " And " & $name
 	endif
 ;	msgbox(64,"trigger text", $triggerText)
 EndFunc
@@ -2366,8 +2410,10 @@ Func SaveTrigger()
 	for $i = 0 to 99
 		if $mytriggers[$i] <> "" then
 			AddToTrigger2($mytriggers[$i])
+			AddToTriggerName($mytriggersnames[$i])
 		endIf
 	next
+
 	;get trigger file number, save as global
 	$i = 0
 	While FileExists(GetScriptsPath("if") & $i & ".txt")
@@ -2377,6 +2423,8 @@ Func SaveTrigger()
 
 	;save trigger text in if/filenumber.txt
   local $file = GetScriptsPath("if") & $triggerNumber & ".txt"
+	local $filename = GetScriptsPath("names") & $triggerNumber & ".txt"
+	FileWrite($filename, $triggerTextNames)
 
   If Not FileWrite($file, $triggerText) Then
     MsgBox($MB_SYSTEMMODAL, $triggerNumber, "couldn't write trigger")
@@ -2438,6 +2486,8 @@ While 1
 			ImageOnScreenTrigger()
 		Case $hButton6
 			TextOnScreenTrigger()
+		Case $hButton22
+			MouseAtTrigger()
 		Case $hButtonDelete1
 			DeleteThisTrigger()
 		Case $hButton16

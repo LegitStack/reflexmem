@@ -16,13 +16,16 @@ Func GetTriggers()
   global $triggers[1]
   global $behaviors[100][1]
   global $tcounts[1]
+  global $triggernames[1]
 
   local $i = 0
   While FileExists(GetScriptsPath("if") & $i & ".txt")
     ReDim $triggers[$i + 1]
+    Redim $triggernames[$i + 1]
     ReDim $behaviors[100][$i + 1]
     ReDim $tcounts[$i + 1]
     $triggers[$i] = ReadFileIf($i)
+    $triggernames[$i] = ReadFileIfNames($i)
     $temp = ReadFileThen($i)
     $j = 0
     For $t In $temp
@@ -138,7 +141,12 @@ Func PopulateGui()
 
   for $i = 0 to Ubound($triggers)-1
     if $triggers[$i] <> "" then
-      $idCheckbox[$i] = GUICtrlCreateCheckbox($triggers[$i], ($j*300)+10, ($k*150)+10, 290, 25)
+      if $triggernames[$i] <> "" then
+        $name = $triggernames[$i]
+      else
+        $name = $triggers[$i]
+      endif
+      $idCheckbox[$i] = GUICtrlCreateCheckbox(" If " & $name & " then", ($j*300)+10, ($k*150)+10, 290, 25)
       $idBlist[$i] = GUICTRLCreateListView("Behaviors                             ", ($j*300)+10, ($k*150)+40, 180, 100)
       for $b = 0 to Ubound($behaviors, 1)-1
         if $behaviors[$b][$i] <> "" then
@@ -207,6 +215,7 @@ Func PopulateGui()
                 $trigs[$i] = ""
               EndIf
             elseif $msg == $idDelete[$i] then
+
               FileDelete(GetScriptsPath("if") & $i & ".txt")
               FileDelete(GetScriptsPath("then") & $i & ".txt")
               GUICtrlDelete ( $idCheckbox[$i] )
@@ -214,14 +223,17 @@ Func PopulateGui()
               GUICtrlDelete ( $idBlist[$i] )
               $trigs[$i] = ""
 
-          		for $j = 0 to ubound($idCheckbox)-2
-          			if $j >= $i then
-          				$trigs[$j]          = $trigs[$j+1]
+              for $j = 0 to ubound($idCheckbox)-2
+                if $j >= $i then
+                  $trigs[$j]          = $trigs[$j+1]
                   $idCheckbox[$j]     = $idCheckbox[$j+1]
                   $idDelete[$j]       = $idDelete[$j+1]
                   $idBlist[$j]        = $idBlist[$j+1]
                   $triggers[$j]       = $triggers[$j+1]
                   $tcounts[$j]        = $tcounts[$j+1]
+                  $locCx[$j] = $locCx[$j+1]
+                  $locDx[$j] = $locDx[$j+1]
+                  $locBx[$j] = $locBx[$j+1]
                   for $k = 0 to Ubound($behaviors, 1)-1
                     $behaviors[$k][$j]  = $behaviors[$k][$j+1]
                   next
@@ -231,12 +243,11 @@ Func PopulateGui()
                   if FileExists(GetScriptsPath("then") & $j+1 & ".txt") then
                     FileMove(GetScriptsPath("then") & $j+1 & ".txt", GetScriptsPath("then") & $j & ".txt", $FC_OVERWRITE)
                   endif
-          				if $trigs[$j] <> "" then
-          					$blanksFound = true
-          				endif
-          			endif
-          		next
-
+                  if $trigs[$j] <> "" then
+                    $blanksFound = true
+                  endif
+                endif
+              next
             else
               ;for $i = 0 to ubound($triggers)-1
                 GUICtrlSetPos($idCheckbox[$i],$locCx[$i]-(GUICtrlRead($idSlider1)*50))

@@ -6,12 +6,13 @@
 ;ReadFileIf($CmdLine[1])
 
 
+
+
 Func ReadFileIf($name)
   local $read = OpenFileIf($name)
   local $file = StringSplit($read, @CRLF)
   return InterpretFileIf($file)
 EndFunc
-
 
 Func OpenFileIf($i)
   local $path = GetScriptsPath("if") & $i & ".txt" ;_PathFull(@ScriptDir & "\scripts\if") & "\" & $i & ".txt"
@@ -20,6 +21,24 @@ Func OpenFileIf($i)
   FileClose($file)
   return $read
 EndFunc
+
+
+
+
+Func ReadFileIfNames($name)
+  return OpenFileIfNames($name)
+EndFunc
+
+Func OpenFileIfNames($i)
+  local $path = GetScriptsPath("names") & $i & ".txt" ;_PathFull(@ScriptDir & "\scripts\if") & "\" & $i & ".txt"
+  local $file = FileOpen($path, $FO_READ)
+  $read = FileRead($file)
+  FileClose($file)
+  return $read
+EndFunc
+
+
+
 
 
 Func InterpretFileIf($file)
