@@ -53,6 +53,7 @@ Source: "C:\sites\reflexmem\lib\executeif.au3"; DestDir: "{app}\lib\"; Flags: ig
 Source: "C:\sites\reflexmem\lib\executethen.au3"; DestDir: "{app}\lib\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\filelocations.au3"; DestDir: "{app}\lib\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\dll\ImageSearchDLL.dll"; DestDir: "{app}\lib\dll\"; Flags: ignoreversion
+;we'll need alllcs.au3 and tesseract_stdout.au3 soon.
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
