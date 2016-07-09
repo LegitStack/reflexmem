@@ -5,6 +5,13 @@
 ;executethen.exe nameofFile
 ;ReadFileThen($CmdLine[1])
 
+Func ReadFileThenNames($name)
+  local $read = OpenFileThen($name)
+  local $file = StringSplit($read, @CRLF, $STR_NOCOUNT)
+
+  return $file
+EndFunc
+
 
 Func ReadFileThen($name)
   local $read = OpenFileThen($name)
@@ -69,7 +76,7 @@ Func ActionMapThen($command, $arguments)
     case "setvar" ; text
       $args = StringSplit($arguments, " ", 2)
       return "Assign('uservar" & $args[0] & "'," & $args[1] & ",1)"
-    case "getvar " ; text
+    case "getvar" ; text
       return "MsgBox(64,'variable: " & $arguments & "',$uservar" & $arguments & ")"
     case "exit" ; text
       return "Exit"
@@ -92,6 +99,6 @@ Func ActionMapThen($command, $arguments)
     ;case keyup
     ;case clickdown
     ;case clickup
-      Msgbox(64,"Else", "What are you still doing up?")
+      Msgbox(64,$command, $arguments)
   EndSwitch
 EndFunc

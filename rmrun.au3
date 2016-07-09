@@ -21,15 +21,17 @@ PopulateGui()
 Func GetTriggers()
 
   global $triggers[1]
-  global $behaviors[100][1]
-  global $tcounts[1]
   global $triggernames[1]
+  global $behaviors[100][1]
+  global $behaviornames[100][1]
+  global $tcounts[1]
 
   local $i = 0
   While FileExists(GetScriptsPath("if") & $i & ".txt")
     ReDim $triggers[$i + 1]
     Redim $triggernames[$i + 1]
     ReDim $behaviors[100][$i + 1]
+    ReDim $behaviornames[100][$i + 1]
     ReDim $tcounts[$i + 1]
     $triggers[$i] = ReadFileIf($i)
     $triggernames[$i] = ReadFileIfNames($i)
@@ -38,6 +40,14 @@ Func GetTriggers()
     For $t In $temp
       $behaviors[$j][$i] = $t
       $j = $j + 1
+    next
+    $temp = ReadFileThenNames($i)
+    $j = 0
+    For $t In $temp
+      if $t <> "" then
+        $behaviornames[$j][$i] = $t
+        $j = $j + 1
+      endif
     next
     $i = $i + 1
   WEnd
@@ -156,8 +166,8 @@ Func PopulateGui()
       $idCheckbox[$i] = GUICtrlCreateCheckbox(" If " & $name & " then", ($j*300)+10, ($k*150)+10, 290, 25)
       $idBlist[$i] = GUICTRLCreateListView("Behaviors                             ", ($j*300)+10, ($k*150)+40, 180, 100)
       for $b = 0 to Ubound($behaviors, 1)-1
-        if $behaviors[$b][$i] <> "" then
-          _GUICtrlListView_AddItem($idBlist[$i], $behaviors[$b][$i], 1)
+        if $behaviornames[$b][$i] <> "" then
+          _GUICtrlListView_AddItem($idBlist[$i], $behaviornames[$b][$i], 1)
         endif
       next
       $idDelete[$i] = GUICtrlCreateButton("Delete", ($j*300)+200, ($k*150)+40, 100, 27)
@@ -314,6 +324,7 @@ Func PopulateGui()
                   $locBx[$j]          = $locBx[$j+1]
                   for $k = 0 to Ubound($behaviors, 1)-1
                     $behaviors[$k][$j]  = $behaviors[$k][$j+1]
+                    $behaviornames[$k][$j]  = $behaviornames[$k][$j+1]
                   next
                   if FileExists(GetScriptsPath("if") & $j+1 & ".txt") then
                     FileMove(GetScriptsPath("if") & $j+1 & ".txt", GetScriptsPath("if") & $j & ".txt", $FC_OVERWRITE)
@@ -395,8 +406,8 @@ Func PopulateGui()
                         if $paused == true then
                           SetPLabel($pLabel, "Paused!")
                         endif
-                        if StringInStr($behaviors[$i][$c], "$olduservar") > 0 then
-                          $temp = "$olduservar"& stringmid($behaviors[$i][$c],11,2) & " = $uservar" & stringmid($behaviors[$i][$c],11,2)
+                        if StringInStr($triggers[$c], "$olduservar") > 0 then
+                          $temp = "Assign('olduservar" & stringmid($behaviors[$i][$c],11,2) & "',$uservar" & stringmid($behaviors[$i][$c],11,2) & ",1)"
                           execute($temp)
                         endif
                       endif

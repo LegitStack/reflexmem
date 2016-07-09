@@ -56,26 +56,27 @@ Func HideTriggers()
 	GUICtrlSetState($hButtonCancel1, $GUI_HIDE)
 	GUICtrlSetState($hButtonDelete1, $GUI_HIDE)
 	GUICtrlSetState($hButton22, $GUI_HIDE)
+	GUICtrlSetState($hButton23, $GUI_HIDE)
+	GUICtrlSetState($hButton24, $GUI_HIDE)
+
 EndFunc
 
 
 Func CreateTriggers()
 
-	Global $hGroup   = GUICtrlCreateGroup("Triggers", 					20, 	10, 	280, 540)
-
-	Global $hButton  = GUICtrlCreateButton("Key is Pressed", 		35, 	35, 	250, 35) ;done
-	Global $hButton1 = GUICtrlCreateButton("Mouse is Clicked", 	35, 	80, 	250, 35) ;done
-	Global $hButton22= GUICtrlCreateButton("Mouse in Region",   35, 	125, 	250, 35) ;done
-	Global $hButton2 = GUICtrlCreateButton("Clipboard Contains",35, 	170, 	250, 35) ;done
-	Global $hButton3 = GUICtrlCreateButton("Program is Running",35, 	215, 	250, 35) ;done
-	Global $hButton4 = GUICtrlCreateButton("Date and Time is", 	35, 	260, 	250, 35) ;done
-	Global $hButton5 = GUICtrlCreateButton("Image on Screen", 	35, 	305, 	250, 35) ;done
-	Global $hButton6 = GUICtrlCreateButton("Text on Screen", 		35, 	350, 	250, 35) ;done
-	Global $hButton6 = GUICtrlCreateButton("Variable Modified",	35, 	395, 	250, 35) ;
-	Global $hButton6 = GUICtrlCreateButton("Variable Equals",		35, 	395, 	250, 35) ;
-	Global $hButton0 = GUICtrlCreateButton("Help", 							35, 	575, 	250, 35) ;done
-
-	Global $hButton16 = GUICtrlCreateButton("Done With Triggers", 20, 655, 280, 50)
+	Global $hGroup   = GUICtrlCreateGroup("Triggers", 								20, 	10, 	280, 540)
+	Global $hButton  = GUICtrlCreateButton("Key is Pressed", 					35, 	35, 	250, 35) ;done
+	Global $hButton1 = GUICtrlCreateButton("Mouse is Clicked", 				35, 	80, 	250, 35) ;done
+	Global $hButton22= GUICtrlCreateButton("Mouse in Region",   			35, 	125, 	250, 35) ;done
+	Global $hButton2 = GUICtrlCreateButton("Clipboard Contains",			35, 	170, 	250, 35) ;done
+	Global $hButton3 = GUICtrlCreateButton("Program is Running",			35, 	215, 	250, 35) ;done
+	Global $hButton4 = GUICtrlCreateButton("Date and Time is", 				35, 	260, 	250, 35) ;done
+	Global $hButton5 = GUICtrlCreateButton("Image on Screen", 				35, 	305, 	250, 35) ;done
+	Global $hButton6 = GUICtrlCreateButton("Text on Screen *Pro", 		35, 	350, 	250, 35) ;done
+	Global $hButton23= GUICtrlCreateButton("Variable Modified *Pro",	35, 	395, 	250, 35) ;
+	Global $hButton24= GUICtrlCreateButton("Variable Equals *Pro",		35, 	440, 	250, 35) ;
+	Global $hButton0 = GUICtrlCreateButton("Help", 										35, 	575, 	250, 35) ;done
+	Global $hButton16 = GUICtrlCreateButton("Submit Triggers", 				20, 	655, 	280, 50)
 	GUICtrlSetFont(-1, 10)
 
 	Global $hlisttrigs = GUICTRLCreateListView("Triggers                               ", 330, 245, 240, 380)
@@ -93,24 +94,21 @@ EndFunc
 
 Func CreateBehaviors()
 
-	Global $hGroup1   = GUICtrlCreateGroup("Behaviors", 					310, 	10, 	280, 615)
-
-	Global $hButton7  = GUICtrlCreateButton("Send Keys",					330, 	35, 	250, 35) ;done
-	Global $hButton8  = GUICtrlCreateButton("Key Down", 					330, 	80, 	250, 35) ;done
-	Global $hButton9  = GUICtrlCreateButton("Key Up", 						330, 	125, 	250, 35) ;done
-	Global $hButton10 = GUICtrlCreateButton("Move Mouse", 				330, 	170, 	250, 35) ;done
-	Global $hButton11 = GUICtrlCreateButton("Mouse Click", 				330, 	215, 	250, 35) ;done
-	Global $hButton12 = GUICtrlCreateButton("Scroll Mouse Wheel", 330, 	260, 	250, 35) ;done
-	Global $hButton13 = GUICtrlCreateButton("Copy Text", 					330, 	305, 	250, 35) ;done
-	Global $hButton14 = GUICtrlCreateButton("Manage Programs",    330, 	350, 	250, 35) ;done
-	Global $hButton18 = GUICtrlCreateButton("Display Message",		330, 	395, 	250, 35) ;done
-	Global $hButton15 = GUICtrlCreateButton("Wait", 							330, 	440, 	250, 35) ;done
-	Global $hButton19 = GUICtrlCreateButton("Ignore Triggers",		330, 	485, 	250, 35) ;done
-	Global $hButton20 = GUICtrlCreateButton("Observe Triggers", 	330, 	530, 	250, 35) ;done
-	Global $hButton21 = GUICtrlCreateButton("Exit ReflexMem", 		330, 	575, 	250, 35) ;done
-	Global $hButton21 = GUICtrlCreateButton("Modify Variable", 		330, 	575, 	250, 35) ;
-	Global $hButton21 = GUICtrlCreateButton("View Variable", 			330, 	575, 	250, 35) ;
-	Global $hButton17 = GUICtrlCreateButton("Done With Behaviors",310, 	655, 	280, 50) ;done
+	Global $hGroup1   = GUICtrlCreateGroup("Behaviors", 						310, 	10, 	280, 615)
+	Global $hButton7  = GUICtrlCreateButton("Send Keys",						330, 	35, 	250, 35) ;done
+	Global $hButton8  = GUICtrlCreateButton("Key Down", 						330, 	80, 	250, 35) ;done
+	Global $hButton9  = GUICtrlCreateButton("Key Up", 							330, 	125, 	250, 35) ;done
+	Global $hButton10 = GUICtrlCreateButton("Move Mouse", 					330, 	170, 	250, 35) ;done
+	Global $hButton11 = GUICtrlCreateButton("Mouse Click", 					330, 	215, 	250, 35) ;done
+	Global $hButton12 = GUICtrlCreateButton("Scroll Mouse Wheel", 	330, 	260, 	250, 35) ;done
+	Global $hButton13 = GUICtrlCreateButton("Copy Text", 						330, 	305, 	250, 35) ;done
+	Global $hButton14 = GUICtrlCreateButton("Manage Programs",    	330, 	350, 	250, 35) ;done
+	Global $hButton18 = GUICtrlCreateButton("Display Message",			330, 	395, 	250, 35) ;done
+	Global $hButton15 = GUICtrlCreateButton("Wait", 								330, 	440, 	250, 35) ;done
+	Global $hButton19 = GUICtrlCreateButton("Manage ReflexMem",			330, 	485, 	250, 35) ;
+	Global $hButton20 = GUICtrlCreateButton("Modify Variable *Pro",	330, 	530, 	250, 35) ;done
+	Global $hButton21 = GUICtrlCreateButton("View Variable *Pro",		330, 	575, 	250, 35) ;done
+	Global $hButton17 = GUICtrlCreateButton("Submit Behaviors",			310, 	655, 	280, 50) ;done
 	GUICtrlSetFont(-1, 10)
 
 	Global $hlistbehavs = GUICTRLCreateListView("Behaviors                             ", 35, 245, 240, 380)
@@ -253,6 +251,17 @@ Func SetLabel1()
 			if GUICtrlRead($hLabel1) <> $data Then
 				GUICtrlSetData($hLabel1, $data)
 			EndIf
+		elseif $a[4] == $hButton23 Then
+			$data = "When a variable is modified in anyway. Variable triggers allows data or information to be saved in a variable to be used later or by an entirely different trigger-behavior pair." & @CRLF & @CRLF & "Which variable?"
+			if GUICtrlRead($hLabel1) <> $data Then
+				GUICtrlSetData($hLabel1, $data)
+			EndIf
+		elseif $a[4] == $hButton24 Then
+			$data = "When a variable equals a particular value. Variable Triggers make ReflexMem more robust becuase it can now be used in more dynamic ways. Variables can hold numbers (ie. 56) or boolean values (ie. True) or text (ie 'We are all that we are'). Text must have '' surounding it and can't have any apostrophese inside the text." & @CRLF & @CRLF & "Which variable?" & @CRLF & @CRLF & "What should the variable equal?"
+			if GUICtrlRead($hLabel1) <> $data Then
+				GUICtrlSetData($hLabel1, $data)
+			EndIf
+
 		Else
 			;GUICtrlSetData($g_idX, $a[0])
 			;GUICtrlSetData($g_idY, $a[1])
@@ -806,11 +815,13 @@ Func VariableEqualsTrigger() ;must put a escape chaaracter before and apostrophe
 	if $sAnswer <> "" then
 		local $totrig = "$uservar" & $sAnswer & "  == "
 		local $name = "the " & $sAnswer & " variable equals "
+	else
+		return
 	endif
 	Local $sAnswer = InputBox("Variable Equals Trigger", "What value shoud that variable hold? (text must be encased in '' and can't have any ' in the text. Numbers or true or false don't need '')", "'oh what a beautiful morning'", "")
 	if $sAnswer <> "" then
-		local $totrig = $totrig & $sAnswer
-		local $name = $name & $sAnswer
+		$totrig = $totrig & $sAnswer
+		$name = $name & $sAnswer
 		AddToTrigger($totrig, $name)
 	endif
 EndFunc
@@ -848,10 +859,15 @@ Func MouseClickTrigger()
 EndFunc
 
 Func MouseAtTrigger()
+	msgbox(64, "Mouse in Region Trigger", "Please select region by clicking and dragging your mouse.")
 	Local $iX1, $iY1, $iX2, $iY2, $aPos, $sMsg, $sBMP_Path
 	local $i, $sFile
 	While 1
 		Mark_Rect($iX1, $iY1, $iX2, $iY2, $aPos, $sMsg, $sBMP_Path)
+		if $iX2 - $iX1 < 1 Or $iY2 - $iY1 < 1 then
+			msgbox(64, "Mouse in Region Trigger", "Please click and drag to select a larger region.")
+			return
+		endif
 		$totrig = "MouseGetPos(0) > " & $iX1 & " And MouseGetPos(1) > " & $iY1 & " And MouseGetPos(0) < " & $iX2 & " And MouseGetPos(1) < " & $iY2
 		AddToTrigger($totrig, "the mouse is found between " & $iX1 & ", " & $iY1 & " and " & $iX2 & ", " & $iY2)
 		ExitLoop
@@ -2277,6 +2293,39 @@ Func MessageBoxBehavior()
 	endif
 EndFunc
 
+
+Func ManageReflexMemBehavior()
+	Local $hChild12 = GUICreate("Manage ReflexMem Behavior", 600, 200, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("What would you like ReflexMem to do?", 20, 20, 560, 35)
+	GUICtrlSetStyle(-1, $SS_CENTER)
+	local $button121 = GUICtrlCreateButton("Ignore Triggers", 20, 80, 160, 60)
+	local $button122 = GUICtrlCreateButton("Observe Triggers", 220, 80, 160, 60)
+	local $button123 = GUICtrlCreateButton("Exit ReflexMem", 420, 80, 160, 60)
+	GUISetState()
+
+	local $totrig = ""
+	While 1
+		$hMsg = GUIGetMsg()
+		Switch $hMsg
+			Case $GUI_EVENT_CLOSE
+				GUIDelete($hChild12)
+				ExitLoop
+			Case $button121
+				PauseReflexMemBehavior()
+				GUIDelete($hChild12)
+				ExitLoop
+			Case $button122
+				UnPauseReflexMemBehavior()
+				GUIDelete($hChild12)
+				ExitLoop
+			Case $button122
+				ExitReflexMemBehavior()
+				GUIDelete($hChild12)
+				ExitLoop
+		EndSwitch
+	WEnd
+EndFunc
+
 Func PauseReflexMemBehavior()
 	;Msgbox(64, "Pause ReflexMem Behavior", "Pause ReflexMem Behavior added successfully.")
 	local $totrig = "pause"
@@ -2291,7 +2340,7 @@ EndFunc
 
 Func ExitReflexMemBehavior()
 	;Msgbox(64, "Pause ReflexMem Behavior", "Exit ReflexMem Behavior added successfully.")
-	local $totrig = "Exit"
+	local $totrig = "exit"
 	AddToBehavior($totrig)
 EndFunc
 
@@ -2384,11 +2433,10 @@ Func ModifyVariableBehavior() ;must put a escape chaaracter before and apostroph
 	Local $sAnswer = InputBox("Modify Variable Behavior", "Which variable? (0 to 31)", "1", "")
 	if $sAnswer <> "" then
 		local $totrig = "setvar " & $sAnswer & " "
-
 	endif
-	Local $sAnswer = InputBox("Modify Variable Behavior", "What should it now contain?", "$uservar1 + 1", "")
+	Local $sAnswer = InputBox("Modify Variable Behavior", "What should it now contain?", "$uservar1+1", "")
 	if $sAnswer <> "" then
-		local $totrig = $totrig & $sAnswer
+		$totrig = $totrig & $sAnswer
 		AddToBehavior($totrig)
 	endif
 EndFunc
@@ -2548,6 +2596,10 @@ Func SaveTrigger()
 			AddToTriggerName($mytriggersnames[$i])
 		endIf
 	next
+	if $triggerText == "" then
+		MsgBox($MB_SYSTEMMODAL, "Info","You must create at least one trigger to save successfully.")
+		return
+	endif
 
 	;get trigger file number, save as global
 	$i = 0
@@ -2581,6 +2633,10 @@ Func SaveBehavior()
 		endIf
 	next
 
+	if $behaviorText == "" then
+		MsgBox($MB_SYSTEMMODAL, "Info","You must create at least one behavior to save successfully.")
+		return
+	endif
 
 	local $file = GetScriptsPath("then") & $triggerNumber & ".txt"
 
@@ -2623,6 +2679,10 @@ While 1
 			TextOnScreenTrigger()
 		Case $hButton22
 			MouseAtTrigger()
+		Case $hButton23
+			VariableModifiedTrigger()
+		Case $hButton24
+			VariableEqualsTrigger()
 		Case $hButtonDelete1
 			DeleteThisTrigger()
 		Case $hButton16
@@ -2669,11 +2729,11 @@ While 1
 		Case $hButton15
 			WaitBehavior()
 		Case $hButton19
-			PauseReflexMemBehavior()
+			ManageReflexMemBehavior()
 		Case $hButton20
-			UnPauseReflexMemBehavior()
+			ModifyVariableBehavior()
 		Case $hButton21
-			ExitReflexMemBehavior()
+			GetVariableBehavior()
 		Case $hButtonDelete2
 			DeleteThisBehavior()
 		Case $hButton17
