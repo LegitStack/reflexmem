@@ -38,7 +38,7 @@ EndFunc
 ;= Image =======================================================================
 ;===============================================================================
 
-Func SaveScreen(ByRef $imagecount, $left = 0, $top = 0, $right = -1, $bottom = -1, $scrub = false, $shoulddelete = true)
+Func SaveScreen(ByRef $imagecount, $left = 0, $top = 0, $right = -1, $bottom = -1, $scrub = false, $shouldkeep = true)
 
   Local $i = 0
   While FileExists(GetImagePath() & $i & ".png")
@@ -65,7 +65,7 @@ Func SaveScreen(ByRef $imagecount, $left = 0, $top = 0, $right = -1, $bottom = -
 
   local $read = _GetOCR($outimage, $i, $scrub)
 	$imagecount = $i
-	if $shoulddelete then
+	if $shouldkeep then
 		DeleteCache($i)
 	endif
 	return $read

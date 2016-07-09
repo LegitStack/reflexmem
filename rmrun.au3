@@ -1,10 +1,17 @@
 #include <GUIConstantsEx.au3>
 #include <MsgBoxConstants.au3>
+#include <Misc.au3>
+#include <GuiListView.au3>
+#include <FileConstants.au3>
+#include <File.au3>
 #include <lib\executeif.au3>
 #include <lib\executethen.au3>
-#include <Misc.au3>
 #include <lib\filelocations.au3>
-#include <GuiListView.au3>
+#include <lib\alllcs.au3>
+#include <lib\tesseract_stdout.au3>
+#include <lib\combinealllcsandtesseract.au3>
+#include <lib\levenshtein.au3>
+
 VarifyFolders()
 
 GetTriggers()
@@ -186,6 +193,73 @@ Func PopulateGui()
 
   local $blanksfound = true
 
+
+  local $olduservar0
+  local $olduservar1
+  local $olduservar2
+  local $olduservar3
+  local $olduservar4
+  local $olduservar5
+  local $olduservar6
+  local $olduservar7
+  local $olduservar8
+  local $olduservar9
+  local $olduservar10
+  local $olduservar11
+  local $olduservar12
+  local $olduservar13
+  local $olduservar14
+  local $olduservar15
+  local $olduservar16
+  local $olduservar17
+  local $olduservar18
+  local $olduservar19
+  local $olduservar20
+  local $olduservar21
+  local $olduservar22
+  local $olduservar23
+  local $olduservar24
+  local $olduservar25
+  local $olduservar26
+  local $olduservar27
+  local $olduservar28
+  local $olduservar29
+  local $olduservar30
+  local $olduservar31
+  local $uservar0
+  local $uservar1
+  local $uservar2
+  local $uservar3
+  local $uservar4
+  local $uservar5
+  local $uservar6
+  local $uservar7
+  local $uservar8
+  local $uservar9
+  local $uservar10
+  local $uservar11
+  local $uservar12
+  local $uservar13
+  local $uservar14
+  local $uservar15
+  local $uservar16
+  local $uservar17
+  local $uservar18
+  local $uservar19
+  local $uservar20
+  local $uservar21
+  local $uservar22
+  local $uservar23
+  local $uservar24
+  local $uservar25
+  local $uservar26
+  local $uservar27
+  local $uservar28
+  local $uservar29
+  local $uservar30
+  local $uservar31
+  local $temp
+
   while $loop1 == 1
     While $loop2 == 1
       $msg = GUIGetMsg()
@@ -320,6 +394,10 @@ Func PopulateGui()
                         Execute($behaviors[$i][$c])
                         if $paused == true then
                           SetPLabel($pLabel, "Paused!")
+                        endif
+                        if StringInStr($behaviors[$i][$c], "$olduservar") > 0 then
+                          $temp = "$olduservar"& stringmid($behaviors[$i][$c],11,2) & " = $uservar" & stringmid($behaviors[$i][$c],11,2)
+                          execute($temp)
                         endif
                       endif
                     endif

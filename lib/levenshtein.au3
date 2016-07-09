@@ -18,3 +18,8 @@ Func GetLevenshteinDistance($string1,$string2)
   Next
   Return $arr[$s1len][$s2len]
 EndFunc
+
+
+Func GetNormalLevenshteinDistance($string1,$string2)
+  Return 1-(GetLevenshteinDistance($string1,$string2)/ (Stringlen($string1)+Stringlen($string2)/2))
+EndFunc

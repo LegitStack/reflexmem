@@ -60,10 +60,17 @@ Func ActionMapThen($command, $arguments)
       return "MouseWheel('" & $arguments & "')"
     case "clip" ; text
       return "ClipPut('" & $arguments & "')"
+    case "kill" ; text
+      return "processClose('" & $arguments & "')"
     case "unpause" ; text
       return "Assign('paused',False,2)"
     case "pause" ; text
       return "Assign('paused',True,2)"
+    case "setvar" ; text
+      $args = StringSplit($arguments, " ", 2)
+      return "Assign('uservar" & $args[0] & "'," & $args[1] & ",1)"
+    case "getvar " ; text
+      return "MsgBox(64,'variable: " & $arguments & "',$uservar" & $arguments & ")"
     case "exit" ; text
       return "Exit"
     case "message" ; text

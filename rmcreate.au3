@@ -70,7 +70,9 @@ Func CreateTriggers()
 	Global $hButton3 = GUICtrlCreateButton("Program is Running",35, 	215, 	250, 35) ;done
 	Global $hButton4 = GUICtrlCreateButton("Date and Time is", 	35, 	260, 	250, 35) ;done
 	Global $hButton5 = GUICtrlCreateButton("Image on Screen", 	35, 	305, 	250, 35) ;done
-	Global $hButton6 = GUICtrlCreateButton("Text on Screen", 		35, 	350, 	250, 35)
+	Global $hButton6 = GUICtrlCreateButton("Text on Screen", 		35, 	350, 	250, 35) ;done
+	Global $hButton6 = GUICtrlCreateButton("Variable Modified",	35, 	395, 	250, 35) ;
+	Global $hButton6 = GUICtrlCreateButton("Variable Equals",		35, 	395, 	250, 35) ;
 	Global $hButton0 = GUICtrlCreateButton("Help", 							35, 	575, 	250, 35) ;done
 
 	Global $hButton16 = GUICtrlCreateButton("Done With Triggers", 20, 655, 280, 50)
@@ -100,12 +102,14 @@ Func CreateBehaviors()
 	Global $hButton11 = GUICtrlCreateButton("Mouse Click", 				330, 	215, 	250, 35) ;done
 	Global $hButton12 = GUICtrlCreateButton("Scroll Mouse Wheel", 330, 	260, 	250, 35) ;done
 	Global $hButton13 = GUICtrlCreateButton("Copy Text", 					330, 	305, 	250, 35) ;done
-	Global $hButton14 = GUICtrlCreateButton("Run Program", 				330, 	350, 	250, 35) ;done
+	Global $hButton14 = GUICtrlCreateButton("Manage Programs",    330, 	350, 	250, 35) ;done
 	Global $hButton18 = GUICtrlCreateButton("Display Message",		330, 	395, 	250, 35) ;done
 	Global $hButton15 = GUICtrlCreateButton("Wait", 							330, 	440, 	250, 35) ;done
 	Global $hButton19 = GUICtrlCreateButton("Ignore Triggers",		330, 	485, 	250, 35) ;done
 	Global $hButton20 = GUICtrlCreateButton("Observe Triggers", 	330, 	530, 	250, 35) ;done
 	Global $hButton21 = GUICtrlCreateButton("Exit ReflexMem", 		330, 	575, 	250, 35) ;done
+	Global $hButton21 = GUICtrlCreateButton("Modify Variable", 		330, 	575, 	250, 35) ;
+	Global $hButton21 = GUICtrlCreateButton("View Variable", 			330, 	575, 	250, 35) ;
 	Global $hButton17 = GUICtrlCreateButton("Done With Behaviors",310, 	655, 	280, 50) ;done
 	GUICtrlSetFont(-1, 10)
 
@@ -161,7 +165,7 @@ Func SetLabel()
 				GUICtrlSetData($hlabel, $data)
 			EndIf
 		elseif $a[4] == $hButton14 Then
-			$data = "Run a program." & @CRLF & @CRLF & "Which program?" & @CRLF & @CRLF & "How should it appear?"
+			$data = "Run a program or end a process." & @CRLF & @CRLF & "Which program?" & @CRLF & @CRLF & "How should it appear?"
 			if GUICtrlRead($hlabel) <> $data Then
 				GUICtrlSetData($hlabel, $data)
 			EndIf
@@ -776,11 +780,37 @@ EndFunc
 
 
 
-Func ClipboardTrigger()
+Func ClipboardTrigger() ;must put a escape chaaracter before and apostrophese \'
 	Local $sAnswer = InputBox("Clipboard Trigger", "What text?", "Planet Earth", "")
 	if $sAnswer <> "" then
 		local $totrig = "ClipGet() == '" & $sAnswer &"'"
 		local $name = "clipboard contains " & $sAnswer
+		AddToTrigger($totrig, $name)
+	endif
+EndFunc
+
+
+Func VariableModifiedTrigger() ;must put a escape chaaracter before and apostrophese \'
+	Local $sAnswer = InputBox("Variable Modified Trigger", "Which variable do you want to check to see if it has been modified? (0 to 31)", "1", "")
+	if $sAnswer <> "" then
+		local $totrig = "$olduservar" & $sAnswer & " <> $uservar" & $sAnswer
+		local $name = "the " & $sAnswer & " variable has been changed."
+		AddToTrigger($totrig, $name)
+	endif
+EndFunc
+
+
+;NOT DONE YET!!! get variable, and when modified devise a way to
+Func VariableEqualsTrigger() ;must put a escape chaaracter before and apostrophese \'
+	Local $sAnswer = InputBox("Variable Equals Trigger", "Which variable do you want to check to see if it has been modified? (0 to 31)", "1", "")
+	if $sAnswer <> "" then
+		local $totrig = "$uservar" & $sAnswer & "  == "
+		local $name = "the " & $sAnswer & " variable equals "
+	endif
+	Local $sAnswer = InputBox("Variable Equals Trigger", "What value shoud that variable hold? (text must be encased in '' and can't have any ' in the text. Numbers or true or false don't need '')", "'oh what a beautiful morning'", "")
+	if $sAnswer <> "" then
+		local $totrig = $totrig & $sAnswer
+		local $name = $name & $sAnswer
 		AddToTrigger($totrig, $name)
 	endif
 EndFunc
@@ -1278,12 +1308,35 @@ Func TextOnScreenTrigger()
 	;You'll have to get:
 		;the region of the screen
 		;the text to find
-		;the score from 1 to 100 of how much it must match.
+		;the score from 1 to 100 of how much it must match. text match percentage threshold.
 	;and save it.
 
+	Local $sAnswer = InputBox("Text On Screen Trigger", "What text would you like to look for?", "Mars, Bringer of War", "")
+	if $sAnswer <> "" then
+		local $mynewtext = $sAnswer
+	else
+		return
+	endif
+
+	Local $sAnswer = InputBox("Text On Screen Trigger", "What text-match percentage threshold would you like to set? (1 to 100)", "75", "")
+	if $sAnswer <> "" then
+		local $percentagetext = $sAnswer
+	else
+		return
+	endif
+
+	Local $iX1, $iY1, $iX2, $iY2, $aPos, $sMsg, $sBMP_Path
+	local $i, $sFile, $totrig
+	While 1
+		Mark_Rect($iX1, $iY1, $iX2, $iY2, $aPos, $sMsg, $sBMP_Path)
+		$totrig = "ScoreStringAgainstTesseract('" & $mynewtext & "', " & $iX1 & ", " & $iY1 & ", " & $iX2 & ", " & $iY2 & ", " & $percentagetext & ")"
+		AddToTrigger($totrig, "the text '" & $mynewtext & "' is found within (" & $iX1 & ", " & $iY1 & ") to (" & $iX2 & ", " & $iY2 & ") at a required accuracy score of " & $percentagetext & "%")
+		ExitLoop
+	WEnd
+
 	;example of how to test this when running:
-	$s1 = "abcdefghijklmnop"
-$s2 = "abcdefghijklmno"
+	;$s1 = "abcdefghijklmnop"
+	;$s2 = "abcdefghijklmno"
 	;msgbox(64,"",
 	;if GetAllLCS(savedtext,SaveScreen($throwaway, $left = 0, $top = 0, $right = -1, $bottom = -1, $scrub = false))*100 > $requiredscore then
 EndFunc
@@ -2323,6 +2376,34 @@ Func MouseWheelBehavior()
 EndFunc
 
 
+
+
+
+
+Func ModifyVariableBehavior() ;must put a escape chaaracter before and apostrophese \' ;
+	Local $sAnswer = InputBox("Modify Variable Behavior", "Which variable? (0 to 31)", "1", "")
+	if $sAnswer <> "" then
+		local $totrig = "setvar " & $sAnswer & " "
+
+	endif
+	Local $sAnswer = InputBox("Modify Variable Behavior", "What should it now contain?", "$uservar1 + 1", "")
+	if $sAnswer <> "" then
+		local $totrig = $totrig & $sAnswer
+		AddToBehavior($totrig)
+	endif
+EndFunc
+
+
+Func GetVariableBehavior() ;must put a escape chaaracter before and apostrophese \' ;
+	Local $sAnswer = InputBox("Get Variable Behavior", "Which variable? (0 to 31)", "1", "")
+	if $sAnswer <> "" then
+		local $totrig = "getvar " & $sAnswer
+		AddToBehavior($totrig)
+	endif
+EndFunc
+
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -2333,6 +2414,32 @@ EndFunc
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
+Func ManageProgramsBehavior()
+	Local $hChild12 = GUICreate("Manage Programs Behavior", 400, 200, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("Would you like to Run a Program or End a Program?", 20, 20, 360, 35)
+	GUICtrlSetStyle(-1, $SS_CENTER)
+	local $button121 = GUICtrlCreateButton("Run", 20, 80, 160, 60)
+	local $button122 = GUICtrlCreateButton("End", 220, 80, 160, 60)
+	GUISetState()
+
+	local $totrig = ""
+	While 1
+		$hMsg = GUIGetMsg()
+		Switch $hMsg
+			Case $GUI_EVENT_CLOSE
+				GUIDelete($hChild12)
+				ExitLoop
+			Case $button121
+				RunProgramBehavior()
+				GUIDelete($hChild12)
+				ExitLoop
+			Case $button122
+				KillProgramBehavior()
+				GUIDelete($hChild12)
+				ExitLoop
+		EndSwitch
+	WEnd
+EndFunc
 
 Func RunProgramBehavior()
 	local $sFile = FileOpenDialog("Choose Program...", @TempDir, "All (*.*)")
@@ -2384,6 +2491,17 @@ Func RunProgramBehavior()
 	WEnd
 EndFunc
 
+Func KillProgramBehavior()
+	local $sFile = FileOpenDialog("Choose Program...", @TempDir, "All (*.*)")
+	if $sFile == "" then
+		return
+	endif
+	local $split = StringInStr($sFile, "\", 0, -1)
+	local $program = stringright($sFile, StringLen($sFile)-$split)
+	local $location = StringLeft($sFile, $split)
+	$totrig = "kill " & $program
+	AddToBehavior($totrig)
+EndFunc
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -2545,7 +2663,7 @@ While 1
 		Case $hButton13
 			ClipboardBehavior()
 		Case $hButton14
-			RunProgramBehavior()
+			ManageProgramsBehavior()
 		Case $hButton18
 			MessageBoxBehavior()
 		Case $hButton15
