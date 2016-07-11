@@ -27,7 +27,8 @@ Func _Main()
 	Local $idEditText = GUICtrlCreateEdit('', 5, 5, 380, 350)
 
 	; Creates the password box with blured/centered input
-	Local $idInputPass = GUICtrlCreateInput('', 5, 360, 100, 20, BitOR($ES_CENTER, $ES_PASSWORD))
+	;Local $idInputPass = GUICtrlCreateInput('', 5, 360, 100, 20, BitOR($ES_CENTER, $ES_PASSWORD))
+	Local $idInputPass = GUICtrlCreateEdit('', 5, 360, 100, 20, $ES_AUTOVSCROLL)
 
 	; Cretae the combo to select the crypting algorithm
 	Local $idCombo = GUICtrlCreateCombo("", 110, 360, 90, 20, $CBS_DROPDOWNLIST)
