@@ -1,3 +1,4 @@
+#include-once
 #include <File.au3>
 
 Func GetScriptsPath($exact = "")
@@ -14,6 +15,10 @@ Func GetScriptsPath($exact = "")
     Return _PathFull(@AppDataDir & "\ReflexMem\scripts\if\names\")
   elseif $exact == "image" then
     Return _PathFull(@AppDataDir & "\ReflexMem\image\")
+  elseif $exact == "plugins" then
+    Return _PathFull(@AppDataDir & "\ReflexMem\plugins\")
+  elseif $exact == "plib" then
+    Return _PathFull(@AppDataDir & "\ReflexMem\lib\")
   else
     Return _PathFull(@AppDataDir & "\ReflexMem\")
   endif
@@ -22,38 +27,12 @@ EndFunc
 
 
 Func VarifyFolders()
-   if FileExists(GetScriptsPath()) Then
-   Else
-	  DirCreate (GetScriptsPath())
-   EndIf
+  local $exacts = ["", "scripts", "if", "names", "then", "images", "image", "plguins", "plib"]
+  for $exact in $exacts
+    if FileExists(GetScriptsPath($exact)) Then
+    Else
+      DirCreate (GetScriptsPath($exact))
+    EndIf
+  next
 
-   if FileExists(GetScriptsPath("scripts")) Then
-   Else
-    DirCreate (GetScriptsPath("scripts"))
-   EndIf
-
-   if FileExists(GetScriptsPath("if")) Then
-   Else
-    DirCreate (GetScriptsPath("if"))
-   EndIf
-
-   if FileExists(GetScriptsPath("names")) Then
-   Else
-    DirCreate (GetScriptsPath("names"))
-   EndIf
-
-   if FileExists(GetScriptsPath("then")) Then
-   Else
-    DirCreate (GetScriptsPath("then"))
-   EndIf
-
-   if FileExists(GetScriptsPath("images")) Then
-   Else
-    DirCreate (GetScriptsPath("images"))
-   EndIf
-
-   if FileExists(GetScriptsPath("image")) Then
-   Else
-    DirCreate (GetScriptsPath("image"))
-   EndIf
 EndFunc

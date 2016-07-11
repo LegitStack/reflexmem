@@ -1,3 +1,4 @@
+#include-once
 #include <MsgBoxConstants.au3>
 #include <File.au3>
 #include <Array.au3>

@@ -1,3 +1,4 @@
+#include-once
 ;returnes a score of All longest common substrings between two strings.
 
 ;#include <Array.au3>

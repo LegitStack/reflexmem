@@ -1,3 +1,4 @@
+#include-once
 Func GetLevenshteinDistance($string1,$string2)
   Dim $s1len=StringLen($string1),$s2len=StringLen($string2),$arr[$s1len+1][$s2len+1]
   For $i=0 To $s1len

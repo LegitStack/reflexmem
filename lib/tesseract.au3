@@ -10,7 +10,7 @@
   Tesseract 3.04 installed on the machine
 
 #ce ----------------------------------------------------------------------------
-
+#include-once
 
 ;#include <File.au3>
 #include <ScreenCapture.au3>

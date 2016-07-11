@@ -1,4 +1,4 @@
-
+#include-once
 Func ScoreStringAgainstTesseract($s1, $iX1, $iY1, $iX2, $iY2, $threshold)
   local $throwaway
   local $s2 = SaveScreen($throwaway, $iX1, $iY1, $iX2,$iY2, true)

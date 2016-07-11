@@ -11,16 +11,16 @@
 
 #ce ----------------------------------------------------------------------------
 
-
-;#include <File.au3>
+#include-once
 #include <ScreenCapture.au3>
 #include <GDIPlus.au3>
 #include <GUIConstantsEx.au3>
 #include <StringConstants.au3>
-;#include <FileConstants.au3>
-;#include <MsgBoxConstants.au3>
-;#include <Array.au3>
-;#include <levenshtein.au3>
+#include <File.au3>
+#include <FileConstants.au3>
+#include <MsgBoxConstants.au3>
+#include <Array.au3>
+#include <levenshtein.au3>
 
 ;===============================================================================
 ;= Constants ===================================================================

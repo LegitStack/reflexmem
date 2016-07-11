@@ -1,3 +1,4 @@
+#include-once
 Func GetLineDistance($x1,$y1,$x2,$y2)
   Local $xs
   Local $ys

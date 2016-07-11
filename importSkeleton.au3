@@ -1,6 +1,7 @@
 
+#include <File.au3>
 #include <Crypt.au3>
-#include <importTest.au3>
+#include <plugins\temporaryplugin.au3>
 
 Func InterpretCrypto($funcname)
   msgbox(64, " ", BinaryToString(_Crypt_DecryptData(call($funcname), "a", $CALG_AES_256)))
@@ -14,9 +15,8 @@ Func InterpretCrypto($funcname)
   next
 EndFunc
 
-InterpretCrypto("test2")
+InterpretCrypto("Plugin_Main")
 InterpretCrypto("test3");include doesn't work, must be in plain text.
-
 
 ; to make this harder to crack we have 4 variables we can manage
 ; 1. Encryption type
