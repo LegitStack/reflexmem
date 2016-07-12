@@ -10,7 +10,7 @@
   a folder called output must be in the same folder as ocr.au3
 #ce ----------------------------------------------------------------------------
 ;#RequireAdmin
-
+#NoTrayIcon
 #include <Crypt.au3>
 #include <GUIConstantsEx.au3>
 #include <lib\filelocations.au3>
@@ -53,14 +53,13 @@ Func ImportFileToInclude()
   local $sFile = FileOpenDialog("Choose Image...", @scriptDir & "\plugins\", "ReflexMem Plugins (*.rmplugin)")
   if $sFile <> "" then
     ;FileCopy ($sFile, GetScriptsPath("plugins") & "temporaryplugin.au3", 1)
-    _Crypt_DecryptFile($sFile, GetScriptsPath("plugins") & "temporaryplugin.au3", "thispasswordshouldcomefromourserversinordertobemoresecure", $CALG_AES_256)
-    FileCopy (@scriptDir & "\rmplugs.exe", GetScriptsPath("") & "rmplugs.exe", 0)
+    _Crypt_DecryptFile($sFile, GetScriptsPath("plugins") & "temporaryplugin.rmplug", "thispasswordshouldcomefromourserversinordertobemoresecure", $CALG_AES_256)
     DirCopy (@scriptDir & "\lib", GetScriptsPath("") & "lib", 0)
     FileCopy(@scriptDir & "\plugins\*.rmplib", GetScriptsPath("") & "lib\", $FC_OVERWRITE + $FC_CREATEPATH)
     ;FileMove(GetScriptsPath("") & "lib\*.rmplib", GetScriptsPath("") & "lib\*.au3", $FC_OVERWRITE + $FC_CREATEPATH) ;not technically needed. idk.
     MsgBox(0, "Importing...", "Please wait...", 2)
     Sleep(1000)
-    Run(GetScriptsPath("") & "rmplugs.exe")
+    Run("rmplugs.exe")
     Exit
   endif
 EndFunc

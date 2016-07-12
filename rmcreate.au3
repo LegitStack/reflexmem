@@ -1,4 +1,4 @@
-
+#NoTrayIcon
 
 #include <WindowsConstants.au3>
 #include <GUIConstantsEx.au3>
