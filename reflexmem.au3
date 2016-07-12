@@ -11,9 +11,9 @@
 #ce ----------------------------------------------------------------------------
 ;#RequireAdmin
 
+#include <Crypt.au3>
 #include <GUIConstantsEx.au3>
 #include <lib\filelocations.au3>
-
 
 ReflexGui()
 
@@ -52,7 +52,8 @@ EndFunc
 Func ImportFileToInclude()
   local $sFile = FileOpenDialog("Choose Image...", @scriptDir & "\plugins\", "ReflexMem Plugins (*.rmplugin)")
   if $sFile <> "" then
-    FileCopy ($sFile, GetScriptsPath("plugins") & "temporaryplugin.au3", 1)
+    ;FileCopy ($sFile, GetScriptsPath("plugins") & "temporaryplugin.au3", 1)
+    _Crypt_DecryptFile($sFile, GetScriptsPath("plugins") & "temporaryplugin.au3", "thispasswordshouldcomefromourserversinordertobemoresecure", $CALG_AES_256)
     FileCopy (@scriptDir & "\rmplugs.exe", GetScriptsPath("") & "rmplugs.exe", 0)
     DirCopy (@scriptDir & "\lib", GetScriptsPath("") & "lib", 0)
     FileCopy(@scriptDir & "\plugins\*.rmplib", GetScriptsPath("") & "lib\", $FC_OVERWRITE + $FC_CREATEPATH)
