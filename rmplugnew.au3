@@ -1,4 +1,4 @@
-#NoTrayIcon
+;#NoTrayIcon
 #include <File.au3>
 #include <Crypt.au3>
 #include <Array.au3>
@@ -15,7 +15,7 @@
 ;everything is separated by spaces
 ;encoding of Functions:
   ;proc 0          - tells you which i to put it in.
-    ;args: 1 2     - array 1 1-99
+    ;args 1 2     - array 1 1-99
     ;              - array 1 first,
   ;endp            - none
 ;encoding calling functions
@@ -23,7 +23,7 @@
 ;encoding of variables:
   ;set 1 [code]       - v[1] = Execute($restofline)
   ;set 1 puts 2       - v[1] = v[2]
-
+;we may use set as setv for arrays and let them use assign for regular variables
 ;so first we analyze it to separate it out,
 ;then the very last line of the code should be only number
 ;thats when we switch over to run mode
@@ -32,7 +32,7 @@
 ;limitations:
   ; we could make arrays of 1000 or something like a1-10
   ; no includes
-  ; clunky. but basically func becomes proc args call becomes goto and local becomes set 
+  ; clunky. but basically func becomes proc args call becomes goto and local becomes set
 
 
 
@@ -42,34 +42,101 @@
 
 
 
-
-
-
-
-
+Global $procs[256][256]
+Global $v[65000]
+Global $a[256][256]
 Func ImportPlugin()
   local $path = GetScriptsPath("plugins") & "temporaryplugin.rmplug"
   local $file = FileOpen($path, $FO_READ)
   local $read = FileRead($file)
   FileClose($file)
-  local $nread = Stringsplit($read, @CRLF, 2)
-  msgbox(64, "$read", $nread[0] &".")
-  local $newread = BinaryToString(_Crypt_DecryptData($nread[0], "a", $CALG_AES_256))
-    msgbox(64, "$read", $newread)
-  local $newnewread = Stringsplit($newread, @CRLF, 2)
-  _arrayDisplay($newnewread, "$read")
-  ExecutePlugin($newnewread)
+
+  local $read
+  ;local $read = BinaryToString(_Crypt_DecryptData($read, "a", $CALG_AES_256))
+  ;msgbox(64, "$read", $read)
+  $read = Stringsplit($read, @CRLF, 2)
+  ;_arrayDisplay($read, "$read")
+  AnalyzePlugin($read)
 EndFunc
 
-Func ExecutePlugin($__READ__)
-  for $__R__ in $__READ__
-    if $__R__ <> "" then
-      Execute($__R__)
-      if $__R__ == "Exit" then
-        Exit
+Func AnalyzePlugin($read)
+  local $procnum = ""
+  local $temp
+  local $temp1
+  local $ln = ""
+
+  for $r in $read
+  $temp = Stringsplit($r, " ", 2)
+  $temp1= stringleft($r, 4)
+    if $temp1 == "proc" Or $temp1 == "Proc" then
+      $procnum = $temp[1]
+      $ln = 0
+    ;elseif  stringleft($r, 4) == "args" Or stringleft($r, 4) == "Args" then
+    elseif $temp1 == "endp" Or $temp1 == "Endp" then
+      $procs[$procnum][$ln] = $temp1
+      $procnum = ""
+    else ; regular code
+      if $procnum <> "" then
+        if $r <> "" then
+          $procs[$procnum][$ln] = StringStripWS($r, $STR_STRIPLEADING + $STR_STRIPTRAILING + $STR_STRIPSPACES)
+          $ln = $ln + 1
+        endif
+      else
+        $temp = $r
       endif
     endif
   next
+  ;_arrayDisplay($procs, "procs")
+  ExecuteProc($temp)
+EndFunc
+
+
+Func ExecuteProc($number, $arg1 = "", $arg2 = "", $arg3 = "", $arg4 = "", $arg5 = "", $arg6 = "", $arg7 = "", $arg8 = "")
+  local $temp
+  local $temp1
+
+  for $pcount = 0 to 255
+    $read = $procs[$number][$pcount]
+    msgbox(64,"readsays "& $pcount,$read)
+    $r = Stringsplit($read, " ", 2)
+    if      stringleft($read, 4) == "goto" Or stringleft($read, 4) == "Goto" then
+      if ubound($r) == 9 then
+        ExecuteProc($r[1], $r[2], $r[3], $r[4], $r[5], $r[6], $r[7], $r[8], $r[9])
+      elseif Ubound($r) == 8 then
+        ExecuteProc($r[1], $r[2], $r[3], $r[4], $r[5], $r[6], $r[7], $r[8])
+      elseif Ubound($r) == 7 then
+        ExecuteProc($r[1], $r[2], $r[3], $r[4], $r[5], $r[6], $r[7])
+      elseif Ubound($r) == 6 then
+        ExecuteProc($r[1], $r[2], $r[3], $r[4], $r[5], $r[6])
+      elseif Ubound($r) == 5 then
+        ExecuteProc($r[1], $r[2], $r[3], $r[4], $r[5])
+      elseif Ubound($r) == 4 then
+        ExecuteProc($r[1], $r[2], $r[3], $r[4])
+      elseif Ubound($r) == 3 then
+        ExecuteProc($r[1], $r[2], $r[3])
+      elseif Ubound($r) == 2 then
+        ExecuteProc($r[1], $r[2])
+      elseif Ubound($r) == 1 then
+        ExecuteProc($r[1])
+      endif
+    elseif  stringleft($read, 4) == "set " Or stringleft($read, 4) == "Set " then
+      if ubound($r) == 3 then
+        $v[$r[1]] = $r[2]
+      elseif ubound($r) > 3 then
+        for $temp = 2 to ubound($r)-1
+          $a[$r[1]][$temp-2] = $r[$temp]
+        next
+      endif
+      ;elseif  stringleft($read, 4) == "put " Or stringleft($read, 4) == "Put " then
+    elseif  stringleft($read, 4) == "endp" Or stringleft($read, 4) == "Endp" then
+      exitloop
+    elseif  $read                == "exit" Or $read                == "Exit" then
+      Exit
+    else
+      Execute($read)
+    endif
+  next
+  ;clear local variables because proc has ended
 EndFunc
 
 msgbox(64, "running", "")
