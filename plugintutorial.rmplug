@@ -28,11 +28,14 @@ proc 1
   ; 8 max arguments allowed arguments only allow single words or numbers or variables
   goto 2 hello $v[1]
 
-  ; no return is allowed: just set a variable to your return value
+  ; how to access the return
+  msgbox(64,"1-returned",$return)
 Endp
 
-proc 2
+proc 2 args are ignored if you write them in here.
 
+  ;here's how to use args, 1 or 2 args allowed
+  msgbox(64, "2", $arg1 & " " & $arg2)
 
-  ; no return is allowed: just set a variable to your return value
-Endp
+  ;  if you want to return a value simply add it onto the end of this line
+Endp goodbyeworld

@@ -66,14 +66,14 @@ Func AnalyzePlugin($read)
   local $ln = ""
 
   for $r in $read
-  $temp = Stringsplit($r, " ", 2)
-  $temp1= stringleft($r, 4)
+    $temp = Stringsplit($r, " ", 2)
+    $temp1= stringleft($r, 4)
     if $temp1 == "proc" Or $temp1 == "Proc" then
       $procnum = $temp[1]
       $ln = 0
     ;elseif  stringleft($r, 4) == "args" Or stringleft($r, 4) == "Args" then
     elseif $temp1 == "endp" Or $temp1 == "Endp" then
-      $procs[$procnum][$ln] = $temp1
+      $procs[$procnum][$ln] = $r
       $procnum = ""
     else ; regular code
       if $procnum <> "" then
@@ -91,33 +91,34 @@ Func AnalyzePlugin($read)
 EndFunc
 
 
-Func ExecuteProc($number, $arg1 = "", $arg2 = "", $arg3 = "", $arg4 = "", $arg5 = "", $arg6 = "", $arg7 = "", $arg8 = "")
+Func ExecuteProc($number, $arg1 = "", $arg2 = "")
   local $temp
   local $temp1
+  local $return
 
   for $pcount = 0 to 255
     $read = $procs[$number][$pcount]
-    msgbox(64,"readsays "& $pcount,$read)
+    ;msgbox(64,"readsays "& $pcount,$read)
     $r = Stringsplit($read, " ", 2)
     if      stringleft($read, 4) == "goto" Or stringleft($read, 4) == "Goto" then
-      if ubound($r) == 9 then
-        ExecuteProc($r[1], $r[2], $r[3], $r[4], $r[5], $r[6], $r[7], $r[8], $r[9])
-      elseif Ubound($r) == 8 then
-        ExecuteProc($r[1], $r[2], $r[3], $r[4], $r[5], $r[6], $r[7], $r[8])
-      elseif Ubound($r) == 7 then
-        ExecuteProc($r[1], $r[2], $r[3], $r[4], $r[5], $r[6], $r[7])
-      elseif Ubound($r) == 6 then
-        ExecuteProc($r[1], $r[2], $r[3], $r[4], $r[5], $r[6])
-      elseif Ubound($r) == 5 then
-        ExecuteProc($r[1], $r[2], $r[3], $r[4], $r[5])
-      elseif Ubound($r) == 4 then
-        ExecuteProc($r[1], $r[2], $r[3], $r[4])
+      if Ubound($r) == 4 then
+        if stringleft($r[2], 1) == "$" and stringleft($r[3], 1) == "$" then
+          $return = ExecuteProc($r[1], execute($r[2]), execute($r[3]))
+        elseif stringleft($r[2], 1) <> "$" and stringleft($r[3], 1) == "$" then
+          $return = ExecuteProc($r[1], $r[2], execute($r[3]))
+        elseif stringleft($r[2], 1) == "$" and stringleft($r[3], 1) <> "$" then
+          $return = ExecuteProc($r[1], execute($r[2]), $r[3])
+        else
+          $return = ExecuteProc($r[1], $r[2], $r[3])
+        endif
       elseif Ubound($r) == 3 then
-        ExecuteProc($r[1], $r[2], $r[3])
+        if stringleft($r[2], 1) == "$" then
+          $return = ExecuteProc($r[1], execute($r[2]))
+        else
+          $return = ExecuteProc($r[1], $r[2])
+        endif
       elseif Ubound($r) == 2 then
-        ExecuteProc($r[1], $r[2])
-      elseif Ubound($r) == 1 then
-        ExecuteProc($r[1])
+        $return = ExecuteProc($r[1])
       endif
     elseif  stringleft($read, 4) == "set " Or stringleft($read, 4) == "Set " then
       if ubound($r) == 3 then
@@ -129,6 +130,15 @@ Func ExecuteProc($number, $arg1 = "", $arg2 = "", $arg3 = "", $arg4 = "", $arg5 
       endif
       ;elseif  stringleft($read, 4) == "put " Or stringleft($read, 4) == "Put " then
     elseif  stringleft($read, 4) == "endp" Or stringleft($read, 4) == "Endp" then
+      if Ubound($r) == 2 then
+        if stringleft($r[2], 1) == "$" then
+          $return = ExecuteProc(execute($r[1]))
+        else
+          $return = $r[1]
+        endif
+      else
+        $return = ""
+      endif
       exitloop
     elseif  $read                == "exit" Or $read                == "Exit" then
       Exit
@@ -137,6 +147,7 @@ Func ExecuteProc($number, $arg1 = "", $arg2 = "", $arg3 = "", $arg4 = "", $arg5 
     endif
   next
   ;clear local variables because proc has ended
+  return $return
 EndFunc
 
 msgbox(64, "running", "")
