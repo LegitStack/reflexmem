@@ -1,8 +1,32 @@
 ;#NoTrayIcon
+#include <Math.au3>
 #include <File.au3>
+#include <Misc.au3>
 #include <Crypt.au3>
 #include <Array.au3>
+#include <FileConstants.au3>
+#include <MsgboxConstants.au3>
+#include <GUIConstantsEx.au3>
+#include <GuiListView.au3>
 #include <lib\filelocations.au3>
+#include <lib\Array2.au3>
+#include <lib\alllcs.au3>
+#include <lib\sqlitequery.au3>
+#include <lib\levenshtein.au3>
+#include <lib\linedistance.au3>
+#include <lib\tesseract_stdout.au3>
+#include <lib\combinealllcsandtesseract.au3>
+;#include <lib\tesseract.au3>
+
+
+
+
+
+
+
+
+
+
 ;METHOD 3 (special Raw Execute)
 ;at least 3 arrays:
   ;1. proc code, arguments of procs = 2d array p[]
@@ -45,26 +69,41 @@
 Global $procs[256][256]
 Global $v[65000]
 Global $a[256][256]
+Global $hotkey[100]
+Global $hotproc[100]
+
+
+
+Func HotkeyPlugin()
+  for $hki = 0 to ubound($hotkey)-1
+    if @HotKeyPressed == $hotkey[$hki] then
+      ExecuteProc($hotproc[$hki])
+    endif
+  next
+EndFunc
+
+
 Func ImportPlugin()
   local $path = GetScriptsPath("plugins") & "temporaryplugin.rmplug"
   local $file = FileOpen($path, $FO_READ)
   local $read = FileRead($file)
   FileClose($file)
-
-  local $read
-  ;local $read = BinaryToString(_Crypt_DecryptData($read, "a", $CALG_AES_256))
+  ;msgbox(64, "$read", $read)
+  local $nread = Stringsplit($read, @CRLF, 2)
+  $read = BinaryToString(_Crypt_DecryptData($nread[0], "a", $CALG_AES_256))
   ;msgbox(64, "$read", $read)
   $read = Stringsplit($read, @CRLF, 2)
   ;_arrayDisplay($read, "$read")
   AnalyzePlugin($read)
 EndFunc
 
+
 Func AnalyzePlugin($read)
   local $procnum = ""
   local $temp
   local $temp1
   local $ln = ""
-
+  local $hki = 0
   for $r in $read
     $temp = Stringsplit($r, " ", 2)
     $temp1= stringleft($r, 4)
@@ -75,19 +114,22 @@ Func AnalyzePlugin($read)
     elseif $temp1 == "endp" Or $temp1 == "Endp" then
       $procs[$procnum][$ln] = $r
       $procnum = ""
+    elseif $temp1 == "hkps" Or $temp1 == "Hkps" then ;hot key pressed set
+      $hotkey[$hki] = $temp[1]
+      $hotproc[$hki] = $temp[2]
+      $hki = $hki + 1
+      HotKeySet($temp[1],"HotkeyPlugin")
     else ; regular code
       if $procnum <> "" then
         if $r <> "" then
           $procs[$procnum][$ln] = StringStripWS($r, $STR_STRIPLEADING + $STR_STRIPTRAILING + $STR_STRIPSPACES)
           $ln = $ln + 1
         endif
-      else
-        $temp = $r
       endif
     endif
   next
   ;_arrayDisplay($procs, "procs")
-  ExecuteProc($temp)
+  ExecuteProc(0)
 EndFunc
 
 
@@ -131,7 +173,7 @@ Func ExecuteProc($number, $arg1 = "", $arg2 = "")
       ;elseif  stringleft($read, 4) == "put " Or stringleft($read, 4) == "Put " then
     elseif  stringleft($read, 4) == "endp" Or stringleft($read, 4) == "Endp" then
       if Ubound($r) == 2 then
-        if stringleft($r[2], 1) == "$" then
+        if stringleft($r[1], 1) == "$" then
           $return = ExecuteProc(execute($r[1]))
         else
           $return = $r[1]
@@ -150,7 +192,7 @@ Func ExecuteProc($number, $arg1 = "", $arg2 = "")
   return $return
 EndFunc
 
-msgbox(64, "running", "")
+;msgbox(64, "running", "")
 ImportPlugin()
 
 ;how to prepare plugins

@@ -1,3 +1,6 @@
+;how to set a hotkey key procnumber
+hkps {END} 3
+
 ;here's a sudo-function. only numbers (as the name) allowed. No need to specify arguments
 proc 0
   ;heres a comment
@@ -10,6 +13,9 @@ proc 0
 
   ; reference elements in an array
   msgbox(64,"01","hello " & $a[1][1] & $a[1][2] & $a[1][3] )
+
+  ;wait so we can test the hotkey command
+  sleep(5000)
 
 ;end sudo function
 endp
@@ -39,3 +45,12 @@ proc 2 args are ignored if you write them in here.
 
   ;  if you want to return a value simply add it onto the end of this line
 Endp goodbyeworld
+
+
+proc 3 called from hotkey
+
+  msgbox(64, "3", "called from hotkey")
+
+Endp
+
+code outside procs are ignored, like comments
