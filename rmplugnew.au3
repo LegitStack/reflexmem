@@ -88,7 +88,7 @@ Func ImportPlugin()
   local $file = FileOpen($path, $FO_READ)
   local $read = FileRead($file)
   FileClose($file)
-  msgbox(64, "$read", $read)
+  ;msgbox(64, "$read", $read)
   local $nread = Stringsplit($read, @CRLF, 2)
   if Stringleft($nread[0],1) == "'" then
     $nread = stringtrimleft($nread[0],1)
@@ -97,9 +97,9 @@ Func ImportPlugin()
     $nread = $nread[0]
   endif
   $read = BinaryToString(_Crypt_DecryptData($nread, "a", $CALG_AES_256))
-  msgbox(64, "$read", $read)
+  ;msgbox(64, "$read", $read)
   $read = Stringsplit($read, @CRLF, 2)
-  _arrayDisplay($read, "$read")
+  ;_arrayDisplay($read, "$read")
   AnalyzePlugin($read)
 EndFunc
 
@@ -110,6 +110,7 @@ Func AnalyzePlugin($read)
   local $temp1
   local $ln = ""
   local $hki = 0
+
   for $r in $read
     $temp = Stringsplit($r, " ", 2)
     $temp1= stringleft($r, 4)
@@ -143,12 +144,16 @@ Func ExecuteProc($number, $arg1 = "", $arg2 = "")
   local $temp
   local $temp1
   local $return
-
+  local $ift = ""
+  local $embeddedif = 0
+  ;_arraydisplay($procs)
+  tooltip($number)
   for $pcount = 0 to 255
     $read = $procs[$number][$pcount]
     ;msgbox(64,"readsays "& $pcount,$read)
     $r = Stringsplit($read, " ", 2)
-    if      stringleft($read, 4) == "goto" Or stringleft($read, 4) == "Goto" then
+    if     (stringleft($read, 4) == "goto" Or stringleft($read, 4) == "Goto") And ($ift == "" Or stringright($ift, 1) == "t") then
+      msgbox(64,"calling!", $r[1])
       if Ubound($r) == 4 then
         if stringleft($r[2], 1) == "$" and stringleft($r[3], 1) == "$" then
           $return = ExecuteProc($r[1], execute($r[2]), execute($r[3]))
@@ -168,7 +173,7 @@ Func ExecuteProc($number, $arg1 = "", $arg2 = "")
       elseif Ubound($r) == 2 then
         $return = ExecuteProc($r[1])
       endif
-    elseif  stringleft($read, 4) == "set " Or stringleft($read, 4) == "Set " then
+    elseif (stringleft($read, 4) == "set " Or stringleft($read, 4) == "Set ") And ($ift == "" Or stringright($ift, 1) == "t") then
       if ubound($r) == 3 then
         $v[$r[1]] = $r[2]
       elseif ubound($r) > 3 then
@@ -176,8 +181,30 @@ Func ExecuteProc($number, $arg1 = "", $arg2 = "")
           $a[$r[1]][$temp-2] = $r[$temp]
         next
       endif
-      ;elseif  stringleft($read, 4) == "put " Or stringleft($read, 4) == "Put " then
-    elseif  stringleft($read, 4) == "endp" Or stringleft($read, 4) == "Endp" then
+
+    elseif stringleft($read, 4) == "ift " Or stringleft($read, 4) == "Ift " then
+      Msgbox(64,"ift", $read)
+      if $embeddedif == 0 then
+        Msgbox(64,"ift", $read)
+        if $ift == "" Or stringright($ift, 1) == "t" then
+          if execute(stringtrimleft($read, 4)) then
+            $ift = $ift & "t"
+            Msgbox(64,"iftt", $ift)
+          else
+            $ift = $ift & "f"
+            Msgbox(64,"iftf", $ift)
+          endif
+        endif
+      else
+        $embeddedif = $embeddedif + 1
+      endif
+    elseif (stringleft($read, 4) == "endi" Or stringleft($read, 4) == "Endi") And ($ift == "" Or stringright($ift, 1) == "t") then
+      if $embeddedif == 0 then
+        $ift = stringtrimright($ift, 1)
+      else
+        $embeddedif = $embeddedif - 1
+      endif
+    elseif (stringleft($read, 4) == "endp" Or stringleft($read, 4) == "Endp") And ($ift == "" Or stringright($ift, 1) == "t")then
       if Ubound($r) == 2 then
         if stringleft($r[1], 1) == "$" then
           $return = ExecuteProc(execute($r[1]))
@@ -188,10 +215,12 @@ Func ExecuteProc($number, $arg1 = "", $arg2 = "")
         $return = ""
       endif
       exitloop
-    elseif  $read                == "exit" Or $read                == "Exit" then
+    elseif  ($read == "exit" Or $read == "Exit") And ($ift == "" Or stringright($ift, 1) == "t") then
       Exit
     else
-      Execute($read)
+      if  $ift == "" Or stringright($ift, 1) == "t" then
+        Execute($read)
+      endif
     endif
   next
   ;clear local variables because proc has ended
