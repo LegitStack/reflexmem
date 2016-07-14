@@ -153,7 +153,6 @@ Func ExecuteProc($number, $arg1 = "", $arg2 = "")
     ;msgbox(64,"readsays "& $pcount,$read)
     $r = Stringsplit($read, " ", 2)
     if     (stringleft($read, 4) == "goto" Or stringleft($read, 4) == "Goto") And ($ift == "" Or stringright($ift, 1) == "t") then
-      msgbox(64,"calling!", $r[1])
       if Ubound($r) == 4 then
         if stringleft($r[2], 1) == "$" and stringleft($r[3], 1) == "$" then
           $return = ExecuteProc($r[1], execute($r[2]), execute($r[3]))
@@ -175,33 +174,48 @@ Func ExecuteProc($number, $arg1 = "", $arg2 = "")
       endif
     elseif (stringleft($read, 4) == "set " Or stringleft($read, 4) == "Set ") And ($ift == "" Or stringright($ift, 1) == "t") then
       if ubound($r) == 3 then
-        $v[$r[1]] = $r[2]
+        if stringleft($r[2], 1) == "$" then
+          $v[$r[1]] = execute($r[2])
+        else
+          $v[$r[1]] = $r[2]
+        endif
       elseif ubound($r) > 3 then
         for $temp = 2 to ubound($r)-1
           $a[$r[1]][$temp-2] = $r[$temp]
         next
       endif
-
     elseif stringleft($read, 4) == "ift " Or stringleft($read, 4) == "Ift " then
-      Msgbox(64,"ift", $read)
-      if $embeddedif == 0 then
-        Msgbox(64,"ift", $read)
-        if $ift == "" Or stringright($ift, 1) == "t" then
-          if execute(stringtrimleft($read, 4)) then
-            $ift = $ift & "t"
-            Msgbox(64,"iftt", $ift)
-          else
-            $ift = $ift & "f"
-            Msgbox(64,"iftf", $ift)
-          endif
+      if $ift == "" Or stringright($ift, 1) == "t" then
+        if execute(stringtrimleft($read, 4)) then
+          $ift = $ift & "t"
+          $embeddedif = $embeddedif + 1
+        else
+          $ift = $ift & "f"
         endif
-      else
-        $embeddedif = $embeddedif + 1
       endif
-    elseif (stringleft($read, 4) == "endi" Or stringleft($read, 4) == "Endi") And ($ift == "" Or stringright($ift, 1) == "t") then
-      if $embeddedif == 0 then
+    elseif stringleft($read, 4) == "elif" Or stringleft($read, 4) == "Elif" then
+      if $ift == "f" Or stringright($ift, 2) == "tf" then
+        if execute(stringtrimleft($read, 4)) then
+          $ift = stringtrimright($ift, 1)
+          $ift = $ift & "t"
+          $embeddedif = $embeddedif + 1
+        else
+          $ift = stringtrimright($ift, 1)
+          $ift = $ift & "f"
+        endif
+      endif
+    elseif stringleft($read, 4) == "else" Or stringleft($read, 4) == "Else" then
+      if $ift == "f" Or stringright($ift, 2) == "tf" then
         $ift = stringtrimright($ift, 1)
+        $ift = $ift & "t"
+        $embeddedif = $embeddedif + 1
       else
+        $ift = stringtrimright($ift, 1)
+        $ift = $ift & "f"
+      endif
+    elseif (stringleft($read, 4) == "endi" Or stringleft($read, 4) == "Endi") then
+      if $ift == "" Or stringright($ift, 1) == "t" then
+        $ift = stringtrimright($ift, 1)
         $embeddedif = $embeddedif - 1
       endif
     elseif (stringleft($read, 4) == "endp" Or stringleft($read, 4) == "Endp") And ($ift == "" Or stringright($ift, 1) == "t")then
