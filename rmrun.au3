@@ -11,6 +11,7 @@
 #include <lib\tesseract_stdout.au3>
 #include <lib\combinealllcsandtesseract.au3>
 #include <lib\levenshtein.au3>
+#include <Crypt.au3>
 
 VarifyFolders()
 
@@ -183,8 +184,9 @@ Func PopulateGui()
     endif
   next
   ;GUICtrlSetResizing(-1, $GUI_DOCKLEFT + $GUI_DOCKTOP)
-  Local $idClose = GUICtrlCreateButton("Close", 10, 610, 100, 40)
-  Local $idSlider1 = GUICtrlCreateSlider(120, 620, 370, 30)
+  Local $idClose = GUICtrlCreateButton("Close", 10, 610, 60, 40) ;10, 610, 100, 40)
+  Local $idCreatePlugin = GUICtrlCreateButton("Create Plugin", 80, 610, 80, 40)
+  Local $idSlider1 = GUICtrlCreateSlider(170, 620, 320, 30) ;(120, 620, 370, 30)
   GUICtrlSetLimit(-1, 100, 0) ; change min/max value GUICtrlSetPos ( controlID, left [, top [, width [, height]]] )
   local $pLabel = GUICtrlCreateLabel("", 535, 600, 80, 20)
   GUICtrlSetFont($pLabel, 7, $FW_NORMAL,  $GUI_FONTITALIC)
@@ -286,6 +288,34 @@ Func PopulateGui()
             GUICtrlSetState($idDelete[$i],$GUI_DISABLE)
             GUICtrlSetState($idBlist[$i],$GUI_DISABLE)
           next
+        Case $idCreatePlugin
+          $codetemp = "proc 0" & @CRLF
+          $codetemp = $codetemp & "while 1" & @CRLF
+          for $c = 0 to ubound($trigs)-1
+            $codetemp = $codetemp & "if " & $triggers[$c] & " then" & @CRLF
+            for $i = 0 to 100
+              if $behaviors[$i][$c] == ""  then
+                $i = 101
+              else
+                $codetemp = $codetemp & $behaviors[$i][$c] & @CRLF
+              endif
+            next
+            $codetemp = $codetemp & "endif" & @CRLF
+          next
+          $codetemp = $codetemp & "wend" & @CRLF
+          $codetemp = $codetemp & "endp"
+          ;msgbox(64,"code",$codetemp)
+          $codetemp = _Crypt_EncryptData($codetemp, "a", $CALG_AES_256)
+          ;msgbox(64,"code",$codetemp)
+          If Not FileWrite(@DesktopDir & "\ProPlugin1.rmplugin", "") Then
+            MsgBox($MB_SYSTEMMODAL, $name, "couldn't save plugin")
+            Return False
+          EndIf
+          ;MsgBox($MB_SYSTEMMODAL, $name, "mde empty")
+          FileWriteLine (@DesktopDir & "\ProPlugin1.rmplugin", "'" & $codetemp & "'")
+          _Crypt_EncryptFile(@DesktopDir & "\ProPlugin1.rmplugin", @DesktopDir & "\ProPlugin.rmplugin", "thispasswordshouldcomefromourserversinordertobemoresecure", $CALG_AES_256)
+          FileDelete(@DesktopDir & "\ProPlugin1.rmplugin")
+          MsgBox($MB_SYSTEMMODAL, $name, "Plugin Saved to your Desktop as ProPlugin.rmplugin")
         Case Else
           ;if _IsPressed('2E') then
           ;  ;msgbox(64, "msg", $msg)

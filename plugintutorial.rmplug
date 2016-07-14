@@ -54,3 +54,41 @@ proc 3 called from hotkey
 Endp
 
 code outside procs are ignored, like comments
+
+
+proc 4 if statements are ift statments NO then
+
+  ift $v[1] == "hello"
+    msgbox(64,"4","this is false and wont be executed!")
+  ift $v[1] == "world"
+    msgbox(64,"4","hello ift statement! no elif, just ift")
+  endi
+
+  ift $v[1] == "goodbye"
+    msgbox(64,"4","this is false and wont be executed!")
+  else
+    msgbox(64,"4","Hello else statement!")
+  endi
+
+  msgbox(64,"4","This code is not in an if statement.")
+
+  $v[1] == "0"
+
+  goto 5
+
+endp
+
+
+proc 5 Loops!!! You must use proc as a loop because this has no loops. only recursion.
+
+  ift $v[1] == 3
+    msgbox(64,"5","done with loop!" & $v[1])
+  else
+    msgbox(64,"5",$v[1])
+    set 1 $v[1]+1
+    goto 5
+  endi
+
+  msgbox(64,"5","This concludes our tour of the rmplugin language!")
+
+endp

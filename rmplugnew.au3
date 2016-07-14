@@ -88,12 +88,18 @@ Func ImportPlugin()
   local $file = FileOpen($path, $FO_READ)
   local $read = FileRead($file)
   FileClose($file)
-  ;msgbox(64, "$read", $read)
+  msgbox(64, "$read", $read)
   local $nread = Stringsplit($read, @CRLF, 2)
-  $read = BinaryToString(_Crypt_DecryptData($nread[0], "a", $CALG_AES_256))
-  ;msgbox(64, "$read", $read)
+  if Stringleft($nread[0],1) == "'" then
+    $nread = stringtrimleft($nread[0],1)
+    $nread = stringtrimright($nread,1)
+  Else
+    $nread = $nread[0]
+  endif
+  $read = BinaryToString(_Crypt_DecryptData($nread, "a", $CALG_AES_256))
+  msgbox(64, "$read", $read)
   $read = Stringsplit($read, @CRLF, 2)
-  ;_arrayDisplay($read, "$read")
+  _arrayDisplay($read, "$read")
   AnalyzePlugin($read)
 EndFunc
 
