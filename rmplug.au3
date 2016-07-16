@@ -83,6 +83,7 @@ Func AnalyzePlugin($read)
       $hki = $hki + 1
       HotKeySet($temp[1],"HotkeyPlugin")
     elseif StringStripWS($r, $STR_STRIPLEADING + $STR_STRIPTRAILING + $STR_STRIPSPACES) == "loop" Or StringStripWS($r, $STR_STRIPLEADING + $STR_STRIPTRAILING + $STR_STRIPSPACES) == "Loop" then
+      $oldloopnum = $loopnum
       $loopnum = $loopnum + 1
       $embedded = $embedded + 1
       $lnloop[$embedded] = 0
@@ -90,12 +91,17 @@ Func AnalyzePlugin($read)
         $procs[$procnum][$ln] = "loop " & $loopnum
         $ln = $ln + 1
       else
-        $loops[$loopnum][$lnloop[$embedded]] = "loop " & $loopnum
-        $lnloop[$embedded] = $lnloop[$embedded] + 1
+        ;msgbox(64,"loop found," & $loopnum, $embedded & " " & $lnloop[$embedded])
+        $loops[$oldloopnum][$lnloop[$embedded-1]] = "loop " & $loopnum
+        $lnloop[$embedded-1] = $lnloop[$embedded-1] + 1
+        ;_arraydisplay($loops)
       endif
     elseif StringStripWS($r, $STR_STRIPLEADING + $STR_STRIPTRAILING + $STR_STRIPSPACES) == "endl" Or StringStripWS($r, $STR_STRIPLEADING + $STR_STRIPTRAILING + $STR_STRIPSPACES) == "Endl" then
       $loops[$loopnum][$lnloop[$embedded]] = StringStripWS($r, $STR_STRIPLEADING + $STR_STRIPTRAILING + $STR_STRIPSPACES)
       $embedded = $embedded - 1
+      if $embedded > -1 then
+        $loopnum = $loopnum - 1
+      endif
     else ; regular code
       if $procnum <> "" then
         if $r <> "" then
@@ -139,8 +145,9 @@ EndFunc
 
 
 
-Func ExecuteLoop($number, Byref $arg1, Byref $arg2, Byref $temp, Byref $temp1, Byref $return, Byref $ift, Byref $command)
+Func ExecuteLoop($number, Byref $arg1, Byref $arg2, Byref $temp, Byref $temp1, Byref $return, Byref $command)
   local $embeddedif = 0
+  local $ift = ""
   ;_arraydisplay($procs)
   while 1
     For $pcount = 0 to 255
@@ -197,7 +204,7 @@ Func ExecuteCode(Byref $read, Byref $r, Byref $arg1, Byref $arg2, Byref $temp, B
       next
     endif
   elseif ($command == "loop" Or $command == "Loop") And ($ift == "" Or stringright($ift, 1) == "t") then
-    ExecuteLoop($r[1], $arg1, $arg2, $temp, $temp1, $return, $ift, $command)
+    ExecuteLoop($r[1], $arg1, $arg2, $temp, $temp1, $return, $command)
   elseif ($command == "endl" or $command == "Endl") And ($ift == "" Or stringright($ift, 1) == "t") then
     return 300
   elseif ($command == "bklp" or $command == "Bklp") And ($ift == "" Or stringright($ift, 1) == "t") then
