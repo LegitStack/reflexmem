@@ -1,5 +1,5 @@
 
- Requirements:
+ Requirements: (highly outdated.)
 
 -   Windows 7 or higher
 -   (if using .au3 files Autoit must be installed)

@@ -218,16 +218,19 @@ Return: 2.1052631578947368421052631578947
 8. Finish the import plugin portion (including Encrypting and decrypting the plugin code and running it in a fashion that is secure, and creating the payment structure and making it impossible* to cheat: that is require a code they get upon buying it. save these codes in the online DB along with the email and name on the card that bought it. These plugins will require the use of sqlite so be sure to include a library for that and teach your program how to use it.) 
 
 9. list of things to finish in order:
-	a. make the import plugin code functional.
-		1. plugin requirements: needs a Plugin_Main() function to start the plugin. 
-		2. possible other features such as a pause command or something.
-	b. make the plugins cryptographically secure as possible.
+DONE	a. make the import plugin code functional.
+NO		1. plugin requirements: needs a Plugin_Main() function to start the plugin. 
+NO		2. possible other features such as a pause command or something.
+???	b. make the plugins cryptographically secure as possible.
 	c. make all the approapriate libraries for plugins to be able to work robustly. (including gui stuff)
-	d. make the pro version of the program secure so they need to put in a code.
-	e. make the website and webapp for security with login and stuff.
+???	d. make the pro version of the program secure so they need to put in a code.
+???	e. make the website and webapp for security with login and stuff.
 	f. make tutorials and promo vids. (10-30) put on youtube.
 	g. make plugin for local cheating. (ai creates the semantic db)
 	h. make plugin for remote cheating. (to our databases of answers)
 	i. make plugin to combine the two? no they can just run two instances.
+
+10. We've made the import plugin code functional, but haven't done much else. we need to tie in the website to it's cryptographically secure peice. Then finish the website so you can buy it. then make a plugin for cheating, then make the db for it then make a vids
+
 
 	

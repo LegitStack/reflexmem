@@ -55,7 +55,6 @@ Func ImportFileToInclude()
     ;FileCopy ($sFile, GetScriptsPath("plugins") & "temporaryplugin.au3", 1)
     _Crypt_DecryptFile($sFile, GetScriptsPath("plugins") & "temporaryplugin.rmplug", "thispasswordshouldcomefromourserversinordertobemoresecure", $CALG_AES_256)
     DirCopy (@scriptDir & "\lib", GetScriptsPath("") & "lib", 0)
-    FileCopy(@scriptDir & "\plugins\*.rmplib", GetScriptsPath("") & "lib\", $FC_OVERWRITE + $FC_CREATEPATH)
     ;FileMove(GetScriptsPath("") & "lib\*.rmplib", GetScriptsPath("") & "lib\*.au3", $FC_OVERWRITE + $FC_CREATEPATH) ;not technically needed. idk.
     MsgBox(0, "Importing...", "Please wait...", 2)
     Sleep(1000)
