@@ -107,8 +107,8 @@ Func CreateBehaviors()
 	Global $hButton18 = GUICtrlCreateButton("Display Message",			330, 	395, 	250, 35) ;done
 	Global $hButton15 = GUICtrlCreateButton("Wait", 								330, 	440, 	250, 35) ;done
 	Global $hButton19 = GUICtrlCreateButton("Manage ReflexMem",			330, 	485, 	250, 35) ;
-	Global $hButton20 = GUICtrlCreateButton("Modify Variable *Pro",	330, 	530, 	250, 35) ;done
-	Global $hButton21 = GUICtrlCreateButton("View Variable *Pro",		330, 	575, 	250, 35) ;done
+	Global $hButton20 = GUICtrlCreateButton("Manage Variables *Pro",330, 	530, 	250, 35) ;done
+	Global $hButton21 = GUICtrlCreateButton("Get On Screen Text",		330, 	575, 	250, 35) ;done
 	Global $hButton17 = GUICtrlCreateButton("Submit Behaviors",			310, 	655, 	280, 50) ;done
 	GUICtrlSetFont(-1, 10)
 
@@ -2295,6 +2295,24 @@ Func MessageBoxBehavior()
 EndFunc
 
 
+
+Func TextOnScreenBehavior()
+
+	msgbox(64, "Get Text On Screen Behavior", "This feature is only supported on paid versions of ReflexMem.")
+	msgbox(64, "Get Text On Screen Behavior", "Press ok then select the region of the screen where the text will be.")
+
+	Local $iX1, $iY1, $iX2, $iY2, $aPos, $sMsg, $sBMP_Path
+	local $throwaway, $totrig
+	While 1
+		Mark_Rect($iX1, $iY1, $iX2, $iY2, $aPos, $sMsg, $sBMP_Path)
+		$totrig = "gettext " & $iX1 & " " & $iY1 & " " & $iX2 & " " & $iY2
+		AddToBehavior($totrig)
+		ExitLoop
+	WEnd
+EndFunc
+
+
+
 Func ManageReflexMemBehavior()
 	Local $hChild12 = GUICreate("Manage ReflexMem Behavior", 600, 200, -1, -1, -1, -1, $hGUI)
 	GUICtrlCreateLabel("What would you like ReflexMem to do?", 20, 20, 560, 35)
@@ -2426,7 +2444,32 @@ Func MouseWheelBehavior()
 EndFunc
 
 
+Func ManageVariableBehavior()
+	Local $hChild12 = GUICreate("Manage Variable Behavior", 400, 200, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("Would you like to View or Modify a variable?", 20, 20, 360, 35)
+	GUICtrlSetStyle(-1, $SS_CENTER)
+	local $button121 = GUICtrlCreateButton("View", 20, 80, 160, 60)
+	local $button122 = GUICtrlCreateButton("Modify", 220, 80, 160, 60)
+	GUISetState()
 
+	local $totrig = ""
+	While 1
+		$hMsg = GUIGetMsg()
+		Switch $hMsg
+			Case $GUI_EVENT_CLOSE
+				GUIDelete($hChild12)
+				ExitLoop
+			Case $button121
+				GetVariableBehavior()
+				GUIDelete($hChild12)
+				ExitLoop
+			Case $button122
+				ModifyVariableBehavior()
+				GUIDelete($hChild12)
+				ExitLoop
+		EndSwitch
+	WEnd
+EndFunc
 
 
 
@@ -2435,7 +2478,7 @@ Func ModifyVariableBehavior() ;must put a escape chaaracter before and apostroph
 	if $sAnswer <> "" then
 		local $totrig = "setvar " & $sAnswer & " "
 	endif
-	Local $sAnswer = InputBox("Modify Variable Behavior", "What should it now contain?", "$uservar1+1", "")
+	Local $sAnswer = InputBox("Modify Variable Behavior", "What should it now contain? (to reference itself use: $uservar#)", "$uservar1+1", "")
 	if $sAnswer <> "" then
 		$totrig = $totrig & $sAnswer
 		AddToBehavior($totrig)
@@ -2445,8 +2488,21 @@ EndFunc
 
 Func GetVariableBehavior() ;must put a escape chaaracter before and apostrophese \' ;
 	Local $sAnswer = InputBox("Get Variable Behavior", "Which variable? (0 to 31)", "1", "")
-	if $sAnswer <> "" then
-		local $totrig = "getvar " & $sAnswer
+	Local $sAnswer1 = Msgbox(4,"Get Variable Behavior", "View variable in message box?")
+	if $sAnswer1 == 6 then
+		$sAnswer1 == "msg"
+	elseif $sAnswer1 == 7 then
+		$sAnswer1 == "nomsg"
+		Local $sAnswer1 = Msgbox(4,"Get Variable Behavior", "Copy variable to clipboard?")
+		if $sAnswer1 == 6 then
+			$sAnswer1 == "clip"
+		endif
+		if $sAnswer1 == 7 then
+			$sAnswer1 == "noclip"
+		endif
+	endif
+	if $sAnswer <> "" And $sAnswer1 <> "" then
+		local $totrig = "getvar " & $sAnswer & " " & $sAnswer1
 		AddToBehavior($totrig)
 	endif
 EndFunc
@@ -2732,9 +2788,9 @@ While 1
 		Case $hButton19
 			ManageReflexMemBehavior()
 		Case $hButton20
-			ModifyVariableBehavior()
+			ManageVariableBehavior()
 		Case $hButton21
-			GetVariableBehavior()
+			TextOnScreenBehavior()
 		Case $hButtonDelete2
 			DeleteThisBehavior()
 		Case $hButton17

@@ -77,8 +77,16 @@ Func ActionMapThen($command, $arguments)
     case "setvar" ; text
       $args = StringSplit($arguments, " ", 2)
       return "Assign('uservar" & $args[0] & "'," & $args[1] & ",1)"
+    case "gettext"
+      $args = StringSplit($arguments, " ", 2)
+      return "ClipPut(SaveScreen($throwaway, " & $args[0] & ", " & $args[1] & ", " & $args[2] & ", " & $args[3] & ", true))"
     case "getvar" ; text
-      return "MsgBox(64,'variable: " & $arguments & "',$uservar" & $arguments & ")"
+      $args = StringSplit($arguments, " ", 2)
+      if $args[1] == "msg" then
+        return "MsgBox(64,'variable: " & $args[0] & "',$uservar" & $args[0] & ")"
+      elseif $args[1] == "clip" then
+        return "ClipPut($uservar" & $args[0] & ")"
+      endif
     case "exit" ; text
       return "Exit"
     case "message" ; text

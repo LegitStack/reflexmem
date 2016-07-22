@@ -204,7 +204,7 @@ Func PopulateGui()
   local $loop3 = 1
 
   local $blanksfound = true
-
+  local $throwaway
 
   local $olduservar0
   local $olduservar1
@@ -271,7 +271,7 @@ Func PopulateGui()
   local $uservar30
   local $uservar31
   local $temp
-
+  local $returned
   while $loop1 == 1
     While $loop2 == 1
       $msg = GUIGetMsg()
@@ -433,6 +433,7 @@ Func PopulateGui()
                         Exit
                       else
                         Execute($behaviors[$i][$c])
+                        ;msgbox(64, "returned troubleshooting", $returned)
                         if $paused == true then
                           SetPLabel($pLabel, "Paused!")
                         endif
