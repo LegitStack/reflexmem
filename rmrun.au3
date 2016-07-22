@@ -148,9 +148,11 @@ Func PopulateGui()
   Global $hGUI = GUICreate("Reflex Memory Run", 610, 660)
   Local $idCheckbox[Ubound($triggers)]
   Local $idDelete[Ubound($triggers)]
+  Local $idModify[Ubound($triggers)]
   Local $idBlist[Ubound($triggers)]
   Local $locCx[Ubound($triggers)]
   Local $locDx[Ubound($triggers)]
+  Local $locEx[Ubound($triggers)]
   Local $locBx[Ubound($triggers)]
 
   ;_arrayDisplay($triggers)
@@ -172,9 +174,11 @@ Func PopulateGui()
         endif
       next
       $idDelete[$i] = GUICtrlCreateButton("Delete", ($j*300)+200, ($k*150)+40, 100, 27)
+      $idModify[$i] = GUICtrlCreateButton("Modify", ($j*300)+200, ($k*150)+72, 100, 27)
     endif
     $locCx[$i] = ($j*300)+10
     $locDx[$i] = ($j*300)+200
+    $locEx[$i] = ($j*300)+200
     $locBx[$i] = ($j*300)+10
 
     $k = $k + 1
@@ -272,6 +276,7 @@ Func PopulateGui()
   local $uservar31
   local $temp
   local $returned
+
   while $loop1 == 1
     While $loop2 == 1
       $msg = GUIGetMsg()
@@ -286,6 +291,7 @@ Func PopulateGui()
           for $i = 0 to ubound($triggers)-1
             GUICtrlSetState($idCheckbox[$i],$GUI_DISABLE)
             GUICtrlSetState($idDelete[$i],$GUI_DISABLE)
+            GUICtrlSetState($idModify[$i],$GUI_DISABLE)
             GUICtrlSetState($idBlist[$i],$GUI_DISABLE)
           next
         Case $idCreatePlugin
@@ -330,6 +336,13 @@ Func PopulateGui()
               Else
                 $trigs[$i] = ""
               EndIf
+            elseif $msg == $idModify[$i] then
+                $temp = "rmcreate.exe " & $i
+                run($temp)
+                $loop2 = 0
+                $loop1 = 0
+                Guidelete($hGUI)
+                Exit
             elseif $msg == $idDelete[$i] then
 
               FileDelete(GetScriptsPath("if") & $i & ".txt")
@@ -337,6 +350,7 @@ Func PopulateGui()
               FileDelete(GetScriptsPath("names") & $i & ".txt")
               GUICtrlDelete ( $idCheckbox[$i] )
               GUICtrlDelete ( $idDelete[$i] )
+              GUICtrlDelete ( $idModify[$i] )
               GUICtrlDelete ( $idBlist[$i] )
               $trigs[$i] = ""
 
@@ -345,6 +359,7 @@ Func PopulateGui()
                   $trigs[$j]          = $trigs[$j+1]
                   $idCheckbox[$j]     = $idCheckbox[$j+1]
                   $idDelete[$j]       = $idDelete[$j+1]
+                  $idModify[$j]       = $idModify[$j+1]
                   $idBlist[$j]        = $idBlist[$j+1]
                   $triggers[$j]       = $triggers[$j+1]
                   $triggernames[$j]   = $triggernames[$j+1]
@@ -352,6 +367,7 @@ Func PopulateGui()
                   $locCx[$j]          = $locCx[$j+1]
                   $locDx[$j]          = $locDx[$j+1]
                   $locBx[$j]          = $locBx[$j+1]
+                  $locEx[$j]          = $locEx[$j+1]
                   for $k = 0 to Ubound($behaviors, 1)-1
                     $behaviors[$k][$j]  = $behaviors[$k][$j+1]
                     $behaviornames[$k][$j]  = $behaviornames[$k][$j+1]
@@ -375,6 +391,7 @@ Func PopulateGui()
                 GUICtrlSetPos($idCheckbox[$i],$locCx[$i]-(GUICtrlRead($idSlider1)*50))
                 GUICtrlSetPos($idBlist[$i],   $locBx[$i]-(GUICtrlRead($idSlider1)*50))
                 GUICtrlSetPos($idDelete[$i],  $locDx[$i]-(GUICtrlRead($idSlider1)*50))
+                GUICtrlSetPos($idModify[$i],  $locEx[$i]-(GUICtrlRead($idSlider1)*50))
               ;next
             Endif
           Next
@@ -399,6 +416,7 @@ Func PopulateGui()
           for $i = 0 to ubound($idCheckbox)-1
             GUICtrlSetState($idCheckbox[$i],$GUI_ENABLE)
             GUICtrlSetState($idDelete[$i],$GUI_ENABLE)
+            GUICtrlSetState($idModify[$i],$GUI_ENABLE)
             GUICtrlSetState($idBlist[$i],$GUI_ENABLE)
           next
         Case Else

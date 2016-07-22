@@ -9,6 +9,8 @@
 #include <GuiComboBox.au3>
 #Include <ScreenCapture.au3>
 #include <lib\filelocations.au3>
+#include <lib\executeif.au3>
+#include <lib\executethen.au3>
 
 EraseExtraThen()
 EraseExtraIf()
@@ -26,6 +28,45 @@ global $mytriggersnames[100]
 global $mybehaviorsnames[100]
 
 VarifyFolders()
+
+;$CmdLine[0] ; Contains the total number of items in the array.
+;$CmdLine[1] ; The first parameter.
+;$CmdLine[2] ; The second parameter.
+
+Func LoadThenBypassIf()
+	if $CmdLine[0] == 1 then
+		;CreateTriggers()
+		;HideTriggers()
+		$triggerNumber = $CmdLine[1]
+		CreateBehaviors()
+		WaitForThenInput()
+	else
+		CreateTriggers()
+		WaitForIfInput()
+	endif
+EndFunc
+
+Func LoadThenModify()
+	local $temp, $j, $t, $i
+	if $CmdLine[0] == 1 then
+		$temp = ReadFileThen($triggerNumber)
+		$j = 0
+    For $t In $temp
+      $mybehaviors[$j] = $t
+      $j = $j + 1
+    next
+		$temp = ReadFileThenNames($triggerNumber)
+    $j = 0
+    For $t In $temp
+      if $t <> "" then
+        $mybehaviorsnames[$j] = $t
+				_GUICtrlListView_AddItem($hlistbehavs, $t, 1)
+        $j = $j + 1
+      endif
+    next
+	endif
+EndFunc
+
 
 Func DeleteTriggers()
 	GUICtrlDelete ( $hButton )
@@ -87,7 +128,6 @@ Func CreateTriggers()
 	Global $hLabel1 = GUICtrlCreateLabel("", 330, 35, 240, 200)
 	GUICtrlSetStyle(-1, $SS_CENTER)
 
-
 	GUISetState()
 
 EndFunc
@@ -95,21 +135,21 @@ EndFunc
 
 Func CreateBehaviors()
 
-	Global $hGroup1   = GUICtrlCreateGroup("Behaviors", 						310, 	10, 	280, 615)
-	Global $hButton7  = GUICtrlCreateButton("Send Keys",						330, 	35, 	250, 35) ;done
-	Global $hButton8  = GUICtrlCreateButton("Key Down", 						330, 	80, 	250, 35) ;done
-	Global $hButton9  = GUICtrlCreateButton("Key Up", 							330, 	125, 	250, 35) ;done
-	Global $hButton10 = GUICtrlCreateButton("Move Mouse", 					330, 	170, 	250, 35) ;done
-	Global $hButton11 = GUICtrlCreateButton("Mouse Click", 					330, 	215, 	250, 35) ;done
-	Global $hButton12 = GUICtrlCreateButton("Scroll Mouse Wheel", 	330, 	260, 	250, 35) ;done
-	Global $hButton13 = GUICtrlCreateButton("Copy Text", 						330, 	305, 	250, 35) ;done
-	Global $hButton14 = GUICtrlCreateButton("Manage Programs",    	330, 	350, 	250, 35) ;done
-	Global $hButton18 = GUICtrlCreateButton("Display Message",			330, 	395, 	250, 35) ;done
-	Global $hButton15 = GUICtrlCreateButton("Wait", 								330, 	440, 	250, 35) ;done
-	Global $hButton19 = GUICtrlCreateButton("Manage ReflexMem",			330, 	485, 	250, 35) ;
-	Global $hButton20 = GUICtrlCreateButton("Manage Variables *Pro",330, 	530, 	250, 35) ;done
-	Global $hButton21 = GUICtrlCreateButton("Get On Screen Text",		330, 	575, 	250, 35) ;done
-	Global $hButton17 = GUICtrlCreateButton("Submit Behaviors",			310, 	655, 	280, 50) ;done
+	Global $hGroup1   = GUICtrlCreateGroup("Behaviors", 							310, 	10, 	280, 615)
+	Global $hButton7  = GUICtrlCreateButton("Send Keys",							330, 	35, 	250, 35) ;done
+	Global $hButton8  = GUICtrlCreateButton("Key Down", 							330, 	80, 	250, 35) ;done
+	Global $hButton9  = GUICtrlCreateButton("Key Up", 								330, 	125, 	250, 35) ;done
+	Global $hButton10 = GUICtrlCreateButton("Move Mouse", 						330, 	170, 	250, 35) ;done
+	Global $hButton11 = GUICtrlCreateButton("Mouse Click", 						330, 	215, 	250, 35) ;done
+	Global $hButton12 = GUICtrlCreateButton("Scroll Mouse Wheel", 		330, 	260, 	250, 35) ;done
+	Global $hButton13 = GUICtrlCreateButton("Copy Text", 							330, 	305, 	250, 35) ;done
+	Global $hButton14 = GUICtrlCreateButton("Manage Programs",    		330, 	350, 	250, 35) ;done
+	Global $hButton18 = GUICtrlCreateButton("Display Message",				330, 	395, 	250, 35) ;done
+	Global $hButton15 = GUICtrlCreateButton("Wait", 									330, 	440, 	250, 35) ;done
+	Global $hButton19 = GUICtrlCreateButton("Manage ReflexMem",				330, 	485, 	250, 35) ;??????
+	Global $hButton20 = GUICtrlCreateButton("Manage Variables *Pro",	330, 	530, 	250, 35) ;done
+	Global $hButton21 = GUICtrlCreateButton("Get On Screen Text *Pro",330, 	575, 	250, 35) ;done
+	Global $hButton17 = GUICtrlCreateButton("Submit Behaviors",				310, 	655, 	280, 50) ;done
 	GUICtrlSetFont(-1, 10)
 
 	Global $hlistbehavs = GUICTRLCreateListView("Behaviors                             ", 35, 245, 240, 380)
@@ -120,6 +160,8 @@ Func CreateBehaviors()
 	GUICtrlSetStyle(-1, $SS_CENTER)
 
 	GUISetState()
+
+	LoadThenModify()
 
 EndFunc
 
@@ -179,17 +221,17 @@ Func SetLabel()
 				GUICtrlSetData($hlabel, $data)
 			EndIf
 		elseif $a[4] == $hButton19 Then
-				$data = "Ignore Triggers behavior will tell ReflexMem to ignore anything it my see as a trigger so that it does no behaviors. Ignore Triggers is usually used in conjunction with Observe Triggers so that one can have two keys that can turn triggers off and on."
+				$data = "Tell ReflexMem to temporarilly ignore anything it my see as a trigger so that it does no behaviors or to stop ignoring triggers and reacting to them again. Managing ReflexMem one can have two keys that can turn triggers off and on dymanically."
 				if GUICtrlRead($hlabel) <> $data Then
 				GUICtrlSetData($hlabel, $data)
 			EndIf
 		elseif $a[4] == $hButton20 Then
-				$data = "Observe Triggers behavior will tell ReflexMem to notice everything it my see as a trigger and do the coresponding set of behaviors. Observe Triggers is usually used in conjunction with Ignore Triggers so that one can have two keys that can turn triggers off and on."
+				$data = "Save data to variables. Mainly used for making counters or preserving data on the clipboard without saving it to a file."
 				if GUICtrlRead($hlabel) <> $data Then
 				GUICtrlSetData($hlabel, $data)
 			EndIf
 		elseif $a[4] == $hButton21 Then
-				$data = "Exits the ReflexMem program."
+				$data = "Reads Text that is displayed on the screen and copies it to the clipboard."
 				if GUICtrlRead($hlabel) <> $data Then
 				GUICtrlSetData($hlabel, $data)
 			EndIf
@@ -2708,104 +2750,104 @@ Func SaveBehavior()
 
 EndFunc
 
+LoadThenBypassIf()
 
+Func WaitForIfInput()
 
-CreateTriggers()
+	While 1
+		$hMsg = GUIGetMsg()
+		Switch $hMsg
+			Case $GUI_EVENT_CLOSE
+				GUIDelete($hGUI)
+				Exit
+			Case $hButton
+				KeyPressedTrigger()
+			Case $hButton1
+				MouseClickTrigger()
+			Case $hButton2
+				ClipboardTrigger()
+			Case $hButton3
+				ProgramRunsTrigger()
+			Case $hButton4
+				DateToTrigger()
+			Case $hButton5
+				ImageOnScreenTrigger()
+			Case $hButton6
+				TextOnScreenTrigger()
+			Case $hButton22
+				MouseAtTrigger()
+			Case $hButton23
+				VariableModifiedTrigger()
+			Case $hButton24
+				VariableEqualsTrigger()
+			Case $hButtonDelete1
+				DeleteThisTrigger()
+			Case $hButton16
+				SaveTrigger()
+				HideTriggers()
+				CreateBehaviors()
+				ExitLoop
+			Case $hButtonCancel1
+				EraseExtraThen()
+				EraseExtraIf()
+				GUIDelete($hGUI)
+				ReturnToMain()
+				Exit
+			case Else
+				SetLabel1()
+		EndSwitch
+	WEnd
+EndFunc
 
-
-
-While 1
-	$hMsg = GUIGetMsg()
-	Switch $hMsg
-		Case $GUI_EVENT_CLOSE
-			GUIDelete($hGUI)
-			Exit
-		Case $hButton
-			KeyPressedTrigger()
-		Case $hButton1
-			MouseClickTrigger()
-		Case $hButton2
-			ClipboardTrigger()
-		Case $hButton3
-			ProgramRunsTrigger()
-		Case $hButton4
-			DateToTrigger()
-		Case $hButton5
-			ImageOnScreenTrigger()
-		Case $hButton6
-			TextOnScreenTrigger()
-		Case $hButton22
-			MouseAtTrigger()
-		Case $hButton23
-			VariableModifiedTrigger()
-		Case $hButton24
-			VariableEqualsTrigger()
-		Case $hButtonDelete1
-			DeleteThisTrigger()
-		Case $hButton16
-			SaveTrigger()
-			HideTriggers()
-			CreateBehaviors()
-			ExitLoop
-		Case $hButtonCancel1
-			EraseExtraThen()
-			EraseExtraIf()
-			GUIDelete($hGUI)
-			ReturnToMain()
-			Exit
-		case Else
-			SetLabel1()
-	EndSwitch
-WEnd
-
-
-While 1
-	$hMsg = GUIGetMsg()
-	Switch $hMsg
-		Case $GUI_EVENT_CLOSE
-			GUIDelete($hGUI)
-			Exit
-		Case $hButton7
-			SendKeysBehavior()
-		Case $hButton8
-			KeyDownBehavior()
-		Case $hButton9
-			KeyUpBehavior()
-		Case $hButton10
-			MouseMoveBehavior()
-		Case $hButton11
-			MouseClickBehavior()
-		Case $hButton12
-			MouseWheelBehavior()
-		Case $hButton13
-			ClipboardBehavior()
-		Case $hButton14
-			ManageProgramsBehavior()
-		Case $hButton18
-			MessageBoxBehavior()
-		Case $hButton15
-			WaitBehavior()
-		Case $hButton19
-			ManageReflexMemBehavior()
-		Case $hButton20
-			ManageVariableBehavior()
-		Case $hButton21
-			TextOnScreenBehavior()
-		Case $hButtonDelete2
-			DeleteThisBehavior()
-		Case $hButton17
-			SaveBehavior()
-			ExitLoop
-		Case $hButtonCancel2
-			EraseExtraThen()
-			EraseExtraIf()
-			GUIDelete($hGUI)
-			ReturnToMain()
-			Exit
-		case Else
-			SetLabel()
-	EndSwitch
-WEnd
+Func WaitForThenInput()
+	While 1
+		$hMsg = GUIGetMsg()
+		Switch $hMsg
+			Case $GUI_EVENT_CLOSE
+				GUIDelete($hGUI)
+				Exit
+			Case $hButton7
+				SendKeysBehavior()
+			Case $hButton8
+				KeyDownBehavior()
+			Case $hButton9
+				KeyUpBehavior()
+			Case $hButton10
+				MouseMoveBehavior()
+			Case $hButton11
+				MouseClickBehavior()
+			Case $hButton12
+				MouseWheelBehavior()
+			Case $hButton13
+				ClipboardBehavior()
+			Case $hButton14
+				ManageProgramsBehavior()
+			Case $hButton18
+				MessageBoxBehavior()
+			Case $hButton15
+				WaitBehavior()
+			Case $hButton19
+				ManageReflexMemBehavior()
+			Case $hButton20
+				ManageVariableBehavior()
+			Case $hButton21
+				TextOnScreenBehavior()
+			Case $hButtonDelete2
+				DeleteThisBehavior()
+			Case $hButton17
+				SaveBehavior()
+				ExitLoop
+			Case $hButtonCancel2
+				EraseExtraThen()
+				EraseExtraIf()
+				GUIDelete($hGUI)
+				ReturnToMain()
+				Exit
+			case Else
+				SetLabel()
+		EndSwitch
+	WEnd
+EndFunc
 
 
 ReturnToMain()
