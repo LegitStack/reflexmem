@@ -27,6 +27,7 @@ Func GetTriggers()
   global $behaviornames[100][1]
   global $tcounts[1]
 
+
   local $i = 0
   While FileExists(GetScriptsPath("if") & $i & ".txt")
     ReDim $triggers[$i + 1]

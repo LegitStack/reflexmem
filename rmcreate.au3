@@ -142,7 +142,7 @@ Func CreateBehaviors()
 	Global $hButton10 = GUICtrlCreateButton("Move Mouse", 						330, 	170, 	250, 35) ;done
 	Global $hButton11 = GUICtrlCreateButton("Mouse Click", 						330, 	215, 	250, 35) ;done
 	Global $hButton12 = GUICtrlCreateButton("Scroll Mouse Wheel", 		330, 	260, 	250, 35) ;done
-	Global $hButton13 = GUICtrlCreateButton("Copy Text", 							330, 	305, 	250, 35) ;done
+	Global $hButton13 = GUICtrlCreateButton("Copy / Paste", 					330, 	305, 	250, 35) ;done
 	Global $hButton14 = GUICtrlCreateButton("Manage Programs",    		330, 	350, 	250, 35) ;done
 	Global $hButton18 = GUICtrlCreateButton("Display Message",				330, 	395, 	250, 35) ;done
 	Global $hButton15 = GUICtrlCreateButton("Wait", 									330, 	440, 	250, 35) ;done
@@ -1491,14 +1491,48 @@ EndFunc
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Specific Behaviors
 
+
 Func ClipboardBehavior()
+	Local $hChild12 = GUICreate("Manage Clipboard Behavior", 400, 200, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("What would you like to do with the Clipboard?", 20, 20, 360, 35)
+	GUICtrlSetStyle(-1, $SS_CENTER)
+	local $button121 = GUICtrlCreateButton("Copy Text", 20, 80, 160, 60)
+	local $button122 = GUICtrlCreateButton("Paste Text", 220, 80, 160, 60)
+	GUISetState()
+
+	local $totrig = ""
+	While 1
+		$hMsg = GUIGetMsg()
+		Switch $hMsg
+			Case $GUI_EVENT_CLOSE
+				GUIDelete($hChild12)
+				ExitLoop
+			Case $button121
+				ClipCopyBehavior()
+				GUIDelete($hChild12)
+				ExitLoop
+			Case $button122
+				ClipPasteBehavior()
+				GUIDelete($hChild12)
+				ExitLoop
+		EndSwitch
+	WEnd
+EndFunc
+
+
+Func ClipCopyBehavior()
 	Local $sAnswer = InputBox("Clipboard Behavior", "What text should be put onto the Clipboard?", "Planet Jupiter", "")
 	if $sAnswer <> "" then
-		local $totrig = "clip " & $sAnswer
+		local $totrig = "copy " & $sAnswer
 		AddToBehavior($totrig)
 	endif
 EndFunc
 
+
+Func ClipPasteBehavior()
+	local $totrig = "paste"
+	AddToBehavior($totrig)
+EndFunc
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -2797,6 +2831,7 @@ Func WaitForIfInput()
 				SetLabel1()
 		EndSwitch
 	WEnd
+	WaitForThenInput()
 EndFunc
 
 Func WaitForThenInput()
@@ -2847,10 +2882,13 @@ Func WaitForThenInput()
 				SetLabel()
 		EndSwitch
 	WEnd
+
+	ReturnToMain()
+
 EndFunc
 
 
-ReturnToMain()
+
 
 Func ReturnToMain()
 	Run("reflexmem.exe")

@@ -66,8 +66,10 @@ Func ActionMapThen($command, $arguments)
       return "MouseMove(" & $args[0] & "," & $args[1] & ")"
     Case "wheel" ; up down
       return "MouseWheel('" & $arguments & "')"
-    case "clip" ; text
+    case "copy" ; text
       return "ClipPut('" & $arguments & "')"
+    case "paste" ; text
+      return "Send(ClipGet())"
     case "kill" ; text
       return "processClose('" & $arguments & "')"
     case "unpause" ; text
@@ -108,6 +110,6 @@ Func ActionMapThen($command, $arguments)
     ;case keyup
     ;case clickdown
     ;case clickup
-      Msgbox(64,$command, $arguments)
+    ;Msgbox(64,$command, $arguments)
   EndSwitch
 EndFunc

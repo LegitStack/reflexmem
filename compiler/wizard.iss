@@ -42,6 +42,7 @@ Name: "{userappdata}\ReflexMem\scripts\if\names\"
 Name: "{userappdata}\ReflexMem\scripts\then\"
 Name: "{userappdata}\ReflexMem\scripts\images\"
 Name: "{userappdata}\ReflexMem\image\"
+Name: "{userappdata}\ReflexMem\plugins\"
 Name: "{app}\lib\"
 Name: "{app}\lib\dll"
 
