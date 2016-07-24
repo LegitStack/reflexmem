@@ -38,10 +38,16 @@ Func LoadThenBypassIf()
 		;CreateTriggers()
 		;HideTriggers()
 		$triggerNumber = $CmdLine[1]
+		CreateTriggers()
+		HideTriggers()
 		CreateBehaviors()
+		HideBehaviors()
+		ShowBehaviors(false)
 		WaitForThenInput()
 	else
 		CreateTriggers()
+		CreateBehaviors()
+		HideBehaviors()
 		WaitForIfInput()
 	endif
 EndFunc
@@ -96,11 +102,84 @@ Func HideTriggers()
 	GUICtrlSetState($hLabel1, $GUI_HIDE)
 	GUICtrlSetState($hlisttrigs, $GUI_HIDE)
 	GUICtrlSetState($hButtonCancel1, $GUI_HIDE)
+	GUICtrlSetState($hButtonUp1, $GUI_HIDE)
+	GUICtrlSetState($hButtonDown1, $GUI_HIDE)
 	GUICtrlSetState($hButtonDelete1, $GUI_HIDE)
 	GUICtrlSetState($hButton22, $GUI_HIDE)
 	GUICtrlSetState($hButton23, $GUI_HIDE)
 	GUICtrlSetState($hButton24, $GUI_HIDE)
+EndFunc
 
+Func ShowTriggers()
+	GUICtrlSetState($hButton, $GUI_SHOW)
+	GUICtrlSetState($hButton1, $GUI_SHOW)
+	GUICtrlSetState($hButton2, $GUI_SHOW)
+	GUICtrlSetState($hButton3, $GUI_SHOW)
+	GUICtrlSetState($hButton4, $GUI_SHOW)
+	GUICtrlSetState($hButton5, $GUI_SHOW)
+	GUICtrlSetState($hButton6, $GUI_SHOW)
+	GUICtrlSetState($hButton0, $GUI_SHOW)
+	GUICtrlSetState($hButton16, $GUI_SHOW)
+	GUICtrlSetState($hGroup, $GUI_SHOW)
+	GUICtrlSetState($hLabel1, $GUI_SHOW)
+	GUICtrlSetState($hlisttrigs, $GUI_SHOW)
+	GUICtrlSetState($hButtonCancel1, $GUI_SHOW)
+	GUICtrlSetState($hButtonUp1, $GUI_SHOW)
+	GUICtrlSetState($hButtonDown1, $GUI_SHOW)
+	GUICtrlSetState($hButtonDelete1, $GUI_SHOW)
+	GUICtrlSetState($hButton22, $GUI_SHOW)
+	GUICtrlSetState($hButton23, $GUI_SHOW)
+	GUICtrlSetState($hButton24, $GUI_SHOW)
+EndFunc
+
+
+Func HideBehaviors()
+	GUICtrlSetState($hButton7, $GUI_HIDE)
+	GUICtrlSetState($hButton8, $GUI_HIDE)
+	GUICtrlSetState($hButton9, $GUI_HIDE)
+	GUICtrlSetState($hButton10, $GUI_HIDE)
+	GUICtrlSetState($hButton11, $GUI_HIDE)
+	GUICtrlSetState($hButton12, $GUI_HIDE)
+	GUICtrlSetState($hButton13, $GUI_HIDE)
+	GUICtrlSetState($hButton14, $GUI_HIDE)
+	GUICtrlSetState($hButton15, $GUI_HIDE)
+	GUICtrlSetState($hButton18, $GUI_HIDE)
+	GUICtrlSetState($hButton19, $GUI_HIDE)
+	GUICtrlSetState($hButton20, $GUI_HIDE)
+	GUICtrlSetState($hButton21, $GUI_HIDE)
+	GUICtrlSetState($hButton17, $GUI_HIDE)
+	GUICtrlSetState($hGroup1, $GUI_HIDE)
+	GUICtrlSetState($hLabel, $GUI_HIDE)
+	GUICtrlSetState($hlistbehavs, $GUI_HIDE)
+	GUICtrlSetState($hButtonCancel2, $GUI_HIDE)
+	GUICtrlSetState($hButtonUp2, $GUI_HIDE)
+	GUICtrlSetState($hButtonDown2, $GUI_HIDE)
+	GUICtrlSetState($hButtonDelete2, $GUI_HIDE)
+EndFunc
+Func ShowBehaviors($includeback = true)
+	GUICtrlSetState($hButton7, $GUI_SHOW)
+	GUICtrlSetState($hButton8, $GUI_SHOW)
+	GUICtrlSetState($hButton9, $GUI_SHOW)
+	GUICtrlSetState($hButton10, $GUI_SHOW)
+	GUICtrlSetState($hButton11, $GUI_SHOW)
+	GUICtrlSetState($hButton12, $GUI_SHOW)
+	GUICtrlSetState($hButton13, $GUI_SHOW)
+	GUICtrlSetState($hButton14, $GUI_SHOW)
+	GUICtrlSetState($hButton15, $GUI_SHOW)
+	GUICtrlSetState($hButton18, $GUI_SHOW)
+	GUICtrlSetState($hButton19, $GUI_SHOW)
+	GUICtrlSetState($hButton20, $GUI_SHOW)
+	GUICtrlSetState($hButton21, $GUI_SHOW)
+	GUICtrlSetState($hButton17, $GUI_SHOW)
+	GUICtrlSetState($hGroup1, $GUI_SHOW)
+	GUICtrlSetState($hLabel, $GUI_SHOW)
+	GUICtrlSetState($hlistbehavs, $GUI_SHOW)
+	if $includeback then
+		GUICtrlSetState($hButtonCancel2, $GUI_SHOW)
+	endif
+	GUICtrlSetState($hButtonUp2, $GUI_SHOW)
+	GUICtrlSetState($hButtonDown2, $GUI_SHOW)
+	GUICtrlSetState($hButtonDelete2, $GUI_SHOW)
 EndFunc
 
 
@@ -122,8 +201,10 @@ Func CreateTriggers()
 	GUICtrlSetFont(-1, 10)
 
 	Global $hlisttrigs = GUICTRLCreateListView("Triggers                               ", 330, 245, 240, 380)
-	Global $hButtonCancel1 = GUICtrlCreateButton("Cancel", 330, 655, 110, 50)
-	Global $hButtonDelete1 = GUICtrlCreateButton("Delete", 460, 655, 110, 50)
+	Global $hButtonCancel1 	= GUICtrlCreateButton("Cancel", 330, 655, 80, 50)
+	Global $hButtonUp1 			= GUICtrlCreateButton("↑", 415, 655, 30, 50)
+	Global $hButtonDown1 		= GUICtrlCreateButton("↓", 450, 655, 30, 50)
+	Global $hButtonDelete1 	= GUICtrlCreateButton("Delete", 485, 655, 80, 50)
 
 	Global $hLabel1 = GUICtrlCreateLabel("", 330, 35, 240, 200)
 	GUICtrlSetStyle(-1, $SS_CENTER)
@@ -153,8 +234,10 @@ Func CreateBehaviors()
 	GUICtrlSetFont(-1, 10)
 
 	Global $hlistbehavs = GUICTRLCreateListView("Behaviors                             ", 35, 245, 240, 380)
-	Global $hButtonCancel2 = GUICtrlCreateButton("Cancel", 35, 655, 110, 50)
-	Global $hButtonDelete2 = GUICtrlCreateButton("Delete", 165, 655, 110, 50)
+	Global $hButtonCancel2 = GUICtrlCreateButton("Cancel", 35, 655, 80, 50)
+	Global $hButtonUp2 			= GUICtrlCreateButton("↑", 120, 655, 30, 50)
+	Global $hButtonDown2 		= GUICtrlCreateButton("↓", 155, 655, 30, 50)
+	Global $hButtonDelete2 = GUICtrlCreateButton("Delete", 190, 655, 85, 50)
 
 	Global $hLabel = GUICtrlCreateLabel("", 35, 35, 240, 200)
 	GUICtrlSetStyle(-1, $SS_CENTER)
@@ -1454,6 +1537,108 @@ Func DeleteThisBehavior()
 EndFunc
 
 
+Func SwapUpBehavior()
+	local $index = _GUICtrlListView_GetSelectedIndices($hlistbehavs)
+	if $index == "" then
+		msgbox(64, "Move Up Button", "You must first select a behavior to move up.")
+		return
+	endif
+	If $index < 1 Then Return
+	; Swap array elements
+	_ArraySwap($mybehaviors, $index, $index - 1)
+	; Rewrite list items
+	_GUICtrlListView_DeleteAllItems($hlistbehavs)
+	For $i = 0 To ubound($mybehaviors)-1
+	  ;GUICtrlSetData($hlistbehavs, $mybehaviorsnames[$i])
+		if $mybehaviors[$i] <> "" then
+			_GUICtrlListView_AddItem($hlistbehavs, $mybehaviors[$i])
+		endif
+	Next
+	; Unselect all items to force selection before next action
+	;_GUICtrlListView_SetItemSelected($hlistbehavs, -1, False)
+EndFunc
+
+Func SwapDownBehavior()
+	local $index = _GUICtrlListView_GetSelectedIndices($hlistbehavs)
+	if $index == "" then
+		msgbox(64, "Move Down Button", "You must first select a behavior to move down.")
+		return
+	endif
+	If $mybehaviors[$index + 1] == "" Then Return
+	; Swap array elements
+	_ArraySwap($mybehaviors, $index, $index + 1)
+	; Rewrite list items
+	_GUICtrlListView_DeleteAllItems($hlistbehavs)
+	For $i = 0 To ubound($mybehaviors)-1
+	  ;GUICtrlSetData($hlistbehavs, $mybehaviorsnames[$i])
+		if $mybehaviors[$i] <> "" then
+			_GUICtrlListView_AddItem($hlistbehavs, $mybehaviors[$i])
+		endif
+	Next
+	; Unselect all items to force selection before next action
+	;_GUICtrlListView_SetItemSelected($hlistbehavs, -1, False)
+EndFunc
+
+
+
+
+
+Func SwapUpTrigger()
+	local $index = _GUICtrlListView_GetSelectedIndices($hlisttrigs)
+	if $index == "" then
+		msgbox(64, "Move Up Button", "You must first select a trigger to move up.")
+		return
+	endif
+	If $index < 1 Then Return
+	; Swap array elements
+	_ArraySwap($mytriggers, $index, $index - 1)
+	_ArraySwap($mytriggersnames, $index, $index - 1)
+	; Rewrite list items
+	_GUICtrlListView_DeleteAllItems($hlisttrigs)
+	For $i = 0 To ubound($mytriggersnames)-1
+		if $mytriggersnames[$i] <> "" then
+			_GUICtrlListView_AddItem($hlisttrigs, $mytriggersnames[$i])
+		endif
+	Next
+	; Unselect all items to force selection before next action
+	;_GUICtrlListView_SetItemSelected($hlisttrigs, -1, False)
+EndFunc
+
+Func SwapDownTrigger()
+	local $index = _GUICtrlListView_GetSelectedIndices($hlisttrigs)
+	if $index == "" then
+		msgbox(64, "Move Down Button", "You must first select a trigger to move down.")
+		return
+	endif
+	If $mytriggersnames[$index + 1] == "" Then Return
+	; Swap array elements
+	_ArraySwap($mytriggers, $index, $index + 1)
+	_ArraySwap($mytriggersnames, $index, $index + 1)
+	; Rewrite list items
+	_GUICtrlListView_DeleteAllItems($hlisttrigs)
+	For $i = 0 To ubound($mytriggersnames)-1
+		if $mytriggersnames[$i] <> "" then
+			_GUICtrlListView_AddItem($hlisttrigs, $mytriggersnames[$i])
+		endif
+	Next
+	; Unselect all items to force selection before next action
+	;_GUICtrlListView_SetItemSelected($hlisttrigs, -1, False)
+EndFunc
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 Func AddToTrigger($data, $name)
@@ -2695,7 +2880,7 @@ EndFunc
 
 
 Func AddToBehavior($data)
-	_GUICtrlListView_AddItem($hlistbehavs, $data, 1)
+	_GUICtrlListView_AddItem($hlistbehavs, $data)
 	local $i = 0
 	for $i = 0 to 99
 		if $mybehaviors[$i] == "" then
@@ -2814,12 +2999,16 @@ Func WaitForIfInput()
 				VariableModifiedTrigger()
 			Case $hButton24
 				VariableEqualsTrigger()
+			Case $hButtonUp1
+				SwapUpTrigger()
+			Case $hButtonDown1
+				SwapDownTrigger()
 			Case $hButtonDelete1
 				DeleteThisTrigger()
 			Case $hButton16
 				SaveTrigger()
 				HideTriggers()
-				CreateBehaviors()
+				ShowBehaviors()
 				ExitLoop
 			Case $hButtonCancel1
 				EraseExtraThen()
@@ -2869,15 +3058,19 @@ Func WaitForThenInput()
 				TextOnScreenBehavior()
 			Case $hButtonDelete2
 				DeleteThisBehavior()
+			Case $hButtonUp2
+				SwapUpBehavior()
+			Case $hButtonDown2
+				SwapDownBehavior()
 			Case $hButton17
 				SaveBehavior()
 				ExitLoop
 			Case $hButtonCancel2
 				EraseExtraThen()
 				EraseExtraIf()
-				GUIDelete($hGUI)
-				ReturnToMain()
-				Exit
+				HideBehaviors()
+				ShowTriggers()
+				WaitForIfInput()
 			case Else
 				SetLabel()
 		EndSwitch
