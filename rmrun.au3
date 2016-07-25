@@ -150,6 +150,10 @@ Func PopulateGui()
   Local $idCheckbox[Ubound($triggers)]
   Local $idDelete[Ubound($triggers)]
   Local $idModify[Ubound($triggers)]
+  ;Local $idPlugin[Ubound($triggers)]
+    ; put this below idmodify for everyone.
+    ; it would open up another screen with settings and code to modify or add to.
+    ; then a button that encrypts it approapriately.
   Local $idBlist[Ubound($triggers)]
   Local $locCx[Ubound($triggers)]
   Local $locDx[Ubound($triggers)]
