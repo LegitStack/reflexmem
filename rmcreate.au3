@@ -107,7 +107,7 @@ Func HideTriggers()
 	GUICtrlSetState($hButtonDelete1, $GUI_HIDE)
 	GUICtrlSetState($hButton22, $GUI_HIDE)
 	GUICtrlSetState($hButton23, $GUI_HIDE)
-	GUICtrlSetState($hButton24, $GUI_HIDE)
+	;GUICtrlSetState($hButton24, $GUI_HIDE)
 EndFunc
 
 Func ShowTriggers()
@@ -129,7 +129,7 @@ Func ShowTriggers()
 	GUICtrlSetState($hButtonDelete1, $GUI_SHOW)
 	GUICtrlSetState($hButton22, $GUI_SHOW)
 	GUICtrlSetState($hButton23, $GUI_SHOW)
-	GUICtrlSetState($hButton24, $GUI_SHOW)
+	;GUICtrlSetState($hButton24, $GUI_SHOW)
 EndFunc
 
 
@@ -194,8 +194,8 @@ Func CreateTriggers()
 	Global $hButton4 = GUICtrlCreateButton("Date and Time is", 				35, 	260, 	250, 35) ;done
 	Global $hButton5 = GUICtrlCreateButton("Image on Screen", 				35, 	305, 	250, 35) ;done
 	Global $hButton6 = GUICtrlCreateButton("Text on Screen *Pro", 		35, 	350, 	250, 35) ;done
-	Global $hButton23= GUICtrlCreateButton("Variable Modified *Pro",	35, 	395, 	250, 35) ;
-	Global $hButton24= GUICtrlCreateButton("Variable Equals *Pro",		35, 	440, 	250, 35) ;
+	Global $hButton23= GUICtrlCreateButton("Manage Variable *Pro",		35, 	395, 	250, 35) ;done
+	;Global $hButton24= GUICtrlCreateButton("Variable Equals *Pro",		35, 	440, 	250, 35) ;
 	Global $hButton0 = GUICtrlCreateButton("Help", 										35, 	575, 	250, 35) ;done
 	Global $hButton16 = GUICtrlCreateButton("Submit Triggers", 				20, 	655, 	280, 50)
 	GUICtrlSetFont(-1, 10)
@@ -382,11 +382,11 @@ Func SetLabel1()
 			if GUICtrlRead($hLabel1) <> $data Then
 				GUICtrlSetData($hLabel1, $data)
 			EndIf
-		elseif $a[4] == $hButton24 Then
-			$data = "When a variable equals a particular value. Variable Triggers make ReflexMem more robust becuase it can now be used in more dynamic ways. Variables can hold numbers (ie. 56) or boolean values (ie. True) or text (ie 'We are all that we are'). Text must have '' surounding it and can't have any apostrophese inside the text." & @CRLF & @CRLF & "Which variable?" & @CRLF & @CRLF & "What should the variable equal?"
-			if GUICtrlRead($hLabel1) <> $data Then
-				GUICtrlSetData($hLabel1, $data)
-			EndIf
+		;elseif $a[4] == $hButton24 Then
+		;	$data = "When a variable equals a particular value. Variable Triggers make ReflexMem more robust becuase it can now be used in more dynamic ways. Variables can hold numbers (ie. 56) or boolean values (ie. True) or text (ie 'We are all that we are'). Text must have '' surounding it and can't have any apostrophese inside the text." & @CRLF & @CRLF & "Which variable?" & @CRLF & @CRLF & "What should the variable equal?"
+		;	if GUICtrlRead($hLabel1) <> $data Then
+		;		GUICtrlSetData($hLabel1, $data)
+		;	EndIf
 
 		Else
 			;GUICtrlSetData($g_idX, $a[0])
@@ -925,32 +925,81 @@ Func ClipboardTrigger() ;must put a escape chaaracter before and apostrophese \'
 EndFunc
 
 
-Func VariableModifiedTrigger() ;must put a escape chaaracter before and apostrophese \'
-	Local $sAnswer = InputBox("Variable Modified Trigger", "Which variable do you want to check to see if it has been modified? (0 to 31)", "1", "")
-	if $sAnswer <> "" then
-		local $totrig = "$olduservar" & $sAnswer & " <> $uservar" & $sAnswer
-		local $name = "the " & $sAnswer & " variable has been changed."
-		AddToTrigger($totrig, $name)
-	endif
+;NOT DONE YET!!! get variable, and when modified devise a way to
+Func ManageVarEqualsTrigger() ;must put a escape chaaracter before and apostrophese \'
+	local $hMain_GUI = GUICreate("Variable Equals Trigger",600, 200, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("What should the trigger check?", 20, 20, 560, 35)
+	GUICtrlSetStyle(-1, $SS_CENTER)
+	local $hmButton1 = GUICtrlCreateButton("a Variable Equals a Value", 20, 80, 160, 60)
+	local $hmButton2 = GUICtrlCreateButton("a Variable Equals a Variable", 220, 80, 160, 60)
+	local $hmButton3 = GUICtrlCreateButton("a Variable has a Changed Value", 420, 80, 160, 60)
+	GUISetState()
+
+	While 1
+		Switch GUIGetMsg()
+			Case $GUI_EVENT_CLOSE
+				GUIDelete($hMain_GUI)
+				ExitLoop
+			Case $hmButton1
+				VariableEqualsTrigger()
+				GUIDelete($hMain_GUI)
+				ExitLoop
+			Case $hmButton2
+				VarEqualsVarTrigger()
+				GUIDelete($hMain_GUI)
+				ExitLoop
+			Case $hmButton3
+				VariableModifiedTrigger()
+				GUIDelete($hMain_GUI)
+				ExitLoop
+			EndSwitch
+	WEnd
 EndFunc
 
 
-;NOT DONE YET!!! get variable, and when modified devise a way to
 Func VariableEqualsTrigger() ;must put a escape chaaracter before and apostrophese \'
 	Local $sAnswer = InputBox("Variable Equals Trigger", "Which variable do you want to check to see if it has been modified? (0 to 31)", "1", "")
 	if $sAnswer <> "" then
 		local $totrig = "$uservar" & $sAnswer & "  == "
-		local $name = "the " & $sAnswer & " variable equals "
+		local $name = "variable " & $sAnswer & " equals "
 	else
 		return
 	endif
-	Local $sAnswer = InputBox("Variable Equals Trigger", "What value shoud that variable hold? (text must be encased in '' and can't have any ' in the text. Numbers or true or false don't need '')", "'oh what a beautiful morning'", "")
+	Local $sAnswer = InputBox("Variable Equals Trigger", "What value should that variable hold? (text must be encased in '' and can't have any ' in the text. Numbers or true or false don't need '')", "'oh what a beautiful morning'", "")
 	if $sAnswer <> "" then
 		$totrig = $totrig & $sAnswer
 		$name = $name & $sAnswer
 		AddToTrigger($totrig, $name)
 	endif
 EndFunc
+
+
+Func VarEqualsVarTrigger() ;must put a escape chaaracter before and apostrophese \'
+	Local $sAnswer = InputBox("Variable Equals Trigger", "Which variable do you want to check? (0 to 31)", "1", "")
+	if $sAnswer <> "" then
+		local $totrig = "$uservar" & $sAnswer & "  == "
+		local $name = "variable " & $sAnswer & " equals "
+	else
+		return
+	endif
+	Local $sAnswer = InputBox("Variable Equals Trigger", "What variable should it equal? ", "2", "")
+	if $sAnswer <> "" then
+		$totrig = $totrig & "$uservar" & $sAnswer
+		$name = $name & "variable " & $sAnswer
+		AddToTrigger($totrig, $name)
+	endif
+EndFunc
+
+Func VariableModifiedTrigger() ;must put a escape chaaracter before and apostrophese \'
+	Local $sAnswer = InputBox("Variable Modified Trigger", "Which variable do you want to check to see if it has been modified? (0 to 31)", "1", "")
+	if $sAnswer <> "" then
+		local $totrig = "$olduservar" & $sAnswer & " <> $uservar" & $sAnswer
+		local $name = "varable " & $sAnswer & " has been changed."
+		AddToTrigger($totrig, $name)
+	endif
+EndFunc
+
+
 
 
 Func MouseClickTrigger()
@@ -1437,16 +1486,43 @@ Func _GUICreateInvRect($hWnd, $iX, $iY, $iW, $iH)
 
 EndFunc
 
+Func ManageTextOnScreenTrigger()
+	msgbox(64, "Text On Screen Trigger", "This feature is only supported on paid versions of ReflexMem.")
 
+	local $hMain_GUI = GUICreate("Text on Screen Trigger",600, 200, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("What text should the trigger look for?", 20, 20, 560, 35)
+	GUICtrlSetStyle(-1, $SS_CENTER)
+	local $hmButton1 = GUICtrlCreateButton("a Value", 20, 80, 160, 60)
+	local $hmButton2 = GUICtrlCreateButton("a Variable", 220, 80, 160, 60)
+	local $hmButton3 = GUICtrlCreateButton("the Clipboard", 420, 80, 160, 60)
+	GUISetState()
 
+	While 1
+		Switch GUIGetMsg()
+			Case $GUI_EVENT_CLOSE
+				GUIDelete($hMain_GUI)
+				ExitLoop
+			Case $hmButton1
+				TextOnScreenValueTrigger()
+				GUIDelete($hMain_GUI)
+				ExitLoop
+			Case $hmButton2
+				TextOnScreenVariableTrigger()
+				GUIDelete($hMain_GUI)
+				ExitLoop
+			Case $hmButton3
+				TextOnScreenClipTrigger()
+				GUIDelete($hMain_GUI)
+				ExitLoop
+			EndSwitch
+	WEnd
+EndFunc
 
-
-Func TextOnScreenTrigger()
+Func TextOnScreenValueTrigger()
 
 	; This is like Image on screen but it will take a image of the full screen
 	; and run ocr on it, then search the text for the text you want.
 
-	msgbox(64, "Text On Screen Trigger", "This feature is only supported on paid versions of ReflexMem.")
 	;You'll have to get:
 		;the region of the screen
 		;the text to find
@@ -1483,8 +1559,53 @@ Func TextOnScreenTrigger()
 	;if GetAllLCS(savedtext,SaveScreen($throwaway, $left = 0, $top = 0, $right = -1, $bottom = -1, $scrub = false))*100 > $requiredscore then
 EndFunc
 
+Func TextOnScreenVariableTrigger()
+
+	Local $sAnswer = InputBox("Text On Screen Trigger", "What variable would you like to look for on screen? (0-31)", "1", "")
+	if $sAnswer <> "" then
+		local $mynewtext = $sAnswer
+		local $myvar = "$uservar" & $sAnswer
+	else
+		return
+	endif
+
+	Local $sAnswer = InputBox("Text On Screen Trigger", "What text-match percentage threshold would you like to set? (1 to 100)", "75", "")
+	if $sAnswer <> "" then
+		local $percentagetext = $sAnswer
+	else
+		return
+	endif
+
+	Local $iX1, $iY1, $iX2, $iY2, $aPos, $sMsg, $sBMP_Path
+	local $i, $sFile, $totrig
+	While 1
+		Mark_Rect($iX1, $iY1, $iX2, $iY2, $aPos, $sMsg, $sBMP_Path)
+		$totrig = "ScoreStringAgainstTesseract(" & "$uservar" & $sAnswer & ", " & $iX1 & ", " & $iY1 & ", " & $iX2 & ", " & $iY2 & ", " & $percentagetext & ")"
+		AddToTrigger($totrig, "the variable " & $mynewtext & " is found within (" & $iX1 & ", " & $iY1 & ") to (" & $iX2 & ", " & $iY2 & ") at a required accuracy score of " & $percentagetext & "%")
+		ExitLoop
+	WEnd
+EndFunc
 
 
+Func TextOnScreenClipTrigger()
+
+	local $mynewtext = "ClipGet()"
+	Local $sAnswer = InputBox("Text On Screen Trigger", "What text-match percentage threshold would you like to set? (1 to 100)", "75", "")
+	if $sAnswer <> "" then
+		local $percentagetext = $sAnswer
+	else
+		return
+	endif
+
+	Local $iX1, $iY1, $iX2, $iY2, $aPos, $sMsg, $sBMP_Path
+	local $i, $sFile, $totrig
+	While 1
+		Mark_Rect($iX1, $iY1, $iX2, $iY2, $aPos, $sMsg, $sBMP_Path)
+		$totrig = "ScoreStringAgainstTesseract(" & $mynewtext & ", " & $iX1 & ", " & $iY1 & ", " & $iX2 & ", " & $iY2 & ", " & $percentagetext & ")"
+		AddToTrigger($totrig, "text in the clipboard is found within (" & $iX1 & ", " & $iY1 & ") to (" & $iX2 & ", " & $iY2 & ") at a required accuracy score of " & $percentagetext & "%")
+		ExitLoop
+	WEnd
+EndFunc
 
 
 Func DeleteThisTrigger()
@@ -2902,11 +3023,41 @@ Func ModifyVariableBehavior() ;must put a escape chaaracter before and apostroph
 	if $sAnswer <> "" then
 		local $totrig = "setvar " & $sAnswer & " "
 	endif
-	Local $sAnswer = InputBox("Modify Variable Behavior", "What should it now contain? (to reference itself use: $uservar#)", "$uservar1+1", "")
-	if $sAnswer <> "" then
-		$totrig = $totrig & $sAnswer
-		AddToBehavior($totrig)
-	endif
+	local $hMain_GUI = GUICreate("Modify Variable Behavior",600, 200, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("What should it contain?", 20, 20, 560, 35)
+	GUICtrlSetStyle(-1, $SS_CENTER)
+	local $hmButton1 = GUICtrlCreateButton("a Value", 20, 80, 160, 60)
+	local $hmButton2 = GUICtrlCreateButton("a Variable", 220, 80, 160, 60)
+	local $hmButton3 = GUICtrlCreateButton("the Clipboard", 420, 80, 160, 60)
+	GUISetState()
+	While 1
+		Switch GUIGetMsg()
+			Case $GUI_EVENT_CLOSE
+				GUIDelete($hMain_GUI)
+				ExitLoop
+			Case $hmButton1
+				Local $sAnswer = InputBox("Modify Variable Behavior", "What should it contain now? (don't use '')", "we feel a little better now", "")
+				if $sAnswer <> "" then
+					$totrig = $totrig & "'" & $sAnswer & "'"
+					AddToBehavior($totrig)
+				endif
+				GUIDelete($hMain_GUI)
+				ExitLoop
+			Case $hmButton2
+				Local $sAnswer = InputBox("Modify Variable Behavior", "Which variable should this variable match? (mathmatical opperators allowed such as 1+1)", "1", "")
+				if $sAnswer <> "" then
+					$totrig = $totrig & "$uservar" & $sAnswer
+					AddToBehavior($totrig)
+				endif
+				GUIDelete($hMain_GUI)
+				ExitLoop
+			Case $hmButton3
+				$totrig = $totrig & "ClipGet()"
+				AddToBehavior($totrig)
+				GUIDelete($hMain_GUI)
+				ExitLoop
+			EndSwitch
+	WEnd
 EndFunc
 
 
@@ -3155,13 +3306,13 @@ Func WaitForIfInput()
 			Case $hButton5
 				ImageOnScreenTrigger()
 			Case $hButton6
-				TextOnScreenTrigger()
+				ManageTextOnScreenTrigger()
 			Case $hButton22
 				MouseAtTrigger()
 			Case $hButton23
-				VariableModifiedTrigger()
-			Case $hButton24
-				VariableEqualsTrigger()
+				ManageVarEqualsTrigger()
+			;Case $hButton24
+				;VariableEqualsTrigger()
 			Case $hButtonUp1
 				SwapUpTrigger()
 			Case $hButtonDown1
