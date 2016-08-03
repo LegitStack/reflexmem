@@ -234,3 +234,30 @@ NO		2. possible other features such as a pause command or something.
 
 
 	
+
+
+
+
+
+
+11. make it windows 10 compatible:
+
+
+Aug 3, 2016
+2:41:03 PM: Jordan Miller: I wanted to ask you about how you got the ipdisplay to work with the zoomed in windows 10? I've been learning autoit but I don't know how to do that 
+2:42:14 PM: Cliff Frazier: Let me say first that my programming skills are pretty miniscule, so I'm sure there's a much better way to do it than the way I did it.   
+2:43:14 PM: Cliff Frazier: It seems to me the issue is all about DPI.  When you use the zoom settings you're really changing the display DPI, so I've built a way to detect the DPI setting and then adjust the various font sizes, windows sizes and text location settings 
+2:44:06 PM: Cliff Frazier: There is also a setting in AutoIt when you compile to allow for smoother fonts and such for highdpi displays 
+2:44:41 PM: Cliff Frazier: I can't remember what it is, but I had to research that.  The layout was fine, but the fonts were 'fuzzy' before I made that change 
+2:46:12 PM: Cliff Frazier: If you're interested in learning a language, I wouldn't take too much time with AutoIt, there are a lot more useful languages.  I learned it because it helped me quickly fix some shortcomings in ZENworks many many years ago. 
+2:47:03 PM: Jordan Miller: yeah I'm going to lean python too 
+2:47:24 PM: Cliff Frazier: If it had existed back then, I would have learned powershell 
+2:47:55 PM: Cliff Frazier: it would have been much more useful for the Windows stuff I was doing with ZCM 
+2:49:13 PM: Cliff Frazier: I can get more specific about the AutoIt stuff, but it's pretty clugey, it works, but it's not something I'm super proud to share.   
+2:54:15 PM: Jordan Miller: well I'm working on a project of my own - you know to learn it - and I thought it'd be cool to make it compatible with windows 10 like you did for ipdisplay. I think if I knew how to detect the dpi like you mentioned that'd be enough 
+2:54:20 PM: Jordan Miller: how did you do that part? 
+2:58:46 PM: Cliff Frazier: I find the logged in users SID using an autoit function called _Security_LookupAccountName()  I then plug that SID into a registry key that contains the users DPI settings -HKEY_USERS\[SID]\Control Panel\Desktop\WindowMetrics\AppliedDPI.  Then I have a simple if/then/else routine to apply different sizes and positions based on the returned DPI setting.  
+2:59:58 PM: Jordan Miller: ah interesting 
+3:01:15 PM: Cliff Frazier: It's far from elegant, but it seems to work.  It's a pain to update, if I had more time and better skills I'd update it.  But I just don't have time anymore.  There probably won't be too many updates to that program anymore 
+3:02:01 PM: Jordan Miller: thats understandable, thanks, I'll let you know if that's the way I end up doing things in my project 
+3:02:20 PM: Cliff Frazier: you're welcome 
