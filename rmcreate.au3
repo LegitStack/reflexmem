@@ -444,18 +444,12 @@ Func KeyPressedTrigger()
 	local $button721 = GUICtrlCreateButton("Print Screen", 20, 460, 160, 30)
 	local $button722 = GUICtrlCreateButton("Windows Key", 220, 460, 160, 30)
 	local $button723 = GUICtrlCreateButton("Insert", 20, 500, 160, 30)
-	local $button724 = GUICtrlCreateButton("Shift + Other Keys", 220, 500, 160, 30)
-	local $button725 = GUICtrlCreateButton("Alt + Other Keys", 20, 540, 160, 30)
-	local $button726 = GUICtrlCreateButton("Control + Other Keys", 220, 540, 160, 30)
-	local $button727 = GUICtrlCreateButton("Special Symbols (+)", 20, 580, 160, 30)
-	local $button728 = GUICtrlCreateButton("F Keys", 220, 580, 160, 30)
+	local $button727 = GUICtrlCreateButton("Plus (+)", 20, 540, 160, 30)
+	local $button728 = GUICtrlCreateButton("F Keys", 220, 500, 160, 30)
 	GUISetState()
 
 	local $totrig = ""
 	Local $sAnswer = ""
-	local $Shift = false
-	local $alt = false
-	local $control = false
 
 	While 1
 		$hMsg = GUIGetMsg()
@@ -472,146 +466,123 @@ Func KeyPressedTrigger()
 				$sAnswer = StringReplace($sAnswer, "!", "")
 				$sAnswer = StringReplace($sAnswer, "#", "")
 				$totrig = StringLeft($sAnswer, 1)
-				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				addKeyPressToTrigger($totrig)
 				GUIDelete($hChild7)
 				ExitLoop
 			Case $button72
 				$totrig = "{ENTER}"
-				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				addKeyPressToTrigger($totrig)
 				GUIDelete($hChild7)
 				ExitLoop
 			Case $button73
 				$totrig = "{SPACE}"
-				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				addKeyPressToTrigger($totrig)
 				GUIDelete($hChild7)
 				ExitLoop
 			Case $button74
 				$totrig = "{LSHIFT}"
-				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				addKeyPressToTrigger($totrig)
 				GUIDelete($hChild7)
 				ExitLoop
 			Case $button75
 				$totrig = "{ALT}"
-				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				addKeyPressToTrigger($totrig)
 				GUIDelete($hChild7)
 				ExitLoop
 			Case $button76
 				$totrig = "{LCTRL}"
-				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				addKeyPressToTrigger($totrig)
 				GUIDelete($hChild7)
 				ExitLoop
 			Case $button77
 				$totrig = "{LEFT}"
-				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				addKeyPressToTrigger($totrig)
 				GUIDelete($hChild7)
 				ExitLoop
 			Case $button78
 				$totrig = "{RIGHT}"
-				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				addKeyPressToTrigger($totrig)
 				GUIDelete($hChild7)
 				ExitLoop
 			Case $button79
 				$totrig = "{UP}"
-				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				addKeyPressToTrigger($totrig)
 				GUIDelete($hChild7)
 				ExitLoop
 			Case $button710
 				$totrig = "{DOWN}"
-				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				addKeyPressToTrigger($totrig)
 				GUIDelete($hChild7)
 				ExitLoop
 			Case $button711
 				$totrig = "{TAB}"
-				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				addKeyPressToTrigger($totrig)
 				GUIDelete($hChild7)
 				ExitLoop
 			Case $button712
 				$totrig = "{ESCAPE}"
-				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				addKeyPressToTrigger($totrig)
 				GUIDelete($hChild7)
 				ExitLoop
 			Case $button713
 				$totrig = "{PGUP}"
-				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				addKeyPressToTrigger($totrig)
 				GUIDelete($hChild7)
 				ExitLoop
 			Case $button714
 				$totrig = "{PGDN}"
-				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				addKeyPressToTrigger($totrig)
 				GUIDelete($hChild7)
 				ExitLoop
 			Case $button715
 				$totrig = "{HOME}"
-				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				addKeyPressToTrigger($totrig)
 				GUIDelete($hChild7)
 				ExitLoop
 			Case $button716
 				$totrig = "{END}"
-				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				addKeyPressToTrigger($totrig)
 				GUIDelete($hChild7)
 				ExitLoop
 			Case $button717
 				$totrig = "{DELETE}"
-				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				addKeyPressToTrigger($totrig)
 				GUIDelete($hChild7)
 				ExitLoop
 			Case $button718
 				$totrig = "{BACKSPACE}"
-				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				addKeyPressToTrigger($totrig)
 				GUIDelete($hChild7)
 				ExitLoop
 			Case $button719
 				$totrig = "{CAPSLOCK}"
-				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				addKeyPressToTrigger($totrig)
 				GUIDelete($hChild7)
 				ExitLoop
 			Case $button720
 				$totrig = "{NUMLOCK}"
-				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				addKeyPressToTrigger($totrig)
 				GUIDelete($hChild7)
 				ExitLoop
 			Case $button721
 				$totrig = "{PRINTSCREEN}"
-				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				addKeyPressToTrigger($totrig)
 				GUIDelete($hChild7)
 				ExitLoop
 			Case $button722
 				$totrig = "{LWIN}"
-				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				addKeyPressToTrigger($totrig)
 				GUIDelete($hChild7)
 				ExitLoop
 			Case $button723
 				$totrig = "{INSERT}"
-				addKeyPressToTrigger($shift, $alt, $control, $totrig)
+				addKeyPressToTrigger($totrig)
 				GUIDelete($hChild7)
 				ExitLoop
-			Case $button724 ;shift
-				$shift = true
-			Case $button725 ;alt
-				$alt = true
-			Case $button726 ;Control
-				$control = true
 			Case $button727 ;Special keys
-				$hChild7a = GUICreate("Special Symbol Key Press Trigger", 400, 280, -1, -1, -1, -1, $hChild7)
-				GUICtrlCreateLabel("Which special symbol should be set as the key press trigger?", 20, 20, 360, 40)
-				GUICtrlSetStyle(-1, $SS_CENTER)
-				$button7a4 = GUICtrlCreateButton("+", 220, 140, 160, 40)
-				GUISetState()
-				local $totrig = ""
-				While 1
-					$hMsg = GUIGetMsg()
-					Switch $hMsg
-						Case $GUI_EVENT_CLOSE
-							GUIDelete($hChild7a)
-							ExitLoop
-						Case $button7a4
-							$totrig = "{+}"
-							addKeyPressToTrigger($shift, $alt, $control, $totrig)
-							GUIDelete($hChild7a)
-							ExitLoop
-					EndSwitch
-				WEnd
-				GUIDelete($hChild7)
+				$totrig = "{+}"
+				addKeyPressToTrigger($totrig)
+				GUIDelete($hChild7a)
 				ExitLoop
 			Case $button728 ;F keys
 				$hChild7a = GUICreate("Function Key Press Trigger", 400, 440, -1, -1, -1, -1, $hChild7)
@@ -639,62 +610,62 @@ Func KeyPressedTrigger()
 							ExitLoop
 						Case $button7a1
 							$totrig = "{F1}"
-							addKeyPressToTrigger($shift, $alt, $control, $totrig)
+							addKeyPressToTrigger($totrig)
 							GUIDelete($hChild7a)
 							ExitLoop
 						Case $button7a2
 							$totrig = "{F2}"
-							addKeyPressToTrigger($shift, $alt, $control, $totrig)
+							addKeyPressToTrigger($totrig)
 							GUIDelete($hChild7a)
 							ExitLoop
 						Case $button7a3
 							$totrig = "{F3}"
-							addKeyPressToTrigger($shift, $alt, $control, $totrig)
+							addKeyPressToTrigger($totrig)
 							GUIDelete($hChild7a)
 							ExitLoop
 						Case $button7a4
 							$totrig = "{F4}"
-							addKeyPressToTrigger($shift, $alt, $control, $totrig)
+							addKeyPressToTrigger($totrig)
 							GUIDelete($hChild7a)
 							ExitLoop
 						Case $button7a5
 							$totrig = "{F5}"
-							addKeyPressToTrigger($shift, $alt, $control, $totrig)
+							addKeyPressToTrigger($totrig)
 							GUIDelete($hChild7a)
 							ExitLoop
 						Case $button7a6
 							$totrig = "{F6}"
-							addKeyPressToTrigger($shift, $alt, $control, $totrig)
+							addKeyPressToTrigger($totrig)
 							GUIDelete($hChild7a)
 							ExitLoop
 						Case $button7a7
 							$totrig = "{F7}"
-							addKeyPressToTrigger($shift, $alt, $control, $totrig)
+							addKeyPressToTrigger($totrig)
 							GUIDelete($hChild7a)
 							ExitLoop
 						Case $button7a8
 							$totrig = "{F8}"
-							addKeyPressToTrigger($shift, $alt, $control, $totrig)
+							addKeyPressToTrigger($totrig)
 							GUIDelete($hChild7a)
 							ExitLoop
 						Case $button7a9
 							$totrig = "{F9}"
-							addKeyPressToTrigger($shift, $alt, $control, $totrig)
+							addKeyPressToTrigger($totrig)
 							GUIDelete($hChild7a)
 							ExitLoop
 						Case $button7a10
 							$totrig = "{F10}"
-							addKeyPressToTrigger($shift, $alt, $control, $totrig)
+							addKeyPressToTrigger($totrig)
 							GUIDelete($hChild7a)
 							ExitLoop
 						Case $button7a11
 							$totrig = "{F11}"
-							addKeyPressToTrigger($shift, $alt, $control, $totrig)
+							addKeyPressToTrigger($totrig)
 							GUIDelete($hChild7a)
 							ExitLoop
 						Case $button7a12
 							$totrig = "{F12}"
-							addKeyPressToTrigger($shift, $alt, $control, $totrig)
+							addKeyPressToTrigger($totrig)
 							GUIDelete($hChild7a)
 							ExitLoop
 					EndSwitch
@@ -706,7 +677,7 @@ Func KeyPressedTrigger()
 EndFunc
 
 
-Func addKeyPressToTrigger($shift, $alt, $control, $data)
+Func addKeyPressToTrigger($data)
 ;HotKeySet("^a", "GetPos") ;control
 ;HotKeySet("+a", "GetPos") ;  Shift
 ;HotKeySet("!a", "GetPos") ;alt
@@ -893,21 +864,21 @@ Func addKeyPressToTrigger($shift, $alt, $control, $data)
 		$data = "6B"
 	endif
 	local $totrig = ""
-	if $shift then
+	;if $shift then
 ;		$totrig = $totrig & "+"
-		$totrig = "_IsPressed('10') And "
-		$name = "{SHIFT} key is pressed And " & $name
-	endif
-	if $alt then
+	;	$totrig = "_IsPressed('10') And "
+	;	$name = "{SHIFT} key is pressed And " & $name
+	;endif
+	;if $alt then
 ;		$totrig = $totrig & "!"
-		$totrig = "_IsPressed('12') And "
-		$name = "{ALT} key is pressed And " & $name
-	endif
-	if $control then
+	;	$totrig = "_IsPressed('12') And "
+	;	$name = "{ALT} key is pressed And " & $name
+	;endif
+	;if $control then
 ;		$totrig = $totrig & "^"
-		$totrig = "_IsPressed('11') And "
-		$name = "{CONTROL} key is pressed And " & $name
-	endif
+	;	$totrig = "_IsPressed('11') And "
+	;	$name = "{CONTROL} key is pressed And " & $name
+	;endif
 ;	$totrig = "HotKeySet('" & $totrig & $data & "', 'HotKeyTrigger')"
 	$totrig = $totrig & "_IsPressed('" & $data & "')"
 	AddToTrigger($totrig, $name)
