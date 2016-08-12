@@ -215,11 +215,11 @@ Return: 2.1052631578947368421052631578947
 
 7. Turn run into "manage program" then give the option of Run or Kill. Could do the same with a Manage input button then let them choose keyboard or mouse. that would free up some realestate on the behavior screen. Also Finish the OCR trigger and behavior. You made the library already - use it. This means making a module that knows how to use the tesseract_stdout.au3 thing to check a region of the screen. You could also make a variable management so they can extract some data away. To check for the OCR text we'll also want to match it not exactly but using some metric like allls or even just edit distance. this is doen
 
-8. Finish the import plugin portion (including Encrypting and decrypting the plugin code and running it in a fashion that is secure, and creating the payment structure and making it impossible* to cheat: that is require a code they get upon buying it. save these codes in the online DB along with the email and name on the card that bought it. These plugins will require the use of sqlite so be sure to include a library for that and teach your program how to use it.) 
+8. Finish the import plugin portion (including Encrypting and decrypting the plugin code and running it in a fashion that is secure, and creating the payment structure and making it impossible* to cheat: that is require a code they get upon buying it. save these codes in the online DB along with the email and name on the card that bought it. These plugins will require the use of sqlite so be sure to include a library for that and teach your program how to use it.)
 
 9. list of things to finish in order:
 DONE	a. make the import plugin code functional.
-NO		1. plugin requirements: needs a Plugin_Main() function to start the plugin. 
+NO		1. plugin requirements: needs a Plugin_Main() function to start the plugin.
 NO		2. possible other features such as a pause command or something.
 ???	b. make the plugins cryptographically secure as possible.
 	c. make all the approapriate libraries for plugins to be able to work robustly. (including gui stuff)
@@ -233,7 +233,7 @@ NO		2. possible other features such as a pause command or something.
 10. We've made the import plugin code functional, but haven't done much else. we need to tie in the website to it's cryptographically secure peice. Then finish the website so you can buy it. then make a plugin for cheating, then make the db for it then make a vids
 
 
-	
+
 
 
 
@@ -244,20 +244,121 @@ NO		2. possible other features such as a pause command or something.
 
 
 Aug 3, 2016
-2:41:03 PM: Jordan Miller: I wanted to ask you about how you got the ipdisplay to work with the zoomed in windows 10? I've been learning autoit but I don't know how to do that 
-2:42:14 PM: Cliff Frazier: Let me say first that my programming skills are pretty miniscule, so I'm sure there's a much better way to do it than the way I did it.   
-2:43:14 PM: Cliff Frazier: It seems to me the issue is all about DPI.  When you use the zoom settings you're really changing the display DPI, so I've built a way to detect the DPI setting and then adjust the various font sizes, windows sizes and text location settings 
-2:44:06 PM: Cliff Frazier: There is also a setting in AutoIt when you compile to allow for smoother fonts and such for highdpi displays 
-2:44:41 PM: Cliff Frazier: I can't remember what it is, but I had to research that.  The layout was fine, but the fonts were 'fuzzy' before I made that change 
-2:46:12 PM: Cliff Frazier: If you're interested in learning a language, I wouldn't take too much time with AutoIt, there are a lot more useful languages.  I learned it because it helped me quickly fix some shortcomings in ZENworks many many years ago. 
-2:47:03 PM: Jordan Miller: yeah I'm going to lean python too 
-2:47:24 PM: Cliff Frazier: If it had existed back then, I would have learned powershell 
-2:47:55 PM: Cliff Frazier: it would have been much more useful for the Windows stuff I was doing with ZCM 
-2:49:13 PM: Cliff Frazier: I can get more specific about the AutoIt stuff, but it's pretty clugey, it works, but it's not something I'm super proud to share.   
-2:54:15 PM: Jordan Miller: well I'm working on a project of my own - you know to learn it - and I thought it'd be cool to make it compatible with windows 10 like you did for ipdisplay. I think if I knew how to detect the dpi like you mentioned that'd be enough 
-2:54:20 PM: Jordan Miller: how did you do that part? 
-2:58:46 PM: Cliff Frazier: I find the logged in users SID using an autoit function called _Security_LookupAccountName()  I then plug that SID into a registry key that contains the users DPI settings -HKEY_USERS\[SID]\Control Panel\Desktop\WindowMetrics\AppliedDPI.  Then I have a simple if/then/else routine to apply different sizes and positions based on the returned DPI setting.  
-2:59:58 PM: Jordan Miller: ah interesting 
-3:01:15 PM: Cliff Frazier: It's far from elegant, but it seems to work.  It's a pain to update, if I had more time and better skills I'd update it.  But I just don't have time anymore.  There probably won't be too many updates to that program anymore 
-3:02:01 PM: Jordan Miller: thats understandable, thanks, I'll let you know if that's the way I end up doing things in my project 
-3:02:20 PM: Cliff Frazier: you're welcome 
+2:41:03 PM: Jordan Miller: I wanted to ask you about how you got the ipdisplay to work with the zoomed in windows 10? I've been learning autoit but I don't know how to do that
+2:42:14 PM: Cliff Frazier: Let me say first that my programming skills are pretty miniscule, so I'm sure there's a much better way to do it than the way I did it.
+2:43:14 PM: Cliff Frazier: It seems to me the issue is all about DPI.  When you use the zoom settings you're really changing the display DPI, so I've built a way to detect the DPI setting and then adjust the various font sizes, windows sizes and text location settings
+2:44:06 PM: Cliff Frazier: There is also a setting in AutoIt when you compile to allow for smoother fonts and such for highdpi displays
+2:44:41 PM: Cliff Frazier: I can't remember what it is, but I had to research that.  The layout was fine, but the fonts were 'fuzzy' before I made that change
+2:46:12 PM: Cliff Frazier: If you're interested in learning a language, I wouldn't take too much time with AutoIt, there are a lot more useful languages.  I learned it because it helped me quickly fix some shortcomings in ZENworks many many years ago.
+2:47:03 PM: Jordan Miller: yeah I'm going to lean python too
+2:47:24 PM: Cliff Frazier: If it had existed back then, I would have learned powershell
+2:47:55 PM: Cliff Frazier: it would have been much more useful for the Windows stuff I was doing with ZCM
+2:49:13 PM: Cliff Frazier: I can get more specific about the AutoIt stuff, but it's pretty clugey, it works, but it's not something I'm super proud to share.
+2:54:15 PM: Jordan Miller: well I'm working on a project of my own - you know to learn it - and I thought it'd be cool to make it compatible with windows 10 like you did for ipdisplay. I think if I knew how to detect the dpi like you mentioned that'd be enough
+2:54:20 PM: Jordan Miller: how did you do that part?
+2:58:46 PM: Cliff Frazier: I find the logged in users SID using an autoit function called _Security_LookupAccountName()  I then plug that SID into a registry key that contains the users DPI settings -HKEY_USERS\[SID]\Control Panel\Desktop\WindowMetrics\AppliedDPI.  Then I have a simple if/then/else routine to apply different sizes and positions based on the returned DPI setting.
+2:59:58 PM: Jordan Miller: ah interesting
+3:01:15 PM: Cliff Frazier: It's far from elegant, but it seems to work.  It's a pain to update, if I had more time and better skills I'd update it.  But I just don't have time anymore.  There probably won't be too many updates to that program anymore
+3:02:01 PM: Jordan Miller: thats understandable, thanks, I'll let you know if that's the way I end up doing things in my project
+3:02:20 PM: Cliff Frazier: you're welcome
+
+
+
+
+
+
+
+12. Semantic approach:
+
+So I want to record my latest design thoughts on how to implement the semantic/
+retina approach. We should read in the whole Text book which would probably be
+around 20k words. we then chop up the text in the largest 3 sizes possible, for
+instance:
+
+20k/1024  = ~20 words per snippet.
+20k/512   = ~40 words
+20k/256   = ~80 words
+
+if the book is 40k you'd use 2048, 1024, 512, for example. Anyway, the database
+then holds a sparse distributed representation of each word and where it appears
+in the text up to 5% sparsity. (you can just record indices if you want.)
+
+1024
+Hello 01110001010000000000000010000001000000000000001000000000010000000000000...
+World 00000110000001001000000000000000000000000010110101000000000000000000001...
+512
+Hello 00001000100000000101000000001000000000000000000000010001000000001000000...
+World 00010101000000000000010100001111000000000000000000000000000000000000010...
+256
+Hello 00100100001010000000000000000000100000000000000000000000000000000000000...
+World 00000000001011001001000101001000100000000000000000000000000000000000000...
+
+Also make a table to record the relative rareness of each word.
+
+Hello   9
+World   62
+
+Now you've done everything you need to do in the pre-processing portion. When a
+question comes in you take every single word in the question and every word in
+all available answers and find the highest scored answer matching the question.
+
+Let me give you an example in order to explain the steps.
+
+    What is water?
+
+    A. Bottled
+    B. solid
+    C. H2O
+
+If the textbook never mentions H2O then it will have no memory of H2O and wont
+choose it because it's score is 0. Lets say the text book has mentioned "solid"
+and "Bottled." We're going to check the words against each other and count the
+number of overlapping bits. (Remember to remove all punctuation in textbook and
+questions and answers).
+
+What  Bottled   0
+is    Bottled   5
+water Bottled   3
+
+Score: 8
+
+What  solid     1
+is    solid     10
+water solid     0
+
+Score: 11
+
+Then we have to take into account the relative scarcity of each word:
+
+What      14
+is        70
+water     56
+Bottled   8
+solid     7
+
+Now we have to modify the scores according to relative rarity. you can do this
+by dividing the smallest number by each of the other numbers.
+
+What      0.5     (7/14)
+is        0.1     (7/70)
+water     0.125   (7/56)
+Bottled   0.875   (7/8)
+solid     1       (7/7)
+
+is    Bottled   5 * 0.1 * 0.875 =   0.4375
+water Bottled   3 * 0.5 * 0.875 =   1.3125
+
+Score: 1.75
+
+What  solid     1  * 0.5 * 1 =      0.5
+is    solid     10 * 0.1 * 1 =      1
+
+Score: 1.5
+
+Now we have the final scores of each answer. The rarity score is the process by
+which we approximately determine what the key words are and weight them
+accordingly. Now there are other approaches such as bag of words or even search
+algorithms that might work very well in some cases where the exact definition is
+given, but I'm hoping this approach will work more generally, so they it can be
+somewhat helpful even on story questions or questions that require an extra step
+of logic. we'll have to experiment to see if it can be helpful more generally.
