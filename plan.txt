@@ -263,7 +263,31 @@ Aug 3, 2016
 3:02:20 PM: Cliff Frazier: you're welcome
 
 
+that means
+	1. get the proper username
 
+	2. get the SID:
+
+		#include <Security.au3>
+
+		Local $aArrayOfData = _Security__LookupAccountName(@UserName)
+
+		; Print returned data if no error occured
+		If IsArray($aArrayOfData) Then
+    			ConsoleWrite("SID String = " & $aArrayOfData[0] & @CRLF)
+    			ConsoleWrite("Domain name = " & $aArrayOfData[1] & @CRLF)
+			ConsoleWrite("SID type = " & _Security__SidTypeStr($aArrayOfData[2]) & @CRLF)
+		EndIf
+
+	3. get the value of the applieddpi
+
+		HKEY_USERS\[SID]\Control Panel\Desktop\WindowMetrics\AppliedDPI
+
+		96 is normal (0x00000060)
+		288 is 300% zoom in on surface book (0x00000120)
+		196 is 200%
+
+	4. adjust where the image is taken and how big it is according to that. (don't know how)
 
 
 
