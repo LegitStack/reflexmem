@@ -281,7 +281,9 @@ instance:
 
 if the book is 40k you'd use 2048, 1024, 512, for example. Anyway, the database
 then holds a sparse distributed representation of each word and where it appears
-in the text up to 5% sparsity. (you can just record indices if you want.)
+in the text up to 5% sparsity. (you can just record indices if you want). If the
+word appears more than the sparsity of 5% then you take the ones that have it
+occurring more than once, and if you must, choose the others at random.
 
 1024
 Hello 01110001010000000000000010000001000000000000001000000000010000000000000...
@@ -314,7 +316,9 @@ If the textbook never mentions H2O then it will have no memory of H2O and wont
 choose it because it's score is 0. Lets say the text book has mentioned "solid"
 and "Bottled." We're going to check the words against each other and count the
 number of overlapping bits. (Remember to remove all punctuation in textbook and
-questions and answers).
+questions and answers). PS. you would do this for all sizes too (which I don't
+show here); we do this so we can approximate taking higher level concepts into
+account.
 
 What  Bottled   0
 is    Bottled   5
@@ -362,3 +366,14 @@ algorithms that might work very well in some cases where the exact definition is
 given, but I'm hoping this approach will work more generally, so they it can be
 somewhat helpful even on story questions or questions that require an extra step
 of logic. we'll have to experiment to see if it can be helpful more generally.
+
+Also some might suggest to take the relative rarity and turn it into a
+logarithmic scale so that the rarest words are really important. But there are
+two things to consider with that - the key words are not the rarest words, they
+are somewhat rare, but they probably show up more than once. Secondly, I think
+whatever logarithmic weights would show up in the overlap of the bits because
+it becomes exponentially less likely to have more and more bits sharing; though
+taking larger scales lessens the steepness of that curve.
+
+At this point I think you should experiment and find out if this is a viable
+strategy.
