@@ -21,40 +21,12 @@ proc ::repo::create {id} {
 	sqlite3 brain "./brain/$id.sqlite" -create true
   #entity atribute value
   brain eval { create table if not exists main(
-																											word char,
-                                                      SDR1 char,
-                                                      SDR2 char,
-                                                      SDR3 char,
-                                                      rarity char) }
-	set csv ""
-	foreach data $datas {
-		set csv "$csv, '$data' char"
-	}
-	brain eval "create table if not exists smoke(time char, env char$csv)"
-#	brain eval { create_function('regexp', 2) do |func, pattern, expression|
-#	  						func.result = expression.to_s.match(
-#	      				Regexp.new(pattern.to_s, Regexp::IGNORECASE)) ? 1 : 0
-#							 end
-#						 }
-# brain function { regexp -deterministic {regexp --} }
-# brain function regexp -deterministic {REGEXP --}
+																								word char,
+                                                SDR1 char,
+                                                SDR2 char,
+                                                SDR3 char,
+                                              	rarity char) }
 }
-proc ::repo::createConcert {id datas} {
-	file mkdir brain
-	sqlite3 brain "./brain/$id.sqlite" -create true
-
-	brain eval { create table if not exists setup(
-																											type char,
-																											data char) }
-	set csv ""
-	foreach data $datas {
-		set csv "$csv, '$data\_i' char"
-		set csv "$csv, '$data\_r' char"
-	}
-	brain eval "create table if not exists concert(time char, actor char, act char$csv)"
-	brain eval "create table if not exists draft(time char, actor char, act char$csv)"
-}
-
 
 ################################################################################################################################################################
 # insert #########################################################################################################################################################
