@@ -10,22 +10,19 @@ namespace eval ::retina::helpers:: {}
 proc ::retina::main {} {
   ::retina::set::globals
   ::retina::set::up [::retina::helpers::getMyName]
-  ::retina::helpers::getCut
-  chain [::retina::helpers::getTextFile]                \
-        [list ::retina::helpers::openFile {}]           \
+
+  chain [::retina::set::getQuestionText]                \
         [list ::retina::helpers::removePunctuation {}]  \
-        [list ::retina::helpers::makeLower {}]          \
-        [list ::retina::set::saveUniqueWords {}]        \
-        [list ::retina::set::saveWordCounts {}]         \
-        [list ::retina::helpers::cutUp {} $::cutamount] \
-        [list ::retina::helpers::saveSDRsToDB {}]
+        [list ::retina::set::questionText {}]
+  ::retina::set::getAnswers
+  ::retina::set::getWords
+
 }
 
 proc ::retina::set::globals {} {
+  set ::question {}
+  set ::answers {}
   set ::words {}
-  set ::wordcounts {}
-  set ::cuttext {}
-  set ::cutamount {}
 }
 
 proc ::retina::helpers::getMyName {} {
@@ -35,17 +32,38 @@ proc ::retina::helpers::getMyName {} {
   return $name
 }
 
-proc ::retina::helpers::getCut {} {
-  puts "How many words would you like to cut by? (30 is default. 20-50 is usually a good range.)"
+proc ::retina::set::up {name} {
+   ::repo::set $name
+}
+
+proc ::retina::helpers::getQuestionText {} {
+  puts "What is the quesiton?"
   flush stdout
-  set ::cutamount [gets stdin]
-  if {$::cutamount eq ""} {
-    set ::cutamount 30
+  set question [gets stdin]
+  if {$question eq ""} {
+    puts "bye"
+    exit
   }
 }
 
-proc ::retina::set::up {name} {
-  ::repo::create $name
+proc ::retina::set::questionText {text} {
+  set ::question $text
+}
+
+proc ::retina::set::getAnswers {} {
+  set tempanswer {}
+  while {$tempanswer ne ""} {
+    puts "What are the available answers?"
+    flush stdout
+    set $tempanswer [gets stdin]
+    if {$tempanswer ne ""} {
+      set ::answers [lappend $::answers [::retina::helpers::removePunctuation $tempanswer]]
+    }
+  }
+}
+
+proc ::retina::set::getWords {} {
+  set ::words [::repo::get::tableColumns main word]
 }
 
 proc ::retina::helpers::getTextFile {} {
