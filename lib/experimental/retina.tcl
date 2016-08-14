@@ -23,10 +23,11 @@ proc ::retina::main {} {
   chain [::retina::helpers::getTextFile]                \
         [list ::retina::helpers::openFile {}]           \
         [list ::retina::helpers::removePunctuation {}]  \
+        [list ::retina::helpers::makeLower {}]          \
         [list ::retina::set::saveUniqueWords {}]        \
         [list ::retina::set::saveWordCounts {}]         \
         [list ::retina::helpers::cutUp {} 30]           \
-        [list ::retina::helpers::saveSDRsToDB {}]       
+        [list ::retina::helpers::saveSDRsToDB {}]
 
 # cutup will cut it into 30 word increments. we'll go with 30 (1), 60 (2), and 120 (4)
 # this means the number of bits in the sparse rep is variable. but we still stick to 5% sparsity.
@@ -62,19 +63,26 @@ proc ::retina::helpers::openFile {loc} {
   if {[catch {close $file} err]} {
     puts "ls command failed: $err"
   } else {
-    puts "imported successfully: [lrange $text 0 5]..."
+    #puts [concat "imported successfully: " [lrange $text 0 0] "..."]
   }
-  close $file
+  #close $file
   return $text
 }
 
 proc ::retina::helpers::removePunctuation {text} {
-  return [string map {; {} : {} ' {} \" {} . {} / {} \\ {} ? {} > {} , {} < {} \[ {} \] {} | {} \} {} \{ {} + {} - {} * {} = {} _ {} ) {} ( {} & {} ^ {} # {} ! {} ` {} ~ {} % {}} $text]
+  return [string map {\<newline> " " ; " " : " " ' " " \" " " . " " / " " \\ " " ? " " \
+                      > " " , " " < " " \[ " " \] " " | " " \} " " \{ " " + " " \
+                      - " " * " " = " " _ " " ) " " ( " " & " " ^ " " # " " ! " " \
+                      ` " " ~ " " % " "} $text]
+}
+
+proc ::retina::helpers::makeLower {text} {
+  return [string tolower $text]
 }
 
 proc ::retina::set::saveUniqueWords {text} {
   foreach word $text {
-    if {[lsearch $::words $word] eq ""} {
+    if {[lsearch $::words $word] == -1} {
       lappend ::words $word
     }
   }
@@ -82,10 +90,10 @@ proc ::retina::set::saveUniqueWords {text} {
 }
 
 proc ::retina::set::saveWordCounts {text} {
-
   foreach word $::words {
-    lappend ::wordcounts [llength [lsearch $text $word]]
+    lappend ::wordcounts [llength [lsearch -all $text $word]]
   }
+  return $text
 }
 
 proc ::retina::helpers::cutUp {text count} {
@@ -104,39 +112,50 @@ proc ::retina::helpers::saveSDRsToDB {text} {
   set sdr4 {}
   set i 0
   set c 1
-  set templist {}
+  set templist2 {}
+  set templist4 {}
   foreach word $::words {
+    set sdr {}
+    set sdr2 {}
+    set sdr4 {}
+    puts "processing word: $word"
     foreach list $text {
-      if {[lsearch -all $list $word] eq ""} {
-        set sdr [concat $sdr 0]
+      if {[lsearch $list $word] == -1} {
+        set sdr [string cat $sdr 0]
       } else {
-        set sdr [concat $sdr 1]
+        set sdr [string cat $sdr 1]
       }
-      set templist [concat $templist $list]
+      set templist2 [concat $templist2 $list]
+      set templist4 [concat $templist4 $list]
       if {$c == 2} {
-        if {[lsearch -all $templist $word] eq ""} {
-          set sdr2 [concat $sdr2 0]
+        if {[lsearch $templist2 $word] == -1} {
+          set sdr2 [string cat $sdr2 0]
         } else {
-          set sdr2 [concat $sdr2 1]
+          set sdr2 [string cat $sdr2 1]
         }
+        set templist2 {}
       } elseif {$c == 4} {
-        if {[lsearch -all $templist $word] eq ""} {
-          set sdr4 [concat $sdr4 0]
+        if {[lsearch $templist4 $word] == -1} {
+          set sdr4 [string cat $sdr4 0]
         } else {
-          set sdr4 [concat $sdr4 1]
+          set sdr4 [string cat $sdr4 1]
         }
-        set templist {}
+        if {[lsearch $templist2 $word] == -1} {
+          set sdr2 [string cat $sdr2 0]
+        } else {
+          set sdr2 [string cat $sdr2 1]
+        }
+        set templist2 {}
+        set templist4 {}
         set c 0
       }
       incr c
     }
-    incr i
     #savesdr to db
-    #$word $sdr $sdr2 $sdr4 [lindex $::wordcounts $i]
-    puts $sdr
-    puts $sdr2
-    puts $sdr4
-    set sdr {}
+    #puts [concat $word $sdr $sdr2 $sdr4 [lindex $::wordcounts $i]]
+    ::repo::insert main $word $sdr $sdr2 $sdr4 [lindex $::wordcounts $i]
+    # now that thats working you may just want to record the indicies of the one bits.
+    incr i
   }
 }
 

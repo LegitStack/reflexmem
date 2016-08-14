@@ -25,7 +25,7 @@ proc ::repo::create {id} {
                                                 SDR1 char,
                                                 SDR2 char,
                                                 SDR3 char,
-                                              	rarity char) }
+                                              	rarity int) }
 }
 
 ################################################################################################################################################################
@@ -34,79 +34,10 @@ proc ::repo::create {id} {
 
 
 #data is a dictionary - column, data
-proc ::repo::insert {table datas} {
-	if [dict exists $datas time] {
-		set time [dict get $datas time]
-	}
-	if [dict exists $datas type] {
-		set type [dict get $datas type]
-	}
-	if [dict exists $datas data] {
-		set data [dict get $datas data]
-	}
-	if [dict exists $datas input] {
-		set input [dict get $datas input]
-	}
-	if [dict exists $datas action] {
-		set action [dict get $datas action]
-		if {[llength $action] > 1 } {
-			set action [lrange $action 0 [expr [llength $action]-1] ]
-		}
-	}
-	if [dict exists $datas result] {
-		set result [dict get $datas result]
-	}
-	if [dict exists $datas last_used] {
-		set last_used [dict get $datas last_used]
-	}
-	if [dict exists $datas times_used] {
-		set times_used [dict get $datas times_used]
-	}
-	if [dict exists $datas state] {
-		set state [dict get $datas state]
-	}
-	if [dict exists $datas address] {
-		set address [dict get $datas address]
-	}
-	if [dict exists $datas sdr] {
-		set sdr [dict get $datas sdr]
-	}
-	if [dict exists $datas rule] {
-		set rule [dict get $datas rule]
-	}
-	if [dict exists $datas ruleid] {
-		set ruleid [dict get $datas ruleid]
-	}
-	if [dict exists $datas mainids] {
-		set mainids [dict get $datas mainids]
-	}
+proc ::repo::insert {table word sdr sdr2 sdr4 rarity} {
 	switch $table {
-		setup {
-			brain eval {INSERT INTO setup VALUES ($type,$data)}
-		}
 		main {
-			brain eval {INSERT INTO main VALUES ($time,$input,$action,$result)}
-		}
-		uniq {
-			brain eval {INSERT INTO uniq VALUES ($time,$input,$action,$result)}
-		}
-		chains {
-			brain eval {INSERT INTO chains VALUES ($time,$input,$action,$result,$last_used,$times_used)}
-		}
-		bad {
-			brain eval {INSERT INTO bad VALUES ($time,$input,$action,$result)}
-		}
-		states {
-			brain eval {INSERT INTO states VALUES ($state,$sdr)}
-		}
-		map {
-			brain eval {INSERT INTO map VALUES ($state,$address)}
-		}
-		rules {
-			brain eval {INSERT INTO rules VALUES ($rule,$type,$mainids)}
-		}
-		predictions {
-			brain eval {INSERT INTO predictions VALUES ($input,$action,$result,$ruleid)}
+			brain eval {INSERT INTO main VALUES ($word,$sdr,$sdr2,$sdr4,$rarity)}
 		}
 		default {
 			return "No data saved, please supply valid table name."
@@ -114,20 +45,6 @@ proc ::repo::insert {table datas} {
 	}
 }
 
-#data is a list with all the columns used in the same order each time. _ ==
-proc ::repo::insert::smoke {time env datas} {
-	set csv "'$time'"
-	set csv "$csv,'$env'"
-	foreach data $datas {
-		set csv "$csv,'$data'"
-	}
-	puts "insert: $csv"
-	brain eval "INSERT INTO smoke VALUES ($csv)"
-}
-
-proc ::repo::insert::mainSmoke {time input result} {
-	brain eval {INSERT INTO main VALUES ($time,$input,$action,$result)}
-}
 
 ################################################################################################################################################################
 # update #########################################################################################################################################################
@@ -138,15 +55,6 @@ proc ::repo::update::oneWhere {table column data input result} {
 	brain eval "UPDATE '$table' SET '$column'='$data' WHERE input='$input' AND result='$result'"
 }
 
-#update an incorrect environment state correlation. - make another one for multiple ids
-proc ::repo::update::smoke {id env} {
-	brain eval "UPDATE 'smoke' SET 'env'='$env' WHERE rowid='$id'"
-}
-
-#generic update for updating anything (only 1 table. column is always 'perm')
-proc ::repo::update::onId {table column data id} {
-	brain eval "UPDATE '$table' SET '$column'='$data' WHERE rowid='$id'"
-}
 
 ################################################################################################################################################################
 # Get #########################################################################################################################################################
