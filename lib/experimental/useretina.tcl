@@ -13,10 +13,55 @@ proc ::retina::main {} {
 
   chain [::retina::set::getQuestionText]                \
         [list ::retina::helpers::removePunctuation {}]  \
+        [list ::retina::helpers::makeLower {}]          \
+        [list ::retina::helpers::getUniqueWords {}]    \
         [list ::retina::set::questionText {}]
-  ::retina::set::getAnswers
+  chain [::retina::set::getQuestionAnsers]              \
+        [list ::retina::helpers::removePunctuation {}]  \
+        [list ::retina::helpers::makeLower {}]          \
+        [list ::retina::helpers::getUniqueAnswers {}]    \
+        [list ::retina::set::answers {}]
   ::retina::set::getWords
-
+#how to do it.
+#  foreach answer in answers
+#    foreach aword in answers
+#      if getwords contains aword then
+#        get sdrs for aword
+#        foreach word in question
+#          if getwords contains word then
+#            chain: score
+#              get sdrs for word
+#              loop through sdrs and get score
+#              modify score according to rarity.
+#          endif
+#        next
+#      endif
+#    next
+#    lappend scores score
+#  next
+#  lappend answerscore [addd up scores]
+  set scores {}
+  foreach answer $::answers {
+    set rare [::retina::helpers::getRarity $answer $::question]
+    foreach aword $answer {
+      if {[lsearch $::words $aword] == -1} {
+        foreach qword $::question {
+          if {[lsearch $::words $qword] == -1} {
+            set asdr [::repo::get::row $aword]
+            set qsdr [::repo::get::row $qword]
+            set asdr1 [::retina::helpers::modifySdr $asdr $qsdr 1]
+            set qsdr1 [::retina::helpers::modifySdr $asdr $qsdr 1]
+            set score [::retina::helpers::scoreSdrs $asdr1 $qsdr1]
+            set score [::retina::helpers::modifyScore $score [lindex $asdr 4] [lindex $qsdr 4] $rare]
+            set scores [lappend $scores $score]
+          }
+        }
+      }
+    }
+    set ascores [lappend $ascores [::retina::helpers::addUpScores $scores]]
+    set scores {}
+  }
+  return [::retina::helpers::findLargest $ascores]
 }
 
 proc ::retina::set::globals {} {
@@ -46,43 +91,18 @@ proc ::retina::helpers::getQuestionText {} {
   }
 }
 
-proc ::retina::set::questionText {text} {
-  set ::question $text
-}
-
-proc ::retina::set::getAnswers {} {
-  set tempanswer {}
-  while {$tempanswer ne ""} {
-    puts "What are the available answers?"
-    flush stdout
-    set $tempanswer [gets stdin]
-    if {$tempanswer ne ""} {
-      set ::answers [lappend $::answers [::retina::helpers::removePunctuation $tempanswer]]
+proc ::retina::helpers::getUniqueQuestion {question} {
+  set words {}
+  foreach word $question {
+    if {[lsearch $words $word] == -1} {
+      set words [lappend $words $word]
     }
   }
+  return $words
 }
 
-proc ::retina::set::getWords {} {
-  set ::words [::repo::get::tableColumns main word]
-}
-
-proc ::retina::helpers::getTextFile {} {
-  puts "Where is the text file? (c:\\users\\john\\documents\\textbook.txt)"
-  flush stdout
-  set loc [gets stdin]
-  return $loc
-}
-
-proc ::retina::helpers::openFile {loc} {
-  set file [open $loc]
-  set text [read $file]
-  if {[catch {close $file} err]} {
-    puts "ls command failed: $err"
-  } else {
-    puts [concat "imported successfully: " [string range $text 0 100] "..."]
-  }
-  #close $file
-  return $text
+proc ::retina::set::questionText {text} {
+  set ::question $text
 }
 
 proc ::retina::helpers::removePunctuation {text} {
@@ -96,82 +116,121 @@ proc ::retina::helpers::makeLower {text} {
   return [string tolower $text]
 }
 
-proc ::retina::set::saveUniqueWords {text} {
-  foreach word $text {
-    if {[lsearch $::words $word] == -1} {
-      lappend ::words $word
+
+proc ::retina::set::getQuestionAnswers {} {
+  set tempanswer {}
+  set answers {}
+  while {$tempanswer ne ""} {
+    puts "What are the available answers?"
+    flush stdout
+    set $tempanswer [gets stdin]
+    if {$tempanswer ne ""} {
+      set answers [lappend $::answers [::retina::helpers::removePunctuation $tempanswer]]
     }
   }
-  return $text
+  return $answers
 }
 
-proc ::retina::set::saveWordCounts {text} {
-  foreach word $::words {
-    lappend ::wordcounts [llength [lsearch -all $text $word]]
-  }
-  return $text
-}
-
-proc ::retina::helpers::cutUp {text count} {
-  set cuttext {}
-  set i 0
-  while {$i < [llength $text]} {
-    set cuttext [lappend cuttext [lrange $text $i [expr $i + $count - 1]]]
-    incr i $count
-  }
-  return $cuttext
-}
-
-proc ::retina::helpers::saveSDRsToDB {text} {
-  set sdr {}
-  set sdr2 {}
-  set sdr4 {}
-  set i 0
-  set c 1
-  set templist2 {}
-  set templist4 {}
-  puts "processing words: "
-  foreach word $::words {
-    set sdr {}
-    set sdr2 {}
-    set sdr4 {}
-    puts -nonewline "$word "
-    #puts "processing words: $word"
-    foreach list $text {
-      if {[lsearch $list $word] == -1} {
-        set sdr [string cat $sdr 0]
-      } else {
-        set sdr [string cat $sdr 1]
+proc ::retina::helpers::getUniqueAnswers {answers} {
+  set newanswers {}
+  set words {}
+  foreach answer $answers {
+    foreach word $answer {
+      if {[lsearch $words $word] == -1} {
+        set words [lappend $words $word]
       }
-      set templist2 [concat $templist2 $list]
-      set templist4 [concat $templist4 $list]
-      if {$c == 2} {
-        if {[lsearch $templist2 $word] == -1} {
-          set sdr2 [string cat $sdr2 0]
-        } else {
-          set sdr2 [string cat $sdr2 1]
-        }
-        set templist2 {}
-      } elseif {$c == 4} {
-        if {[lsearch $templist4 $word] == -1} {
-          set sdr4 [string cat $sdr4 0]
-        } else {
-          set sdr4 [string cat $sdr4 1]
-        }
-        if {[lsearch $templist2 $word] == -1} {
-          set sdr2 [string cat $sdr2 0]
-        } else {
-          set sdr2 [string cat $sdr2 1]
-        }
-        set templist2 {}
-        set templist4 {}
-        set c 0
-      }
-      incr c
     }
-    ::repo::insert main $word $sdr $sdr2 $sdr4 [lindex $::wordcounts $i]
+    set newanswers [lappend $newanswers $words]
+    set words {}
+  }
+  return $newanswers
+}
+
+proc ::retina::set::answers {answers} {
+  set ::answers $answers
+}
+
+proc ::retina::set::getWords {} {
+  set ::words [::repo::get::tableColumns main word]
+}
+
+proc ::retina::helpers::getRarity {a q} {
+  set rarity 100000000000
+  foreach word $a {
+    set r [::repo::get::rarity $word]
+    if {$r < $rarity} {
+      set rarity $r
+    }
+  }
+  foreach word $q {
+    set r [::repo::get::rarity $word]
+    if {$r < $rarity} {
+      set rarity $r
+    }
+  }
+  return $rarity
+}
+proc ::retina::helpers::modifySdr {a q option} {
+  switch $options {
+    1 {
+      return [lindex $a 1]
+    }
+    2 {
+      return [lindex $a 2]
+    }
+    3 {
+      return [lindex $a 3]
+    }
+    12 {
+      return "[lindex $a 1][lindex $a 2]"
+    }
+    23{
+      return "[lindex $a 2][lindex $a 3]"
+    }
+    123 {
+      return "[lindex $a 1][lindex $a 2][lindex $a 3]"
+    }
+    default {
+      return [lindex $a 1]
+    }
+  }
+}
+
+
+proc ::retina::helpers::scoreSdrs {asdr qsdr} {
+  set score 0
+  foreach a [split $asdr] q [split $qsdr] {
+    if {$a eq 1} {
+      if {$q eq 1} {
+        incr score
+      }
+    }
+  }
+}
+
+proc ::retina::helpers::modifyScore {score arare qrare lowrarity} {
+  return [expr $score * [expr $lowrarity/$arare] * [expr $lowrarity/$qrare]]
+}
+
+proc ::retina::helpers::addUpScores {scores} {
+  set added {}
+  foreach score $scores {
+    set added [expr $added + $score]
+  }
+  return $added
+}
+
+proc ::retina::helpers::findLargest {scores} {
+  set largest {}
+  set i 0
+  set x 0
+  foreach score $scores {
     incr i
+    if {$score > $largest} {
+      set largest $score
+      set x $i
+    }
   }
+  return $x
 }
-
 ::retina::main

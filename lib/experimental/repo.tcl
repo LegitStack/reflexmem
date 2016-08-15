@@ -74,9 +74,23 @@ proc ::repo::update::oneWhere {table column data input result} {
 #table, one, two, perm are strings | columns, ones, twos are all lists.
 #make perm = 0 to get all connections
 
-proc ::repo::get::actions {} {
-	#return [brain eval "SELECT data FROM setup WHERE type='ooutput'"]
-	return [brain eval "SELECT rule FROM rules WHERE type='available actions'"]
+proc ::repo::get::sdr1 {word} {
+	return [brain eval "SELECT SDR1 FROM main WHERE word='$word'"]
+}
+
+proc ::repo::get::sdr2 {word} {
+	return [brain eval "SELECT SDR2 FROM main WHERE word='$word'"]
+}
+
+proc ::repo::get::sdr3 {word} {
+	return [brain eval "SELECT SDR3 FROM main WHERE word='$word'"]
+}
+proc ::repo::get::rarity {word} {
+	return [brain eval "SELECT SDR3 FROM main WHERE word='$word'"]
+}
+
+proc ::repo::get::row {word} {
+	return [brain eval "SELECT word,SDR1,SDR2,SDR3,rarity FROM main WHERE word='$word'"]
 }
 
 proc ::repo::get::tableColumns {table cols} {
