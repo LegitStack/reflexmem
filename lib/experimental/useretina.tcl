@@ -11,15 +11,16 @@ proc ::retina::main {} {
   ::retina::set::globals
   ::retina::set::up [::retina::helpers::getMyName]
 
-  chain [::retina::set::getQuestionText]                \
+  chain [::retina::helpers::getQuestionText]            \
         [list ::retina::helpers::removePunctuation {}]  \
         [list ::retina::helpers::makeLower {}]          \
-        [list ::retina::helpers::getUniqueWords {}]    \
+        [list ::retina::helpers::getUniqueQuestion {}]  \
         [list ::retina::set::questionText {}]
-  chain [::retina::set::getQuestionAnsers]              \
+  puts "question $::question"
+  chain [::retina::helpers::getQuestionAnswers]         \
         [list ::retina::helpers::removePunctuation {}]  \
         [list ::retina::helpers::makeLower {}]          \
-        [list ::retina::helpers::getUniqueAnswers {}]    \
+        [list ::retina::helpers::getUniqueAnswers {}]   \
         [list ::retina::set::answers {}]
   ::retina::set::getWords
 #how to do it.
@@ -40,7 +41,22 @@ proc ::retina::main {} {
 #    lappend scores score
 #  next
 #  lappend answerscore [addd up scores]
+#exmaple:
+  #a1: the 0001111000 .1
+  #a2: cat 0001100000 1
+  #q1: dad 0000100000 .5
+  #q2: mom 0001010000 .7
+  #the dad 1 * .1 * .5 = .05
+  #the mom 2 * .1 * .7 = .14
+  #cat dad 1 *  1 * .5 = .5
+  #cat mom 1 *  1 * .7 = .7
+  #         ascores  ... 1.39
+  #other options:
+  #1+2+1+1 = 5 *.1 * .1 * .5 * .5 * .7 * .7 = .006125
+  # 5 * (.2) * (1) * (1.4) = 1.4
+  # 5 * 2.6 = 13
   set scores {}
+  set ascores {}
   foreach answer $::answers {
     set rare [::retina::helpers::getRarity $answer $::question]
     foreach aword $answer {
@@ -53,12 +69,13 @@ proc ::retina::main {} {
             set qsdr1 [::retina::helpers::modifySdr $asdr $qsdr 1]
             set score [::retina::helpers::scoreSdrs $asdr1 $qsdr1]
             set score [::retina::helpers::modifyScore $score [lindex $asdr 4] [lindex $qsdr 4] $rare]
-            set scores [lappend $scores $score]
+            lappend scores $score
           }
         }
       }
     }
-    set ascores [lappend $ascores [::retina::helpers::addUpScores $scores]]
+    lappend ascores [::retina::helpers::addUpScores $scores]
+    puts "ascores $ascores"
     set scores {}
   }
   return [::retina::helpers::findLargest $ascores]
@@ -89,13 +106,15 @@ proc ::retina::helpers::getQuestionText {} {
     puts "bye"
     exit
   }
+  return $question
 }
 
 proc ::retina::helpers::getUniqueQuestion {question} {
   set words {}
   foreach word $question {
+    puts "words: $words"
     if {[lsearch $words $word] == -1} {
-      set words [lappend $words $word]
+      lappend words $word
     }
   }
   return $words
@@ -117,15 +136,18 @@ proc ::retina::helpers::makeLower {text} {
 }
 
 
-proc ::retina::set::getQuestionAnswers {} {
+proc ::retina::helpers::getQuestionAnswers {} {
   set tempanswer {}
   set answers {}
-  while {$tempanswer ne ""} {
+  set continue true
+  while {$continue eq true} {
     puts "What are the available answers?"
     flush stdout
     set $tempanswer [gets stdin]
     if {$tempanswer ne ""} {
-      set answers [lappend $::answers [::retina::helpers::removePunctuation $tempanswer]]
+      lappend answers [::retina::helpers::removePunctuation $tempanswer]
+    } else {
+      set continue false
     }
   }
   return $answers
@@ -137,10 +159,10 @@ proc ::retina::helpers::getUniqueAnswers {answers} {
   foreach answer $answers {
     foreach word $answer {
       if {[lsearch $words $word] == -1} {
-        set words [lappend $words $word]
+        lappend words $word
       }
     }
-    set newanswers [lappend $newanswers $words]
+    lappend $newanswers $words
     set words {}
   }
   return $newanswers

@@ -154,6 +154,7 @@ proc ::retina::helpers::saveSDRsToDB {text} {
     ::repo::insert main $word $sdr $sdr2 $sdr4 [lindex $::wordcounts $i]
     incr i
   }
+  puts "Done processing words."
 }
 
 ::retina::main
