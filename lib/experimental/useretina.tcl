@@ -68,8 +68,8 @@ proc ::retina::main {} {
           if {[lsearch $::words $qword] ne "-1"} {
             set asdr [::repo::get::row $aword]
             set qsdr [::repo::get::row $qword]
-            set asdr1 [::retina::helpers::modifySdr $asdr $qsdr 1]
-            set qsdr1 [::retina::helpers::modifySdr $asdr $qsdr 1]
+            set asdr1 [::retina::helpers::modifySdr $asdr $qsdr 2]
+            set qsdr1 [::retina::helpers::modifySdr $asdr $qsdr 2]
             set score [::retina::helpers::scoreSdrs $asdr1 $qsdr1]
             set score [::retina::helpers::modifyScore $score [lindex $asdr 4] [lindex $qsdr 4] $rare]
             lappend scores $score
@@ -81,6 +81,7 @@ proc ::retina::main {} {
     set scores {}
   }
   set bestanswer [::retina::helpers::findLargest $ascores]
+  puts $ascores
   puts $bestanswer
   return $bestanswer
 }
@@ -130,7 +131,7 @@ proc ::retina::set::questionText {text} {
 proc ::retina::helpers::removePunctuation {text} {
   return [string map {\<newline> " " ; " " : " " ' " " \" " " . " " / " " \\ " " ? " " \
                       > " " , " " < " " \[ " " \] " " | " " \} " " \{ " " + " " \
-                      - " " * " " = " " _ " " ) " " ( " " & " " ^ " " # " " ! " " \
+                      - " " — " " * " " = " " _ " " ) " " ( " " & " " ^ " " # " " ! " " \
                       ` " " ~ " " % " "} $text]
 }
 

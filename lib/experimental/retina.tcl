@@ -70,7 +70,7 @@ proc ::retina::helpers::openFile {loc} {
 proc ::retina::helpers::removePunctuation {text} {
   return [string map {\<newline> " " ; " " : " " ' " " \" " " . " " / " " \\ " " ? " " \
                       > " " , " " < " " \[ " " \] " " | " " \} " " \{ " " + " " \
-                      - " " * " " = " " _ " " ) " " ( " " & " " ^ " " # " " ! " " \
+                      - " " — " " * " " = " " _ " " ) " " ( " " & " " ^ " " # " " ! " " \
                       ` " " ~ " " % " "} $text]
 }
 

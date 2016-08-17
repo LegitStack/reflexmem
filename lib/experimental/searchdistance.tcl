@@ -26,8 +26,8 @@ proc ::sd::main {} {
     }
     ::sd::set::answers $newanswers
     set best [chain $::question
-                    [list ::sd::helpers::findQuestion {}]       \
-                    [list ::sd::helpers::findClosestAnswer {}]  \
+                    [list ::sd::helpers::findQuestion {} $::textbook]       \
+                    [list ::sd::helpers::findClosestAnswer {} $::textbook]  \
                     [list ::sd::helpers::getBestAnswer {}]
     puts $best
   }
@@ -61,7 +61,7 @@ proc ::sd::helpers::openFile {loc} {
 proc ::sd::helpers::removePunctuation {text} {
   return [string map {\<newline> " " ; " " : " " ' " " \" " " . " " / " " \\ " " ? " " \
                       > " " , " " < " " \[ " " \] " " | " " \} " " \{ " " + " " \
-                      - " " * " " = " " _ " " ) " " ( " " & " " ^ " " # " " ! " " \
+                      - " " — " " * " " = " " _ " " ) " " ( " " & " " ^ " " # " " ! " " \
                       ` " " ~ " " % " "} $text]
 }
 
@@ -78,8 +78,7 @@ proc ::sd::helpers::getQuestion {} {
   flush stdout
   set question [gets stdin]
   if {$question eq ""} {
-    puts "bye"
-    exit
+    upvar continue false
   }
   return $question
 }
@@ -103,6 +102,14 @@ proc ::sd::helpers::getAnswers {} {
 
 proc ::sd::set::answers {answers} {
   set ::answers $answers
+}
+
+proc ::sd::helpers::findQuestion {question textbook} {
+
+}
+
+proc ::sd::helpers::findClosestAnswer {qindex textbook} {
+
 }
 
 proc ::sd::helpers::getBestAnswer {scores} {

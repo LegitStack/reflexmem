@@ -472,3 +472,42 @@ taking larger scales lessens the steepness of that curve.
 
 At this point I think you should experiment and find out if this is a viable
 strategy.
+
+
+
+
+13. 12 was inadequate, or perhaps just incomplete. we may need to also index
+every combination of multiple words too, but only caring about those that show
+up next to each other in the text.
+
+for example: taking the above sentence as the text we'd have each word indexed
+with an sdr, but we'd also have:
+
+we may
+may need
+need to
+...
+in the
+the text
+we may need
+may need to
+...
+we may need to also index
+...
+ect.
+
+we'd probably want to go up to like 10 words long or something. we'd also need
+to weight the longer matches much higher than the smaller matches. But this is
+essentially searching for the location of the longest common substring. So I was
+thinking we could make a module called searchdistance that maybe leverages alllcs
+or it just searches for the longest string, if its not found then it searches
+for parts of the string, if those aren't found then it searches for permutations
+of the string until it finds the index of the closest string. then it searches
+around that string to find the closest thing to the answers. which ever answer
+is the most accurate and closest to it wins. that would probably require regexp
+usage. or lsearch with different permutations of words since we're getting rid
+of punctuation and everything is lowercase. if there are 10 words in the question
+we could do 1-10, then 2-10 then 1-9 then 2-9 then 3-10 then 1-8 etc. until you have just
+1 and just 10. that could be a good approximation to the best match to the
+question, except it would undoubtedly sometimes catch things you didn't want caught.
+anyway. we'll have to think more about this. I've run out of time.
