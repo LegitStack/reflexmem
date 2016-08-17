@@ -80,7 +80,9 @@ proc ::retina::main {} {
     lappend ascores [::retina::helpers::addUpScores $scores]
     set scores {}
   }
-  return [::retina::helpers::findLargest $ascores]
+  set bestanswer [::retina::helpers::findLargest $ascores]
+  puts $bestanswer
+  return $bestanswer
 }
 
 proc ::retina::set::globals {} {
