@@ -14,14 +14,17 @@ proc ::retina::main {} {
   chain [::retina::helpers::getQuestionText]            \
         [list ::retina::helpers::removePunctuation {}]  \
         [list ::retina::helpers::makeLower {}]          \
-        [list ::retina::helpers::getUniqueQuestion {}]  \
+        [list ::retina::helpers::getUniqueWords {}]  \
         [list ::retina::set::questionText {}]
-  puts "question $::question"
-  chain [::retina::helpers::getQuestionAnswers]         \
-        [list ::retina::helpers::removePunctuation {}]  \
-        [list ::retina::helpers::makeLower {}]          \
-        [list ::retina::helpers::getUniqueAnswers {}]   \
-        [list ::retina::set::answers {}]
+  set answers [::retina::helpers::getQuestionAnswers]
+  set newanswers {}
+  foreach answer $answers {
+    lappend newanswers [chain $answer                                         \
+                              [list ::retina::helpers::removePunctuation {}]  \
+                              [list ::retina::helpers::makeLower {}]          \
+                              [list ::retina::helpers::getUniqueWords {}]     ]
+    }
+  ::retina::set::answers $newanswers
   ::retina::set::getWords
 #how to do it.
 #  foreach answer in answers
@@ -60,9 +63,9 @@ proc ::retina::main {} {
   foreach answer $::answers {
     set rare [::retina::helpers::getRarity $answer $::question]
     foreach aword $answer {
-      if {[lsearch $::words $aword] == -1} {
+      if {[lsearch $::words $aword] ne "-1"} {
         foreach qword $::question {
-          if {[lsearch $::words $qword] == -1} {
+          if {[lsearch $::words $qword] ne "-1"} {
             set asdr [::repo::get::row $aword]
             set qsdr [::repo::get::row $qword]
             set asdr1 [::retina::helpers::modifySdr $asdr $qsdr 1]
@@ -75,7 +78,6 @@ proc ::retina::main {} {
       }
     }
     lappend ascores [::retina::helpers::addUpScores $scores]
-    puts "ascores $ascores"
     set scores {}
   }
   return [::retina::helpers::findLargest $ascores]
@@ -109,10 +111,9 @@ proc ::retina::helpers::getQuestionText {} {
   return $question
 }
 
-proc ::retina::helpers::getUniqueQuestion {question} {
+proc ::retina::helpers::getUniqueWords {text} {
   set words {}
-  foreach word $question {
-    puts "words: $words"
+  foreach word $text {
     if {[lsearch $words $word] == -1} {
       lappend words $word
     }
@@ -141,11 +142,11 @@ proc ::retina::helpers::getQuestionAnswers {} {
   set answers {}
   set continue true
   while {$continue eq true} {
-    puts "What are the available answers?"
+    puts "What is one of the available answers? (blank for end)"
     flush stdout
-    set $tempanswer [gets stdin]
+    set tempanswer [gets stdin]
     if {$tempanswer ne ""} {
-      lappend answers [::retina::helpers::removePunctuation $tempanswer]
+      lappend answers $tempanswer
     } else {
       set continue false
     }
@@ -153,20 +154,6 @@ proc ::retina::helpers::getQuestionAnswers {} {
   return $answers
 }
 
-proc ::retina::helpers::getUniqueAnswers {answers} {
-  set newanswers {}
-  set words {}
-  foreach answer $answers {
-    foreach word $answer {
-      if {[lsearch $words $word] == -1} {
-        lappend words $word
-      }
-    }
-    lappend $newanswers $words
-    set words {}
-  }
-  return $newanswers
-}
 
 proc ::retina::set::answers {answers} {
   set ::answers $answers
@@ -181,19 +168,23 @@ proc ::retina::helpers::getRarity {a q} {
   foreach word $a {
     set r [::repo::get::rarity $word]
     if {$r < $rarity} {
-      set rarity $r
+      if {$r ne ""} {
+        set rarity $r
+      }
     }
   }
   foreach word $q {
     set r [::repo::get::rarity $word]
     if {$r < $rarity} {
-      set rarity $r
+      if {$r ne ""} {
+        set rarity $r
+      }
     }
   }
   return $rarity
 }
 proc ::retina::helpers::modifySdr {a q option} {
-  switch $options {
+  switch $option {
     1 {
       return [lindex $a 1]
     }
@@ -221,23 +212,24 @@ proc ::retina::helpers::modifySdr {a q option} {
 
 proc ::retina::helpers::scoreSdrs {asdr qsdr} {
   set score 0
-  foreach a [split $asdr] q [split $qsdr] {
+  foreach a [split $asdr {}] q [split $qsdr {}] {
     if {$a eq 1} {
       if {$q eq 1} {
         incr score
       }
     }
   }
+  return $score
 }
 
 proc ::retina::helpers::modifyScore {score arare qrare lowrarity} {
-  return [expr $score * [expr $lowrarity/$arare] * [expr $lowrarity/$qrare]]
+  return [expr $score * ($lowrarity / ($arare + 0.0)) * ($lowrarity / ($qrare + 0.0))]
 }
 
 proc ::retina::helpers::addUpScores {scores} {
   set added {}
   foreach score $scores {
-    set added [expr $added + $score]
+    set added [expr $added + $score + 0.0]
   }
   return $added
 }

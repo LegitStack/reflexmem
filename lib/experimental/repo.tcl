@@ -86,7 +86,7 @@ proc ::repo::get::sdr3 {word} {
 	return [brain eval "SELECT SDR3 FROM main WHERE word='$word'"]
 }
 proc ::repo::get::rarity {word} {
-	return [brain eval "SELECT SDR3 FROM main WHERE word='$word'"]
+	return [brain eval "SELECT rarity FROM main WHERE word='$word'"]
 }
 
 proc ::repo::get::row {word} {
