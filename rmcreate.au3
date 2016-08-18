@@ -2657,7 +2657,7 @@ Func MouseMoveLocation()
 		Local $xcord = InputBox("Mouse Move Behavior", "What X coordinate would you like the mouse to move to?", $aPos[0], "")
 		Local $ycord = InputBox("Mouse Move Behavior", "What X coordinate would you like the mouse to move to?", $aPos[1], "")
 		local $totrig = "mouse " & $xcord & " " & $ycord
-		AddToBehavior($totrig)
+		MouseMoveSetSpeed($totrig)
 	endif
 EndFunc
 
@@ -2672,7 +2672,7 @@ Func MouseMoveVariables()
 		if $sAnswer <> "" then
 			$ycord = "$uservar" & $sAnswer
 			$totrig = "mouse " & $xcord & " " & $ycord
-			AddToBehavior($totrig)
+			MouseMoveSetSpeed($totrig)
 		endif
 	endif
 EndFunc
@@ -2730,6 +2730,7 @@ Func MouseMoveImage()
 
 EndFunc
 
+
 Func GetAreaImageScreenBehavior($imagefile)
 
 	Local $acc = InputBox("Move Mouse to Image Behavior", "how tolerant do you want this image to be? (0 = exact image, 255 = fully tolerant)", "25", "")
@@ -2745,8 +2746,6 @@ Func GetAreaImageScreenBehavior($imagefile)
 	GUISetState()
 
 	local $totrig
-
-
 
 	_GDIPlus_Startup()
 		Local $hImage = _GDIPlus_ImageLoadFromFile($imagefile)
@@ -2771,18 +2770,29 @@ Func GetAreaImageScreenBehavior($imagefile)
 	      ; Capture selected area
 	      GUISetState(@SW_SHOW, $hMain_GUI)
 				$totrig = "mouseimage " & $imagefile & " " & $iX1 & " " & $iY1 & " " & $iX2 & " " & $iY2 & " " & $acc
-				AddToBehavior($totrig)
+				MouseMoveSetSpeed($totrig)
 				GUIDelete($hMain_GUI)
         ExitLoop
 			Case $sFull_Button
 				$totrig = "mouseimage " & $imagefile & " " & "0" & " " & "0" & " " & @DesktopWidth & " " & @DesktopHeight & " " & $acc
-				AddToBehavior($totrig)
+				MouseMoveSetSpeed($totrig)
 				GUIDelete($hMain_GUI)
         ExitLoop
 	    EndSwitch
 	WEnd
 EndFunc
 
+
+Func MouseMoveSetSpeed($totrig)
+	Local $sAnswer = InputBox("Mouse Move Set Speed Behavior", "At what speed should the mouse move? (0 = instant .... 100 = slow)", "10", "")
+	if $sAnswer <> "" then
+		$totrig = $totrig & " " & $sAnswer
+		AddToBehavior($totrig)
+	else
+		$totrig = $totrig & " 10"
+		AddToBehavior($totrig)
+	endif
+EndFunc
 
 
 

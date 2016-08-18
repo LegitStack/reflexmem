@@ -541,7 +541,7 @@ Func _ImageSearchArea($findImage,$resultPosition,$x1,$y1,$right,$bottom,ByRef $x
 EndFunc
 
 
-Func _ImageSearchAreaMouseMove($findImage,$resultPosition,$x1,$y1,$right,$bottom,ByRef $x, ByRef $y, $tolerance)
+Func _ImageSearchAreaMouseMove($findImage,$resultPosition,$x1,$y1,$right,$bottom,ByRef $x, ByRef $y, $tolerance, $speed = 10)
 
 	if $tolerance>0 then $findImage = "*" & $tolerance & " " & $findImage
 
@@ -569,6 +569,6 @@ Func _ImageSearchAreaMouseMove($findImage,$resultPosition,$x1,$y1,$right,$bottom
       $x=$x + Int(Number($array[4])/2)
       $y=$y + Int(Number($array[5])/2)
    endif
-   mousemove($x,$y)
+   mousemove($x,$y,$speed)
    return 1
 EndFunc

@@ -63,11 +63,20 @@ Func ActionMapThen($command, $arguments)
       return "MouseClick('" & $arguments & "')"
     Case "mouse" ; x, y
       $args = StringSplit($arguments, " ", 2)
-      return "MouseMove(" & $args[0] & "," & $args[1] & ")"
+      msgbox(64,"mouse",$arguments)
+      if ubound($args) > 2 then
+        return "MouseMove(" & $args[0] & "," & $args[1] & "," & $args[2] & ")"
+      else
+        return "MouseMove(" & $args[0] & "," & $args[1] & ")"
+      endif
     Case "mouseimage" ; x, y
       $args = StringSplit($arguments, " ", 2)
       ;return "_ImageSearchAreaMouseMove('" & $imagefile & "',1," & $iX1 & "," & $iY1 & "," & $iX2 & "," & $iY2 & ", $X1, $Y1, " & $acc & ")"
-      return "_ImageSearchAreaMouseMove('" & $args[0] & "',1," & $args[1] & "," & $args[2] & "," & $args[3] & "," & $args[4] & ", $X1, $Y1, " & $args[5] & ")"
+      if ubound($args) > 6 then
+        return "_ImageSearchAreaMouseMove('" & $args[0] & "',1," & $args[1] & "," & $args[2] & "," & $args[3] & "," & $args[4] & ", $X1, $Y1, " & $args[5] & "," & $args[6] & ")"
+      else
+        return "_ImageSearchAreaMouseMove('" & $args[0] & "',1," & $args[1] & "," & $args[2] & "," & $args[3] & "," & $args[4] & ", $X1, $Y1, " & $args[5] & ")"
+      endif
     Case "wheel" ; up down
       return "MouseWheel('" & $arguments & "')"
     case "copy" ; text
