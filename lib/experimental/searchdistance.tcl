@@ -26,7 +26,7 @@ proc ::sd::main {} {
     }
     ::sd::set::answers $newanswers
     set best [chain $::question
-                    [list ::sd::helpers::findQuestion {} $::textbook]       \
+                    [list ::sd::helpers::searchForList {} $::textbook]       \
                     [list ::sd::helpers::findClosestAnswer {} $::textbook]  \
                     [list ::sd::helpers::getBestAnswer {}]
     puts $best
@@ -104,8 +104,34 @@ proc ::sd::set::answers {answers} {
   set ::answers $answers
 }
 
-proc ::sd::helpers::findQuestion {question textbook} {
-
+proc ::sd::helpers::searchForList {question textbook {coroutine false}} {
+  set continue true
+  set i   0
+  set s   0
+  set si  0
+  set len [llength $question]
+  set fi  $len
+  set f   $len
+  set index ""
+  while {$continue} {
+    set index [lsearch $textbook [lrange $question $i $f]]
+    if {$index eq "-1"} {
+      if {$s == $si} {
+        incr si
+        set s 0
+      } else { incr s }
+      if {$f == $len} {
+        incr fi -1
+        set f $fi
+      } else { incr f }
+    } else {
+      set continue false
+    }
+    if {$s == $len} {
+      set continue false
+    }
+  }
+  return $index
 }
 
 proc ::sd::helpers::findClosestAnswer {qindex textbook} {

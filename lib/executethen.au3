@@ -63,7 +63,6 @@ Func ActionMapThen($command, $arguments)
       return "MouseClick('" & $arguments & "')"
     Case "mouse" ; x, y
       $args = StringSplit($arguments, " ", 2)
-      msgbox(64,"mouse",$arguments)
       if ubound($args) > 2 then
         return "MouseMove(" & $args[0] & "," & $args[1] & "," & $args[2] & ")"
       else
