@@ -115,8 +115,10 @@ proc ::sd::helpers::searchForList {question textbook} { ;#{coroutine false}
   set fi  $len
   set f   $len
   set index ""
+  set score 0
   while {$continue} {
     set index [lsearch $textbook [lrange $question $i $f]]
+    set score [expr ($f-$i+0.0)/$len]
     if {$index eq "-1"} {
       if {$s == $si} {
         incr si
@@ -133,7 +135,7 @@ proc ::sd::helpers::searchForList {question textbook} { ;#{coroutine false}
       set continue false
     }
   }
-  return $index
+  return [list $index $score]
 }
 
 proc ::sd::helpers::getAnswerLocations {index textbook answers} {
@@ -145,12 +147,16 @@ proc ::sd::helpers::getAnswerLocations {index textbook answers} {
 }
 
 proc ::sd::helpers::findClosestAnswer {indexes} {
+  set scores [dict values $indexes]
+  set indexes [dict keys $indexes]
+  set return {}
   set i 0
   set in 0
   set smallest {}
   set qindex [lindex $indexes 0]
   set dist {}
   foreach index $indexes {
+    ######### move this to get best answer?
     if {$i > 0} {
       set dist [expr $index - $qindex - 0.0]
       if {$dist < 0.0} {
@@ -164,11 +170,14 @@ proc ::sd::helpers::findClosestAnswer {indexes} {
       }
     }
     incr i
+    #############only make a dictionary in this part?
+    dict set return $index $dist
   }
-  return $in
+  return [list $in $return]
 }
 
 proc ::sd::helpers::getBestAnswer {scores} {
+  #??
   set largest {}
   set i 0
   set x 0
