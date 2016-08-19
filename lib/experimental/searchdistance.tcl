@@ -13,7 +13,7 @@ proc ::sd::main {} {
         [list ::sd::set::textbook {}]
 
   while continue {
-    chain [::sd::helpers::getQuestion]                \
+    chain [::sd::helpers::getQuestion $continue]      \
           [list ::sd::helpers::removePunctuation {}]  \
           [list ::sd::helpers::makeLower {}]          \
           [list ::sd::set::question {}]
@@ -26,8 +26,9 @@ proc ::sd::main {} {
     }
     ::sd::set::answers $newanswers
     set best [chain $::question
-                    [list ::sd::helpers::searchForList {} $::textbook]       \
-                    [list ::sd::helpers::findClosestAnswer {} $::textbook]  \
+                    [list ::sd::helpers::searchForList {} $::textbook]                  \
+                    [list ::sd::helpers::getAnswerLocations {} $::textbook $::answers]  \
+                    [list ::sd::helpers::findClosestAnswer {}]                          \
                     [list ::sd::helpers::getBestAnswer {}]
     puts $best
   }
@@ -73,12 +74,13 @@ proc ::sd::set::textbook {text} {
   set ::textbook $text
 }
 
-proc ::sd::helpers::getQuestion {} {
+proc ::sd::helpers::getQuestion {continue} {
   puts "What is the quesiton?"
   flush stdout
   set question [gets stdin]
   if {$question eq ""} {
-    upvar continue false
+    upvar 1 $continue continue
+    set continue false
   }
   return $question
 }
@@ -104,7 +106,7 @@ proc ::sd::set::answers {answers} {
   set ::answers $answers
 }
 
-proc ::sd::helpers::searchForList {question textbook {coroutine false}} {
+proc ::sd::helpers::searchForList {question textbook} { ;#{coroutine false}
   set continue true
   set i   0
   set s   0
@@ -134,8 +136,36 @@ proc ::sd::helpers::searchForList {question textbook {coroutine false}} {
   return $index
 }
 
-proc ::sd::helpers::findClosestAnswer {qindex textbook} {
+proc ::sd::helpers::getAnswerLocations {index textbook answers} {
+  set indexes $index
+  foreach answer $answer {
+    lappend indexes [::sd::helpers::searchForList $answer $textbook]
+  }
+  return $indexes
+}
 
+proc ::sd::helpers::findClosestAnswer {indexes} {
+  set i 0
+  set in 0
+  set smallest {}
+  set qindex [lindex $indexes 0]
+  set dist {}
+  foreach index $indexes {
+    if {$i > 0} {
+      set dist [expr $index - $qindex - 0.0]
+      if {$dist < 0.0} {
+        set dist [expr $dist*-1]
+      }
+      if {$smallest = "" ||
+          $dist < $smallest
+      } then {
+        set smallest $dist
+        set in $i
+      }
+    }
+    incr i
+  }
+  return $in
 }
 
 proc ::sd::helpers::getBestAnswer {scores} {

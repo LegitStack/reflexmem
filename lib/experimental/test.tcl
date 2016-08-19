@@ -8,6 +8,7 @@ proc count {{coroutine false}} {
   set fi  $len
   set f   $len
   set index "-1"
+  if $coroutine yield
   while {$continue} {
     if {$index eq "-1"} {
       puts "$s $si $f $fi"
@@ -49,7 +50,9 @@ proc allNumbers {} {
 #rename nextNumber {}
 
 coroutine nextNumber count true
-
+nextNumber
+nextNumber
+nextNumber
 
 # len q = 3
 # index = 4
