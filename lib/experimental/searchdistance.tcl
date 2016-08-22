@@ -12,7 +12,8 @@ proc ::sd::main {} {
         [list ::sd::helpers::makeLower {}]          \
         [list ::sd::set::textbook {}]
 
-  while continue {
+  set continue true
+  while $continue {
     chain [::sd::helpers::getQuestion $continue]      \
           [list ::sd::helpers::removePunctuation {}]  \
           [list ::sd::helpers::makeLower {}]          \
@@ -25,13 +26,23 @@ proc ::sd::main {} {
                                 [list ::sd::helpers::makeLower {}]          ]
     }
     ::sd::set::answers $newanswers
-    set best [chain $::question
+    puts "processed stuff"
+    tracer "test"
+    set best [chain $::question                                                         \
                     [list ::sd::helpers::searchForList {} $::textbook]                  \
                     [list ::sd::helpers::getAnswerLocations {} $::textbook $::answers]  \
                     [list ::sd::helpers::findClosestAnswer {}]                          \
-                    [list ::sd::helpers::getBestAnswer {}]
+                    [list ::sd::helpers::getBestAnswer {}]                              ]
+    #set a [::sd::helpers::searchForList $::question $::textbook]
+    #set b [::sd::helpers::getAnswerLocations $a $::textbook $::answers]
+    #set c [::sd::helpers::findClosestAnswer $b]
+    #set best [::sd::helpers::getBestAnswer $c]
+
     puts $best
   }
+}
+proc tracer {thing} {
+  puts thing
 }
 
 proc ::sd::set::globals {} {
@@ -55,7 +66,7 @@ proc ::sd::helpers::openFile {loc} {
   } else {
     puts [concat "imported successfully: " [string range $text 0 100] "..."]
   }
-  close $file
+  #close $file
   return $text
 }
 
@@ -85,6 +96,10 @@ proc ::sd::helpers::getQuestion {continue} {
   return $question
 }
 
+proc ::sd::set::question {question} {
+  set ::question $question
+}
+
 proc ::sd::helpers::getAnswers {} {
   set tempanswer {}
   set answers {}
@@ -106,7 +121,7 @@ proc ::sd::set::answers {answers} {
   set ::answers $answers
 }
 
-proc ::sd::helpers::searchForList {question textbook} { ;#{coroutine false}
+proc ::sd::helpers::searchForList {question textbook} {
   set continue true
   set i   0
   set s   0
@@ -116,9 +131,14 @@ proc ::sd::helpers::searchForList {question textbook} { ;#{coroutine false}
   set f   $len
   set index ""
   set score 0
-  while {$continue} {
-    set index [lsearch $textbook [lrange $question $i $f]]
-    set score [expr ($f-$i+0.0)/$len]
+  set tempstring ""
+  while {$continue eq true} {
+    after 100
+    #puts -nonewline "$i    $s    $si    $f    $fi"
+    #set index [lsearch $textbook [lrange $question $s $f]]
+    set index [string first [lrange $question $s $f] $textbook]
+    set score [expr ($f-$s+0.0)/$len]
+    puts "$i    $s    $si    $f    $fi    $len    $index    [lrange $question $s $f]"
     if {$index eq "-1"} {
       if {$s == $si} {
         incr si
@@ -131,7 +151,7 @@ proc ::sd::helpers::searchForList {question textbook} { ;#{coroutine false}
     } else {
       set continue false
     }
-    if {$s == $len} {
+    if {$si == $len} {
       set continue false
     }
   }
@@ -140,7 +160,7 @@ proc ::sd::helpers::searchForList {question textbook} { ;#{coroutine false}
 
 proc ::sd::helpers::getAnswerLocations {index textbook answers} {
   set indexes $index
-  foreach answer $answer {
+  foreach answer $answers {
     lappend indexes [::sd::helpers::searchForList $answer $textbook]
   }
   return $indexes
@@ -154,10 +174,12 @@ proc ::sd::helpers::findClosestAnswer {indexes} {
   set in 0
   set smallest {}
   set qindex [lindex $indexes 0]
+  puts $indexes
   set dist {}
   foreach index $indexes {
     ######### move this to get best answer?
     if {$i > 0} {
+      puts $index
       set dist [expr $index - $qindex - 0.0]
       if {$dist < 0.0} {
         set dist [expr $dist*-1]

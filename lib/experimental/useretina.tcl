@@ -14,7 +14,7 @@ proc ::retina::main {} {
   chain [::retina::helpers::getQuestionText]            \
         [list ::retina::helpers::removePunctuation {}]  \
         [list ::retina::helpers::makeLower {}]          \
-        [list ::retina::helpers::getUniqueWords {}]  \
+        [list ::retina::helpers::getUniqueWords {}]     \
         [list ::retina::set::questionText {}]
   set answers [::retina::helpers::getQuestionAnswers]
   set newanswers {}
