@@ -11,7 +11,7 @@ proc ::retina::main {} {
   ::retina::set::globals
   ::retina::set::up [::retina::helpers::getMyName]
 
-  chain [::retina::helpers::getQuestionText]            \
+  ::chain::chain [::retina::helpers::getQuestionText]            \
         [list ::retina::helpers::removePunctuation {}]  \
         [list ::retina::helpers::makeLower {}]          \
         [list ::retina::helpers::getUniqueWords {}]     \
@@ -19,7 +19,7 @@ proc ::retina::main {} {
   set answers [::retina::helpers::getQuestionAnswers]
   set newanswers {}
   foreach answer $answers {
-    lappend newanswers [chain $answer                                         \
+    lappend newanswers [::chain::chain $answer                                         \
                               [list ::retina::helpers::removePunctuation {}]  \
                               [list ::retina::helpers::makeLower {}]          \
                               [list ::retina::helpers::getUniqueWords {}]     ]

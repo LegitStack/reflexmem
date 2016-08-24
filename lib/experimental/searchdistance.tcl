@@ -6,7 +6,7 @@ namespace eval ::sd::helpers:: {}
 
 proc ::sd::main {} {
   ::sd::set::globals
-  chain [::sd::helpers::getTextFile]                \
+  ::chain::chain [::sd::helpers::getTextFile]                \
         [list ::sd::helpers::openFile {}]           \
         [list ::sd::helpers::removePunctuation {}]  \
         [list ::sd::helpers::makeLower {}]          \
@@ -14,21 +14,21 @@ proc ::sd::main {} {
 
   set continue true
   while $continue {
-    chain [::sd::helpers::getQuestion $continue]      \
+    ::chain::chain [::sd::helpers::getQuestion $continue]      \
           [list ::sd::helpers::removePunctuation {}]  \
           [list ::sd::helpers::makeLower {}]          \
           [list ::sd::set::question {}]
     set answers [::sd::helpers::getAnswers]
     set newanswers {}
     foreach answer $answers {
-      lappend newanswers [chain $answer                                     \
+      lappend newanswers [::chain::chain $answer                                     \
                                 [list ::sd::helpers::removePunctuation {}]  \
                                 [list ::sd::helpers::makeLower {}]          ]
     }
     ::sd::set::answers $newanswers
     puts "processed stuff"
     tracer "test"
-    set best [chain $::question                                                         \
+    set best [::chain::chain $::question                                                         \
                     [list ::sd::helpers::searchForList {} $::textbook]                  \
                     [list ::sd::helpers::getAnswerLocations {} $::textbook $::answers]  \
                     [list ::sd::helpers::findClosestAnswer {}]                          \

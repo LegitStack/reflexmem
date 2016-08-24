@@ -11,7 +11,7 @@ proc ::retina::main {} {
   ::retina::set::globals
   ::retina::set::up [::retina::helpers::getMyName]
   ::retina::helpers::getCut
-  chain [::retina::helpers::getTextFile]                \
+  ::chain::chain [::retina::helpers::getTextFile]                \
         [list ::retina::helpers::openFile {}]           \
         [list ::retina::helpers::removePunctuation {}]  \
         [list ::retina::helpers::makeLower {}]          \
