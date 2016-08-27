@@ -6,6 +6,26 @@ namespace eval ::retina {}
 namespace eval ::retina::set {}
 namespace eval ::retina::helpers:: {}
 
+set comment {
+  Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+  sed do eiusmod tempor incididunt ut labore et dolore magna
+  aliqua. Ut enim ad minim Lorem, quis nostrud exercitation
+  ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  01234.... n
+  1010...000000....
+  0010000001000000
+  = 2
+  weight score 2*n-1/n
+  = 1.6
+  1.6+ x+ v+d+
+  A. =3.2
+  B. =9.6
+}
+# potential problems with retina, how to fix.
+# amounts of words
+# wieghting key words
+# multiple word matches given much more weight, like alllcs
+
 
 proc ::retina::main {} {
   ::retina::set::globals
