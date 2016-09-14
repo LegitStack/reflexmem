@@ -17,8 +17,8 @@ Func GetScriptsPath($exact = "")
     Return _PathFull(@AppDataDir & "\ReflexMem\image\")
   elseif $exact == "plugins" then
     Return _PathFull(@AppDataDir & "\ReflexMem\plugins\")
-  elseif $exact == "plib" then
-    Return _PathFull(@AppDataDir & "\ReflexMem\lib\")
+  elseif $exact == "user" then
+    Return _PathFull(@AppDataDir & "\ReflexMem\user\")
   else
     Return _PathFull(@AppDataDir & "\ReflexMem\")
   endif
@@ -27,7 +27,7 @@ EndFunc
 
 
 Func VarifyFolders()
-  local $exacts = ["", "scripts", "if", "names", "then", "images", "image", "plguins", "plib"]
+  local $exacts = ["", "scripts", "if", "names", "then", "images", "image", "plguins", "user"]
   for $exact in $exacts
     if FileExists(GetScriptsPath($exact)) Then
     Else

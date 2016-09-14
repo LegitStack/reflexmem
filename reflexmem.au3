@@ -62,3 +62,71 @@ Func ImportFileToInclude()
     Exit
   endif
 EndFunc
+
+Func Login()
+  ;if email and password are saved to their hard drive retrieve it
+  if FileExists(GetScriptsPath("user") & "id.id") then
+    ;and send it to the server for varification
+    if GetVarification() then
+      AskForLogin()
+    else
+      ;modify a variable or something that indicates they have pro.
+      ;AllowPro()
+    endif
+  else
+    ;otherwise get the email and password, and save to file.
+    AskForLogin()
+  endif
+EndFunc
+
+Func GetVarification()
+  local $path = GetScriptsPath("user") & "id.id"
+  local $file = FileOpen($path, $FO_READ)
+  local $read = FileRead($file)
+  FileClose($file)
+  $read = BinaryToString(_Crypt_DecryptData($nread, "sillyrabbit", $CALG_AES_256))
+  $read = Stringsplit($read, @CRLF, 2)
+  ;send read[0] to server as username  ;send read[1] to server as salted password
+  ;return true or false based on what the server says.
+  HttpRequest($read[0], $read[1])
+EndFunc
+
+Func AskForLogin()
+  Local $loginGUI = GUICreate("Login to Use Pro Features", 620, 80)
+  Local $loginB = GUICtrlCreateButton("Login", 20, 20, 130, 40)
+  Local $cancelB = GUICtrlCreateButton("Use Demo Version", 170, 20, 130, 40)
+  GUISetState(@SW_SHOW, $loginGUI)
+  While 1
+    Switch GUIGetMsg()
+      Case $GUI_EVENT_CLOSE
+        ExitLoop        ;return message saying to run the demo versio of whatever they clicked on.
+      Case $loginB
+        $emailaddress = InputBox("Login", "Email Address?", "", "")
+        $password     = InputBox("Login", "Password?",      "", "")
+        $emailaddress = StringStripWS($emailaddress, $STR_STRIPLEADING + $STR_STRIPTRAILING + $STR_STRIPSPACES)
+        $password     = StringStripWS($password, $STR_STRIPLEADING + $STR_STRIPTRAILING + $STR_STRIPSPACES)
+        $password     = $password & StringReverse($emailaddress)        ;salt password
+        $iddata       = _Crypt_EncryptData($emailaddress & $password, "sillyrabbit", $CALG_AES_256)
+        local $filename = GetScriptsPath("user") & "id.id"
+        FileWrite($filename, $iddata)         ;save to a file.
+        Login();submitemailaddress and password to the server
+        ExitLoop
+      Case $cancelB
+        run("rmcreate.exe")
+        ExitLoop
+   EndSwitch
+  wend
+  GUIDelete($loginGUI)
+EndFunc
+
+Func HttpRequest(username, password)
+  Dim $obj = ObjCreate ("WinHttp.WinHttpRequest.5.1")
+  $Header = "Content-Type: application/x-www-form-urlencoded"
+  $Host = "login.reflexmem.com"
+  $File = "/register.html"
+  $URL = "http://" & $Host & $File
+  $PostData = "UserID=" & $username & "&Password=" & $password
+  $obj.Open("PUT", $URL, false)
+  $obj.Send($PostData)
+  msgbox(64,"title",$obj.ResponseText)
+EndFunc
