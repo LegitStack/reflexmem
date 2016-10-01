@@ -119,7 +119,7 @@ Func AskForLogin()
   GUIDelete($loginGUI)
 EndFunc
 
-Func HttpRequest(username, password)
+Func HttpRequest($username, $password)
   Dim $obj = ObjCreate ("WinHttp.WinHttpRequest.5.1")
   $Header = "Content-Type: application/x-www-form-urlencoded"
   $Host = "login.reflexmem.com"
