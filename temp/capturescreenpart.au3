@@ -56,8 +56,8 @@ Func Mark_Rect()
 
     ; Get first mouse position
     $aMouse_Pos = MouseGetPos()
-    $iX1 = $aMouse_Pos[0]
-    $iY1 = $aMouse_Pos[1]
+    $iX1 = $aMouse_Pos[0]*2
+    $iY1 = $aMouse_Pos[1]*2
 
     ; Draw rectangle while mouse button pressed
     While _IsPressed("01", $UserDLL)
@@ -87,8 +87,8 @@ Func Mark_Rect()
     WEnd
 
     ; Get second mouse position
-    $iX2 = $aMouse_Pos[0]
-    $iY2 = $aMouse_Pos[1]
+    $iX2 = $aMouse_Pos[0]*2
+    $iY2 = $aMouse_Pos[1]*2
 
     ; Set in correct order if required
     If $iX2 < $iX1 Then

@@ -356,8 +356,11 @@ that means
 
 		96 is normal (0x00000060)
 		288 is 300% zoom in on surface book (0x00000120)
-		196 is 200%
+		192 is 200%
 
+    this has all been done in temp/step2.au3
+    See also screencapturepart3.au3 for how *2 captures the right screen area
+    
 	4. adjust where the image is taken and how big it is according to that. (don't know how)
 
 
