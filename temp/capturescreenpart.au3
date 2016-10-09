@@ -59,32 +59,69 @@ Func Mark_Rect()
     $iX1 = $aMouse_Pos[0]*2
     $iY1 = $aMouse_Pos[1]*2
 
-    ; Draw rectangle while mouse button pressed
+  ;  ; Draw rectangle while mouse button pressed
+ ;   While _IsPressed("01", $UserDLL)
+;
+ ;       $aMouse_Pos = MouseGetPos()
+;
+;      ;  ; Set in correct order if required
+     ;   If $aMouse_Pos[0] < $iX1 Then
+    ;        $iX_Pos = $aMouse_Pos[0]
+   ;         $iWidth = $iX1 - $aMouse_Pos[0]
+  ;      Else
+ ;           $iX_Pos = $iX1
+;            $iWidth = $aMouse_Pos[0] - $iX1
+        ;EndIf
+       ; If $aMouse_Pos[1] < $iY1 Then
+      ;      $iY_Pos = $aMouse_Pos[1]
+     ;       $iHeight = $iY1 - $aMouse_Pos[1]
+    ;    Else
+   ;         $iY_Pos = $iY1
+  ;          $iHeight = $aMouse_Pos[1] - $iY1
+ ;       EndIf
+;
+ ;       _GUICreateInvRect($hRectangle_GUI, $iX_Pos, $iY_Pos, $iWidth, $iHeight)
+;
+ ;       Sleep(10)
+;
+;    WEnd
+
+
+	    ; Draw rectangle while mouse button pressed
     While _IsPressed("01", $UserDLL)
 
         $aMouse_Pos = MouseGetPos()
-
+	    $jmp0 = $aMouse_Pos[0]*2
+		$jmp1 = $aMouse_Pos[1]*2
         ; Set in correct order if required
-        If $aMouse_Pos[0] < $iX1 Then
-            $iX_Pos = $aMouse_Pos[0]
-            $iWidth = $iX1 - $aMouse_Pos[0]
+        If $jmp0 < $iX1 Then
+            $iX_Pos = $jmp0
+            $iWidth = $iX1 - $jmp0
         Else
             $iX_Pos = $iX1
-            $iWidth = $aMouse_Pos[0] - $iX1
+            $iWidth = $jmp0 - $iX1
         EndIf
-        If $aMouse_Pos[1] < $iY1 Then
-            $iY_Pos = $aMouse_Pos[1]
-            $iHeight = $iY1 - $aMouse_Pos[1]
+        If $jmp1 < $iY1 Then
+            $iY_Pos = $jmp1
+            $iHeight = $iY1 - $jmp1
         Else
             $iY_Pos = $iY1
-            $iHeight = $aMouse_Pos[1] - $iY1
+            $iHeight = $jmp1 - $iY1
         EndIf
 
-        _GUICreateInvRect($hRectangle_GUI, $iX_Pos, $iY_Pos, $iWidth, $iHeight)
+        _GUICreateInvRect($hRectangle_GUI, $iX_Pos/2, $iY_Pos/2, $iWidth/2, $iHeight/2)
 
         Sleep(10)
 
     WEnd
+
+
+
+
+
+
+
+
 
     ; Get second mouse position
     $iX2 = $aMouse_Pos[0]*2
