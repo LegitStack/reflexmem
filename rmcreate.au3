@@ -1647,7 +1647,7 @@ Func SwapUpBehavior()
 		endif
 	Next
 	; Unselect all items to force selection before next action
-	;_GUICtrlListView_SetItemSelected($hlistbehavs, -1, False)
+	_GUICtrlListView_SetItemSelected($hlistbehavs, $index-1, True, True)
 EndFunc
 
 Func SwapDownBehavior()
@@ -1668,7 +1668,7 @@ Func SwapDownBehavior()
 		endif
 	Next
 	; Unselect all items to force selection before next action
-	;_GUICtrlListView_SetItemSelected($hlistbehavs, -1, False)
+	_GUICtrlListView_SetItemSelected($hlistbehavs, $index+1, True, True)
 EndFunc
 
 
@@ -1693,7 +1693,7 @@ Func SwapUpTrigger()
 		endif
 	Next
 	; Unselect all items to force selection before next action
-	;_GUICtrlListView_SetItemSelected($hlisttrigs, -1, False)
+	_GUICtrlListView_SetItemSelected($hlisttrigs, $index-1, True, True)
 EndFunc
 
 Func SwapDownTrigger()
@@ -1714,7 +1714,7 @@ Func SwapDownTrigger()
 		endif
 	Next
 	; Unselect all items to force selection before next action
-	;_GUICtrlListView_SetItemSelected($hlisttrigs, -1, False)
+	_GUICtrlListView_SetItemSelected($hlisttrigs, $index+1, True, True)
 EndFunc
 
 
@@ -1773,8 +1773,11 @@ Func ClipboardBehavior()
 	Local $hChild12 = GUICreate("Manage Clipboard Behavior", 400, 200, -1, -1, -1, -1, $hGUI)
 	GUICtrlCreateLabel("What would you like to do with the Clipboard?", 20, 20, 360, 35)
 	GUICtrlSetStyle(-1, $SS_CENTER)
-	local $button121 = GUICtrlCreateButton("Copy Text", 20, 80, 160, 60)
-	local $button122 = GUICtrlCreateButton("Paste Text", 220, 80, 160, 60)
+	local $button121 = GUICtrlCreateButton("Copy Text", 20, 80, 160, 40)
+	local $button122 = GUICtrlCreateButton("Paste Text", 220, 80, 160, 40)
+	local $button123 = GUICtrlCreateButton("Copy Keystrokes", 20, 140, 160, 40)
+	local $button124 = GUICtrlCreateButton("Paste Keystrokes", 220, 140, 160, 40)
+
 	GUISetState()
 
 	local $totrig = ""
@@ -1790,6 +1793,16 @@ Func ClipboardBehavior()
 				ExitLoop
 			Case $button122
 				ClipPasteBehavior()
+				GUIDelete($hChild12)
+				ExitLoop
+			Case $button123
+				$totrig = "send " & "^c"
+				AddToBehavior($totrig)
+				GUIDelete($hChild12)
+				ExitLoop
+			Case $button124
+				$totrig = "send " & "^v"
+				AddToBehavior($totrig)
 				GUIDelete($hChild12)
 				ExitLoop
 		EndSwitch
@@ -1874,12 +1887,12 @@ Func SendKeysBehavior()
 	local $button721 = GUICtrlCreateButton("Print Screen", 20, 460, 160, 30)
 	local $button722 = GUICtrlCreateButton("Windows Key", 220, 460, 160, 30)
 	local $button723 = GUICtrlCreateButton("Insert", 20, 500, 160, 30)
-	local $button724 = GUICtrlCreateButton("Shift + Other Keys", 220, 500, 160, 30)
-	local $button725 = GUICtrlCreateButton("Alt + Other Keys", 20, 540, 160, 30)
-	local $button726 = GUICtrlCreateButton("Control + Other Keys", 220, 540, 160, 30)
+	local $button724 = GUICtrlCreateCheckbox("Shift + Other Keys", 220, 500, 160, 30)
+	local $button725 = GUICtrlCreateCheckbox("Alt + Other Keys", 20, 540, 160, 30)
+	local $button726 = GUICtrlCreateCheckbox("Control + Other Keys", 220, 540, 160, 30)
 	local $button727 = GUICtrlCreateButton("Special Symbols ({}^+#!)", 20, 580, 160, 30)
 	local $button728 = GUICtrlCreateButton("F Keys", 220, 580, 160, 30)
-	GUISetState()
+	GUISetState(@SW_SHOW, $hChild7)
 
 	local $totrig = ""
 	Local $sAnswer = ""
@@ -2016,11 +2029,23 @@ Func SendKeysBehavior()
 				GUIDelete($hChild7)
 				ExitLoop
 			Case $button724 ;shift
-				$shift = true
+				If _IsChecked($button724) Then
+					$shift = true
+				Else
+				  $shift = false
+				EndIf
 			Case $button725 ;alt
-				$alt = true
+				If _IsChecked($button725) Then
+					$alt = true
+				Else
+					$alt = false
+				EndIf
 			Case $button726 ;Control
-				$control = true
+				If _IsChecked($button726) Then
+					$control = true
+				Else
+					$control = false
+				EndIf
 			Case $button727 ;Special keys
 				$hChild7a = GUICreate("Insert special keys", 400, 280, -1, -1, -1, -1, $hChild7)
 				GUICtrlCreateLabel("Which special symbol should be sent?", 20, 20, 360, 40)

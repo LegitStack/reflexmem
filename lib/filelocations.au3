@@ -36,3 +36,7 @@ Func VarifyFolders()
   next
 
 EndFunc
+
+Func _IsChecked($idControlID)
+    Return BitAND(GUICtrlRead($idControlID), $GUI_CHECKED) = $GUI_CHECKED
+EndFunc   ;==>_IsChecked
