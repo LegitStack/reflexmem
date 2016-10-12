@@ -91,8 +91,8 @@ Func Mark_Rect()
     While _IsPressed("01", $UserDLL)
 
         $aMouse_Pos = MouseGetPos()
-	    $jmp0 = $aMouse_Pos[0]*2
-		$jmp1 = $aMouse_Pos[1]*2
+	      $jmp0 = $aMouse_Pos[0]*2 ; $aMouse_Pos[0]
+		    $jmp1 = $aMouse_Pos[1]*2 ; $aMouse_Pos[1]
         ; Set in correct order if required
         If $jmp0 < $iX1 Then
             $iX_Pos = $jmp0
@@ -114,14 +114,6 @@ Func Mark_Rect()
         Sleep(10)
 
     WEnd
-
-
-
-
-
-
-
-
 
     ; Get second mouse position
     $iX2 = $aMouse_Pos[0]*2
