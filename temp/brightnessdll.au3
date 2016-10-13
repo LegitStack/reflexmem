@@ -1,4 +1,8 @@
 #include <WinAPI.au3>
+#include <ScreenCapture.au3>
+#include <GDIPlus.au3>
+#include <GUIConstantsEx.au3>
+#include <WinAPIGdi.au3>
 Func _findTargetPixel(ByRef $tHnd, ByRef $targetCoord, $targetPixelColor)
     local $h = _WinAPI_GetWindowHeight($tHnd)
     local $w = _WinAPI_GetWindowWidth($tHnd)
@@ -45,12 +49,35 @@ Func _findTargetPixel(ByRef $tHnd, ByRef $targetCoord, $targetPixelColor)
     _WinAPI_ReleaseDC($tHnd, $hDC)
     return -1
 EndFunc
+Local $hTimer = TimerInit() ; Begin the timer and store the handle in a variable.
 local $hDC = _WinAPI_GetWindowDC(0)
-for $i = 0 to 1000
-Local $result = DLLCall("gdi32.dll", "int", "GetPixel", "ptr", 0, "int", 100, "int", 100)
+for $i = 0 to 100
+Local $result = DLLCall("gdi32.dll", "int", "GetPixel", "ptr", $hDC, "int", 100, "int", 100)
 next
-msgbox(64,"", "GetPixel  = 0x" & Hex($result[0], 6) & @LF)
-
+msgbox(64, TimerDiff($hTimer), "GetPixel  = 0x" & Hex($result[0], 6) & @LF)
+Local $hTimer = TimerInit()
 ;https://msdn.microsoft.com/en-us/library/ms646310(v=vs.85).aspx
 ;https://msdn.microsoft.com/query/dev10.query?appId=Dev10IDEF1&l=EN-US&k=k(mouse_event);k(DevLang-C);k(TargetOS-WINDOWS)&rd=true
 ;https://www.autoitscript.com/autoit3/docs/libfunctions/_WinAPI_Mouse_Event.htm
+
+;Using GDI+ BitmapGetPixel
+
+for $i = 0 to 100
+  $sc =_ScreenCapture_Capture ( "" , 100 , 100, 100, 100, false)
+  $iArgb = _GDIPlus_BitmapGetPixel($sc, 0, 0)
+next
+msgbox(64,TimerDiff($hTimer), "GetPixel  = 0x" & Hex($iArgb, 6) & @LF)
+Local $hTimer = TimerInit()
+
+
+for $i = 0 to 100
+  $pix = PixelGetColor(100, 100)
+next
+msgbox(64,TimerDiff($hTimer), "GetPixel  = 0x" & Hex($pix, 6) & @LF)
+Local $hTimer = TimerInit()
+
+
+for $i = 0 to 100
+  $pix = _WinAPI_GetPixel($hDC, 100, 100)
+next
+msgbox(64,TimerDiff($hTimer), "GetPixel  = 0x" & Hex($pix, 6) & @LF)
