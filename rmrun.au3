@@ -285,7 +285,7 @@ Func PopulateGui()
   local $uservar31
   local $temp
   local $returned
-  DllCall("User32.dll", "bool", "SetProcessDPIAware")
+
   while $loop1 == 1
     While $loop2 == 1
       $msg = GUIGetMsg()
