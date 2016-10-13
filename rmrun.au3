@@ -201,6 +201,12 @@ Func PopulateGui()
   local $pLabel = GUICtrlCreateLabel("", 535, 600, 80, 20)
   GUICtrlSetFont($pLabel, 7, $FW_NORMAL,  $GUI_FONTITALIC)
   Local $idStart = GUICtrlCreateButton("Start", 500, 610, 100, 40)
+
+  If MsgBox($MB_YESNO,'Question:','Do you want to set DPI Awareness ?') = $IDYES Then
+    GUISetFont(8.5 * _GDIPlus_GraphicsGetDPIRatio()[0])
+  EndIf
+
+
   GUISetState(@SW_SHOW, $hGUI)
 
   local $trigs[Ubound($triggers)]
