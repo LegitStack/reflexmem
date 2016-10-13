@@ -12,7 +12,7 @@
 #include <lib\combinealllcsandtesseract.au3>
 #include <lib\levenshtein.au3>
 #include <Crypt.au3>
-DllCall("User32.dll", "bool", "SetProcessDPIAware")
+
 
 VarifyFolders()
 
@@ -282,7 +282,7 @@ Func PopulateGui()
   local $uservar31
   local $temp
   local $returned
-
+  DllCall("User32.dll", "bool", "SetProcessDPIAware")
   while $loop1 == 1
     While $loop2 == 1
       $msg = GUIGetMsg()

@@ -11,7 +11,7 @@
 #include <lib\filelocations.au3>
 #include <lib\executeif.au3>
 #include <lib\executethen.au3>
-DllCall("User32.dll", "bool", "SetProcessDPIAware")
+;DllCall("User32.dll", "bool", "SetProcessDPIAware")
 
 EraseExtraThen()
 EraseExtraIf()
