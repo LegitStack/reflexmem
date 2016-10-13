@@ -12,7 +12,7 @@
 ; Link ..........: http://www.autoitscript.com/forum/topic/159612-dpi-resolution-problem/?hl=%2Bdpi#entry1158317
 ; Example .......: No
 ; ===============================================================================================================================
-Func _GDIPlus_GraphicsGetDPIRatio($iDPIDef = 192)
+Func _GDIPlus_GraphicsGetDPIRatio($iDPIDef = 96)
   Local $aResults[2] = [1, 1]
   _GDIPlus_Startup()
     Local $hGfx = _GDIPlus_GraphicsCreateFromHWND(0)
@@ -20,11 +20,12 @@ Func _GDIPlus_GraphicsGetDPIRatio($iDPIDef = 192)
     #forcedef $__g_hGDIPDll, $ghGDIPDll
 
     $aResult = DllCall($__g_hGDIPDll, "int", "GdipGetDpiX", "handle", $hGfx, "float*", 0)
+    MsgBox(64, $__g_hGDIPDll, $__g_hGDIPDll )
 
     If @error Then Return SetError(2, @extended, $aResults)
     Local $iDPI = $aResult[2]
     Local $aresults[2] = [$iDPIDef / $iDPI, $iDPI / $iDPIDef]
-    MsgBox(64, $iDPI, Dec(StringTrimLeft ($hGfx, 2)) )
+    MsgBox(64, $aresults[0], $aresults[1] )
     _GDIPlus_GraphicsDispose($hGfx)
   _GDIPlus_Shutdown()
   Return $aresults
