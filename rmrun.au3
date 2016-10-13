@@ -505,9 +505,9 @@ Func SetPause(ByRef $loop1, ByRef $loop2, ByRef $loop3, ByRef $idStart)
   $paused = False
 EndFunc
 
-Func _IsChecked($idControlID)
-  Return BitAND(GUICtrlRead($idControlID), $GUI_CHECKED) = $GUI_CHECKED
-EndFunc   ;==>_IsChecked
+;Func _IsChecked($idControlID)
+;  Return BitAND(GUICtrlRead($idControlID), $GUI_CHECKED) = $GUI_CHECKED
+;EndFunc   ;==>_IsChecked
 
 
 Func _ImageSearchArea($findImage,$resultPosition,$x1,$y1,$right,$bottom,ByRef $x, ByRef $y, $tolerance)
