@@ -13,9 +13,9 @@
 #include <GuiListView.au3>
 #include <GuiComboBox.au3>
 #Include <ScreenCapture.au3>
-#include <lib\filelocations.au3>
-#include <lib\executeif.au3>
-#include <lib\executethen.au3>
+#include <..\lib\filelocations.au3>
+#include <..\lib\executeif.au3>
+#include <..\lib\executethen.au3>
 
 ; from rmrun
 #include <GUIConstantsEx.au3>
@@ -24,13 +24,13 @@
 #include <GuiListView.au3>
 #include <FileConstants.au3>
 #include <File.au3>
-#include <lib\executeif.au3>
-#include <lib\executethen.au3>
-#include <lib\filelocations.au3>
-#include <lib\alllcs.au3>
-#include <lib\tesseract_stdout.au3>
-#include <lib\combinealllcsandtesseract.au3>
-#include <lib\levenshtein.au3>
+#include <..\lib\executeif.au3>
+#include <..\lib\executethen.au3>
+#include <..\lib\filelocations.au3>
+#include <..\lib\alllcs.au3>
+#include <..\lib\tesseract_stdout.au3>
+#include <..\lib\combinealllcsandtesseract.au3>
+#include <..\lib\levenshtein.au3>
 #include <Crypt.au3>
 
 Global $iX1, $iY1, $iX2, $iY2, $aPos, $sMsg, $sBMP_Path
@@ -51,7 +51,7 @@ While 1
             Exit
         Case $hRect_Button
             GUISetState(@SW_HIDE, $hMain_GUI)
-            Mark_Rect()
+            Mark_Rect_Scaling()
             ; Capture selected area
             $sBMP_Path = @ScriptDir & "\Rect.bmp"
             _ScreenCapture_Capture($sBMP_Path, $iX1, $iY1, $iX2, $iY2, False)
@@ -67,13 +67,13 @@ WEnd
 
 ; -------------
 
-Func Mark_Rect()
+Func Mark_Rect_Scaling()
 
     Local $aMouse_Pos, $hMask, $hMaster_Mask, $iTemp
     Local $UserDLL = DllOpen("user32.dll")
 
     Global $hRectangle_GUI = GUICreate("", @DesktopWidth, @DesktopHeight, 0, 0, $WS_POPUP, $WS_EX_TOOLWINDOW + $WS_EX_TOPMOST)
-    _GUICreateInvRect($hRectangle_GUI, 0, 0, 1, 1)
+    _GUICreateInvRect_Scaling($hRectangle_GUI, 0, 0, 1, 1)
     GUISetBkColor(0)
     WinSetTrans($hRectangle_GUI, "", 50)
     GUISetState(@SW_SHOW, $hRectangle_GUI)
@@ -139,7 +139,7 @@ Func Mark_Rect()
             $iHeight = $jmp1 - $iY1
         EndIf
 
-        _GUICreateInvRect($hRectangle_GUI, $iX_Pos/2, $iY_Pos/2, $iWidth/2, $iHeight/2)
+        _GUICreateInvRect_Scaling($hRectangle_GUI, $iX_Pos/2, $iY_Pos/2, $iWidth/2, $iHeight/2)
 
         Sleep(10)
 
@@ -166,7 +166,7 @@ Func Mark_Rect()
 
 EndFunc   ;==>Mark_Rect
 
-Func _GUICreateInvRect($hWnd, $iX, $iY, $iW, $iH)
+Func _GUICreateInvRect_Scaling($hWnd, $iX, $iY, $iW, $iH)
 
     $hMask_1 = _WinAPI_CreateRectRgn(0, 0, @DesktopWidth, $iY)
     $hMask_2 = _WinAPI_CreateRectRgn(0, 0, $iX, @DesktopHeight)
@@ -350,6 +350,7 @@ Func GetAreaImageScreenTrigger($imagefile)
 EndFunc
 
 
+
 ; -------------
 
 Func Mark_Rect(ByRef $iX1, ByRef $iY1, ByRef $iX2, ByRef $iY2, ByRef $aPos, ByRef $sMsg, ByRef $sBMP_Path)
@@ -452,6 +453,11 @@ EndFunc
 
 
 
+
+Func AddToTrigger($thecall)
+  ;$totrig = _ImageSearchArea($imagefile, 1, 0, 0, @DesktopWidth, @DesktopHeight, $X1, $Y1, $acc)
+
+EndFunc
 
 
 
