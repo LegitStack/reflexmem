@@ -12,7 +12,7 @@
 ; ===============================================================================================================================
 
 ; Capture screen
-_ScreenCapture_Capture(@MyDocumentsDir & '\AutoItImage.jpg')
+ScreenCapture_Capture_DPI_Aware(@MyDocumentsDir & '\AutoItImage.jpg')
 
 ; Initialize GDI+ library
 _GDIPlus_Startup()

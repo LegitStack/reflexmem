@@ -952,10 +952,10 @@ Func CaptureToTIFF($win_title = "", $win_text = "", $ctrl_id = "", $sOutImage = 
 	if IsHWnd($hwnd2) Then
 	
 		WinActivate($win_title, $win_text)
-		$hBitmap2 = _ScreenCapture_CaptureWnd("", $hwnd2, 0, 0, -1, -1, False)
+		$hBitmap2 = ScreenCapture_Capture_DPI_AwareWnd("", $hwnd2, 0, 0, -1, -1, False)
 	Else
 		
-		$hBitmap2 = _ScreenCapture_Capture("", 0, 0, -1, -1, False)
+		$hBitmap2 = ScreenCapture_Capture_DPI_Aware("", 0, 0, -1, -1, False)
 	EndIf
 
 	_GDIPlus_Startup ()

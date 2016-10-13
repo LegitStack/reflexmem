@@ -21,7 +21,7 @@ Local $sString = "  Created with AutoIt  "
 _GDIPlus_Startup()
 
 ; Capture screen
-$hBitmap = _ScreenCapture_Capture(@MyDocumentsDir & '\AutoItImage.bmp')
+$hBitmap = ScreenCapture_Capture_DPI_Aware(@MyDocumentsDir & '\AutoItImage.bmp')
 
 ; Load image and emboss text
 $hImage = _GDIPlus_ImageLoadFromFile(@MyDocumentsDir & '\AutoItImage.bmp')

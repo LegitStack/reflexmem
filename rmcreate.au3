@@ -12,6 +12,7 @@
 #include <lib\executeif.au3>
 #include <lib\executethen.au3>
 #include <lib\dpiawareness.au3>
+#include <lib\screencapturedpi.au3>
 GUISetFont(8.5 * _GDIPlus_GraphicsGetDPIRatio()[0])
 ;DllCall("User32.dll", "bool", "SetProcessDPIAware")
 
@@ -1288,7 +1289,7 @@ Func ImageOnScreenTrigger()
 					$i = $i + 1
 				WEnd
 	      $sBMP_Path = GetScriptsPath("images") & $i & ".bmp"
-	    	_ScreenCapture_Capture($sBMP_Path, $iX1, $iY1, $iX2, $iY2, False)
+	    	ScreenCapture_Capture_DPI_Aware($sBMP_Path, $iX1, $iY1, $iX2, $iY2, False)
 	      GUISetState(@SW_SHOW, $hMain_GUI)
 	      ; Display image
 	      ;$hBitmap_GUI = GUICreate("Selected Rectangle", $iX2 - $iX1 + 1, $iY2 - $iY1 + 1, 100, 100)
@@ -2733,7 +2734,7 @@ Func MouseMoveImage()
 					$i = $i + 1
 				WEnd
 	      $sBMP_Path = GetScriptsPath("images") & $i & ".bmp"
-	    	_ScreenCapture_Capture($sBMP_Path, $iX1, $iY1, $iX2, $iY2, False)
+	    	ScreenCapture_Capture_DPI_Aware($sBMP_Path, $iX1, $iY1, $iX2, $iY2, False)
 	      GUISetState(@SW_SHOW, $hMain_GUI)
 	      ; Display image
 	      ;$hBitmap_GUI = GUICreate("Selected Rectangle", $iX2 - $iX1 + 1, $iY2 - $iY1 + 1, 100, 100)

@@ -5,7 +5,7 @@
 Example()
 
 Func Example()
-    Local $hBMP = _ScreenCapture_Capture()
+    Local $hBMP = ScreenCapture_Capture_DPI_Aware()
 
     Local $hGUI = GUICreate("GDI+", 400, 400)
     GUISetState(@SW_SHOW)

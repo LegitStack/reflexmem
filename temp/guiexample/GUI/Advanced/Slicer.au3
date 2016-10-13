@@ -19,7 +19,7 @@ Local $aSlice[4]
 ; ===============================================================================================================================
 
 ; Capture screen region
-Local $hBitmap = _ScreenCapture_Capture("", 0, 0, 400, 400)
+Local $hBitmap = ScreenCapture_Capture_DPI_Aware("", 0, 0, 400, 400)
 
 ; Create GUI
 Local $hGUI = GUICreate("Slicer", 400, 400)
