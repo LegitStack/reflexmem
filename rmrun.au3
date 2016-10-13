@@ -204,6 +204,8 @@ Func PopulateGui()
 
   If MsgBox($MB_YESNO,'Question:','Do you want to set DPI Awareness ?') = $IDYES Then
     GUISetFont(8.5 * _GDIPlus_GraphicsGetDPIRatio()[0])
+  else
+    ;DllCall("User32.dll", "bool", "SetProcessDPIAware")
   EndIf
 
 
@@ -288,7 +290,7 @@ Func PopulateGui()
   local $uservar31
   local $temp
   local $returned
-  DllCall("User32.dll", "bool", "SetProcessDPIAware")
+
   while $loop1 == 1
     While $loop2 == 1
       $msg = GUIGetMsg()
