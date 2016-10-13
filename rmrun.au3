@@ -12,6 +12,7 @@
 #include <lib\combinealllcsandtesseract.au3>
 #include <lib\levenshtein.au3>
 #include <Crypt.au3>
+DllCall("User32.dll", "bool", "SetProcessDPIAware")
 
 VarifyFolders()
 
