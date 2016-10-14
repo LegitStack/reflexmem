@@ -17,6 +17,8 @@
 DllCall("User32.dll", "bool", "SetProcessDPIAware")
 ;GUISetFont(8.5 * _GDIPlus_GraphicsGetDPIRatio()[0])
 
+$ratio = 2
+
 VarifyFolders()
 
 GetTriggers()
@@ -150,7 +152,7 @@ EndFunc
 
 Func PopulateGui()
 
-  Global $hGUI = GUICreate("Reflex Memory Run", 610, 660)
+  Global $hGUI = GUICreate("Reflex Memory Run", 610*$ratio, 660*$ratio)
   Local $idCheckbox[Ubound($triggers)]
   Local $idDelete[Ubound($triggers)]
   Local $idModify[Ubound($triggers)]
@@ -175,20 +177,20 @@ Func PopulateGui()
       else
         $name = $triggers[$i]
       endif
-      $idCheckbox[$i] = GUICtrlCreateCheckbox(" If " & $name & " then", ($j*300)+10, ($k*150)+10, 290, 25)
-      $idBlist[$i] = GUICTRLCreateListView("Behaviors                             ", ($j*300)+10, ($k*150)+40, 180, 100)
+      $idCheckbox[$i] = GUICtrlCreateCheckbox(" If " & $name & " then", (($j*300)+10)*$ratio, (($k*150)+10)*$ratio, 290*$ratio, 25*$ratio)
+      $idBlist[$i] = GUICTRLCreateListView("Behaviors                             ", (($j*300)+10)*$ratio, (($k*150)+40)*$ratio, 180*$ratio, 100*$ratio)
       for $b = 0 to Ubound($behaviors, 1)-1
         if $behaviornames[$b][$i] <> "" then
           _GUICtrlListView_AddItem($idBlist[$i], $behaviornames[$b][$i], 1)
         endif
       next
-      $idDelete[$i] = GUICtrlCreateButton("Delete", ($j*300)+200, ($k*150)+40, 100, 27)
-      $idModify[$i] = GUICtrlCreateButton("Modify", ($j*300)+200, ($k*150)+72, 100, 27)
+      $idDelete[$i] = GUICtrlCreateButton("Delete", (($j*300)+200)*$ratio, (($k*150)+40)*$ratio, 100*$ratio, 27*$ratio)
+      $idModify[$i] = GUICtrlCreateButton("Modify", (($j*300)+200)*$ratio, (($k*150)+72)*$ratio, 100*$ratio, 27*$ratio)
     endif
-    $locCx[$i] = ($j*300)+10
-    $locDx[$i] = ($j*300)+200
-    $locEx[$i] = ($j*300)+200
-    $locBx[$i] = ($j*300)+10
+    $locCx[$i] = (($j*300)+10)*$ratio
+    $locDx[$i] = (($j*300)+200)*$ratio
+    $locEx[$i] = (($j*300)+200)*$ratio
+    $locBx[$i] = (($j*300)+10)*$ratio
 
     $k = $k + 1
     if $k == 4 then
@@ -197,13 +199,13 @@ Func PopulateGui()
     endif
   next
   ;GUICtrlSetResizing(-1, $GUI_DOCKLEFT + $GUI_DOCKTOP)
-  Local $idClose = GUICtrlCreateButton("Close", 10, 610, 60, 40) ;10, 610, 100, 40)
-  Local $idCreatePlugin = GUICtrlCreateButton("Create Plugin", 80, 610, 80, 40)
-  Local $idSlider1 = GUICtrlCreateSlider(170, 620, 320, 30) ;(120, 620, 370, 30)
+  Local $idClose = GUICtrlCreateButton("Close", 10*$ratio, 610*$ratio, 60*$ratio, 40*$ratio) ;10, 610, 100, 40)
+  Local $idCreatePlugin = GUICtrlCreateButton("Create Plugin", 80*$ratio, 610*$ratio, 80*$ratio, 40*$ratio)
+  Local $idSlider1 = GUICtrlCreateSlider(170*$ratio, 620*$ratio, 320*$ratio, 30*$ratio) ;(120, 620, 370, 30)
   GUICtrlSetLimit(-1, 100, 0) ; change min/max value GUICtrlSetPos ( controlID, left [, top [, width [, height]]] )
-  local $pLabel = GUICtrlCreateLabel("", 535, 600, 80, 20)
+  local $pLabel = GUICtrlCreateLabel("", 535*$ratio, 600*$ratio, 80*$ratio, 20*$ratio)
   GUICtrlSetFont($pLabel, 7, $FW_NORMAL,  $GUI_FONTITALIC)
-  Local $idStart = GUICtrlCreateButton("Start", 500, 610, 100, 40)
+  Local $idStart = GUICtrlCreateButton("Start", 500*$ratio, 610*$ratio, 100*$ratio, 40*$ratio)
 
   GUISetState(@SW_SHOW, $hGUI)
 
