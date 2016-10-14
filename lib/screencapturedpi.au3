@@ -42,7 +42,7 @@
 #include <ScreenCapture.au3>
 
 Func ScreenCapture_Capture_DPI_Aware($sBMP_Path, $iX1, $iY1, $iX2, $iY2, $bool)
-
+  $R = GetScale()
     _GDIPlus_Startup()
     Local Const $iW = @DesktopWidth / 2, $iH = @DesktopHeight / 2
     Local $hGUI = GUICreate("GDI+ test", $iW, $iH, -1, -1)
@@ -60,11 +60,23 @@ Func ScreenCapture_Capture_DPI_Aware($sBMP_Path, $iX1, $iY1, $iX2, $iY2, $bool)
     Local $pData = DllStructGetPtr($tData) ;get pointer from quality struct
     _GDIPlus_ParamAdd($tParams, $GDIP_EPGQUALITY, 1, $GDIP_EPTLONG, $pData) ;add a value to an encoder parameter list
     Local $pStream = _WinAPI_CreateStreamOnHGlobal() ;create stream
-    _GDIPlus_ImageSaveToStream($hBitmap, $pStream, $tGUID, $tParams) ;save the bitmap in JPG format in memory
-    Local $hBitmapFromStream = _GDIPlus_BitmapCreateFromStream($pStream) ;create bitmap from a stream (here from the JPG in memory)
+
+    Local $w = abs($iX2 - $iX1)
+    Local $h = abs($iY2 - $iY1)
+    $hBitmap = _GDIPlus_ImageResize($hBitmap, $w, $h,7)
+    ;_GDIPlus_GraphicsSetInterpolationMode($hBitmap, 4)
+    ;msgbox(64,"hBitmap",_GDIPlus_GraphicsGetInterpolationMode($hBitmap))
+    ;$hBitmap = _GDIPlus_ImageScale($hBitmap, .5,.5, 2)
+    ;msgbox(64,"hBitmap",_GDIPlus_GraphicsGetInterpolationMode($hBitmap))
+
+    ;_GDIPlus_ImageSaveToStream($hBitmap, $pStream, $tGUID, $tParams) ;save the bitmap in JPG format in memory
+    ;Local $hBitmapFromStream = _GDIPlus_BitmapCreateFromStream($pStream) ;create bitmap from a stream (here from the JPG in memory)
 
     Local $hGraphics = _GDIPlus_GraphicsCreateFromHWND($hGUI) ;create a graphics object from a window handle
-    _GDIPlus_GraphicsDrawImage($hGraphics, $hBitmapFromStream, 0, 0) ;display streamed image
+    msgbox(64,"hGraphics",_GDIPlus_GraphicsGetInterpolationMode($hGraphics))
+    _GDIPlus_GraphicsSetInterpolationMode($hGraphics, 7)
+    msgbox(64,"hGraphics",_GDIPlus_GraphicsGetInterpolationMode($hGraphics))
+    _GDIPlus_GraphicsDrawImage($hGraphics, $hBitmap, 0, 0) ;display streamed image
 
     While 1
         Switch GUIGetMsg()
@@ -77,7 +89,7 @@ Func ScreenCapture_Capture_DPI_Aware($sBMP_Path, $iX1, $iY1, $iX2, $iY2, $bool)
     ;cleanup resources
     _GDIPlus_GraphicsDispose($hGraphics)
     _GDIPlus_BitmapDispose($hBitmap)
-    _GDIPlus_BitmapDispose($hBitmapFromStream)
+    ;_GDIPlus_BitmapDispose($hBitmapFromStream)
     _GDIPlus_Shutdown()
     GUIDelete($hGUI)
 EndFunc   ;==>Example
