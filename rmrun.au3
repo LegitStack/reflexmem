@@ -13,11 +13,12 @@
 #include <lib\levenshtein.au3>
 #include <lib\dpiawareness.au3>
 #include <Crypt.au3>
+#include <lib\applieddpi.au3>
 
 DllCall("User32.dll", "bool", "SetProcessDPIAware")
 ;GUISetFont(8.5 * _GDIPlus_GraphicsGetDPIRatio()[0])
 
-$ratio = 2
+$R = GetScale()
 
 VarifyFolders()
 
@@ -152,7 +153,7 @@ EndFunc
 
 Func PopulateGui()
 
-  Global $hGUI = GUICreate("Reflex Memory Run", 610*$ratio, 660*$ratio)
+  Global $hGUI = GUICreate("Reflex Memory Run", 610*$R, 660*$R)
   Local $idCheckbox[Ubound($triggers)]
   Local $idDelete[Ubound($triggers)]
   Local $idModify[Ubound($triggers)]
@@ -177,20 +178,20 @@ Func PopulateGui()
       else
         $name = $triggers[$i]
       endif
-      $idCheckbox[$i] = GUICtrlCreateCheckbox(" If " & $name & " then", (($j*300)+10)*$ratio, (($k*150)+10)*$ratio, 290*$ratio, 25*$ratio)
-      $idBlist[$i] = GUICTRLCreateListView("Behaviors                             ", (($j*300)+10)*$ratio, (($k*150)+40)*$ratio, 180*$ratio, 100*$ratio)
+      $idCheckbox[$i] = GUICtrlCreateCheckbox(" If " & $name & " then", (($j*300)+10)*$R, (($k*150)+10)*$R, 290*$R, 25*$R)
+      $idBlist[$i] = GUICTRLCreateListView("Behaviors                             ", (($j*300)+10)*$R, (($k*150)+40)*$R, 180*$R, 100*$R)
       for $b = 0 to Ubound($behaviors, 1)-1
         if $behaviornames[$b][$i] <> "" then
           _GUICtrlListView_AddItem($idBlist[$i], $behaviornames[$b][$i], 1)
         endif
       next
-      $idDelete[$i] = GUICtrlCreateButton("Delete", (($j*300)+200)*$ratio, (($k*150)+40)*$ratio, 100*$ratio, 27*$ratio)
-      $idModify[$i] = GUICtrlCreateButton("Modify", (($j*300)+200)*$ratio, (($k*150)+72)*$ratio, 100*$ratio, 27*$ratio)
+      $idDelete[$i] = GUICtrlCreateButton("Delete", (($j*300)+200)*$R, (($k*150)+40)*$R, 100*$R, 27*$R)
+      $idModify[$i] = GUICtrlCreateButton("Modify", (($j*300)+200)*$R, (($k*150)+72)*$R, 100*$R, 27*$R)
     endif
-    $locCx[$i] = (($j*300)+10)*$ratio
-    $locDx[$i] = (($j*300)+200)*$ratio
-    $locEx[$i] = (($j*300)+200)*$ratio
-    $locBx[$i] = (($j*300)+10)*$ratio
+    $locCx[$i] = (($j*300)+10)*$R
+    $locDx[$i] = (($j*300)+200)*$R
+    $locEx[$i] = (($j*300)+200)*$R
+    $locBx[$i] = (($j*300)+10)*$R
 
     $k = $k + 1
     if $k == 4 then
@@ -199,13 +200,13 @@ Func PopulateGui()
     endif
   next
   ;GUICtrlSetResizing(-1, $GUI_DOCKLEFT + $GUI_DOCKTOP)
-  Local $idClose = GUICtrlCreateButton("Close", 10*$ratio, 610*$ratio, 60*$ratio, 40*$ratio) ;10, 610, 100, 40)
-  Local $idCreatePlugin = GUICtrlCreateButton("Create Plugin", 80*$ratio, 610*$ratio, 80*$ratio, 40*$ratio)
-  Local $idSlider1 = GUICtrlCreateSlider(170*$ratio, 620*$ratio, 320*$ratio, 30*$ratio) ;(120, 620, 370, 30)
+  Local $idClose = GUICtrlCreateButton("Close", 10*$R, 610*$R, 60*$R, 40*$R) ;10, 610, 100, 40)
+  Local $idCreatePlugin = GUICtrlCreateButton("Create Plugin", 80*$R, 610*$R, 80*$R, 40*$R)
+  Local $idSlider1 = GUICtrlCreateSlider(170*$R, 620*$R, 320*$R, 30*$R) ;(120, 620, 370, 30)
   GUICtrlSetLimit(-1, 100, 0) ; change min/max value GUICtrlSetPos ( controlID, left [, top [, width [, height]]] )
-  local $pLabel = GUICtrlCreateLabel("", 535*$ratio, 600*$ratio, 80*$ratio, 20*$ratio)
+  local $pLabel = GUICtrlCreateLabel("", 535*$R, 600*$R, 80*$R, 20*$R)
   GUICtrlSetFont($pLabel, 7, $FW_NORMAL,  $GUI_FONTITALIC)
-  Local $idStart = GUICtrlCreateButton("Start", 500*$ratio, 610*$ratio, 100*$ratio, 40*$ratio)
+  Local $idStart = GUICtrlCreateButton("Start", 500*$R, 610*$R, 100*$R, 40*$R)
 
   GUISetState(@SW_SHOW, $hGUI)
 

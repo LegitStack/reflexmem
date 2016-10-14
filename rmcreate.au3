@@ -13,14 +13,17 @@
 #include <lib\executethen.au3>
 #include <lib\dpiawareness.au3>
 #include <lib\screencapturedpi.au3>
+#include <lib\applieddpi.au3>
 
 DllCall("User32.dll", "bool", "SetProcessDPIAwareness")
 ;GUISetFont(8.5 * _GDIPlus_GraphicsGetDPIRatio()[0])
 
+$R = GetScale()
+
 EraseExtraThen()
 EraseExtraIf()
 
-Global $hGUI = GUICreate("ReflexMem Create", 600, 725, -1, -1)
+Global $hGUI = GUICreate("ReflexMem Create", 600*$R, 725*$R, -1, -1)
 Global $triggerText = ""
 Global $triggerTextNames = ""
 Global $triggerNumber = 0
@@ -190,28 +193,28 @@ EndFunc
 
 Func CreateTriggers()
 
-	Global $hGroup   = GUICtrlCreateGroup("Triggers", 								20, 	10, 	280, 540)
-	Global $hButton  = GUICtrlCreateButton("Key is Pressed", 					35, 	35, 	250, 35) ;done
-	Global $hButton1 = GUICtrlCreateButton("Mouse is Clicked", 				35, 	80, 	250, 35) ;done
-	Global $hButton22= GUICtrlCreateButton("Mouse in Region",   			35, 	125, 	250, 35) ;done
-	Global $hButton2 = GUICtrlCreateButton("Clipboard Contains",			35, 	170, 	250, 35) ;done
-	Global $hButton3 = GUICtrlCreateButton("Program is Running",			35, 	215, 	250, 35) ;done
-	Global $hButton4 = GUICtrlCreateButton("Date and Time is", 				35, 	260, 	250, 35) ;done
-	Global $hButton5 = GUICtrlCreateButton("Image on Screen", 				35, 	305, 	250, 35) ;done
-	Global $hButton6 = GUICtrlCreateButton("Text on Screen *Pro", 		35, 	350, 	250, 35) ;done
-	Global $hButton23= GUICtrlCreateButton("Manage Variable *Pro",		35, 	395, 	250, 35) ;done
-	;Global $hButton24= GUICtrlCreateButton("Variable Equals *Pro",		35, 	440, 	250, 35) ;
-	Global $hButton0 = GUICtrlCreateButton("Help", 										35, 	575, 	250, 35) ;done
-	Global $hButton16 = GUICtrlCreateButton("Submit Triggers", 				20, 	655, 	280, 50)
+	Global $hGroup   = GUICtrlCreateGroup("Triggers", 								20*$R, 	10*$R, 	280*$R, 540*$R)
+	Global $hButton  = GUICtrlCreateButton("Key is Pressed", 					35*$R, 	35*$R, 	250*$R, 35*$R) ;done
+	Global $hButton1 = GUICtrlCreateButton("Mouse is Clicked", 				35*$R, 	80*$R, 	250*$R, 35*$R) ;done
+	Global $hButton22= GUICtrlCreateButton("Mouse in Region",   			35*$R, 	125*$R, 	250*$R, 35*$R) ;done
+	Global $hButton2 = GUICtrlCreateButton("Clipboard Contains",			35*$R, 	170*$R, 	250*$R, 35*$R) ;done
+	Global $hButton3 = GUICtrlCreateButton("Program is Running",			35*$R, 	215*$R, 	250*$R, 35*$R) ;done
+	Global $hButton4 = GUICtrlCreateButton("Date and Time is", 				35*$R, 	260*$R, 	250*$R, 35*$R) ;done
+	Global $hButton5 = GUICtrlCreateButton("Image on Screen", 				35*$R, 	305*$R, 	250*$R, 35*$R) ;done
+	Global $hButton6 = GUICtrlCreateButton("Text on Screen *Pro", 		35*$R, 	350*$R, 	250*$R, 35*$R) ;done
+	Global $hButton23= GUICtrlCreateButton("Manage Variable *Pro",		35*$R, 	395*$R, 	250*$R, 35*$R) ;done
+	;Global $hButton24= GUICtrlCreateButton("Variable Equals *Pro",		35*$R, 	440*$R, 	250*$R, 35*$R) ;
+	Global $hButton0 = GUICtrlCreateButton("Help", 										35*$R, 	575*$R, 	250*$R, 35*$R) ;done
+	Global $hButton16 = GUICtrlCreateButton("Submit Triggers", 				20*$R, 	655*$R, 	280*$R, 50*$R)
 	GUICtrlSetFont(-1, 10)
 
-	Global $hlisttrigs = GUICTRLCreateListView("Triggers                               ", 330, 245, 240, 380)
-	Global $hButtonCancel1 	= GUICtrlCreateButton("Cancel", 330, 655, 80, 50)
-	Global $hButtonUp1 			= GUICtrlCreateButton("↑", 415, 655, 30, 50)
-	Global $hButtonDown1 		= GUICtrlCreateButton("↓", 450, 655, 30, 50)
-	Global $hButtonDelete1 	= GUICtrlCreateButton("Delete", 485, 655, 80, 50)
+	Global $hlisttrigs = GUICTRLCreateListView("Triggers                               ", 330*$R, 245*$R, 240*$R, 380*$R)
+	Global $hButtonCancel1 	= GUICtrlCreateButton("Cancel", 330*$R, 655*$R, 80*$R, 50*$R)
+	Global $hButtonUp1 			= GUICtrlCreateButton("↑", 415*$R, 655*$R, 30*$R, 50*$R)
+	Global $hButtonDown1 		= GUICtrlCreateButton("↓", 450*$R, 655*$R, 30*$R, 50*$R)
+	Global $hButtonDelete1 	= GUICtrlCreateButton("Delete", 485*$R, 655*$R, 80*$R, 50*$R)
 
-	Global $hLabel1 = GUICtrlCreateLabel("", 330, 35, 240, 200)
+	Global $hLabel1 = GUICtrlCreateLabel("", 330*$R, 35*$R, 240*$R, 200*$R)
 	GUICtrlSetStyle(-1, $SS_CENTER)
 
 	GUISetState()
@@ -221,30 +224,30 @@ EndFunc
 
 Func CreateBehaviors()
 
-	Global $hGroup1   = GUICtrlCreateGroup("Behaviors", 							310, 	10, 	280, 615)
-	Global $hButton7  = GUICtrlCreateButton("Send Keys",							330, 	35, 	250, 35) ;done
-	Global $hButton8  = GUICtrlCreateButton("Key Down", 							330, 	80, 	250, 35) ;done
-	Global $hButton9  = GUICtrlCreateButton("Key Up", 								330, 	125, 	250, 35) ;done
-	Global $hButton10 = GUICtrlCreateButton("Move Mouse", 						330, 	170, 	250, 35) ;done
-	Global $hButton11 = GUICtrlCreateButton("Mouse Click", 						330, 	215, 	250, 35) ;done
-	Global $hButton12 = GUICtrlCreateButton("Scroll Mouse Wheel", 		330, 	260, 	250, 35) ;done
-	Global $hButton13 = GUICtrlCreateButton("Copy / Paste", 					330, 	305, 	250, 35) ;done
-	Global $hButton14 = GUICtrlCreateButton("Manage Programs",    		330, 	350, 	250, 35) ;done
-	Global $hButton18 = GUICtrlCreateButton("Display Message",				330, 	395, 	250, 35) ;done
-	Global $hButton15 = GUICtrlCreateButton("Wait", 									330, 	440, 	250, 35) ;done
-	Global $hButton19 = GUICtrlCreateButton("Manage ReflexMem",				330, 	485, 	250, 35) ;??????
-	Global $hButton20 = GUICtrlCreateButton("Manage Variables *Pro",	330, 	530, 	250, 35) ;done
-	Global $hButton21 = GUICtrlCreateButton("Get On Screen Text *Pro",330, 	575, 	250, 35) ;done
-	Global $hButton17 = GUICtrlCreateButton("Submit Behaviors",				310, 	655, 	280, 50) ;done
+	Global $hGroup1   = GUICtrlCreateGroup("Behaviors", 							310*$R, 	10*$R, 	280*$R, 615*$R)
+	Global $hButton7  = GUICtrlCreateButton("Send Keys",							330*$R, 	35*$R, 	250*$R, 35*$R) ;done
+	Global $hButton8  = GUICtrlCreateButton("Key Down", 							330*$R, 	80*$R, 	250*$R, 35*$R) ;done
+	Global $hButton9  = GUICtrlCreateButton("Key Up", 								330*$R, 	125*$R, 	250*$R, 35*$R) ;done
+	Global $hButton10 = GUICtrlCreateButton("Move Mouse", 						330*$R, 	170*$R, 	250*$R, 35*$R) ;done
+	Global $hButton11 = GUICtrlCreateButton("Mouse Click", 						330*$R, 	215*$R, 	250*$R, 35*$R) ;done
+	Global $hButton12 = GUICtrlCreateButton("Scroll Mouse Wheel", 		330*$R, 	260*$R, 	250*$R, 35*$R) ;done
+	Global $hButton13 = GUICtrlCreateButton("Copy / Paste", 					330*$R, 	305*$R, 	250*$R, 35*$R) ;done
+	Global $hButton14 = GUICtrlCreateButton("Manage Programs",    		330*$R, 	350*$R, 	250*$R, 35*$R) ;done
+	Global $hButton18 = GUICtrlCreateButton("Display Message",				330*$R, 	395*$R, 	250*$R, 35*$R) ;done
+	Global $hButton15 = GUICtrlCreateButton("Wait", 									330*$R, 	440*$R, 	250*$R, 35*$R) ;done
+	Global $hButton19 = GUICtrlCreateButton("Manage ReflexMem",				330*$R, 	485*$R, 	250*$R, 35*$R) ;??????
+	Global $hButton20 = GUICtrlCreateButton("Manage Variables *Pro",	330*$R, 	530*$R, 	250*$R, 35*$R) ;done
+	Global $hButton21 = GUICtrlCreateButton("Get On Screen Text *Pro",330*$R, 	575*$R, 	250*$R, 35*$R) ;done
+	Global $hButton17 = GUICtrlCreateButton("Submit Behaviors",				310*$R, 	655*$R, 	280*$R, 50*$R) ;done
 	GUICtrlSetFont(-1, 10)
 
-	Global $hlistbehavs = GUICTRLCreateListView("Behaviors                             ", 35, 245, 240, 380)
-	Global $hButtonCancel2 = GUICtrlCreateButton("Cancel", 35, 655, 80, 50)
-	Global $hButtonUp2 			= GUICtrlCreateButton("↑", 120, 655, 30, 50)
-	Global $hButtonDown2 		= GUICtrlCreateButton("↓", 155, 655, 30, 50)
-	Global $hButtonDelete2 = GUICtrlCreateButton("Delete", 190, 655, 85, 50)
+	Global $hlistbehavs = GUICTRLCreateListView("Behaviors                             ", 35*$R, 245*$R, 240*$R, 380*$R)
+	Global $hButtonCancel2 = GUICtrlCreateButton("Cancel", 35*$R, 655*$R, 80*$R, 50*$R)
+	Global $hButtonUp2 			= GUICtrlCreateButton("↑", 120*$R, 655*$R, 30*$R, 50*$R)
+	Global $hButtonDown2 		= GUICtrlCreateButton("↓", 155*$R, 655*$R, 30*$R, 50*$R)
+	Global $hButtonDelete2 = GUICtrlCreateButton("Delete", 190*$R, 655*$R, 85*$R, 50*$R)
 
-	Global $hLabel = GUICtrlCreateLabel("", 35, 35, 240, 200)
+	Global $hLabel = GUICtrlCreateLabel("", 35*$R, 35*$R, 240*$R, 200*$R)
 	GUICtrlSetStyle(-1, $SS_CENTER)
 
 	GUISetState()
@@ -423,34 +426,34 @@ EndFunc
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Specific Triggers
 
 Func KeyPressedTrigger()
-	Local $hChild7 = GUICreate("Key Pressed Trigger", 400, 640, -1, -1, -1, -1, $hGUI)
-	GUICtrlCreateLabel("Which key(s) should be pressed for this Trigger?", 20, 20, 360, 40)
+	Local $hChild7 = GUICreate("Key Pressed Trigger", 400*$R, 640*$R, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("Which key(s) should be pressed for this Trigger?", 20*$R, 20*$R, 360*$R, 40*$R)
 	GUICtrlSetStyle(-1, $SS_CENTER)
-	local $button71 = GUICtrlCreateButton("Single Letter or Number", 20, 60, 160, 30)
-	local $button72 = GUICtrlCreateButton("Enter", 220, 60, 160, 30)
-	local $button73 = GUICtrlCreateButton("Space", 20, 100, 160, 30)
-	local $button74 = GUICtrlCreateButton("Shift", 220, 100, 160, 30)
-	local $button75 = GUICtrlCreateButton("Alt", 20, 140, 160, 30)
-	local $button76 = GUICtrlCreateButton("Control", 220, 140, 160, 30)
-	local $button77 = GUICtrlCreateButton("Left", 20, 180, 160, 30)
-	local $button78 = GUICtrlCreateButton("Right", 220, 180, 160, 30)
-	local $button79 = GUICtrlCreateButton("Up", 20, 220, 160, 30)
-	local $button710 = GUICtrlCreateButton("Down", 220, 220, 160, 30)
-	local $button711 = GUICtrlCreateButton("Tab", 20, 260, 160, 30)
-	local $button712 = GUICtrlCreateButton("Escape", 220,260, 160, 30)
-	local $button713 = GUICtrlCreateButton("Page Up", 20, 300, 160, 30)
-	local $button714 = GUICtrlCreateButton("Page Down", 220, 300, 160, 30)
-	local $button715 = GUICtrlCreateButton("Home", 20, 340, 160, 30)
-	local $button716 = GUICtrlCreateButton("End", 220, 340, 160, 30)
-	local $button717 = GUICtrlCreateButton("Delete", 20, 380, 160, 30)
-	local $button718 = GUICtrlCreateButton("Backspace", 220, 380, 160, 30)
-	local $button719 = GUICtrlCreateButton("Caps Lock", 20, 420, 160, 30)
-	local $button720 = GUICtrlCreateButton("Num Lock", 220, 420, 160, 30)
-	local $button721 = GUICtrlCreateButton("Print Screen", 20, 460, 160, 30)
-	local $button722 = GUICtrlCreateButton("Windows Key", 220, 460, 160, 30)
-	local $button723 = GUICtrlCreateButton("Insert", 20, 500, 160, 30)
-	local $button727 = GUICtrlCreateButton("Plus (+)", 20, 540, 160, 30)
-	local $button728 = GUICtrlCreateButton("F Keys", 220, 500, 160, 30)
+	local $button71 = GUICtrlCreateButton("Single Letter or Number", 20*$R, 60*$R, 160*$R, 30*$R)
+	local $button72 = GUICtrlCreateButton("Enter", 					220*$R, 60*$R, 160*$R, 30*$R)
+	local $button73 = GUICtrlCreateButton("Space", 					20*$R, 100*$R, 160*$R, 30*$R)
+	local $button74 = GUICtrlCreateButton("Shift", 					220*$R, 100*$R, 160*$R, 30*$R)
+	local $button75 = GUICtrlCreateButton("Alt", 						20*$R, 140*$R, 160*$R, 30*$R)
+	local $button76 = GUICtrlCreateButton("Control", 				220*$R, 140*$R, 160*$R, 30*$R)
+	local $button77 = GUICtrlCreateButton("Left", 					20*$R, 180*$R, 160*$R, 30*$R)
+	local $button78 = GUICtrlCreateButton("Right", 					220*$R, 180*$R, 160*$R, 30*$R)
+	local $button79 = GUICtrlCreateButton("Up", 						20*$R, 220*$R, 160*$R, 30*$R)
+	local $button710 = GUICtrlCreateButton("Down", 					220*$R, 220*$R, 160*$R, 30*$R)
+	local $button711 = GUICtrlCreateButton("Tab", 					20*$R, 260*$R, 160*$R, 30*$R)
+	local $button712 = GUICtrlCreateButton("Escape", 				220*$R,260*$R, 160*$R, 30*$R)
+	local $button713 = GUICtrlCreateButton("Page Up", 			20*$R, 300*$R, 160*$R, 30*$R)
+	local $button714 = GUICtrlCreateButton("Page Down", 		220*$R, 300*$R, 160*$R, 30*$R)
+	local $button715 = GUICtrlCreateButton("Home", 					20*$R, 340*$R, 160*$R, 30*$R)
+	local $button716 = GUICtrlCreateButton("End", 					220*$R, 340*$R, 160*$R, 30*$R)
+	local $button717 = GUICtrlCreateButton("Delete", 				20*$R, 380*$R, 160*$R, 30*$R)
+	local $button718 = GUICtrlCreateButton("Backspace", 		220*$R, 380*$R, 160*$R, 30*$R)
+	local $button719 = GUICtrlCreateButton("Caps Lock", 		20*$R, 420*$R, 160*$R, 30*$R)
+	local $button720 = GUICtrlCreateButton("Num Lock", 			220*$R, 420*$R, 160*$R, 30*$R)
+	local $button721 = GUICtrlCreateButton("Print Screen", 	20*$R, 460*$R, 160*$R, 30*$R)
+	local $button722 = GUICtrlCreateButton("Windows Key", 	220*$R, 460*$R, 160*$R, 30*$R)
+	local $button723 = GUICtrlCreateButton("Insert", 				20*$R, 500*$R, 160*$R, 30*$R)
+	local $button727 = GUICtrlCreateButton("Plus (+)", 			20*$R, 540*$R, 160*$R, 30*$R)
+	local $button728 = GUICtrlCreateButton("F Keys", 				220*$R, 500*$R, 160*$R, 30*$R)
 	GUISetState()
 
 	local $totrig = ""
@@ -590,21 +593,21 @@ Func KeyPressedTrigger()
 				GUIDelete($hChild7a)
 				ExitLoop
 			Case $button728 ;F keys
-				$hChild7a = GUICreate("Function Key Press Trigger", 400, 440, -1, -1, -1, -1, $hChild7)
-				GUICtrlCreateLabel("Which F key should be set as the keypress trigger?", 20, 20, 360, 40)
+				$hChild7a = GUICreate("Function Key Press Trigger", 400*$R, 440*$R, -1, -1, -1, -1, $hChild7)
+				GUICtrlCreateLabel("Which F key should be set as the keypress trigger?", 20*$R, 20*$R, 360*$R, 40*$R)
 				GUICtrlSetStyle(-1, $SS_CENTER)
-				$button7a1 = GUICtrlCreateButton("F1", 20, 80, 160, 40)
-				$button7a2 = GUICtrlCreateButton("F2", 220, 80, 160, 40)
-				$button7a3 = GUICtrlCreateButton("F3", 20, 140, 160, 40)
-				$button7a4 = GUICtrlCreateButton("F4", 220, 140, 160, 40)
-				$button7a5 = GUICtrlCreateButton("F5", 20, 200, 160, 40)
-				$button7a6 = GUICtrlCreateButton("F6", 220, 200, 160, 40)
-				$button7a7 = GUICtrlCreateButton("F7", 20, 260, 160, 40)
-				$button7a8 = GUICtrlCreateButton("F8", 220, 260, 160, 40)
-				$button7a9 = GUICtrlCreateButton("F9", 20, 320, 160, 40)
-				$button7a10 = GUICtrlCreateButton("F10", 220, 320, 160, 40)
-				$button7a11 = GUICtrlCreateButton("F11", 20, 380, 160, 40)
-				$button7a12 = GUICtrlCreateButton("F12", 220, 380, 160, 40)
+				$button7a1 = GUICtrlCreateButton("F1", 	20*$R, 80*$R, 160*$R, 40*$R)
+				$button7a2 = GUICtrlCreateButton("F2", 	220*$R, 80*$R, 160*$R, 40*$R)
+				$button7a3 = GUICtrlCreateButton("F3", 	20*$R, 140*$R, 160*$R, 40*$R)
+				$button7a4 = GUICtrlCreateButton("F4", 	220*$R, 140*$R, 160*$R, 40*$R)
+				$button7a5 = GUICtrlCreateButton("F5", 	20*$R, 200*$R, 160*$R, 40*$R)
+				$button7a6 = GUICtrlCreateButton("F6", 	220*$R, 200*$R, 160*$R, 40*$R)
+				$button7a7 = GUICtrlCreateButton("F7", 	20*$R, 260*$R, 160*$R, 40*$R)
+				$button7a8 = GUICtrlCreateButton("F8", 	220*$R, 260*$R, 160*$R, 40*$R)
+				$button7a9 = GUICtrlCreateButton("F9", 	20*$R, 320*$R, 160*$R, 40*$R)
+				$button7a10 = GUICtrlCreateButton("F10",220*$R, 320*$R, 160*$R, 40*$R)
+				$button7a11 = GUICtrlCreateButton("F11",20*$R, 380*$R, 160*$R, 40*$R)
+				$button7a12 = GUICtrlCreateButton("F12",220*$R, 380*$R, 160*$R, 40*$R)
 				GUISetState()
 				local $totrig = ""
 				While 1
@@ -903,12 +906,12 @@ EndFunc
 
 ;NOT DONE YET!!! get variable, and when modified devise a way to
 Func ManageVarEqualsTrigger() ;must put a escape chaaracter before and apostrophese \'
-	local $hMain_GUI = GUICreate("Variable Equals Trigger",600, 200, -1, -1, -1, -1, $hGUI)
-	GUICtrlCreateLabel("What should the trigger check?", 20, 20, 560, 35)
+	local $hMain_GUI = GUICreate("Variable Equals Trigger",600*$R, 200*$R, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("What should the trigger check?", 20*$R, 20*$R, 560*$R, 35*$R)
 	GUICtrlSetStyle(-1, $SS_CENTER)
-	local $hmButton1 = GUICtrlCreateButton("a Variable Equals a Value", 20, 80, 160, 60)
-	local $hmButton2 = GUICtrlCreateButton("a Variable Equals a Variable", 220, 80, 160, 60)
-	local $hmButton3 = GUICtrlCreateButton("a Variable has a Changed Value", 420, 80, 160, 60)
+	local $hmButton1 = GUICtrlCreateButton("a Variable Equals a Value", 		20*$R, 80*$R, 160*$R, 60*$R)
+	local $hmButton2 = GUICtrlCreateButton("a Variable Equals a Variable", 	220*$R, 80*$R, 160*$R, 60*$R)
+	local $hmButton3 = GUICtrlCreateButton("a Variable has a Changed Value",420*$R, 80*$R, 160*$R, 60*$R)
 	GUISetState()
 
 	While 1
@@ -979,11 +982,11 @@ EndFunc
 
 
 Func MouseClickTrigger()
-	Local $hChild1 = GUICreate("Mouse Click Trigger", 400, 200, -1, -1, -1, -1, $hGUI)
-	GUICtrlCreateLabel("Which button should be the trigger if cliked?", 20, 20, 360, 35)
+	Local $hChild1 = GUICreate("Mouse Click Trigger", 400*$R, 200*$R, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("Which button should be the trigger if cliked?", 20*$R, 20*$R, 360*$R, 35*$R)
 	GUICtrlSetStyle(-1, $SS_CENTER)
-	local $button1a1 = GUICtrlCreateButton("Primary (left)", 20, 80, 160, 60)
-	local $button1a2 = GUICtrlCreateButton("Secondary (right)", 220, 80, 160, 60)
+	local $button1a1 = GUICtrlCreateButton("Primary (left)", 20*$R, 80*$R, 160*$R, 60*$R)
+	local $button1a2 = GUICtrlCreateButton("Secondary (right)", 220*$R, 80*$R, 160*$R, 60*$R)
 	GUISetState()
 
 	local $totrig = ""
@@ -1027,10 +1030,10 @@ EndFunc
 
 
 Func ProgramRunsTrigger()
-	Local $hChild3 = GUICreate("Program is Running Trigger", 400, 640, -1, -1, -1, -1, $hGUI)
-	GUICtrlCreateLabel("Which program should this trigger watch for?", 20, 20, 360, 35)
+	Local $hChild3 = GUICreate("Program is Running Trigger", 400*$R, 640*$R, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("Which program should this trigger watch for?", 20*$R, 20*$R, 360*$R, 35*$R)
 	GUICtrlSetStyle(-1, $SS_CENTER)
-	$listview = GUICtrlCreateListView("List of Running Programs", 2, 50, 396, 496, BitOR($LVS_NOSORTHEADER, $LVS_SINGLESEL))
+	$listview = GUICtrlCreateListView("List of Running Programs", 2*$R, 50*$R, 396*$R, 496*$R, BitOR($LVS_NOSORTHEADER, $LVS_SINGLESEL))
 	;get programs
 	local $processes = ProcessList()
 	;_arrayDisplay($processes)
@@ -1038,9 +1041,9 @@ Func ProgramRunsTrigger()
 	for $i = 0 to ubound($processes)-1
 		_GUICtrlListView_AddItem($listview, $processes[$i][0], 1)
 	next
-	local $button3a = GUICtrlCreateButton("Select Program", 20, 560, 113, 60)
-	local $button3c = GUICtrlCreateButton("Other", 143, 560, 113, 60)
-	local $button3b = GUICtrlCreateButton("Cancel", 266, 560, 113, 60)
+	local $button3a = GUICtrlCreateButton("Select Program", 20*$R, 560*$R, 113*$R, 60*$R)
+	local $button3c = GUICtrlCreateButton("Other", 					143*$R, 560*$R, 113*$R, 60*$R)
+	local $button3b = GUICtrlCreateButton("Cancel", 				266*$R, 560*$R, 113*$R, 60*$R)
 	GUISetState()
 
 	local $totrig = ""
@@ -1075,13 +1078,13 @@ EndFunc
 
 
 Func DateToTrigger()
-	Local $hChild4 = GUICreate("Date and Time Trigger", 620, 130, -1, -1, -1, -1, $hGUI)
-	GUICtrlCreateLabel("What kind of date should this trigger be?", 20, 20, 600, 35)
+	Local $hChild4 = GUICreate("Date and Time Trigger", 620*$R, 130*$R, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("What kind of date should this trigger be?", 20*$R, 20*$R, 600*$R, 35*$R)
 	GUICtrlSetStyle(-1, $SS_CENTER)
-	local $button4a = GUICtrlCreateButton("Everyday", 10, 50, 140, 60)
-	local $button4b = GUICtrlCreateButton("On a day of the Week", 160, 50, 140, 60)
-	local $button4c = GUICtrlCreateButton("On a day of the Month", 310, 50, 140, 60)
-	local $button4d = GUICtrlCreateButton("Cancel", 460, 50, 140, 60) ; placeholder for "specific date trigger"
+	local $button4a = GUICtrlCreateButton("Everyday", 10*$R, 50*$R, 140*$R, 60*$R)
+	local $button4b = GUICtrlCreateButton("On a day of the Week", 160*$R, 50*$R, 140*$R, 60*$R)
+	local $button4c = GUICtrlCreateButton("On a day of the Month", 310*$R, 50*$R, 140*$R, 60*$R)
+	local $button4d = GUICtrlCreateButton("Cancel", 460*$R, 50*$R, 140*$R, 60*$R) ; placeholder for "specific date trigger"
 	GUISetState()
 
 	local $datething = ""
@@ -1098,10 +1101,10 @@ Func DateToTrigger()
 				ExitLoop
 			Case $button4b
 				$datething = "week"
-				Local $hChild4a = GUICreate("Date and Time Trigger", 220, 330, -1, -1, -1, -1, $hChild4)
-				GUICtrlCreateLabel("What which day of the Week?", 20, 20, 180, 35)
+				Local $hChild4a = GUICreate("Date and Time Trigger", 220*$R, 330*$R, -1, -1, -1, -1, $hChild4)
+				GUICtrlCreateLabel("What which day of the Week?", 20*$R, 20*$R, 180*$R, 35*$R)
 				GUICtrlSetStyle(-1, $SS_CENTER)
-				$listview1 = GUICtrlCreateListView("Days of the Week", 4, 50, 212, 200, BitOR($LVS_NOSORTHEADER, $LVS_SINGLESEL))
+				$listview1 = GUICtrlCreateListView("Days of the Week", 4*$R, 50*$R, 212*$R, 200*$R, BitOR($LVS_NOSORTHEADER, $LVS_SINGLESEL))
 				_GUICtrlListView_AddItem($listview1, "Sunday", 1)
 				_GUICtrlListView_AddItem($listview1, "Monday", 1)
 				_GUICtrlListView_AddItem($listview1, "Tuesday", 1)
@@ -1110,8 +1113,8 @@ Func DateToTrigger()
 				_GUICtrlListView_AddItem($listview1, "Friday", 1)
 				_GUICtrlListView_AddItem($listview1, "Saturday", 1)
 
-				local $button4a1 = GUICtrlCreateButton("Submit Day", 10, 260, 90, 60)
-				local $button4b2 = GUICtrlCreateButton("Cancel", 120, 260, 90, 60)
+				local $button4a1 = GUICtrlCreateButton("Submit Day", 10*$R, 260*$R, 90*$R, 60*$R)
+				local $button4b2 = GUICtrlCreateButton("Cancel", 120*$R, 260*$R, 90*$R, 60*$R)
 				GUISetState()
 
 				While 1
@@ -1137,18 +1140,18 @@ Func DateToTrigger()
 				ExitLoop
 			Case $button4c
 				$datething = "month"
-				Local $hChild4a = GUICreate("Date and Time Trigger", 220, 750, -1, -1, -1, -1, $hChild4)
-				GUICtrlCreateLabel("What which day of the Month?", 20, 20, 180, 35)
+				Local $hChild4a = GUICreate("Date and Time Trigger", 220*$R, 750*$R, -1, -1, -1, -1, $hChild4)
+				GUICtrlCreateLabel("What which day of the Month?", 20*$R, 20*$R, 180*$R, 35*$R)
 				GUICtrlSetStyle(-1, $SS_CENTER)
-				$listview2 = GUICtrlCreateListView("Days of the Month", 4, 50, 212, 616, BitOR($LVS_NOSORTHEADER, $LVS_SINGLESEL))
+				$listview2 = GUICtrlCreateListView("Days of the Month", 4*$R, 50*$R, 212*$R, 616*$R, BitOR($LVS_NOSORTHEADER, $LVS_SINGLESEL))
 				local $days = ["01","02","03","04","05","06","07","08","09","10","11","12","13","14","15", _
 											 "16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"]
 			  for $i = 0 to Ubound($days)-1
 					_GUICtrlListView_AddItem($listview2, $days[$i], 1)
 				next
 
-				local $button4a1 = GUICtrlCreateButton("Submit Day", 10, 680, 90, 60)
-				local $button4b2 = GUICtrlCreateButton("Cancel", 120, 680, 90, 60)
+				local $button4a1 = GUICtrlCreateButton("Submit Day", 10*$R, 680*$R, 90*$R, 60*$R)
+				local $button4b2 = GUICtrlCreateButton("Cancel", 120*$R, 680*$R, 90*$R, 60*$R)
 				GUISetState()
 
 
@@ -1189,12 +1192,12 @@ Func TimeToTrigger($datething, $datenumber, $name)
 		$totrig = "@MDAY == '" & $datenumber & "' And "
 	endif
 
-	Local $hChild4a = GUICreate("Date and Time Trigger", 320, 630, -1, -1, -1, -1, $hGUI)
-	GUICtrlCreateLabel("For what time of the day should this trigger be set?", 20, 20, 270, 35)
+	Local $hChild4a = GUICreate("Date and Time Trigger", 320*$R, 630*$R, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("For what time of the day should this trigger be set?", 20*$R, 20*$R, 270*$R, 35*$R)
 	GUICtrlSetStyle(-1, $SS_CENTER)
-	$listview1 = _GUICtrlListView_Create($hChild4a, "Hour", 4, 50, 94, 500)
-	$listview2 = _GUICtrlListView_Create($hChild4a, "Minutes", 108, 50, 100, 500)
-	$listview3 = _GUICtrlListView_Create($hChild4a, "Seconds", 216, 50, 100, 500)
+	$listview1 = _GUICtrlListView_Create($hChild4a, "Hour", 4*$R, 50*$R, 94*$R, 500*$R)
+	$listview2 = _GUICtrlListView_Create($hChild4a, "Minutes", 108*$R, 50*$R, 100*$R, 500*$R)
+	$listview3 = _GUICtrlListView_Create($hChild4a, "Seconds", 216*$R, 50*$R, 100*$R, 500*$R)
 	local $hours = ["00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15", _
 								  "16","17","18","19","20","21","22","23"]
   local $minutes = ["00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15", _
@@ -1215,8 +1218,8 @@ Func TimeToTrigger($datething, $datenumber, $name)
 		_GUICtrlListView_AddItem($listview3, $seconds[$i], 1)
 	next
 
-	local $button4a1 = GUICtrlCreateButton("Submit Time", 10, 560, 100, 60)
-	local $button4b2 = GUICtrlCreateButton("Cancel", 210, 560, 100, 60)
+	local $button4a1 = GUICtrlCreateButton("Submit Time", 10*$R, 560*$R, 100*$R, 60*$R)
+	local $button4b2 = GUICtrlCreateButton("Cancel", 210*$R, 560*$R, 100*$R, 60*$R)
 	GUISetState()
 
 	local $myhour
@@ -1267,9 +1270,9 @@ Func ImageOnScreenTrigger()
 	Local $iX1, $iY1, $iX2, $iY2, $aPos, $sMsg, $sBMP_Path
 
 	; Create GUI
-	local $hMain_GUI = GUICreate("Image On Screen Trigger", 380, 80, -1, -1, -1, -1, $hGUI)
-	local $hRect_Button   = GUICtrlCreateButton("Capture Image On Screen",  20, 20, 160, 40)
-	local $sFile_Button   = GUICtrlCreateButton("Select Image From File",  200, 20, 160, 40)
+	local $hMain_GUI = GUICreate("Image On Screen Trigger", 380*$R, 80*$R, -1, -1, -1, -1, $hGUI)
+	local $hRect_Button   = GUICtrlCreateButton("Capture Image On Screen",  20*$R, 20*$R, 160*$R, 40*$R)
+	local $sFile_Button   = GUICtrlCreateButton("Select Image From File",  200*$R, 20*$R, 160*$R, 40*$R)
 
 	GUISetState()
 
@@ -1334,10 +1337,10 @@ Func GetAreaImageScreenTrigger($imagefile)
 	Local $iX1, $iY1, $iX2, $iY2, $aPos, $sMsg, $sBMP_Path
 
 	; Create GUI
-	local $hMain_GUI = GUICreate("Image On Screen Trigger", 380, 80, -1, -1, -1, -1, $hGUI)
+	local $hMain_GUI = GUICreate("Image On Screen Trigger", 380*$R, 80*$R, -1, -1, -1, -1, $hGUI)
 
-	local $sRect_Button   = GUICtrlCreateButton("Select Region on Screen",  20, 20, 160, 40)
-	local $sFull_Button   = GUICtrlCreateButton("Search Full Screen",  200, 20, 160, 40)
+	local $sRect_Button   = GUICtrlCreateButton("Select Region on Screen",  20*$R, 20*$R, 160*$R, 40*$R)
+	local $sFull_Button   = GUICtrlCreateButton("Search Full Screen",  200*$R, 20*$R, 160*$R, 40*$R)
 
 	GUISetState()
 
@@ -1465,12 +1468,12 @@ EndFunc
 Func ManageTextOnScreenTrigger()
 	msgbox(64, "Text On Screen Trigger", "This feature is only supported on paid versions of ReflexMem.")
 
-	local $hMain_GUI = GUICreate("Text on Screen Trigger",600, 200, -1, -1, -1, -1, $hGUI)
-	GUICtrlCreateLabel("What text should the trigger look for?", 20, 20, 560, 35)
+	local $hMain_GUI = GUICreate("Text on Screen Trigger",600*$R, 200*$R, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("What text should the trigger look for?", 20*$R, 20*$R, 560*$R, 35*$R)
 	GUICtrlSetStyle(-1, $SS_CENTER)
-	local $hmButton1 = GUICtrlCreateButton("a Value", 20, 80, 160, 60)
-	local $hmButton2 = GUICtrlCreateButton("a Variable", 220, 80, 160, 60)
-	local $hmButton3 = GUICtrlCreateButton("the Clipboard", 420, 80, 160, 60)
+	local $hmButton1 = GUICtrlCreateButton("a Value", 20*$R, 80*$R, 160*$R, 60*$R)
+	local $hmButton2 = GUICtrlCreateButton("a Variable", 220*$R, 80*$R, 160*$R, 60*$R)
+	local $hmButton3 = GUICtrlCreateButton("the Clipboard", 420*$R, 80*$R, 160*$R, 60*$R)
 	GUISetState()
 
 	While 1
@@ -1775,13 +1778,13 @@ EndFunc
 
 
 Func ClipboardBehavior()
-	Local $hChild12 = GUICreate("Manage Clipboard Behavior", 400, 200, -1, -1, -1, -1, $hGUI)
-	GUICtrlCreateLabel("What would you like to do with the Clipboard?", 20, 20, 360, 35)
+	Local $hChild12 = GUICreate("Manage Clipboard Behavior", 400*$R, 200*$R, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("What would you like to do with the Clipboard?", 20*$R, 20*$R, 360*$R, 35*$R)
 	GUICtrlSetStyle(-1, $SS_CENTER)
-	local $button121 = GUICtrlCreateButton("Copy Text", 20, 80, 160, 40)
-	local $button122 = GUICtrlCreateButton("Paste Text", 220, 80, 160, 40)
-	local $button123 = GUICtrlCreateButton("Copy Keystrokes", 20, 140, 160, 40)
-	local $button124 = GUICtrlCreateButton("Paste Keystrokes", 220, 140, 160, 40)
+	local $button121 = GUICtrlCreateButton("Copy Text", 20*$R, 80*$R, 160*$R, 40*$R)
+	local $button122 = GUICtrlCreateButton("Paste Text", 220*$R, 80*$R, 160*$R, 40*$R)
+	local $button123 = GUICtrlCreateButton("Copy Keystrokes", 20*$R, 140*$R, 160*$R, 40*$R)
+	local $button124 = GUICtrlCreateButton("Paste Keystrokes", 220*$R, 140*$R, 160*$R, 40*$R)
 
 	GUISetState()
 
@@ -1866,37 +1869,37 @@ EndFunc
 
 
 Func SendKeysBehavior()
-	Local $hChild7 = GUICreate("Key Send Behavior", 400, 640, -1, -1, -1, -1, $hGUI)
-	GUICtrlCreateLabel("Which key(s) should be pressed?", 20, 20, 360, 40)
+	Local $hChild7 = GUICreate("Key Send Behavior", 400*$R, 640*$R, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("Which key(s) should be pressed?", 20*$R, 20*$R, 360*$R, 40*$R)
 	GUICtrlSetStyle(-1, $SS_CENTER)
-	local $button71 = GUICtrlCreateButton("Text", 20, 60, 160, 30)
-	local $button72 = GUICtrlCreateButton("Enter", 220, 60, 160, 30)
-	local $button73 = GUICtrlCreateButton("Space", 20, 100, 160, 30)
-	local $button74 = GUICtrlCreateButton("Shift", 220, 100, 160, 30)
-	local $button75 = GUICtrlCreateButton("Alt", 20, 140, 160, 30)
-	local $button76 = GUICtrlCreateButton("Control", 220, 140, 160, 30)
-	local $button77 = GUICtrlCreateButton("Left", 20, 180, 160, 30)
-	local $button78 = GUICtrlCreateButton("Right", 220, 180, 160, 30)
-	local $button79 = GUICtrlCreateButton("Up", 20, 220, 160, 30)
-	local $button710 = GUICtrlCreateButton("Down", 220, 220, 160, 30)
-	local $button711 = GUICtrlCreateButton("Tab", 20, 260, 160, 30)
-	local $button712 = GUICtrlCreateButton("Escape", 220,260, 160, 30)
-	local $button713 = GUICtrlCreateButton("Page Up", 20, 300, 160, 30)
-	local $button714 = GUICtrlCreateButton("Page Down", 220, 300, 160, 30)
-	local $button715 = GUICtrlCreateButton("Home", 20, 340, 160, 30)
-	local $button716 = GUICtrlCreateButton("End", 220, 340, 160, 30)
-	local $button717 = GUICtrlCreateButton("Delete", 20, 380, 160, 30)
-	local $button718 = GUICtrlCreateButton("Backspace", 220, 380, 160, 30)
-	local $button719 = GUICtrlCreateButton("Caps Lock", 20, 420, 160, 30)
-	local $button720 = GUICtrlCreateButton("Num Lock", 220, 420, 160, 30)
-	local $button721 = GUICtrlCreateButton("Print Screen", 20, 460, 160, 30)
-	local $button722 = GUICtrlCreateButton("Windows Key", 220, 460, 160, 30)
-	local $button723 = GUICtrlCreateButton("Insert", 20, 500, 160, 30)
-	local $button724 = GUICtrlCreateCheckbox("Shift + Other Keys", 220, 500, 160, 30)
-	local $button725 = GUICtrlCreateCheckbox("Alt + Other Keys", 20, 540, 160, 30)
-	local $button726 = GUICtrlCreateCheckbox("Control + Other Keys", 220, 540, 160, 30)
-	local $button727 = GUICtrlCreateButton("Special Symbols ({}^+#!)", 20, 580, 160, 30)
-	local $button728 = GUICtrlCreateButton("F Keys", 220, 580, 160, 30)
+	local $button71 = GUICtrlCreateButton("Text", 20*$R, 60*$R, 160*$R, 30*$R)
+	local $button72 = GUICtrlCreateButton("Enter", 220*$R, 60*$R, 160*$R, 30*$R)
+	local $button73 = GUICtrlCreateButton("Space", 20*$R, 100*$R, 160*$R, 30*$R)
+	local $button74 = GUICtrlCreateButton("Shift", 220*$R, 100*$R, 160*$R, 30*$R)
+	local $button75 = GUICtrlCreateButton("Alt", 20*$R, 140*$R, 160*$R, 30*$R)
+	local $button76 = GUICtrlCreateButton("Control", 220*$R, 140*$R, 160*$R, 30*$R)
+	local $button77 = GUICtrlCreateButton("Left", 20*$R, 180*$R, 160*$R, 30*$R)
+	local $button78 = GUICtrlCreateButton("Right", 220*$R, 180*$R, 160*$R, 30*$R)
+	local $button79 = GUICtrlCreateButton("Up", 20*$R, 220*$R, 160*$R, 30*$R)
+	local $button710 = GUICtrlCreateButton("Down", 220*$R, 220*$R, 160*$R, 30*$R)
+	local $button711 = GUICtrlCreateButton("Tab", 20*$R, 260*$R, 160*$R, 30*$R)
+	local $button712 = GUICtrlCreateButton("Escape", 220*$R,260*$R, 160*$R, 30*$R)
+	local $button713 = GUICtrlCreateButton("Page Up", 20*$R, 300*$R, 160*$R, 30*$R)
+	local $button714 = GUICtrlCreateButton("Page Down", 220*$R, 300*$R, 160*$R, 30*$R)
+	local $button715 = GUICtrlCreateButton("Home", 20*$R, 340*$R, 160*$R, 30*$R)
+	local $button716 = GUICtrlCreateButton("End", 220*$R, 340*$R, 160*$R, 30*$R)
+	local $button717 = GUICtrlCreateButton("Delete", 20*$R, 380*$R, 160*$R, 30*$R)
+	local $button718 = GUICtrlCreateButton("Backspace", 220*$R, 380*$R, 160*$R, 30*$R)
+	local $button719 = GUICtrlCreateButton("Caps Lock", 20*$R, 420*$R, 160*$R, 30*$R)
+	local $button720 = GUICtrlCreateButton("Num Lock", 220*$R, 420*$R, 160*$R, 30*$R)
+	local $button721 = GUICtrlCreateButton("Print Screen", 20*$R, 460*$R, 160*$R, 30*$R)
+	local $button722 = GUICtrlCreateButton("Windows Key", 220*$R, 460*$R, 160*$R, 30*$R)
+	local $button723 = GUICtrlCreateButton("Insert", 20*$R, 500*$R, 160*$R, 30*$R)
+	local $button724 = GUICtrlCreateCheckbox("Shift + Other Keys", 220*$R, 500*$R, 160*$R, 30*$R)
+	local $button725 = GUICtrlCreateCheckbox("Alt + Other Keys", 20*$R, 540*$R, 160*$R, 30*$R)
+	local $button726 = GUICtrlCreateCheckbox("Control + Other Keys", 220*$R, 540*$R, 160*$R, 30*$R)
+	local $button727 = GUICtrlCreateButton("Special Symbols ({}^+#!)", 20*$R, 580*$R, 160*$R, 30*$R)
+	local $button728 = GUICtrlCreateButton("F Keys", 220*$R, 580*$R, 160*$R, 30*$R)
 	GUISetState(@SW_SHOW, $hChild7)
 
 	local $totrig = ""
@@ -2052,15 +2055,15 @@ Func SendKeysBehavior()
 					$control = false
 				EndIf
 			Case $button727 ;Special keys
-				$hChild7a = GUICreate("Insert special keys", 400, 280, -1, -1, -1, -1, $hChild7)
-				GUICtrlCreateLabel("Which special symbol should be sent?", 20, 20, 360, 40)
+				$hChild7a = GUICreate("Insert special keys", 400*$R, 280*$R, -1, -1, -1, -1, $hChild7)
+				GUICtrlCreateLabel("Which special symbol should be sent?", 20*$R, 20*$R, 360*$R, 40*$R)
 				GUICtrlSetStyle(-1, $SS_CENTER)
-				$button7a1 = GUICtrlCreateButton("{", 20, 80, 160, 40)
-				$button7a2 = GUICtrlCreateButton("}", 220, 80, 160, 40)
-				$button7a3 = GUICtrlCreateButton("^", 20, 140, 160, 40)
-				$button7a4 = GUICtrlCreateButton("+", 220, 140, 160, 40)
-				$button7a5 = GUICtrlCreateButton("#", 20, 200, 160, 40)
-				$button7a6 = GUICtrlCreateButton("!", 220, 200, 160, 40)
+				$button7a1 = GUICtrlCreateButton("{", 20*$R, 80*$R, 160*$R, 40*$R)
+				$button7a2 = GUICtrlCreateButton("}", 220*$R, 80*$R, 160*$R, 40*$R)
+				$button7a3 = GUICtrlCreateButton("^", 20*$R, 140*$R, 160*$R, 40*$R)
+				$button7a4 = GUICtrlCreateButton("+", 220*$R, 140*$R, 160*$R, 40*$R)
+				$button7a5 = GUICtrlCreateButton("#", 20*$R, 200*$R, 160*$R, 40*$R)
+				$button7a6 = GUICtrlCreateButton("!", 220*$R, 200*$R, 160*$R, 40*$R)
 				GUISetState()
 				local $totrig = ""
 				While 1
@@ -2104,21 +2107,21 @@ Func SendKeysBehavior()
 				GUIDelete($hChild7)
 				ExitLoop
 			Case $button728 ;F keys
-				$hChild7a = GUICreate("Insert Function keys", 400, 440, -1, -1, -1, -1, $hChild7)
-				GUICtrlCreateLabel("Which F key should be sent?", 20, 20, 360, 40)
+			$hChild7a = GUICreate("Insert Function keys", 400*$R, 440*$R, -1, -1, -1, -1, $hChild7)
+				GUICtrlCreateLabel("Which F key should be sent?", 20*$R, 20*$R, 360*$R, 40*$R)
 				GUICtrlSetStyle(-1, $SS_CENTER)
-				$button7a1 = GUICtrlCreateButton("F1", 20, 80, 160, 40)
-				$button7a2 = GUICtrlCreateButton("F2", 220, 80, 160, 40)
-				$button7a3 = GUICtrlCreateButton("F3", 20, 140, 160, 40)
-				$button7a4 = GUICtrlCreateButton("F4", 220, 140, 160, 40)
-				$button7a5 = GUICtrlCreateButton("F5", 20, 200, 160, 40)
-				$button7a6 = GUICtrlCreateButton("F6", 220, 200, 160, 40)
-				$button7a7 = GUICtrlCreateButton("F7", 20, 260, 160, 40)
-				$button7a8 = GUICtrlCreateButton("F8", 220, 260, 160, 40)
-				$button7a9 = GUICtrlCreateButton("F9", 20, 320, 160, 40)
-				$button7a10 = GUICtrlCreateButton("F10", 220, 320, 160, 40)
-				$button7a11 = GUICtrlCreateButton("F11", 20, 380, 160, 40)
-				$button7a12 = GUICtrlCreateButton("F12", 220, 380, 160, 40)
+				$button7a1 = GUICtrlCreateButton("F1",  20*$R, 80*$R, 160*$R, 40*$R)
+				$button7a2 = GUICtrlCreateButton("F2",  220*$R, 80*$R, 160*$R, 40*$R)
+				$button7a3 = GUICtrlCreateButton("F3",  20*$R, 140*$R, 160*$R, 40*$R)
+				$button7a4 = GUICtrlCreateButton("F4",  220*$R, 140*$R, 160*$R, 40*$R)
+				$button7a5 = GUICtrlCreateButton("F5",  20*$R, 200*$R, 160*$R, 40*$R)
+				$button7a6 = GUICtrlCreateButton("F6",  220*$R, 200*$R, 160*$R, 40*$R)
+				$button7a7 = GUICtrlCreateButton("F7",  20*$R, 260*$R, 160*$R, 40*$R)
+				$button7a8 = GUICtrlCreateButton("F8",  220*$R, 260*$R, 160*$R, 40*$R)
+				$button7a9 = GUICtrlCreateButton("F9",  20*$R, 320*$R, 160*$R, 40*$R)
+				$button7a10 = GUICtrlCreateButton("F10",220*$R, 320*$R, 160*$R, 40*$R)
+				$button7a11 = GUICtrlCreateButton("F11",20*$R, 380*$R, 160*$R, 40*$R)
+				$button7a12 = GUICtrlCreateButton("F12",220*$R, 380*$R, 160*$R, 40*$R)
 				GUISetState()
 				local $totrig = ""
 				While 1
@@ -2227,23 +2230,23 @@ EndFunc
 
 
 Func KeyDownBehavior()
-	Local $hChild8 = GUICreate("Key Down Behavior", 400, 360, -1, -1, -1, -1, $hGUI)
-	GUICtrlCreateLabel("Which key(s) should be pressed and held down?", 20, 20, 360, 40)
+	Local $hChild8 = GUICreate("Key Down Behavior", 400*$R, 360*$R, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("Which key(s) should be pressed and held down?", 20*$R, 20*$R, 360*$R, 40*$R)
 	GUICtrlSetStyle(-1, $SS_CENTER)
-	local $button81 = GUICtrlCreateButton("Single Letter or Number", 20, 60, 160, 30)
-	local $button82 = GUICtrlCreateButton("Enter", 220, 60, 160, 30)
-	local $button83 = GUICtrlCreateButton("Space", 20, 100, 160, 30)
-	local $button84 = GUICtrlCreateButton("Shift", 220, 100, 160, 30)
-	local $button85 = GUICtrlCreateButton("Alt", 20, 140, 160, 30)
-	local $button86 = GUICtrlCreateButton("Control", 220, 140, 160, 30)
-	local $button87 = GUICtrlCreateButton("Left", 20, 180, 160, 30)
-	local $button88 = GUICtrlCreateButton("Right", 220, 180, 160, 30)
-	local $button89 = GUICtrlCreateButton("Up", 20, 220, 160, 30)
-	local $button810 = GUICtrlCreateButton("Down", 220, 220, 160, 30)
-	local $button811 = GUICtrlCreateButton("Delete", 20, 260, 160, 30)
-	local $button812 = GUICtrlCreateButton("Backspace", 220, 260, 160, 30)
-	local $button813 = GUICtrlCreateButton("Tab", 20, 300, 160, 30)
-	local $button814 = GUICtrlCreateButton("F Keys", 220, 300, 160, 30)
+	local $button81 = GUICtrlCreateButton("Single Letter or Number", 20*$R, 60*$R, 160*$R, 30*$R)
+	local $button82 = GUICtrlCreateButton("Enter", 		220*$R, 60*$R, 160*$R, 30*$R)
+	local $button83 = GUICtrlCreateButton("Space", 		20*$R, 100*$R, 160*$R, 30*$R)
+	local $button84 = GUICtrlCreateButton("Shift", 		220*$R, 100*$R, 160*$R, 30*$R)
+	local $button85 = GUICtrlCreateButton("Alt", 			20*$R, 140*$R, 160*$R, 30*$R)
+	local $button86 = GUICtrlCreateButton("Control", 	220*$R, 140*$R, 160*$R, 30*$R)
+	local $button87 = GUICtrlCreateButton("Left", 		20*$R, 180*$R, 160*$R, 30*$R)
+	local $button88 = GUICtrlCreateButton("Right", 		220*$R, 180*$R, 160*$R, 30*$R)
+	local $button89 = GUICtrlCreateButton("Up", 			20*$R, 220*$R, 160*$R, 30*$R)
+	local $button810 = GUICtrlCreateButton("Down", 		220*$R, 220*$R, 160*$R, 30*$R)
+	local $button811 = GUICtrlCreateButton("Delete", 	20*$R, 260*$R, 160*$R, 30*$R)
+	local $button812 = GUICtrlCreateButton("Backspace",220*$R, 260*$R, 160*$R, 30*$R)
+	local $button813 = GUICtrlCreateButton("Tab", 		20*$R, 300*$R, 160*$R, 30*$R)
+	local $button814 = GUICtrlCreateButton("F Keys", 	220*$R, 300*$R, 160*$R, 30*$R)
 	GUISetState()
 
 	local $totrig = ""
@@ -2331,21 +2334,21 @@ Func KeyDownBehavior()
 				GUIDelete($hChild8)
 				ExitLoop
 			Case $button814 ;F keys
-				$hChild8a = GUICreate("Key Down Function keys", 400, 440, -1, -1, -1, -1, $hChild8)
-				GUICtrlCreateLabel("Which F key should be pressed and held down?", 20, 20, 360, 40)
+				$hChild8a = GUICreate("Key Down Function keys", 400*$R, 440*$R, -1, -1, -1, -1, $hChild8)
+				GUICtrlCreateLabel("Which F key should be pressed and held down?", 20*$R, 20*$R, 360*$R, 40*$R)
 				GUICtrlSetStyle(-1, $SS_CENTER)
-				$button8a1 = GUICtrlCreateButton("F1", 20, 80, 160, 40)
-				$button8a2 = GUICtrlCreateButton("F2", 220, 80, 160, 40)
-				$button8a3 = GUICtrlCreateButton("F3", 20, 140, 160, 40)
-				$button8a4 = GUICtrlCreateButton("F4", 220, 140, 160, 40)
-				$button8a5 = GUICtrlCreateButton("F5", 20, 200, 160, 40)
-				$button8a6 = GUICtrlCreateButton("F6", 220, 200, 160, 40)
-				$button8a7 = GUICtrlCreateButton("F7", 20, 260, 160, 40)
-				$button8a8 = GUICtrlCreateButton("F8", 220, 260, 160, 40)
-				$button8a9 = GUICtrlCreateButton("F9", 20, 320, 160, 40)
-				$button8a10 = GUICtrlCreateButton("F10", 220, 320, 160, 40)
-				$button8a11 = GUICtrlCreateButton("F11", 20, 380, 160, 40)
-				$button8a12 = GUICtrlCreateButton("F12", 220, 380, 160, 40)
+				$button8a1 = GUICtrlCreateButton("F1", 20*$R, 80*$R, 160*$R, 40*$R)
+				$button8a2 = GUICtrlCreateButton("F2", 220*$R, 80*$R, 160*$R, 40*$R)
+				$button8a3 = GUICtrlCreateButton("F3", 20*$R, 140*$R, 160*$R, 40*$R)
+				$button8a4 = GUICtrlCreateButton("F4", 220*$R, 140*$R, 160*$R, 40*$R)
+				$button8a5 = GUICtrlCreateButton("F5", 20*$R, 200*$R, 160*$R, 40*$R)
+				$button8a6 = GUICtrlCreateButton("F6", 220*$R, 200*$R, 160*$R, 40*$R)
+				$button8a7 = GUICtrlCreateButton("F7", 20*$R, 260*$R, 160*$R, 40*$R)
+				$button8a8 = GUICtrlCreateButton("F8", 220*$R, 260*$R, 160*$R, 40*$R)
+				$button8a9 = GUICtrlCreateButton("F9", 20*$R, 320*$R, 160*$R, 40*$R)
+				$button8a10 = GUICtrlCreateButton("F10", 220*$R, 320*$R, 160*$R, 40*$R)
+				$button8a11 = GUICtrlCreateButton("F11", 20*$R, 380*$R, 160*$R, 40*$R)
+				$button8a12 = GUICtrlCreateButton("F12", 220*$R, 380*$R, 160*$R, 40*$R)
 				GUISetState()
 				local $totrig = ""
 				While 1
@@ -2434,23 +2437,23 @@ EndFunc
 
 
 Func KeyUpBehavior()
-	Local $hChild9 = GUICreate("Key Up Behavior", 400, 360, -1, -1, -1, -1, $hGUI)
-	GUICtrlCreateLabel("Which key(s) should be unpressed?", 20, 20, 360, 40)
+	Local $hChild9 = GUICreate("Key Up Behavior", 400*$R, 360*$R, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("Which key(s) should be unpressed?", 20*$R, 20*$R, 360*$R, 40*$R)
 	GUICtrlSetStyle(-1, $SS_CENTER)
-	local $button91 = GUICtrlCreateButton("Single Letter or Number", 20, 60, 160, 30)
-	local $button92 = GUICtrlCreateButton("Enter", 220, 60, 160, 30)
-	local $button93 = GUICtrlCreateButton("Space", 20, 100, 160, 30)
-	local $button94 = GUICtrlCreateButton("Shift", 220, 100, 160, 30)
-	local $button95 = GUICtrlCreateButton("Alt", 20, 140, 160, 30)
-	local $button96 = GUICtrlCreateButton("Control", 220, 140, 160, 30)
-	local $button97 = GUICtrlCreateButton("Left", 20, 180, 160, 30)
-	local $button98 = GUICtrlCreateButton("Right", 220, 180, 160, 30)
-	local $button99 = GUICtrlCreateButton("Up", 20, 220, 160, 30)
-	local $button910 = GUICtrlCreateButton("Down", 220, 220, 160, 30)
-	local $button911 = GUICtrlCreateButton("Delete", 20, 260, 160, 30)
-	local $button912 = GUICtrlCreateButton("Backspace", 220, 260, 160, 30)
-	local $button913 = GUICtrlCreateButton("Tab", 20, 300, 160, 30)
-	local $button914 = GUICtrlCreateButton("F Keys", 220, 300, 160, 30)
+	local $button91 = GUICtrlCreateButton("Single Letter or Number", 20*$R, 60*$R, 160*$R, 30*$R)
+	local $button92 = GUICtrlCreateButton("Enter", 			220*$R, 60*$R, 160*$R, 30*$R)
+	local $button93 = GUICtrlCreateButton("Space", 			20*$R, 100*$R, 160*$R, 30*$R)
+	local $button94 = GUICtrlCreateButton("Shift", 			220*$R, 100*$R, 160*$R, 30*$R)
+	local $button95 = GUICtrlCreateButton("Alt", 				20*$R, 140*$R, 160*$R, 30*$R)
+	local $button96 = GUICtrlCreateButton("Control", 		220*$R, 140*$R, 160*$R, 30*$R)
+	local $button97 = GUICtrlCreateButton("Left", 			20*$R, 180*$R, 160*$R, 30*$R)
+	local $button98 = GUICtrlCreateButton("Right", 			220*$R, 180*$R, 160*$R, 30*$R)
+	local $button99 = GUICtrlCreateButton("Up", 				20*$R, 220*$R, 160*$R, 30*$R)
+	local $button910 = GUICtrlCreateButton("Down", 			220*$R, 220*$R, 160*$R, 30*$R)
+	local $button911 = GUICtrlCreateButton("Delete", 		20*$R, 260*$R, 160*$R, 30*$R)
+	local $button912 = GUICtrlCreateButton("Backspace", 220*$R, 260*$R, 160*$R, 30*$R)
+	local $button913 = GUICtrlCreateButton("Tab", 			20*$R, 300*$R, 160*$R, 30*$R)
+	local $button914 = GUICtrlCreateButton("F Keys", 		220*$R, 300*$R, 160*$R, 30*$R)
 	GUISetState()
 
 	local $totrig = ""
@@ -2538,21 +2541,21 @@ Func KeyUpBehavior()
 				GUIDelete($hChild9)
 				ExitLoop
 			Case $button914 ;F keys
-				$hChild9a = GUICreate("Key Up Function keys", 400, 440, -1, -1, -1, -1, $hChild9)
-				GUICtrlCreateLabel("Which F key should be unpressed?", 20, 20, 360, 40)
+				$hChild9a = GUICreate("Key Up Function keys", 400*$R, 440*$R, -1, -1, -1, -1, $hChild9)
+				GUICtrlCreateLabel("Which F key should be unpressed?", 20*$R, 20*$R, 360*$R, 40*$R)
 				GUICtrlSetStyle(-1, $SS_CENTER)
-				$button9a1 = GUICtrlCreateButton("F1", 20, 80, 160, 40)
-				$button9a2 = GUICtrlCreateButton("F2", 220, 80, 160, 40)
-				$button9a3 = GUICtrlCreateButton("F3", 20, 140, 160, 40)
-				$button9a4 = GUICtrlCreateButton("F4", 220, 140, 160, 40)
-				$button9a5 = GUICtrlCreateButton("F5", 20, 200, 160, 40)
-				$button9a6 = GUICtrlCreateButton("F6", 220, 200, 160, 40)
-				$button9a7 = GUICtrlCreateButton("F7", 20, 260, 160, 40)
-				$button9a8 = GUICtrlCreateButton("F8", 220, 260, 160, 40)
-				$button9a9 = GUICtrlCreateButton("F9", 20, 320, 160, 40)
-				$button9a10 = GUICtrlCreateButton("F10", 220, 320, 160, 40)
-				$button9a11 = GUICtrlCreateButton("F11", 20, 380, 160, 40)
-				$button9a12 = GUICtrlCreateButton("F12", 220, 380, 160, 40)
+				$button9a1 = GUICtrlCreateButton("F1", 20*$R, 80*$R, 160*$R, 40*$R)
+				$button9a2 = GUICtrlCreateButton("F2", 220*$R, 80*$R, 160*$R, 40*$R)
+				$button9a3 = GUICtrlCreateButton("F3", 20*$R, 140*$R, 160*$R, 40*$R)
+				$button9a4 = GUICtrlCreateButton("F4", 220*$R, 140*$R, 160*$R, 40*$R)
+				$button9a5 = GUICtrlCreateButton("F5", 20*$R, 200*$R, 160*$R, 40*$R)
+				$button9a6 = GUICtrlCreateButton("F6", 220*$R, 200*$R, 160*$R, 40*$R)
+				$button9a7 = GUICtrlCreateButton("F7", 20*$R, 260*$R, 160*$R, 40*$R)
+				$button9a8 = GUICtrlCreateButton("F8", 220*$R, 260*$R, 160*$R, 40*$R)
+				$button9a9 = GUICtrlCreateButton("F9", 20*$R, 320*$R, 160*$R, 40*$R)
+				$button9a10 = GUICtrlCreateButton("F10", 220*$R, 320*$R, 160*$R, 40*$R)
+				$button9a11 = GUICtrlCreateButton("F11", 20*$R, 380*$R, 160*$R, 40*$R)
+				$button9a12 = GUICtrlCreateButton("F12", 220*$R, 380*$R, 160*$R, 40*$R)
 				GUISetState()
 				local $totrig = ""
 				While 1
@@ -2642,12 +2645,12 @@ EndFunc
 
 Func ManageMouseMoveBehavior()
 
-	local $hMain_GUI = GUICreate("Mouse Move Behavior",600, 200, -1, -1, -1, -1, $hGUI)
-	GUICtrlCreateLabel("How would you like the mouse to move?", 20, 20, 560, 35)
+	local $hMain_GUI = GUICreate("Mouse Move Behavior",600*$R, 200*$R, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("How would you like the mouse to move?", 20*$R, 20*$R, 560*$R, 35*$R)
 	GUICtrlSetStyle(-1, $SS_CENTER)
-	local $hmButton1 = GUICtrlCreateButton("by X and Y Coordinates", 20, 80, 160, 60)
-	local $hmButton2 = GUICtrlCreateButton("by X and Y Variables", 220, 80, 160, 60)
-	local $hmButton3 = GUICtrlCreateButton("to an Image on the Screen", 420, 80, 160, 60)
+	local $hmButton1 = GUICtrlCreateButton("by X and Y Coordinates", 		20*$R, 80*$R, 160*$R, 60*$R)
+	local $hmButton2 = GUICtrlCreateButton("by X and Y Variables", 			220*$R, 80*$R, 160*$R, 60*$R)
+	local $hmButton3 = GUICtrlCreateButton("to an Image on the Screen", 420*$R, 80*$R, 160*$R, 60*$R)
 	GUISetState()
 
 	While 1
@@ -2715,9 +2718,9 @@ Func MouseMoveImage()
 	Local $iX1, $iY1, $iX2, $iY2, $aPos, $sMsg, $sBMP_Path
 
 	; Create GUI
-	local $hMain_GUI = GUICreate("Mouse Move to Image Behavior", 380, 80, -1, -1, -1, -1, $hGUI)
-	local $hRect_Button   = GUICtrlCreateButton("Capture Image On Screen",  20, 20, 160, 40)
-	local $sFile_Button   = GUICtrlCreateButton("Select Image From File",  200, 20, 160, 40)
+	local $hMain_GUI = GUICreate("Mouse Move to Image Behavior", 380*$R, 80*$R, -1, -1, -1, -1, $hGUI)
+	local $hRect_Button   = GUICtrlCreateButton("Capture Image On Screen",  20*$R, 20*$R, 160*$R, 40*$R)
+	local $sFile_Button   = GUICtrlCreateButton("Select Image From File",  200*$R, 20*$R, 160*$R, 40*$R)
 	GUISetState()
 
 	local $i, $sFile
@@ -2769,9 +2772,9 @@ Func GetAreaImageScreenBehavior($imagefile)
 	endif
 	Local $iX1, $iY1, $iX2, $iY2, $aPos, $sMsg, $sBMP_Path
 	; Create GUI
-	local $hMain_GUI = GUICreate("Move Mouse to Image Behavior", 380, 80, -1, -1, -1, -1, $hGUI)
-	local $sRect_Button   = GUICtrlCreateButton("Select Region on Screen",  20, 20, 160, 40)
-	local $sFull_Button   = GUICtrlCreateButton("Search Full Screen",  200, 20, 160, 40)
+	local $hMain_GUI = GUICreate("Move Mouse to Image Behavior", 380*$R, 80*$R, -1, -1, -1, -1, $hGUI)
+	local $sRect_Button   = GUICtrlCreateButton("Select Region on Screen",  20*$R, 20*$R, 160*$R, 40*$R)
+	local $sFull_Button   = GUICtrlCreateButton("Search Full Screen",  200*$R, 20*$R, 160*$R, 40*$R)
 
 	GUISetState()
 
@@ -2870,12 +2873,12 @@ EndFunc
 
 
 Func ManageReflexMemBehavior()
-	Local $hChild12 = GUICreate("Manage ReflexMem Behavior", 600, 200, -1, -1, -1, -1, $hGUI)
-	GUICtrlCreateLabel("What would you like ReflexMem to do?", 20, 20, 560, 35)
+	Local $hChild12 = GUICreate("Manage ReflexMem Behavior", 600*$R, 200*$R, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("What would you like ReflexMem to do?",20*$R, 20*$R, 560*$R, 35*$R)
 	GUICtrlSetStyle(-1, $SS_CENTER)
-	local $button121 = GUICtrlCreateButton("Ignore Triggers", 20, 80, 160, 60)
-	local $button122 = GUICtrlCreateButton("Observe Triggers", 220, 80, 160, 60)
-	local $button123 = GUICtrlCreateButton("Exit ReflexMem", 420, 80, 160, 60)
+	local $button121 = GUICtrlCreateButton("Ignore Triggers", 20*$R, 80*$R, 160*$R, 60*$R)
+	local $button122 = GUICtrlCreateButton("Observe Triggers",220*$R, 80*$R, 160*$R, 60*$R)
+	local $button123 = GUICtrlCreateButton("Exit ReflexMem", 	420*$R, 80*$R, 160*$R, 60*$R)
 	GUISetState()
 
 	local $totrig = ""
@@ -2930,11 +2933,11 @@ EndFunc
 
 
 Func MouseClickBehavior()
-	Local $hChild11 = GUICreate("Mouse Click Behavior", 400, 200, -1, -1, -1, -1, $hGUI)
-	GUICtrlCreateLabel("Which button should be cliked?", 20, 20, 360, 35)
+	Local $hChild11 = GUICreate("Mouse Click Behavior", 400*$R, 200*$R, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("Which button should be cliked?", 20*$R, 20*$R, 360*$R, 35*$R)
 	GUICtrlSetStyle(-1, $SS_CENTER)
-	local $button111 = GUICtrlCreateButton("Primary (left)", 20, 80, 160, 60)
-	local $button112 = GUICtrlCreateButton("Secondary (right)", 220, 80, 160, 60)
+	local $button111 = GUICtrlCreateButton("Primary (left)", 20*$R, 80*$R, 160*$R, 60*$R)
+	local $button112 = GUICtrlCreateButton("Secondary (right)", 220*$R, 80*$R, 160*$R, 60*$R)
 	GUISetState()
 
 	local $totrig = ""
@@ -2971,11 +2974,11 @@ EndFunc
 
 
 Func MouseWheelBehavior()
-	Local $hChild12 = GUICreate("Mouse Wheel Behavior", 400, 200, -1, -1, -1, -1, $hGUI)
-	GUICtrlCreateLabel("Which direction should mouse wheel scroll?", 20, 20, 360, 35)
+	Local $hChild12 = GUICreate("Mouse Wheel Behavior", 400*$R, 200*$R, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("Which direction should mouse wheel scroll?", 20*$R, 20*$R, 360*$R, 35*$R)
 	GUICtrlSetStyle(-1, $SS_CENTER)
-	local $button121 = GUICtrlCreateButton("Up", 20, 80, 160, 60)
-	local $button122 = GUICtrlCreateButton("Down", 220, 80, 160, 60)
+	local $button121 = GUICtrlCreateButton("Up", 20*$R, 80*$R, 160*$R, 60*$R)
+	local $button122 = GUICtrlCreateButton("Down", 220*$R, 80*$R, 160*$R, 60*$R)
 	GUISetState()
 
 	local $totrig = ""
@@ -3001,11 +3004,11 @@ EndFunc
 
 
 Func ManageVariableBehavior()
-	Local $hChild12 = GUICreate("Manage Variable Behavior", 400, 200, -1, -1, -1, -1, $hGUI)
-	GUICtrlCreateLabel("Would you like to View or Modify a variable?", 20, 20, 360, 35)
+	Local $hChild12 = GUICreate("Manage Variable Behavior", 400*$R, 200*$R, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("Would you like to View or Modify a variable?", 20*$R, 20*$R, 360*$R, 35*$R)
 	GUICtrlSetStyle(-1, $SS_CENTER)
-	local $button121 = GUICtrlCreateButton("View", 20, 80, 160, 60)
-	local $button122 = GUICtrlCreateButton("Modify", 220, 80, 160, 60)
+	local $button121 = GUICtrlCreateButton("View", 	 20*$R, 80*$R, 160*$R, 60*$R)
+	local $button122 = GUICtrlCreateButton("Modify", 220*$R, 80*$R, 160*$R, 60*$R)
 	GUISetState()
 
 	local $totrig = ""
@@ -3034,12 +3037,12 @@ Func ModifyVariableBehavior() ;must put a escape chaaracter before and apostroph
 	if $sAnswer <> "" then
 		local $totrig = "setvar " & $sAnswer & " "
 	endif
-	local $hMain_GUI = GUICreate("Modify Variable Behavior",600, 200, -1, -1, -1, -1, $hGUI)
-	GUICtrlCreateLabel("What should it contain?", 20, 20, 560, 35)
+	local $hMain_GUI = GUICreate("Modify Variable Behavior",600*$R, 200*$R, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("What should it contain?", 20*$R, 20*$R, 560*$R, 35*$R)
 	GUICtrlSetStyle(-1, $SS_CENTER)
-	local $hmButton1 = GUICtrlCreateButton("a Value", 20, 80, 160, 60)
-	local $hmButton2 = GUICtrlCreateButton("a Variable", 220, 80, 160, 60)
-	local $hmButton3 = GUICtrlCreateButton("the Clipboard", 420, 80, 160, 60)
+	local $hmButton1 = GUICtrlCreateButton("a Value", 			20*$R, 80*$R, 160*$R, 60*$R)
+	local $hmButton2 = GUICtrlCreateButton("a Variable", 		220*$R, 80*$R, 160*$R, 60*$R)
+	local $hmButton3 = GUICtrlCreateButton("the Clipboard", 420*$R, 80*$R, 160*$R, 60*$R)
 	GUISetState()
 	While 1
 		Switch GUIGetMsg()
@@ -3106,11 +3109,11 @@ EndFunc
 
 
 Func ManageProgramsBehavior()
-	Local $hChild12 = GUICreate("Manage Programs Behavior", 400, 200, -1, -1, -1, -1, $hGUI)
-	GUICtrlCreateLabel("Would you like to Run a Program or End a Program?", 20, 20, 360, 35)
+	Local $hChild12 = GUICreate("Manage Programs Behavior", 400*$R, 200*$R, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("Would you like to Run a Program or End a Program?", 20*$R, 20*$R, 360*$R, 35*$R)
 	GUICtrlSetStyle(-1, $SS_CENTER)
-	local $button121 = GUICtrlCreateButton("Run", 20, 80, 160, 60)
-	local $button122 = GUICtrlCreateButton("End", 220, 80, 160, 60)
+	local $button121 = GUICtrlCreateButton("Run", 20*$R, 80*$R, 160*$R, 60*$R)
+	local $button122 = GUICtrlCreateButton("End", 220*$R, 80*$R, 160*$R, 60*$R)
 	GUISetState()
 
 	local $totrig = ""
@@ -3142,13 +3145,13 @@ Func RunProgramBehavior()
 	local $location = StringLeft($sFile, $split)
 
 
-	Local $hChild14 = GUICreate("Run Program Behavior", 400, 220, -1, -1, -1, -1, $hGUI)
-	GUICtrlCreateLabel("How should this program be run?", 20, 20, 360, 35)
+	Local $hChild14 = GUICreate("Run Program Behavior", 400*$R, 220*$R, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("How should this program be run?", 20*$R, 20*$R, 360*$R, 35*$R)
 	GUICtrlSetStyle(-1, $SS_CENTER)
-	local $button141 = GUICtrlCreateButton("Maximized", 20, 80, 160, 40)
-	local $button142 = GUICtrlCreateButton("Minimized", 220, 80, 160, 40)
-	local $button143 = GUICtrlCreateButton("Hidden", 20, 140, 160, 40)
-	local $button144 = GUICtrlCreateButton("No Preference", 220, 140, 160, 40)
+	local $button141 = GUICtrlCreateButton("Maximized", 		20*$R, 80*$R, 160*$R, 40*$R)
+	local $button142 = GUICtrlCreateButton("Minimized", 		220*$R, 80*$R, 160*$R, 40*$R)
+	local $button143 = GUICtrlCreateButton("Hidden", 				20*$R, 140*$R, 160*$R, 40*$R)
+	local $button144 = GUICtrlCreateButton("No Preference", 220*$R, 140*$R, 160*$R, 40*$R)
 	GUISetState()
 
 	local $totrig = ""

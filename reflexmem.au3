@@ -14,16 +14,21 @@
 #include <Crypt.au3>
 #include <GUIConstantsEx.au3>
 #include <lib\filelocations.au3>
+#include <lib\applieddpi.au3>
+
+DllCall("User32.dll", "bool", "SetProcessDPIAwareness")
+;GUISetFont(8.5 * _GDIPlus_GraphicsGetDPIRatio()[0])
+$R = GetScale()
 
 ReflexGui()
 
 
 Func ReflexGui()
-  Local $hGUI = GUICreate("Reflex Memory Startup", 620, 80)
-  Local $idCreate = GUICtrlCreateButton("Create", 20, 20, 130, 40)
-  Local $idRun = GUICtrlCreateButton("Run", 170, 20, 130, 40)
-  Local $idPlugin = GUICtrlCreateButton("Import Plugin", 320, 20, 130, 40)
-  Local $idAbout = GUICtrlCreateButton("About", 470, 20, 130, 40)
+  Local $hGUI = GUICreate("Reflex Memory Startup", 620*$R, 80*$R)
+  Local $idCreate = GUICtrlCreateButton("Create", 20*$R, 20*$R, 130*$R, 40*$R)
+  Local $idRun = GUICtrlCreateButton("Run", 170*$R, 20*$R, 130*$R, 40*$R)
+  Local $idPlugin = GUICtrlCreateButton("Import Plugin", 320*$R, 20*$R, 130*$R, 40*$R)
+  Local $idAbout = GUICtrlCreateButton("About", 470*$R, 20*$R, 130*$R, 40*$R)
 
   GUISetState(@SW_SHOW, $hGUI)
 
@@ -92,9 +97,9 @@ Func GetVarification()
 EndFunc
 
 Func AskForLogin()
-  Local $loginGUI = GUICreate("Login to Use Pro Features", 620, 80)
-  Local $loginB = GUICtrlCreateButton("Login", 20, 20, 130, 40)
-  Local $cancelB = GUICtrlCreateButton("Use Demo Version", 170, 20, 130, 40)
+  Local $loginGUI = GUICreate("Login to Use Pro Features", 620*$R, 80*$R)
+  Local $loginB = GUICtrlCreateButton("Login", 20*$R, 20*$R, 130*$R, 40*$R)
+  Local $cancelB = GUICtrlCreateButton("Use Demo Version", 170*$R, 20*$R, 130*$R, 40*$R)
   GUISetState(@SW_SHOW, $loginGUI)
   While 1
     Switch GUIGetMsg()
