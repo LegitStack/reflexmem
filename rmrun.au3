@@ -18,7 +18,7 @@
 ;DllCall("User32.dll", "bool", "SetProcessDPIAware")
 ;GUISetFont(8.5 * _GDIPlus_GraphicsGetDPIRatio()[0])
 
-$R = GetScale()
+;$R = GetScale()
 $R = 1
 VarifyFolders()
 
