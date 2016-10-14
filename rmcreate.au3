@@ -13,6 +13,7 @@
 #include <lib\executethen.au3>
 #include <lib\dpiawareness.au3>
 #include <lib\screencapturedpi.au3>
+#include <lib\applieddpi.au3>
 
 
 ;DllCall("User32.dll", "bool", "SetProcessDPIAwareness")
