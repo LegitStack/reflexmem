@@ -3,10 +3,14 @@ DllCall("User32.dll", "bool", "SetProcessDPIAwareness")
 
 Func ScreenCapture_Capture_DPI_Aware($sBMP_Path, $iX1, $iY1, $iX2, $iY2, $bool)
   $R = GetScale()
-
-  Local $bmp = _ScreenCapture_Capture($sBMP_Path, $iX1*$R, $iY1*$R, $iX2*$R, $iY2*$R, $bool)
-
-;  _ScaleImage($bmp, $sBMP_Path, abs($iX2 - $iX1), abs($iY2 - $iY1), $R)
-
-  ;return _ScreenCapture_Capture($sBMP_Path, $iX1*$R, $iY1*$R, $iX2*$R, $iY2*$R, $bool)
+  if $R == 1 then
+    ; should fix this to work with dual monitors.
+    return _ScreenCapture_Capture($sBMP_Path, $iX1, $iY1, $iX2, $iY2, $bool)
+  else
+    ; get contents of clipboard, save to variable
+    ; put a screen capture on the clipboard by pressing the print screen button
+    ; get the region of the bitmap from the clipboard image
+    ; save that region image to a file
+    ; put the stuff back on the clipboard from that variable
+  endif
 EndFunc
