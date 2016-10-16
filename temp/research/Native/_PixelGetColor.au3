@@ -43,7 +43,7 @@ EndFunc
 ;
 ; ;==========================================================================================
 Func _PixelGetColor_CaptureRegion($iPixelGetColor_MemoryContext, $iLeft = 0, $iTop = 0, $iRight = -1, $iBottom = -1, $fCursor = False, $hDll = "gdi32.dll")
-	$HBITMAP = ScreenCapture_Capture_DPI_Aware("", $iLeft, $iTop, $iRight, $iBottom, $fCursor)
+	$HBITMAP = _ScreenCapture_Capture("", $iLeft, $iTop, $iRight, $iBottom, $fCursor)
 	DllCall($hDll, "hwnd", "SelectObject", "int", $iPixelGetColor_MemoryContext, "hwnd", $HBITMAP)
 	Return $HBITMAP
 EndFunc

@@ -20,6 +20,7 @@
 
 ;$R = GetScale()
 $R = 1
+
 VarifyFolders()
 
 GetTriggers()

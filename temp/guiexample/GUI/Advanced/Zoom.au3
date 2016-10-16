@@ -14,7 +14,7 @@
 ; ===============================================================================================================================
 
 ; Capture top left corner of the screen
-Local $hBMP = ScreenCapture_Capture_DPI_Aware("", 0, 0, 400, 300)
+Local $hBMP = _ScreenCapture_Capture("", 0, 0, 400, 300)
 
 ; Create a GUI for the original image
 Local $hGUI1 = GUICreate("Original", 400, 300, 0, 0)

@@ -56,7 +56,7 @@ Func SaveScreen($left = 0, $top = 0, $right = -1, $bottom = -1, $addtoall = fals
   WEnd
 
   local $outimage = GetImagePath() & "\" & $i & ".png"
-  Local $bmp =ScreenCapture_Capture_DPI_Aware("", $left, $top, $right, $bottom)
+  Local $bmp =_ScreenCapture_Capture("", $left, $top, $right, $bottom)
 
   if $right = -1 then $right = @DesktopWidth
   if $bottom = -1 then $bottom = @DesktopHeight

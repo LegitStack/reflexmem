@@ -1,6 +1,18 @@
+;ultimate work around
+; get contents of clipboard, save to variable
+; put a screen capture on the clipboard by pressing the print screen button
+; get the region of the bitmap from the clipboard image
+; save that region image to a file
+; put the stuff back on the clipboard from that variable
+
+
+
+
+
+
 ;#include <lib\applieddpi.au3>
 
-;Func ScreenCapture_Capture_DPI_Aware($sBMP_Path, $iX1, $iY1, $iX2, $iY2, $bool)
+;Func _ScreenCapture_Capture($sBMP_Path, $iX1, $iY1, $iX2, $iY2, $bool)
 ;  $R = GetScale()
 
 ;  Local $bmp = _ScreenCapture_Capture("", $iX1*$R, $iY1*$R, $iX2*$R, $iY2*$R, $bool)
@@ -41,7 +53,7 @@
 #include <GUIConstantsEx.au3>
 #include <ScreenCapture.au3>
 
-Func ScreenCapture_Capture_DPI_Aware($sBMP_Path, $iX1, $iY1, $iX2, $iY2, $bool)
+Func _ScreenCapture_Capture($sBMP_Path, $iX1, $iY1, $iX2, $iY2, $bool)
   $R = GetScale()
     _GDIPlus_Startup()
     Local Const $iW = @DesktopWidth / 2, $iH = @DesktopHeight / 2
