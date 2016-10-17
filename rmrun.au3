@@ -11,12 +11,8 @@
 #include <lib\tesseract_stdout.au3>
 #include <lib\combinealllcsandtesseract.au3>
 #include <lib\levenshtein.au3>
-#include <lib\dpiawareness.au3>
 #include <Crypt.au3>
 #include <lib\applieddpi.au3>
-
-;DllCall("User32.dll", "bool", "SetProcessDPIAware")
-;GUISetFont(8.5 * _GDIPlus_GraphicsGetDPIRatio()[0])
 
 ;$R = GetScale()
 $R = 1

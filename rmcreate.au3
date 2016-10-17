@@ -116,7 +116,7 @@ Func HideTriggers()
 	GUICtrlSetState($hButtonDelete1, $GUI_HIDE)
 	GUICtrlSetState($hButton22, $GUI_HIDE)
 	GUICtrlSetState($hButton23, $GUI_HIDE)
-	;GUICtrlSetState($hButton24, $GUI_HIDE)
+	GUICtrlSetState($hButton24, $GUI_HIDE)
 EndFunc
 
 Func ShowTriggers()
@@ -138,7 +138,7 @@ Func ShowTriggers()
 	GUICtrlSetState($hButtonDelete1, $GUI_SHOW)
 	GUICtrlSetState($hButton22, $GUI_SHOW)
 	GUICtrlSetState($hButton23, $GUI_SHOW)
-	;GUICtrlSetState($hButton24, $GUI_SHOW)
+	GUICtrlSetState($hButton24, $GUI_SHOW)
 EndFunc
 
 
@@ -204,6 +204,7 @@ Func CreateTriggers()
 	Global $hButton5 = GUICtrlCreateButton("Image on Screen", 				35*$R, 	305*$R, 	250*$R, 35*$R) ;done
 	Global $hButton6 = GUICtrlCreateButton("Text on Screen *Pro", 		35*$R, 	350*$R, 	250*$R, 35*$R) ;done
 	Global $hButton23= GUICtrlCreateButton("Manage Variable *Pro",		35*$R, 	395*$R, 	250*$R, 35*$R) ;done
+	Global $hButton24= GUICtrlCreateButton("Do",											35*$R, 	440*$R, 	250*$R, 35*$R) ;done
 	;Global $hButton24= GUICtrlCreateButton("Variable Equals *Pro",		35*$R, 	440*$R, 	250*$R, 35*$R) ;
 	Global $hButton0 = GUICtrlCreateButton("Help", 										35*$R, 	575*$R, 	250*$R, 35*$R) ;done
 	Global $hButton16 = GUICtrlCreateButton("Submit Triggers", 				20*$R, 	655*$R, 	280*$R, 50*$R)
@@ -327,7 +328,6 @@ Func SetLabel()
 				if GUICtrlRead($hlabel) <> $data Then
 				GUICtrlSetData($hlabel, $data)
 			EndIf
-
 		Else
 			;GUICtrlSetData($g_idX, $a[0])
 			;GUICtrlSetData($g_idY, $a[1])
@@ -391,12 +391,11 @@ Func SetLabel1()
 			if GUICtrlRead($hLabel1) <> $data Then
 				GUICtrlSetData($hLabel1, $data)
 			EndIf
-		;elseif $a[4] == $hButton24 Then
-		;	$data = "When a variable equals a particular value. Variable Triggers make ReflexMem more robust becuase it can now be used in more dynamic ways. Variables can hold numbers (ie. 56) or boolean values (ie. True) or text (ie 'We are all that we are'). Text must have '' surounding it and can't have any apostrophese inside the text." & @CRLF & @CRLF & "Which variable?" & @CRLF & @CRLF & "What should the variable equal?"
-		;	if GUICtrlRead($hLabel1) <> $data Then
-		;		GUICtrlSetData($hLabel1, $data)
-		;	EndIf
-
+		elseif $a[4] == $hButton24 Then
+			$data = "No Trigger needed, behaviors immediately executes when this recipe is active."
+			if GUICtrlRead($hLabel1) <> $data Then
+				GUICtrlSetData($hLabel1, $data)
+			EndIf
 		Else
 			;GUICtrlSetData($g_idX, $a[0])
 			;GUICtrlSetData($g_idY, $a[1])
@@ -1587,6 +1586,12 @@ Func TextOnScreenClipTrigger()
 	WEnd
 EndFunc
 
+
+Func DoTrigger()
+	Local $totrig = "1=1"
+	Local $name = "immediately do"
+	AddToTrigger($totrig, $name)
+EndFunc
 
 Func DeleteThisTrigger()
 	local $index = _GUICtrlListView_GetSelectedIndices($hlisttrigs)
@@ -2897,7 +2902,7 @@ Func ManageReflexMemBehavior()
 				UnPauseReflexMemBehavior()
 				GUIDelete($hChild12)
 				ExitLoop
-			Case $button122
+			Case $button123
 				ExitReflexMemBehavior()
 				GUIDelete($hChild12)
 				ExitLoop
@@ -3326,8 +3331,9 @@ Func WaitForIfInput()
 				MouseAtTrigger()
 			Case $hButton23
 				ManageVarEqualsTrigger()
-			;Case $hButton24
+			Case $hButton24
 				;VariableEqualsTrigger()
+				DoTrigger()
 			Case $hButtonUp1
 				SwapUpTrigger()
 			Case $hButtonDown1
