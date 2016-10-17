@@ -30,6 +30,7 @@ Func GetTriggers()
   global $behaviors[100][1]
   global $behaviornames[100][1]
   global $tcounts[1]
+  global $recipes[1]
 
 
   local $i = 0
@@ -39,8 +40,10 @@ Func GetTriggers()
     ReDim $behaviors[100][$i + 1]
     ReDim $behaviornames[100][$i + 1]
     ReDim $tcounts[$i + 1]
+    ReDim $recipes[$i + 1]
     $triggers[$i] = ReadFileIf($i)
     $triggernames[$i] = ReadFileIfNames($i)
+    $recipes[$i] = ReadFileRecipe($i)
     $temp = ReadFileThen($i)
     $j = 0
     For $t In $temp

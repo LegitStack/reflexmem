@@ -7,8 +7,6 @@
 ;ReadFileIf($CmdLine[1])
 
 
-
-
 Func ReadFileIf($name)
   local $read = OpenFileIf($name)
   local $file = StringSplit($read, @CRLF)
@@ -38,6 +36,22 @@ Func OpenFileIfNames($i)
   return $read
 EndFunc
 
+
+
+
+
+
+Func ReadFileRecipe($name)
+  return OpenFileRecipe($name)
+EndFunc
+
+Func OpenFileRecipe($i)
+  local $path = GetScriptsPath("recipe") & $i & ".txt"
+  local $file = FileOpen($path, $FO_READ)
+  $read = FileRead($file)
+  FileClose($file)
+  return $read
+EndFunc
 
 
 

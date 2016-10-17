@@ -29,6 +29,7 @@ Global $triggerText = ""
 Global $triggerTextNames = ""
 Global $triggerNumber = 0
 Global $behaviorText = ""
+Global $triggerRecipeName = "Recipe "
 
 global $mytriggers[100]
 global $mybehaviors[100]
@@ -206,7 +207,7 @@ Func CreateTriggers()
 	Global $hButton23= GUICtrlCreateButton("Manage Variable *Pro",		35*$R, 	395*$R, 	250*$R, 35*$R) ;done
 	Global $hButton24= GUICtrlCreateButton("Do",											35*$R, 	440*$R, 	250*$R, 35*$R) ;done
 	;Global $hButton24= GUICtrlCreateButton("Variable Equals *Pro",		35*$R, 	440*$R, 	250*$R, 35*$R) ;
-	Global $hButton0 = GUICtrlCreateButton("Help", 										35*$R, 	575*$R, 	250*$R, 35*$R) ;done
+	Global $hButton0 = GUICtrlCreateButton("Recipe Name",							35*$R, 	575*$R, 	250*$R, 35*$R) ;done
 	Global $hButton16 = GUICtrlCreateButton("Submit Triggers", 				20*$R, 	655*$R, 	280*$R, 50*$R)
 	GUICtrlSetFont(-1, 10)
 
@@ -1496,6 +1497,18 @@ Func ManageTextOnScreenTrigger()
 			EndSwitch
 	WEnd
 EndFunc
+
+
+Func DetermineRecipeTrigger()
+	Local $sAnswer = InputBox("Name This Recipe", "What name would you like give to this recipe?", "Do This When That", "")
+	if $sAnswer <> "" then
+		$triggerRecipeName = $sAnswer
+	else
+		return
+	endif
+EndFunc
+
+
 
 Func TextOnScreenValueTrigger()
 
@@ -3260,11 +3273,16 @@ Func SaveTrigger()
 	WEnd
 	$triggerNumber = $i
 
+	if $triggerRecipeName = "Recipe " Then
+		$triggerRecipeName = $triggerRecipeName & $triggerNumber
+	endif
+
 	;save trigger text in if/filenumber.txt
   local $file = GetScriptsPath("if") & $triggerNumber & ".txt"
 	local $filename = GetScriptsPath("names") & $triggerNumber & ".txt"
+	local $recipefile = GetScriptsPath("recipe") & $triggerNumber & ".txt"
 	FileWrite($filename, $triggerTextNames)
-
+	FileWrite($recipefile, $triggerRecipeName)
   If Not FileWrite($file, $triggerText) Then
     MsgBox($MB_SYSTEMMODAL, $triggerNumber, "couldn't write trigger")
     Return False
@@ -3313,6 +3331,8 @@ Func WaitForIfInput()
 			Case $GUI_EVENT_CLOSE
 				GUIDelete($hGUI)
 				Exit
+			Case $hButton0
+				DetermineRecipeTrigger()
 			Case $hButton
 				KeyPressedTrigger()
 			Case $hButton1
