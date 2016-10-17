@@ -173,13 +173,19 @@ Func PopulateGui()
 
   for $i = 0 to Ubound($triggers)-1
     if $triggers[$i] <> "" then
+      if $recipes[$i] <> "" then
+        $rname = $recipes[$i]
+      else
+        $rname = "Behaviors                             "
+      endif
       if $triggernames[$i] <> "" then
         $name = $triggernames[$i]
       else
         $name = $triggers[$i]
       endif
       $idCheckbox[$i] = GUICtrlCreateCheckbox(" If " & $name & " then", (($j*300)+10)*$R, (($k*150)+10)*$R, 290*$R, 25*$R)
-      $idBlist[$i] = GUICTRLCreateListView("Behaviors                             ", (($j*300)+10)*$R, (($k*150)+40)*$R, 180*$R, 100*$R)
+      ;"Behaviors                             "
+      $idBlist[$i] = GUICTRLCreateListView($rname, (($j*300)+10)*$R, (($k*150)+40)*$R, 180*$R, 100*$R)
       for $b = 0 to Ubound($behaviors, 1)-1
         if $behaviornames[$b][$i] <> "" then
           _GUICtrlListView_AddItem($idBlist[$i], $behaviornames[$b][$i], 1)

@@ -3274,7 +3274,7 @@ Func SaveTrigger()
 	$triggerNumber = $i
 
 	if $triggerRecipeName = "Recipe " Then
-		$triggerRecipeName = $triggerRecipeName & $triggerNumber
+		$triggerRecipeName = $triggerRecipeName & $triggerNumber & "                            "
 	endif
 
 	;save trigger text in if/filenumber.txt
