@@ -1,7 +1,7 @@
 
 
 Func DoTrigger()
-	Local $totrig = "1=1"
+	Local $totrig = "1==1"
 	Local $name = "immediately do"
 	AddToTrigger($totrig, $name)
 EndFunc

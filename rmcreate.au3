@@ -14,36 +14,39 @@
 #include <lib\screencapturedpi.au3>
 #include <lib\applieddpi.au3>
 ;#include <lib\dpiawareness.au3>
+#include <lib\upgrademessage.au3>
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;triggers
+;triggers - demo
+#include <lib\trig\keypress_trigger>
+;triggers - reg
 #include <lib\trig\clipboard_trigger>
 #include <lib\trig\dateto_trigger>
 #include <lib\trig\do_trigger>
 #include <lib\trig\imageonscreen_trigger>
-#include <lib\trig\keypress_trigger>
 #include <lib\trig\managetextonscreen_trigger>
 #include <lib\trig\managevarequals_trigger>
 #include <lib\trig\markrect_trigger>
 #include <lib\trig\mouseat_trigger>
 #include <lib\trig\mouseclick_trigger>
 #include <lib\trig\programruns_trigger>
-;behaviors
+;behaviors - ONLY DEMO
+;#include <lib\behave\managemousemove_behavior_demo>
+;behaviors - demo
+#include <lib\behave\mouseclick_behavior>
+#include <lib\behave\messagebox_behavior>
+#include <lib\behave\wait_behavior>
+;behaviors - reg
+#include <lib\behave\managemousemove_behavior>
 #include <lib\behave\clipboard_behavior>
 #include <lib\behave\keydown_behavior>
 #include <lib\behave\keyup_behavior>
-#include <lib\behave\managemousemove_behavior>
 #include <lib\behave\manageprograms_behavior>
 #include <lib\behave\managereflexmem_behavior>
 #include <lib\behave\managevariable_behavior>
-#include <lib\behave\messagebox_behavior>
-#include <lib\behave\mouseclick_behavior>
 #include <lib\behave\mousewheel_behavior>
 #include <lib\behave\sendkeys_behavior>
 #include <lib\behave\textonscreen_behavior>
-#include <lib\behave\wait_behavior>
-
-
 
 ;DllCall("User32.dll", "bool", "SetProcessDPIAwareness")
 ;GUISetFont(8.5 * _GDIPlus_GraphicsGetDPIRatio()[0])
@@ -302,6 +305,21 @@ Func CreateBehaviors()
 	LoadThenModify()
 
 EndFunc
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+
 
 
 Func SetLabel()
