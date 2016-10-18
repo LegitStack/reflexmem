@@ -19,34 +19,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;triggers - demo
 #include <lib\trig\keypress_trigger>
-;triggers - reg
-#include <lib\trig\clipboard_trigger>
-#include <lib\trig\dateto_trigger>
-#include <lib\trig\do_trigger>
-#include <lib\trig\imageonscreen_trigger>
-#include <lib\trig\managetextonscreen_trigger>
-#include <lib\trig\managevarequals_trigger>
-#include <lib\trig\markrect_trigger>
-#include <lib\trig\mouseat_trigger>
-#include <lib\trig\mouseclick_trigger>
-#include <lib\trig\programruns_trigger>
+
 ;behaviors - ONLY DEMO
-;#include <lib\behave\managemousemove_behavior_demo>
+#include <lib\behave\managemousemove_behavior_demo>
 ;behaviors - demo
 #include <lib\behave\mouseclick_behavior>
 #include <lib\behave\messagebox_behavior>
 #include <lib\behave\wait_behavior>
-;behaviors - reg
-#include <lib\behave\managemousemove_behavior>
-#include <lib\behave\clipboard_behavior>
-#include <lib\behave\keydown_behavior>
-#include <lib\behave\keyup_behavior>
-#include <lib\behave\manageprograms_behavior>
-#include <lib\behave\managereflexmem_behavior>
-#include <lib\behave\managevariable_behavior>
-#include <lib\behave\mousewheel_behavior>
-#include <lib\behave\sendkeys_behavior>
-#include <lib\behave\textonscreen_behavior>
 
 ;DllCall("User32.dll", "bool", "SetProcessDPIAwareness")
 ;GUISetFont(8.5 * _GDIPlus_GraphicsGetDPIRatio()[0])
@@ -258,16 +237,26 @@ Func CreateTriggers()
 	Global $hButton16 = GUICtrlCreateButton("Submit Triggers", 				20*$R, 	655*$R, 	280*$R, 50*$R)
 	GUICtrlSetFont(-1, 10)
 
-	Global $hlisttrigs 			= GUICTRLCreateListView("Triggers                               ", 330*$R, 245*$R, 240*$R, 380*$R)
+	Global $hlisttrigs = GUICTRLCreateListView("Triggers                               ", 330*$R, 245*$R, 240*$R, 380*$R)
 	Global $hButtonCancel1 	= GUICtrlCreateButton("Cancel", 330*$R, 655*$R, 80*$R, 50*$R)
-	Global $hButtonUp1 			= GUICtrlCreateButton("↑", 			415*$R, 655*$R, 30*$R, 50*$R)
-	Global $hButtonDown1 		= GUICtrlCreateButton("↓", 			450*$R, 655*$R, 30*$R, 50*$R)
+	Global $hButtonUp1 			= GUICtrlCreateButton("↑", 415*$R, 655*$R, 30*$R, 50*$R)
+	Global $hButtonDown1 		= GUICtrlCreateButton("↓", 450*$R, 655*$R, 30*$R, 50*$R)
 	Global $hButtonDelete1 	= GUICtrlCreateButton("Delete", 485*$R, 655*$R, 80*$R, 50*$R)
 
 	Global $hLabel1 = GUICtrlCreateLabel("", 330*$R, 35*$R, 240*$R, 200*$R)
 	GUICtrlSetStyle(-1, $SS_CENTER)
 
 	GUISetState()
+	GUICtrlSetState ($hButton1,$GUI_DISABLE)
+	GUICtrlSetState ($hButton22,$GUI_DISABLE)
+	GUICtrlSetState ($hButton2,$GUI_DISABLE)
+	GUICtrlSetState ($hButton3,$GUI_DISABLE)
+	GUICtrlSetState ($hButton4,$GUI_DISABLE)
+	GUICtrlSetState ($hButton5,$GUI_DISABLE)
+	GUICtrlSetState ($hButton6,$GUI_DISABLE)
+	GUICtrlSetState ($hButton23,$GUI_DISABLE)
+	GUICtrlSetState ($hButton24,$GUI_DISABLE)
+	Global $disabled_triggers[9] = [$hButton1, $hButton2, $hButton22, $hButton3, $hButton4, $hButton5, $hButton6, $hButton23, $hButton24]
 
 EndFunc
 
@@ -291,16 +280,28 @@ Func CreateBehaviors()
 	Global $hButton17 = GUICtrlCreateButton("Submit Behaviors",				310*$R, 	655*$R, 	280*$R, 50*$R) ;done
 	GUICtrlSetFont(-1, 10)
 
-	Global $hlistbehavs 		= GUICTRLCreateListView("Behaviors                             ", 35*$R, 245*$R, 240*$R, 380*$R)
-	Global $hButtonCancel2 	= GUICtrlCreateButton("Cancel", 35*$R, 655*$R, 80*$R, 50*$R)
-	Global $hButtonUp2 			= GUICtrlCreateButton("↑", 			120*$R, 655*$R, 30*$R, 50*$R)
-	Global $hButtonDown2 		= GUICtrlCreateButton("↓", 			155*$R, 655*$R, 30*$R, 50*$R)
-	Global $hButtonDelete2 	= GUICtrlCreateButton("Delete", 190*$R, 655*$R, 85*$R, 50*$R)
+	Global $hlistbehavs = GUICTRLCreateListView("Behaviors                             ", 35*$R, 245*$R, 240*$R, 380*$R)
+	Global $hButtonCancel2 = GUICtrlCreateButton("Cancel", 35*$R, 655*$R, 80*$R, 50*$R)
+	Global $hButtonUp2 			= GUICtrlCreateButton("↑", 120*$R, 655*$R, 30*$R, 50*$R)
+	Global $hButtonDown2 		= GUICtrlCreateButton("↓", 155*$R, 655*$R, 30*$R, 50*$R)
+	Global $hButtonDelete2 = GUICtrlCreateButton("Delete", 190*$R, 655*$R, 85*$R, 50*$R)
 
 	Global $hLabel = GUICtrlCreateLabel("", 35*$R, 35*$R, 240*$R, 200*$R)
 	GUICtrlSetStyle(-1, $SS_CENTER)
 
 	GUISetState()
+
+	GUICtrlSetState ($hButton7,$GUI_DISABLE)
+	GUICtrlSetState ($hButton8,$GUI_DISABLE)
+	GUICtrlSetState ($hButton9,$GUI_DISABLE)
+	GUICtrlSetState ($hButton12,$GUI_DISABLE)
+	GUICtrlSetState ($hButton13,$GUI_DISABLE)
+	GUICtrlSetState ($hButton14,$GUI_DISABLE)
+	GUICtrlSetState ($hButton19,$GUI_DISABLE)
+	GUICtrlSetState ($hButton20,$GUI_DISABLE)
+	GUICtrlSetState ($hButton21,$GUI_DISABLE)
+	Global $disabled_behaviors[9] = [$hButton7, $hButton8, $hButton9, $hButton12, $hButton13, $hButton14, $hButton19, $hButton20, $hButton21]
+
 
 	LoadThenModify()
 
@@ -832,25 +833,6 @@ Func WaitForIfInput()
 				DetermineRecipeTrigger()
 			Case $hButton
 				KeyPressedTrigger()
-			Case $hButton1
-				MouseClickTrigger()
-			Case $hButton2
-				ClipboardTrigger()
-			Case $hButton3
-				ProgramRunsTrigger()
-			Case $hButton4
-				DateToTrigger()
-			Case $hButton5
-				ImageOnScreenTrigger()
-			Case $hButton6
-				ManageTextOnScreenTrigger()
-			Case $hButton22
-				MouseAtTrigger()
-			Case $hButton23
-				ManageVarEqualsTrigger()
-			Case $hButton24
-				;VariableEqualsTrigger()
-				DoTrigger()
 			Case $hButtonUp1
 				SwapUpTrigger()
 			Case $hButtonDown1
@@ -870,6 +852,7 @@ Func WaitForIfInput()
 				Exit
 			case Else
 				SetLabel1()
+				DemoClick($disabled_triggers)
 		EndSwitch
 	WEnd
 	WaitForThenInput()
@@ -925,6 +908,7 @@ Func WaitForThenInput()
 				WaitForIfInput()
 			case Else
 				SetLabel()
+				DemoClick($disabled_behaviors)
 		EndSwitch
 	WEnd
 
