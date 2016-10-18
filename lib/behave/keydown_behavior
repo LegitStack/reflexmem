@@ -1,0 +1,195 @@
+Func KeyDownBehavior()
+	Local $hChild8 = GUICreate("Key Down Behavior", 400*$R, 360*$R, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("Which key(s) should be pressed and held down?", 20*$R, 20*$R, 360*$R, 40*$R)
+	GUICtrlSetStyle(-1, $SS_CENTER)
+	local $button81 = GUICtrlCreateButton("Single Letter or Number", 20*$R, 60*$R, 160*$R, 30*$R)
+	local $button82 = GUICtrlCreateButton("Enter", 		220*$R, 60*$R, 160*$R, 30*$R)
+	local $button83 = GUICtrlCreateButton("Space", 		20*$R, 100*$R, 160*$R, 30*$R)
+	local $button84 = GUICtrlCreateButton("Shift", 		220*$R, 100*$R, 160*$R, 30*$R)
+	local $button85 = GUICtrlCreateButton("Alt", 			20*$R, 140*$R, 160*$R, 30*$R)
+	local $button86 = GUICtrlCreateButton("Control", 	220*$R, 140*$R, 160*$R, 30*$R)
+	local $button87 = GUICtrlCreateButton("Left", 		20*$R, 180*$R, 160*$R, 30*$R)
+	local $button88 = GUICtrlCreateButton("Right", 		220*$R, 180*$R, 160*$R, 30*$R)
+	local $button89 = GUICtrlCreateButton("Up", 			20*$R, 220*$R, 160*$R, 30*$R)
+	local $button810 = GUICtrlCreateButton("Down", 		220*$R, 220*$R, 160*$R, 30*$R)
+	local $button811 = GUICtrlCreateButton("Delete", 	20*$R, 260*$R, 160*$R, 30*$R)
+	local $button812 = GUICtrlCreateButton("Backspace",220*$R, 260*$R, 160*$R, 30*$R)
+	local $button813 = GUICtrlCreateButton("Tab", 		20*$R, 300*$R, 160*$R, 30*$R)
+	local $button814 = GUICtrlCreateButton("F Keys", 	220*$R, 300*$R, 160*$R, 30*$R)
+	GUISetState()
+
+	local $totrig = ""
+	Local $sAnswer = ""
+	local $Shift = false
+	local $alt = false
+	local $control = false
+
+	While 1
+		$hMsg = GUIGetMsg()
+		Switch $hMsg
+			Case $GUI_EVENT_CLOSE
+				GUIDelete($hChild8)
+				ExitLoop
+			Case $button81
+				$sAnswer = InputBox("Key Down Behavior", "What single key should be pressed and held down? (Letters, numbers and these symbols allowed: @$%&*()-_=~/|\[];:?)", "a", "")
+				$sAnswer = StringReplace($sAnswer, "{", "")
+				$sAnswer = StringReplace($sAnswer, "}", "")
+				$sAnswer = StringReplace($sAnswer, "^", "")
+				$sAnswer = StringReplace($sAnswer, "+", "")
+				$sAnswer = StringReplace($sAnswer, "!", "")
+				$sAnswer = StringReplace($sAnswer, "#", "")
+				$totrig = "send {" & StringLeft($sAnswer, 1) & " down}"
+				AddToBehavior($totrig)
+				GUIDelete($hChild8)
+				ExitLoop
+			Case $button82
+				$totrig = "send {ENTER down}"
+				AddToBehavior($totrig)
+				GUIDelete($hChild8)
+				ExitLoop
+			Case $button83
+				$totrig = "send {SPACE down}"
+				AddToBehavior($totrig)
+				GUIDelete($hChild8)
+				ExitLoop
+			Case $button84
+				$totrig = "send {LSHIFT down}"
+				AddToBehavior($totrig)
+				GUIDelete($hChild8)
+				ExitLoop
+			Case $button85
+				$totrig = "send {ALT down}"
+				AddToBehavior($totrig)
+				GUIDelete($hChild8)
+				ExitLoop
+			Case $button86
+				$totrig = "send {LCTRL down}"
+				AddToBehavior($totrig)
+				GUIDelete($hChild8)
+				ExitLoop
+			Case $button87
+				$totrig = "send {LEFT down}"
+				AddToBehavior($totrig)
+				GUIDelete($hChild8)
+				ExitLoop
+			Case $button88
+				$totrig = "send {RIGHT down}"
+				AddToBehavior($totrig)
+				GUIDelete($hChild8)
+				ExitLoop
+			Case $button89
+				$totrig = "send {UP down}"
+				AddToBehavior($totrig)
+				GUIDelete($hChild8)
+				ExitLoop
+			Case $button810
+				$totrig = "send {DOWN down}"
+				AddToBehavior($totrig)
+				GUIDelete($hChild8)
+				ExitLoop
+			Case $button811
+				$totrig = "send {DELETE down}"
+				AddToBehavior($totrig)
+				GUIDelete($hChild8)
+				ExitLoop
+			Case $button812
+				$totrig = "send {BACKSPACE down}"
+				AddToBehavior($totrig)
+				GUIDelete($hChild8)
+				ExitLoop
+			Case $button813
+				$totrig = "send {TAB down}"
+				AddToBehavior($totrig)
+				GUIDelete($hChild8)
+				ExitLoop
+			Case $button814 ;F keys
+				$hChild8a = GUICreate("Key Down Function keys", 400*$R, 440*$R, -1, -1, -1, -1, $hChild8)
+				GUICtrlCreateLabel("Which F key should be pressed and held down?", 20*$R, 20*$R, 360*$R, 40*$R)
+				GUICtrlSetStyle(-1, $SS_CENTER)
+				$button8a1 = GUICtrlCreateButton("F1", 20*$R, 80*$R, 160*$R, 40*$R)
+				$button8a2 = GUICtrlCreateButton("F2", 220*$R, 80*$R, 160*$R, 40*$R)
+				$button8a3 = GUICtrlCreateButton("F3", 20*$R, 140*$R, 160*$R, 40*$R)
+				$button8a4 = GUICtrlCreateButton("F4", 220*$R, 140*$R, 160*$R, 40*$R)
+				$button8a5 = GUICtrlCreateButton("F5", 20*$R, 200*$R, 160*$R, 40*$R)
+				$button8a6 = GUICtrlCreateButton("F6", 220*$R, 200*$R, 160*$R, 40*$R)
+				$button8a7 = GUICtrlCreateButton("F7", 20*$R, 260*$R, 160*$R, 40*$R)
+				$button8a8 = GUICtrlCreateButton("F8", 220*$R, 260*$R, 160*$R, 40*$R)
+				$button8a9 = GUICtrlCreateButton("F9", 20*$R, 320*$R, 160*$R, 40*$R)
+				$button8a10 = GUICtrlCreateButton("F10", 220*$R, 320*$R, 160*$R, 40*$R)
+				$button8a11 = GUICtrlCreateButton("F11", 20*$R, 380*$R, 160*$R, 40*$R)
+				$button8a12 = GUICtrlCreateButton("F12", 220*$R, 380*$R, 160*$R, 40*$R)
+				GUISetState()
+				local $totrig = ""
+				While 1
+					$hMsg = GUIGetMsg()
+					Switch $hMsg
+						Case $GUI_EVENT_CLOSE
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button8a1
+							$totrig = "send {F1 down}"
+							AddToBehavior($totrig)
+							GUIDelete($hChild8a)
+							ExitLoop
+						Case $button8a2
+							$totrig = "send {F2 down}"
+							AddToBehavior($totrig)
+							GUIDelete($hChild8a)
+							ExitLoop
+						Case $button8a3
+							$totrig = "send {F3 down}"
+							AddToBehavior($totrig)
+							GUIDelete($hChild8a)
+							ExitLoop
+						Case $button8a4
+							$totrig = "send {F4 down}"
+							AddToBehavior($totrig)
+							GUIDelete($hChild8a)
+							ExitLoop
+						Case $button8a5
+							$totrig = "send {F5 down}"
+							AddToBehavior($totrig)
+							GUIDelete($hChild8a)
+							ExitLoop
+						Case $button8a6
+							$totrig = "send {F6 down}"
+							AddToBehavior($totrig)
+							GUIDelete($hChild8a)
+							ExitLoop
+						Case $button8a7
+							$totrig = "send {F7 down}"
+							AddToBehavior($totrig)
+							GUIDelete($hChild8a)
+							ExitLoop
+						Case $button8a8
+							$totrig = "send {F8 down}"
+							AddToBehavior($totrig)
+							GUIDelete($hChild8a)
+							ExitLoop
+						Case $button8a9
+							$totrig = "send {F9 down}"
+							AddToBehavior($totrig)
+							GUIDelete($hChild8a)
+							ExitLoop
+						Case $button8a10
+							$totrig = "send {F10 down}"
+							AddToBehavior($totrig)
+							GUIDelete($hChild8a)
+							ExitLoop
+						Case $button8a11
+							$totrig = "send {F11 down}"
+							AddToBehavior($totrig)
+							GUIDelete($hChild8a)
+							ExitLoop
+						Case $button8a12
+							$totrig = "send {F12 down}"
+							AddToBehavior($totrig)
+							GUIDelete($hChild8a)
+							ExitLoop
+					EndSwitch
+				WEnd
+				GUIDelete($hChild8)
+				ExitLoop
+		EndSwitch
+	WEnd
+EndFunc

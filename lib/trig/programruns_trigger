@@ -1,0 +1,45 @@
+Func ProgramRunsTrigger()
+	Local $hChild3 = GUICreate("Program is Running Trigger", 400*$R, 640*$R, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("Which program should this trigger watch for?", 20*$R, 20*$R, 360*$R, 35*$R)
+	GUICtrlSetStyle(-1, $SS_CENTER)
+	$listview = GUICtrlCreateListView("List of Running Programs", 2*$R, 50*$R, 396*$R, 496*$R, BitOR($LVS_NOSORTHEADER, $LVS_SINGLESEL))
+	;get programs
+	local $processes = ProcessList()
+	;_arrayDisplay($processes)
+	; Add files
+	for $i = 0 to ubound($processes)-1
+		_GUICtrlListView_AddItem($listview, $processes[$i][0], 1)
+	next
+	local $button3a = GUICtrlCreateButton("Select Program", 20*$R, 560*$R, 113*$R, 60*$R)
+	local $button3c = GUICtrlCreateButton("Other", 					143*$R, 560*$R, 113*$R, 60*$R)
+	local $button3b = GUICtrlCreateButton("Cancel", 				266*$R, 560*$R, 113*$R, 60*$R)
+	GUISetState()
+
+	local $totrig = ""
+	While 1
+		$hMsg = GUIGetMsg()
+		Switch $hMsg
+			Case $GUI_EVENT_CLOSE
+				GUIDelete($hChild3)
+				ExitLoop
+			Case $button3b
+				GUIDelete($hChild3)
+				ExitLoop
+			Case $button3a
+        $totrig = _GUICtrlListView_GetSelectedIndices($listview)
+				$name = $processes[$totrig][0] & " is running"
+				$totrig = "ProcessExists('" & $processes[$totrig][0] & "')"
+				AddToTrigger($totrig, $name)
+				GUIDelete($hChild3)
+				ExitLoop
+			Case $button3c
+				$totrig = InputBox("Program is Running Trigger", "What is the name of the program?", "chrome.exe", "")
+				$name = $totrig & " is running"
+				$totrig = "ProcessExists('" & $totrig & "')"
+				AddToTrigger($totrig, $name)
+				GUIDelete($hChild3)
+				ExitLoop
+		EndSwitch
+	WEnd
+
+EndFunc

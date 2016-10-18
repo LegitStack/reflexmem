@@ -1,0 +1,73 @@
+;NOT DONE YET!!! get variable, and when modified devise a way to
+Func ManageVarEqualsTrigger() ;must put a escape chaaracter before and apostrophese \'
+	local $hMain_GUI = GUICreate("Variable Equals Trigger",600*$R, 200*$R, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("What should the trigger check?", 20*$R, 20*$R, 560*$R, 35*$R)
+	GUICtrlSetStyle(-1, $SS_CENTER)
+	local $hmButton1 = GUICtrlCreateButton("a Variable Equals a Value", 		20*$R, 80*$R, 160*$R, 60*$R)
+	local $hmButton2 = GUICtrlCreateButton("a Variable Equals a Variable", 	220*$R, 80*$R, 160*$R, 60*$R)
+	local $hmButton3 = GUICtrlCreateButton("a Variable has a Changed Value",420*$R, 80*$R, 160*$R, 60*$R)
+	GUISetState()
+
+	While 1
+		Switch GUIGetMsg()
+			Case $GUI_EVENT_CLOSE
+				GUIDelete($hMain_GUI)
+				ExitLoop
+			Case $hmButton1
+				VariableEqualsTrigger()
+				GUIDelete($hMain_GUI)
+				ExitLoop
+			Case $hmButton2
+				VarEqualsVarTrigger()
+				GUIDelete($hMain_GUI)
+				ExitLoop
+			Case $hmButton3
+				VariableModifiedTrigger()
+				GUIDelete($hMain_GUI)
+				ExitLoop
+			EndSwitch
+	WEnd
+EndFunc
+
+
+Func VariableEqualsTrigger() ;must put a escape chaaracter before and apostrophese \'
+	Local $sAnswer = InputBox("Variable Equals Trigger", "Which variable do you want to check to see if it has been modified? (0 to 31)", "1", "")
+	if $sAnswer <> "" then
+		local $totrig = "$uservar" & $sAnswer & "  == "
+		local $name = "variable " & $sAnswer & " equals "
+	else
+		return
+	endif
+	Local $sAnswer = InputBox("Variable Equals Trigger", "What value should that variable hold? (text must be encased in '' and can't have any ' in the text. Numbers or true or false don't need '')", "'oh what a beautiful morning'", "")
+	if $sAnswer <> "" then
+		$totrig = $totrig & $sAnswer
+		$name = $name & $sAnswer
+		AddToTrigger($totrig, $name)
+	endif
+EndFunc
+
+
+Func VarEqualsVarTrigger() ;must put a escape chaaracter before and apostrophese \'
+	Local $sAnswer = InputBox("Variable Equals Trigger", "Which variable do you want to check? (0 to 31)", "1", "")
+	if $sAnswer <> "" then
+		local $totrig = "$uservar" & $sAnswer & "  == "
+		local $name = "variable " & $sAnswer & " equals "
+	else
+		return
+	endif
+	Local $sAnswer = InputBox("Variable Equals Trigger", "What variable should it equal? ", "2", "")
+	if $sAnswer <> "" then
+		$totrig = $totrig & "$uservar" & $sAnswer
+		$name = $name & "variable " & $sAnswer
+		AddToTrigger($totrig, $name)
+	endif
+EndFunc
+
+Func VariableModifiedTrigger() ;must put a escape chaaracter before and apostrophese \'
+	Local $sAnswer = InputBox("Variable Modified Trigger", "Which variable do you want to check to see if it has been modified? (0 to 31)", "1", "")
+	if $sAnswer <> "" then
+		local $totrig = "$olduservar" & $sAnswer & " <> $uservar" & $sAnswer
+		local $name = "varable " & $sAnswer & " has been changed."
+		AddToTrigger($totrig, $name)
+	endif
+EndFunc

@@ -1,0 +1,9 @@
+
+Func ClipboardTrigger() ;must put a escape chaaracter before and apostrophese \'
+	Local $sAnswer = InputBox("Clipboard Trigger", "What text?", "Planet Earth", "")
+	if $sAnswer <> "" then
+		local $totrig = "ClipGet() == '" & $sAnswer &"'"
+		local $name = "clipboard contains " & $sAnswer
+		AddToTrigger($totrig, $name)
+	endif
+EndFunc

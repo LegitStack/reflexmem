@@ -1,0 +1,15 @@
+Func MouseAtTrigger()
+	msgbox(64, "Mouse in Region Trigger", "Please select region by clicking and dragging your mouse.")
+	Local $iX1, $iY1, $iX2, $iY2, $aPos, $sMsg, $sBMP_Path
+	local $i, $sFile
+	While 1
+		Mark_Rect($iX1, $iY1, $iX2, $iY2, $aPos, $sMsg, $sBMP_Path)
+		if $iX2 - $iX1 < 1 Or $iY2 - $iY1 < 1 then
+			msgbox(64, "Mouse in Region Trigger", "Please click and drag to select a larger region.")
+			return
+		endif
+		$totrig = "MouseGetPos(0) > " & $iX1 & " And MouseGetPos(1) > " & $iY1 & " And MouseGetPos(0) < " & $iX2 & " And MouseGetPos(1) < " & $iY2
+		AddToTrigger($totrig, "the mouse is found between " & $iX1 & ", " & $iY1 & " and " & $iX2 & ", " & $iY2)
+		ExitLoop
+	WEnd
+EndFunc

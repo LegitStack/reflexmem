@@ -1,0 +1,12 @@
+Func MessageBoxBehavior()
+	Local $title = InputBox("Display Message Behavior", "What would you like the title of the message to be?", "Alert" , "")
+	if $title <> "" then
+		Local $message = InputBox("Display Message Behavior", "What would you like the message to be?", "Hello World!", "")
+		if $message <> "" then
+			local $totrig = "message " & $title & " " & $message
+			AddToBehavior($totrig)
+		else
+			msgbox(64, "Display Message Behavior", "You must include both a title and a message to successfully create this Behavior")
+		endif
+	endif
+EndFunc

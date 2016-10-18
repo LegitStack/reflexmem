@@ -1,0 +1,92 @@
+Func ManageVariableBehavior()
+	Local $hChild12 = GUICreate("Manage Variable Behavior", 400*$R, 200*$R, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("Would you like to View or Modify a variable?", 20*$R, 20*$R, 360*$R, 35*$R)
+	GUICtrlSetStyle(-1, $SS_CENTER)
+	local $button121 = GUICtrlCreateButton("View", 	 20*$R, 80*$R, 160*$R, 60*$R)
+	local $button122 = GUICtrlCreateButton("Modify", 220*$R, 80*$R, 160*$R, 60*$R)
+	GUISetState()
+
+	local $totrig = ""
+	While 1
+		$hMsg = GUIGetMsg()
+		Switch $hMsg
+			Case $GUI_EVENT_CLOSE
+				GUIDelete($hChild12)
+				ExitLoop
+			Case $button121
+				GetVariableBehavior()
+				GUIDelete($hChild12)
+				ExitLoop
+			Case $button122
+				ModifyVariableBehavior()
+				GUIDelete($hChild12)
+				ExitLoop
+		EndSwitch
+	WEnd
+EndFunc
+
+
+
+Func ModifyVariableBehavior() ;must put a escape chaaracter before and apostrophese \' ;
+	Local $sAnswer = InputBox("Modify Variable Behavior", "Which variable? (0 to 31)", "1", "")
+	if $sAnswer <> "" then
+		local $totrig = "setvar " & $sAnswer & " "
+	endif
+	local $hMain_GUI = GUICreate("Modify Variable Behavior",600*$R, 200*$R, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("What should it contain?", 20*$R, 20*$R, 560*$R, 35*$R)
+	GUICtrlSetStyle(-1, $SS_CENTER)
+	local $hmButton1 = GUICtrlCreateButton("a Value", 			20*$R, 80*$R, 160*$R, 60*$R)
+	local $hmButton2 = GUICtrlCreateButton("a Variable", 		220*$R, 80*$R, 160*$R, 60*$R)
+	local $hmButton3 = GUICtrlCreateButton("the Clipboard", 420*$R, 80*$R, 160*$R, 60*$R)
+	GUISetState()
+	While 1
+		Switch GUIGetMsg()
+			Case $GUI_EVENT_CLOSE
+				GUIDelete($hMain_GUI)
+				ExitLoop
+			Case $hmButton1
+				Local $sAnswer = InputBox("Modify Variable Behavior", "What should it contain now? (don't use '')", "we feel a little better now", "")
+				if $sAnswer <> "" then
+					$totrig = $totrig & "'" & $sAnswer & "'"
+					AddToBehavior($totrig)
+				endif
+				GUIDelete($hMain_GUI)
+				ExitLoop
+			Case $hmButton2
+				Local $sAnswer = InputBox("Modify Variable Behavior", "Which variable should this variable match? (mathmatical opperators allowed such as 1+1)", "1", "")
+				if $sAnswer <> "" then
+					$totrig = $totrig & "$uservar" & $sAnswer
+					AddToBehavior($totrig)
+				endif
+				GUIDelete($hMain_GUI)
+				ExitLoop
+			Case $hmButton3
+				$totrig = $totrig & "ClipGet()"
+				AddToBehavior($totrig)
+				GUIDelete($hMain_GUI)
+				ExitLoop
+			EndSwitch
+	WEnd
+EndFunc
+
+
+Func GetVariableBehavior() ;must put a escape chaaracter before and apostrophese \' ;
+	Local $sAnswer = InputBox("Get Variable Behavior", "Which variable? (0 to 31)", "1", "")
+	Local $sAnswer1 = Msgbox(4,"Get Variable Behavior", "View variable in message box?")
+	if $sAnswer1 == 6 then
+		$sAnswer1 == "msg"
+	elseif $sAnswer1 == 7 then
+		$sAnswer1 == "nomsg"
+		Local $sAnswer1 = Msgbox(4,"Get Variable Behavior", "Copy variable to clipboard?")
+		if $sAnswer1 == 6 then
+			$sAnswer1 == "clip"
+		endif
+		if $sAnswer1 == 7 then
+			$sAnswer1 == "noclip"
+		endif
+	endif
+	if $sAnswer <> "" And $sAnswer1 <> "" then
+		local $totrig = "getvar " & $sAnswer & " " & $sAnswer1
+		AddToBehavior($totrig)
+	endif
+EndFunc

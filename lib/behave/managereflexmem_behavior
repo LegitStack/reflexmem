@@ -1,0 +1,50 @@
+
+Func ManageReflexMemBehavior()
+	Local $hChild12 = GUICreate("Manage ReflexMem Behavior", 600*$R, 200*$R, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("What would you like ReflexMem to do?",20*$R, 20*$R, 560*$R, 35*$R)
+	GUICtrlSetStyle(-1, $SS_CENTER)
+	local $button121 = GUICtrlCreateButton("Ignore Triggers", 20*$R, 80*$R, 160*$R, 60*$R)
+	local $button122 = GUICtrlCreateButton("Observe Triggers",220*$R, 80*$R, 160*$R, 60*$R)
+	local $button123 = GUICtrlCreateButton("Exit ReflexMem", 	420*$R, 80*$R, 160*$R, 60*$R)
+	GUISetState()
+
+	local $totrig = ""
+	While 1
+		$hMsg = GUIGetMsg()
+		Switch $hMsg
+			Case $GUI_EVENT_CLOSE
+				GUIDelete($hChild12)
+				ExitLoop
+			Case $button121
+				PauseReflexMemBehavior()
+				GUIDelete($hChild12)
+				ExitLoop
+			Case $button122
+				UnPauseReflexMemBehavior()
+				GUIDelete($hChild12)
+				ExitLoop
+			Case $button123
+				ExitReflexMemBehavior()
+				GUIDelete($hChild12)
+				ExitLoop
+		EndSwitch
+	WEnd
+EndFunc
+
+Func PauseReflexMemBehavior()
+	;Msgbox(64, "Pause ReflexMem Behavior", "Pause ReflexMem Behavior added successfully.")
+	local $totrig = "pause"
+	AddToBehavior($totrig)
+EndFunc
+
+Func UnPauseReflexMemBehavior()
+	;Msgbox(64, "Pause ReflexMem Behavior", "UnPause ReflexMem Behavior added successfully.")
+	local $totrig = "unpause"
+	AddToBehavior($totrig)
+EndFunc
+
+Func ExitReflexMemBehavior()
+	;Msgbox(64, "Pause ReflexMem Behavior", "Exit ReflexMem Behavior added successfully.")
+	local $totrig = "exit"
+	AddToBehavior($totrig)
+EndFunc

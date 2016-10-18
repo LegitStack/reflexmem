@@ -1,0 +1,30 @@
+Func MouseClickTrigger()
+	Local $hChild1 = GUICreate("Mouse Click Trigger", 400*$R, 200*$R, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("Which button should be the trigger if cliked?", 20*$R, 20*$R, 360*$R, 35*$R)
+	GUICtrlSetStyle(-1, $SS_CENTER)
+	local $button1a1 = GUICtrlCreateButton("Primary (left)", 20*$R, 80*$R, 160*$R, 60*$R)
+	local $button1a2 = GUICtrlCreateButton("Secondary (right)", 220*$R, 80*$R, 160*$R, 60*$R)
+	GUISetState()
+
+	local $totrig = ""
+	While 1
+		$hMsg = GUIGetMsg()
+		Switch $hMsg
+			Case $GUI_EVENT_CLOSE
+				GUIDelete($hChild1)
+				ExitLoop
+			Case $button1a1
+				$totrig = "_IsPressed('01')"
+				$name = "primary mouse button clicked"
+				AddToTrigger($totrig, $name)
+				GUIDelete($hChild1)
+				ExitLoop
+			Case $button1a2
+				$totrig = "_IsPressed('02')"
+				$name = "secondary mouse button clicked"
+				AddToTrigger($totrig, $name)
+				GUIDelete($hChild1)
+				ExitLoop
+		EndSwitch
+	WEnd
+EndFunc

@@ -1,0 +1,12 @@
+Func WaitBehavior()
+	Local $sAnswer = InputBox("Wait Behavior", "For how long should ReflexMem do nothing in miliseconds? (Max = 10000)", "1000", "")
+	if $sAnswer <> "" then
+		if StringIsDigit($sAnswer) And $sAnswer <= 10000 And $sAnswer >= 1 then
+			local $totrig = "sleep " & $sAnswer
+			AddToBehavior($totrig)
+		else
+			msgbox(64, "Wait Behavior", "The wait time must be a number from 1 to 10000 without punctuation.")
+		endif
+
+	endif
+EndFunc

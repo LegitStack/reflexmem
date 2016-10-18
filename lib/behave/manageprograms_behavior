@@ -1,0 +1,88 @@
+Func ManageProgramsBehavior()
+	Local $hChild12 = GUICreate("Manage Programs Behavior", 400*$R, 200*$R, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("Would you like to Run a Program or End a Program?", 20*$R, 20*$R, 360*$R, 35*$R)
+	GUICtrlSetStyle(-1, $SS_CENTER)
+	local $button121 = GUICtrlCreateButton("Run", 20*$R, 80*$R, 160*$R, 60*$R)
+	local $button122 = GUICtrlCreateButton("End", 220*$R, 80*$R, 160*$R, 60*$R)
+	GUISetState()
+
+	local $totrig = ""
+	While 1
+		$hMsg = GUIGetMsg()
+		Switch $hMsg
+			Case $GUI_EVENT_CLOSE
+				GUIDelete($hChild12)
+				ExitLoop
+			Case $button121
+				RunProgramBehavior()
+				GUIDelete($hChild12)
+				ExitLoop
+			Case $button122
+				KillProgramBehavior()
+				GUIDelete($hChild12)
+				ExitLoop
+		EndSwitch
+	WEnd
+EndFunc
+
+Func RunProgramBehavior()
+	local $sFile = FileOpenDialog("Choose Program...", @TempDir, "All (*.*)")
+	if $sFile == "" then
+		return
+	endif
+	local $split = StringInStr($sFile, "\", 0, -1)
+	local $program = stringright($sFile, StringLen($sFile)-$split)
+	local $location = StringLeft($sFile, $split)
+
+
+	Local $hChild14 = GUICreate("Run Program Behavior", 400*$R, 220*$R, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("How should this program be run?", 20*$R, 20*$R, 360*$R, 35*$R)
+	GUICtrlSetStyle(-1, $SS_CENTER)
+	local $button141 = GUICtrlCreateButton("Maximized", 		20*$R, 80*$R, 160*$R, 40*$R)
+	local $button142 = GUICtrlCreateButton("Minimized", 		220*$R, 80*$R, 160*$R, 40*$R)
+	local $button143 = GUICtrlCreateButton("Hidden", 				20*$R, 140*$R, 160*$R, 40*$R)
+	local $button144 = GUICtrlCreateButton("No Preference", 220*$R, 140*$R, 160*$R, 40*$R)
+	GUISetState()
+
+	local $totrig = ""
+	While 1
+		$hMsg = GUIGetMsg()
+		Switch $hMsg
+			Case $GUI_EVENT_CLOSE
+				GUIDelete($hChild14)
+				ExitLoop
+			Case $button141
+				$totrig = "run " & $program & " " & $location & " @SW_MAXIMIZE"
+				AddToBehavior($totrig)
+				GUIDelete($hChild14)
+				ExitLoop
+			Case $button142
+				$totrig = "run " & $program & " " & $location & " @SW_MINIMIZE"
+				AddToBehavior($totrig)
+				GUIDelete($hChild14)
+				ExitLoop
+			Case $button143
+				$totrig = "run " & $program & " " & $location & " @SW_HIDE"
+				AddToBehavior($totrig)
+				GUIDelete($hChild14)
+				ExitLoop
+			Case $button144
+				$totrig = "run " & $program & " " & $location
+				AddToBehavior($totrig)
+				GUIDelete($hChild14)
+				ExitLoop
+		EndSwitch
+	WEnd
+EndFunc
+
+Func KillProgramBehavior()
+	local $sFile = FileOpenDialog("Choose Program...", @TempDir, "All (*.*)")
+	if $sFile == "" then
+		return
+	endif
+	local $split = StringInStr($sFile, "\", 0, -1)
+	local $program = stringright($sFile, StringLen($sFile)-$split)
+	local $location = StringLeft($sFile, $split)
+	$totrig = "kill " & $program
+	AddToBehavior($totrig)
+EndFunc

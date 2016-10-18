@@ -1,0 +1,28 @@
+Func MouseClickBehavior()
+	Local $hChild11 = GUICreate("Mouse Click Behavior", 400*$R, 200*$R, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("Which button should be cliked?", 20*$R, 20*$R, 360*$R, 35*$R)
+	GUICtrlSetStyle(-1, $SS_CENTER)
+	local $button111 = GUICtrlCreateButton("Primary (left)", 20*$R, 80*$R, 160*$R, 60*$R)
+	local $button112 = GUICtrlCreateButton("Secondary (right)", 220*$R, 80*$R, 160*$R, 60*$R)
+	GUISetState()
+
+	local $totrig = ""
+	While 1
+		$hMsg = GUIGetMsg()
+		Switch $hMsg
+			Case $GUI_EVENT_CLOSE
+				GUIDelete($hChild11)
+				ExitLoop
+			Case $button111
+				$totrig = "click primary"
+				AddToBehavior($totrig)
+				GUIDelete($hChild11)
+				ExitLoop
+			Case $button112
+				$totrig = "click secondary"
+				AddToBehavior($totrig)
+				GUIDelete($hChild11)
+				ExitLoop
+		EndSwitch
+	WEnd
+EndFunc

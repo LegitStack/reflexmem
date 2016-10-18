@@ -1,0 +1,349 @@
+Func SendKeysBehavior()
+	Local $hChild7 = GUICreate("Key Send Behavior", 400*$R, 640*$R, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("Which key(s) should be pressed?", 20*$R, 20*$R, 360*$R, 40*$R)
+	GUICtrlSetStyle(-1, $SS_CENTER)
+	local $button71 = GUICtrlCreateButton("Text", 20*$R, 60*$R, 160*$R, 30*$R)
+	local $button72 = GUICtrlCreateButton("Enter", 220*$R, 60*$R, 160*$R, 30*$R)
+	local $button73 = GUICtrlCreateButton("Space", 20*$R, 100*$R, 160*$R, 30*$R)
+	local $button74 = GUICtrlCreateButton("Shift", 220*$R, 100*$R, 160*$R, 30*$R)
+	local $button75 = GUICtrlCreateButton("Alt", 20*$R, 140*$R, 160*$R, 30*$R)
+	local $button76 = GUICtrlCreateButton("Control", 220*$R, 140*$R, 160*$R, 30*$R)
+	local $button77 = GUICtrlCreateButton("Left", 20*$R, 180*$R, 160*$R, 30*$R)
+	local $button78 = GUICtrlCreateButton("Right", 220*$R, 180*$R, 160*$R, 30*$R)
+	local $button79 = GUICtrlCreateButton("Up", 20*$R, 220*$R, 160*$R, 30*$R)
+	local $button710 = GUICtrlCreateButton("Down", 220*$R, 220*$R, 160*$R, 30*$R)
+	local $button711 = GUICtrlCreateButton("Tab", 20*$R, 260*$R, 160*$R, 30*$R)
+	local $button712 = GUICtrlCreateButton("Escape", 220*$R,260*$R, 160*$R, 30*$R)
+	local $button713 = GUICtrlCreateButton("Page Up", 20*$R, 300*$R, 160*$R, 30*$R)
+	local $button714 = GUICtrlCreateButton("Page Down", 220*$R, 300*$R, 160*$R, 30*$R)
+	local $button715 = GUICtrlCreateButton("Home", 20*$R, 340*$R, 160*$R, 30*$R)
+	local $button716 = GUICtrlCreateButton("End", 220*$R, 340*$R, 160*$R, 30*$R)
+	local $button717 = GUICtrlCreateButton("Delete", 20*$R, 380*$R, 160*$R, 30*$R)
+	local $button718 = GUICtrlCreateButton("Backspace", 220*$R, 380*$R, 160*$R, 30*$R)
+	local $button719 = GUICtrlCreateButton("Caps Lock", 20*$R, 420*$R, 160*$R, 30*$R)
+	local $button720 = GUICtrlCreateButton("Num Lock", 220*$R, 420*$R, 160*$R, 30*$R)
+	local $button721 = GUICtrlCreateButton("Print Screen", 20*$R, 460*$R, 160*$R, 30*$R)
+	local $button722 = GUICtrlCreateButton("Windows Key", 220*$R, 460*$R, 160*$R, 30*$R)
+	local $button723 = GUICtrlCreateButton("Insert", 20*$R, 500*$R, 160*$R, 30*$R)
+	local $button724 = GUICtrlCreateCheckbox("Shift + Other Keys", 220*$R, 500*$R, 160*$R, 30*$R)
+	local $button725 = GUICtrlCreateCheckbox("Alt + Other Keys", 20*$R, 540*$R, 160*$R, 30*$R)
+	local $button726 = GUICtrlCreateCheckbox("Control + Other Keys", 220*$R, 540*$R, 160*$R, 30*$R)
+	local $button727 = GUICtrlCreateButton("Special Symbols ({}^+#!)", 20*$R, 580*$R, 160*$R, 30*$R)
+	local $button728 = GUICtrlCreateButton("F Keys", 220*$R, 580*$R, 160*$R, 30*$R)
+	GUISetState(@SW_SHOW, $hChild7)
+
+	local $totrig = ""
+	Local $sAnswer = ""
+	local $Shift = false
+	local $alt = false
+	local $control = false
+
+	While 1
+		$hMsg = GUIGetMsg()
+		Switch $hMsg
+			Case $GUI_EVENT_CLOSE
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button71
+				$sAnswer = InputBox("Send Keys Behavior", "What text should be entered? (Letters, numbers, single-spaces and these symbols allowed: @$%&*()-_=~/|\[];:?)", "Hello World?", "")
+				$sAnswer = StringReplace($sAnswer, "{", "")
+				$sAnswer = StringReplace($sAnswer, "}", "")
+				$sAnswer = StringReplace($sAnswer, "^", "")
+				$sAnswer = StringReplace($sAnswer, "+", "")
+				$sAnswer = StringReplace($sAnswer, "!", "")
+				$sAnswer = StringReplace($sAnswer, "#", "")
+				$totrig = $sAnswer
+				addSendToBehavior($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button72
+				$totrig = "{ENTER}"
+				addSendToBehavior($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button73
+				$totrig = "{SPACE}"
+				addSendToBehavior($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button74
+				$totrig = "{LSHIFT}"
+				addSendToBehavior($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button75
+				$totrig = "{ALT}"
+				addSendToBehavior($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button76
+				$totrig = "{LCTRL}"
+				addSendToBehavior($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button77
+				$totrig = "{LEFT}"
+				addSendToBehavior($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button78
+				$totrig = "{RIGHT}"
+				addSendToBehavior($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button79
+				$totrig = "{UP}"
+				addSendToBehavior($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button710
+				$totrig = "{DOWN}"
+				addSendToBehavior($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button711
+				$totrig = "{TAB}"
+				addSendToBehavior($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button712
+				$totrig = "{ESCAPE}"
+				addSendToBehavior($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button713
+				$totrig = "{PGUP}"
+				addSendToBehavior($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button714
+				$totrig = "{PGDN}"
+				addSendToBehavior($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button715
+				$totrig = "{HOME}"
+				addSendToBehavior($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button716
+				$totrig = "{END}"
+				addSendToBehavior($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button717
+				$totrig = "{DELETE}"
+				addSendToBehavior($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button718
+				$totrig = "{BACKSPACE}"
+				addSendToBehavior($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button719
+				$totrig = "{CAPSLOCK}"
+				addSendToBehavior($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button720
+				$totrig = "{NUMLOCK}"
+				addSendToBehavior($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button721
+				$totrig = "{PRINTSCREEN}"
+				addSendToBehavior($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button722
+				$totrig = "{LWIN}"
+				addSendToBehavior($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button723
+				$totrig = "{INSERT}"
+				addSendToBehavior($shift, $alt, $control, $totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button724 ;shift
+				If _IsChecked($button724) Then
+					$shift = true
+				Else
+				  $shift = false
+				EndIf
+			Case $button725 ;alt
+				If _IsChecked($button725) Then
+					$alt = true
+				Else
+					$alt = false
+				EndIf
+			Case $button726 ;Control
+				If _IsChecked($button726) Then
+					$control = true
+				Else
+					$control = false
+				EndIf
+			Case $button727 ;Special keys
+				$hChild7a = GUICreate("Insert special keys", 400*$R, 280*$R, -1, -1, -1, -1, $hChild7)
+				GUICtrlCreateLabel("Which special symbol should be sent?", 20*$R, 20*$R, 360*$R, 40*$R)
+				GUICtrlSetStyle(-1, $SS_CENTER)
+				$button7a1 = GUICtrlCreateButton("{", 20*$R, 80*$R, 160*$R, 40*$R)
+				$button7a2 = GUICtrlCreateButton("}", 220*$R, 80*$R, 160*$R, 40*$R)
+				$button7a3 = GUICtrlCreateButton("^", 20*$R, 140*$R, 160*$R, 40*$R)
+				$button7a4 = GUICtrlCreateButton("+", 220*$R, 140*$R, 160*$R, 40*$R)
+				$button7a5 = GUICtrlCreateButton("#", 20*$R, 200*$R, 160*$R, 40*$R)
+				$button7a6 = GUICtrlCreateButton("!", 220*$R, 200*$R, 160*$R, 40*$R)
+				GUISetState()
+				local $totrig = ""
+				While 1
+					$hMsg = GUIGetMsg()
+					Switch $hMsg
+						Case $GUI_EVENT_CLOSE
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a1
+							$totrig = "{{}"
+							addSendToBehavior($shift, $alt, $control, $totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a2
+							$totrig = "{}}"
+							addSendToBehavior($shift, $alt, $control, $totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a3
+							$totrig = "{^}"
+							addSendToBehavior($shift, $alt, $control, $totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a4
+							$totrig = "{+}"
+							addSendToBehavior($shift, $alt, $control, $totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a5
+							$totrig = "{#}"
+							addSendToBehavior($shift, $alt, $control, $totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a6
+							$totrig = "{!}"
+							addSendToBehavior($shift, $alt, $control, $totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+					EndSwitch
+				WEnd
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button728 ;F keys
+			$hChild7a = GUICreate("Insert Function keys", 400*$R, 440*$R, -1, -1, -1, -1, $hChild7)
+				GUICtrlCreateLabel("Which F key should be sent?", 20*$R, 20*$R, 360*$R, 40*$R)
+				GUICtrlSetStyle(-1, $SS_CENTER)
+				$button7a1 = GUICtrlCreateButton("F1",  20*$R, 80*$R, 160*$R, 40*$R)
+				$button7a2 = GUICtrlCreateButton("F2",  220*$R, 80*$R, 160*$R, 40*$R)
+				$button7a3 = GUICtrlCreateButton("F3",  20*$R, 140*$R, 160*$R, 40*$R)
+				$button7a4 = GUICtrlCreateButton("F4",  220*$R, 140*$R, 160*$R, 40*$R)
+				$button7a5 = GUICtrlCreateButton("F5",  20*$R, 200*$R, 160*$R, 40*$R)
+				$button7a6 = GUICtrlCreateButton("F6",  220*$R, 200*$R, 160*$R, 40*$R)
+				$button7a7 = GUICtrlCreateButton("F7",  20*$R, 260*$R, 160*$R, 40*$R)
+				$button7a8 = GUICtrlCreateButton("F8",  220*$R, 260*$R, 160*$R, 40*$R)
+				$button7a9 = GUICtrlCreateButton("F9",  20*$R, 320*$R, 160*$R, 40*$R)
+				$button7a10 = GUICtrlCreateButton("F10",220*$R, 320*$R, 160*$R, 40*$R)
+				$button7a11 = GUICtrlCreateButton("F11",20*$R, 380*$R, 160*$R, 40*$R)
+				$button7a12 = GUICtrlCreateButton("F12",220*$R, 380*$R, 160*$R, 40*$R)
+				GUISetState()
+				local $totrig = ""
+				While 1
+					$hMsg = GUIGetMsg()
+					Switch $hMsg
+						Case $GUI_EVENT_CLOSE
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a1
+							$totrig = "{F1}"
+							addSendToBehavior($shift, $alt, $control, $totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a2
+							$totrig = "{F2}"
+							addSendToBehavior($shift, $alt, $control, $totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a3
+							$totrig = "{F3}"
+							addSendToBehavior($shift, $alt, $control, $totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a4
+							$totrig = "{F4}"
+							addSendToBehavior($shift, $alt, $control, $totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a5
+							$totrig = "{F5}"
+							addSendToBehavior($shift, $alt, $control, $totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a6
+							$totrig = "{F6}"
+							addSendToBehavior($shift, $alt, $control, $totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a7
+							$totrig = "{F7}"
+							addSendToBehavior($shift, $alt, $control, $totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a8
+							$totrig = "{F8}"
+							addSendToBehavior($shift, $alt, $control, $totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a9
+							$totrig = "{F9}"
+							addSendToBehavior($shift, $alt, $control, $totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a10
+							$totrig = "{F10}"
+							addSendToBehavior($shift, $alt, $control, $totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a11
+							$totrig = "{F11}"
+							addSendToBehavior($shift, $alt, $control, $totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a12
+							$totrig = "{F12}"
+							addSendToBehavior($shift, $alt, $control, $totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+					EndSwitch
+				WEnd
+				GUIDelete($hChild7)
+				ExitLoop
+		EndSwitch
+	WEnd
+EndFunc
+
+
+Func addSendToBehavior($shift, $alt, $control, $data)
+;HotKeySet("^a", "GetPos") ;control
+;HotKeySet("+a", "GetPos") ;  Shift
+;HotKeySet("!a", "GetPos") ;alt
+	local $totrig = ""
+	if $shift then
+		$totrig = $totrig & "+"
+	endif
+	if $alt then
+		$totrig = $totrig & "!"
+	endif
+	if $control then
+		$totrig = $totrig & "^"
+	endif
+	$totrig = "send " & $totrig & $data
+
+	AddToBehavior($totrig)
+EndFunc

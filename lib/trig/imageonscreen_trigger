@@ -1,0 +1,119 @@
+Func ImageOnScreenTrigger()
+	;local $w1 = (@desktopwidth/2)-100
+	;local $w2 = (@desktopwidth/2)+100
+	;local $h1 = (@desktopheight/2)-100
+	;local $h2 = (@desktopheight/2)+100
+	;local $x1,$y1
+	;local $result = _ImageSearchArea("help.png",1,$w1,$h1,$w2,$h2,$x1,$y1,25)
+	;if $result = 1 Then
+	; $w = False
+	;Else
+	; ResetView(301)
+	; $x = $x + 1
+	;EndIf
+
+	Local $iX1, $iY1, $iX2, $iY2, $aPos, $sMsg, $sBMP_Path
+
+	; Create GUI
+	local $hMain_GUI = GUICreate("Image On Screen Trigger", 380*$R, 80*$R, -1, -1, -1, -1, $hGUI)
+	local $hRect_Button   = GUICtrlCreateButton("Capture Image On Screen",  20*$R, 20*$R, 160*$R, 40*$R)
+	local $sFile_Button   = GUICtrlCreateButton("Select Image From File",  200*$R, 20*$R, 160*$R, 40*$R)
+
+	GUISetState()
+
+	local $i, $sFile
+	While 1
+
+    Switch GUIGetMsg()
+      Case $GUI_EVENT_CLOSE
+				GUIDelete($hMain_GUI)
+        ;FileDelete(@ScriptDir & "\Rect.bmp")
+        ExitLoop
+      Case $hRect_Button
+	      GUISetState(@SW_HIDE, $hMain_GUI)
+	      Mark_Rect($iX1, $iY1, $iX2, $iY2, $aPos, $sMsg, $sBMP_Path)
+	      ; Capture selected area
+				$i = 0
+				While FileExists(GetScriptsPath("images") & $i & ".bmp")
+					$i = $i + 1
+				WEnd
+	      $sBMP_Path = GetScriptsPath("images") & $i & ".bmp"
+	    	_ScreenCapture_Capture($sBMP_Path, $iX1, $iY1, $iX2, $iY2, False)
+	      GUISetState(@SW_SHOW, $hMain_GUI)
+	      ; Display image
+	      ;$hBitmap_GUI = GUICreate("Selected Rectangle", $iX2 - $iX1 + 1, $iY2 - $iY1 + 1, 100, 100)
+	      ;$hPic = GUICtrlCreatePic(@ScriptDir & "\Rect.bmp", 0, 0, $iX2 - $iX1 + 1, $iY2 - $iY1 + 1)
+	      ;GUISetState()
+				GUIDelete($hMain_GUI)
+				GetAreaImageScreenTrigger($sBMP_Path)
+        ExitLoop
+			Case $sFile_Button
+				local $sFile = FileOpenDialog("Choose Image...", @DesktopCommonDir, "All (*.*)")
+				if $sFile == "" then
+					GUIDelete($hMain_GUI)
+					ExitLoop
+				endif
+				GUIDelete($hMain_GUI)
+				GetAreaImageScreenTrigger($sFile)
+        ExitLoop
+
+	    EndSwitch
+
+	WEnd
+
+EndFunc
+Func GetAreaImageScreenTrigger($imagefile)
+	;local $w1 = (@desktopwidth/2)-100
+	;local $w2 = (@desktopwidth/2)+100
+	;local $h1 = (@desktopheight/2)-100
+	;local $h2 = (@desktopheight/2)+100
+	;local $x1,$y1
+	;local $result = _ImageSearchArea("help.png",1,$w1,$h1,$w2,$h2,$x1,$y1,25)
+	;if $result = 1 Then
+	; $w = False
+	;Else
+	; ResetView(301)
+	; $x = $x + 1
+	;EndIf
+	Local $acc = InputBox("Image On Screen Trigger", "how tolerant do you want this trigger to be? (0 = exact image, 255 = fully tolerant)", "25", "")
+	if @error == 1 then
+		return
+	endif
+	Local $iX1, $iY1, $iX2, $iY2, $aPos, $sMsg, $sBMP_Path
+
+	; Create GUI
+	local $hMain_GUI = GUICreate("Image On Screen Trigger", 380*$R, 80*$R, -1, -1, -1, -1, $hGUI)
+
+	local $sRect_Button   = GUICtrlCreateButton("Select Region on Screen",  20*$R, 20*$R, 160*$R, 40*$R)
+	local $sFull_Button   = GUICtrlCreateButton("Search Full Screen",  200*$R, 20*$R, 160*$R, 40*$R)
+
+	GUISetState()
+
+	local $totrig
+
+	While 1
+
+    Switch GUIGetMsg()
+      Case $GUI_EVENT_CLOSE
+				GUIDelete($hMain_GUI)
+        ;FileDelete(@ScriptDir & "\Rect.bmp")
+        ExitLoop
+      Case $sRect_Button
+	      GUISetState(@SW_HIDE, $hMain_GUI)
+	      Mark_Rect($iX1, $iY1, $iX2, $iY2, $aPos, $sMsg, $sBMP_Path)
+	      ; Capture selected area
+	      GUISetState(@SW_SHOW, $hMain_GUI)
+				$totrig = "_ImageSearchArea('" & $imagefile & "',1," & $iX1 & "," & $iY1 & "," & $iX2 & "," & $iY2 & ", $X1, $Y1, " & $acc & ")"
+				AddToTrigger($totrig, "this image: " & $imagefile & " is found between " & $iX1 & ", " & $iY1 & " and " & $iX2 & ", " & $iY2)
+				GUIDelete($hMain_GUI)
+        ExitLoop
+			Case $sFull_Button
+				$totrig = "_ImageSearchArea('" & $imagefile & "',1," & 0 & "," & 0 & "," & @DesktopWidth & "," & @DesktopHeight & ", $X1, $Y1, " & $acc & ")"
+				AddToTrigger($totrig, "this image: " & $imagefile & " is found anywhere on the screen")
+				GUIDelete($hMain_GUI)
+        ExitLoop
+	    EndSwitch
+
+	WEnd
+
+EndFunc

@@ -1,0 +1,54 @@
+Func ClipboardBehavior()
+	Local $hChild12 = GUICreate("Manage Clipboard Behavior", 400*$R, 200*$R, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("What would you like to do with the Clipboard?", 20*$R, 20*$R, 360*$R, 35*$R)
+	GUICtrlSetStyle(-1, $SS_CENTER)
+	local $button121 = GUICtrlCreateButton("Copy Text", 20*$R, 80*$R, 160*$R, 40*$R)
+	local $button122 = GUICtrlCreateButton("Paste Text", 220*$R, 80*$R, 160*$R, 40*$R)
+	local $button123 = GUICtrlCreateButton("Copy Keystrokes", 20*$R, 140*$R, 160*$R, 40*$R)
+	local $button124 = GUICtrlCreateButton("Paste Keystrokes", 220*$R, 140*$R, 160*$R, 40*$R)
+
+	GUISetState()
+
+	local $totrig = ""
+	While 1
+		$hMsg = GUIGetMsg()
+		Switch $hMsg
+			Case $GUI_EVENT_CLOSE
+				GUIDelete($hChild12)
+				ExitLoop
+			Case $button121
+				ClipCopyBehavior()
+				GUIDelete($hChild12)
+				ExitLoop
+			Case $button122
+				ClipPasteBehavior()
+				GUIDelete($hChild12)
+				ExitLoop
+			Case $button123
+				$totrig = "send " & "^c"
+				AddToBehavior($totrig)
+				GUIDelete($hChild12)
+				ExitLoop
+			Case $button124
+				$totrig = "send " & "^v"
+				AddToBehavior($totrig)
+				GUIDelete($hChild12)
+				ExitLoop
+		EndSwitch
+	WEnd
+EndFunc
+
+
+Func ClipCopyBehavior()
+	Local $sAnswer = InputBox("Clipboard Behavior", "What text should be put onto the Clipboard?", "Planet Jupiter", "")
+	if $sAnswer <> "" then
+		local $totrig = "copy " & $sAnswer
+		AddToBehavior($totrig)
+	endif
+EndFunc
+
+
+Func ClipPasteBehavior()
+	local $totrig = "paste"
+	AddToBehavior($totrig)
+EndFunc
