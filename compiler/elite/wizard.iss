@@ -45,6 +45,15 @@ Name: "{userappdata}\ReflexMem\image\"
 Name: "{userappdata}\ReflexMem\plugins\"
 Name: "{app}\lib\"
 Name: "{app}\lib\dll"
+Name: "{app}\lib\trig\"
+Name: "{app}\lib\behave\"
+Name: "{app}\tesseract\"
+Name: "{app}\tesseract\doc\"
+Name: "{app}\tesseract\testing\"
+Name: "{app}\tesseract\tessdata\"
+Name: "{app}\tesseract\tesseract\configs\"
+Name: "{app}\tesseract\tesseract\tessconfigs\"
+
 
 [Files]
 Source: "C:\sites\reflexmem\reflexmem.exe"; DestDir: "{app}"; Flags: ignoreversion
@@ -83,6 +92,13 @@ Source: "C:\sites\reflexmem\lib\behave\managevariable_behavior"; DestDir: "{app}
 Source: "C:\sites\reflexmem\lib\behave\mousewheel_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\behave\sendkeys_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\behave\textonscreen_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
+Source: "C:\sites\reflexmem\tesseract\*"; DestDir: "{app}\tesseract\"; Flags: ignoreversion
+Source: "C:\sites\reflexmem\tesseract\doc\*"; DestDir: "{app}\tesseract\doc\"; Flags: ignoreversion
+Source: "C:\sites\reflexmem\tesseract\tessdata\*"; DestDir: "{app}\tesseract\tessdata\"; Flags: ignoreversion
+Source: "C:\sites\reflexmem\tesseract\testing\*"; DestDir: "{app}\tesseract\testing\"; Flags: ignoreversion
+Source: "C:\sites\reflexmem\tesseract\tessdata\configs\*"; DestDir: "{app}\tesseract\configs\"; Flags: ignoreversion
+Source: "C:\sites\reflexmem\tesseract\tessdata\tessconfigs\*"; DestDir: "{app}\tesseract\tessconfigs\"; Flags: ignoreversion
+
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
