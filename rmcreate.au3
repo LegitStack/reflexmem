@@ -945,7 +945,11 @@ EndFunc
 
 
 Func ReturnToMain()
-	Run("reflexmem.exe")
+	if FileExists("reflexmem-pro.exe") then
+		Run("reflexmem-pro.exe")
+	else
+		Run("reflexmem.exe")
+	endif
 	GUIDelete($hGUI)
 	Exit
 EndFunc

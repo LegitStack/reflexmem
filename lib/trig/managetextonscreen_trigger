@@ -1,6 +1,4 @@
 Func ManageTextOnScreenTrigger()
-	msgbox(64, "Text On Screen Trigger", "This feature is only supported on paid versions of ReflexMem.")
-
 	local $hMain_GUI = GUICreate("Text on Screen Trigger",600*$R, 200*$R, -1, -1, -1, -1, $hGUI)
 	GUICtrlCreateLabel("What text should the trigger look for?", 20*$R, 20*$R, 560*$R, 35*$R)
 	GUICtrlSetStyle(-1, $SS_CENTER)

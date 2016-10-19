@@ -1467,8 +1467,6 @@ Func _GUICreateInvRect($hWnd, $iX, $iY, $iW, $iH)
 EndFunc
 
 Func ManageTextOnScreenTrigger()
-	msgbox(64, "Text On Screen Trigger", "This feature is only supported on paid versions of ReflexMem.")
-
 	local $hMain_GUI = GUICreate("Text on Screen Trigger",600*$R, 200*$R, -1, -1, -1, -1, $hGUI)
 	GUICtrlCreateLabel("What text should the trigger look for?", 20*$R, 20*$R, 560*$R, 35*$R)
 	GUICtrlSetStyle(-1, $SS_CENTER)
@@ -2875,8 +2873,6 @@ EndFunc
 
 
 Func TextOnScreenBehavior()
-
-	msgbox(64, "Get Text On Screen Behavior", "This feature is only supported on paid versions of ReflexMem.")
 	msgbox(64, "Get Text On Screen Behavior", "Press ok then select the region of the screen where the text will be.")
 
 	Local $iX1, $iY1, $iX2, $iY2, $aPos, $sMsg, $sBMP_Path
