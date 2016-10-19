@@ -363,7 +363,6 @@ Func PopulateGui()
                 Guidelete($hGUI)
                 Exit
             elseif $msg == $idDelete[$i] then
-
               FileDelete(GetScriptsPath("if") & $i & ".txt")
               FileDelete(GetScriptsPath("then") & $i & ".txt")
               FileDelete(GetScriptsPath("names") & $i & ".txt")
@@ -372,7 +371,6 @@ Func PopulateGui()
               GUICtrlDelete ( $idModify[$i] )
               GUICtrlDelete ( $idBlist[$i] )
               $trigs[$i] = ""
-
               for $j = 0 to ubound($idCheckbox)-2
                 if $j >= $i then
                   $trigs[$j]          = $trigs[$j+1]
@@ -414,10 +412,8 @@ Func PopulateGui()
               ;next
             Endif
           Next
-
       EndSwitch
     wend
-
 
     ; Loop until the user exits.
     While $loop3 == 1
@@ -448,11 +444,9 @@ Func PopulateGui()
               EndIf
             Endif
           Next
-
           for $c = 0 to ubound($triggers)-1
             if $trigs[$c] == 1 then
               $tcounts[$c] = $tcounts[$c] + 1
-
               if Execute($triggers[$c]) then
                 for $i = 0 to 100
                   if $behaviors[$i][$c] == ""  then
@@ -486,12 +480,9 @@ Func PopulateGui()
               endif
             endif
           next
-
       EndSwitch
-
     WEnd
   WEnd
-
   ; Delete the previous GUI and all controls.
   GUIDelete($hGUI)
   Exit
@@ -524,12 +515,12 @@ EndFunc
 
 
 Func _ImageSearchArea($findImage,$resultPosition,$x1,$y1,$right,$bottom,ByRef $x, ByRef $y, $tolerance)
-	;MsgBox(0,"asd","" & $x1 & " " & $y1 & " " & $right & " " & $bottom)
-	if $tolerance>0 then $findImage = "*" & $tolerance & " " & $findImage
+  ;MsgBox(0,"asd","" & $x1 & " " & $y1 & " " & $right & " " & $bottom)
+  if $tolerance>0 then $findImage = "*" & $tolerance & " " & $findImage
 
   ;method 1
   ;This works, when running from script, but not from exe.
-	;$result = DllCall(".\lib\dll\ImageSearchDLL.dll", "str", "ImageSearch", "int", $x1, "int", $y1, "int", $right, "int", $bottom, "str", $findImage)
+  ;$result = DllCall(".\lib\dll\ImageSearchDLL.dll", "str", "ImageSearch", "int", $x1, "int", $y1, "int", $right, "int", $bottom, "str", $findImage)
 
   ;method 2
   ;This works, when running from script, but not from exe.
@@ -539,29 +530,29 @@ Func _ImageSearchArea($findImage,$resultPosition,$x1,$y1,$right,$bottom,ByRef $x
   DllClose($hDLL)
 
   ; If error exit
-    if $result[0]="0" then return 0
+  if $result[0]="0" then return 0
 
-	; Otherwise get the x,y location of the match and the size of the image to
-	; compute the centre of search
-	$array = StringSplit($result[0],"|")
+  ; Otherwise get the x,y location of the match and the size of the image to
+  ; compute the centre of search
+  $array = StringSplit($result[0],"|")
 
-   $x=Int(Number($array[2]))
-   $y=Int(Number($array[3]))
-   if $resultPosition=1 then
-      $x=$x + Int(Number($array[4])/2)
-      $y=$y + Int(Number($array[5])/2)
-   endif
-   return 1
+  $x=Int(Number($array[2]))
+  $y=Int(Number($array[3]))
+  if $resultPosition=1 then
+    $x=$x + Int(Number($array[4])/2)
+    $y=$y + Int(Number($array[5])/2)
+  endif
+  return 1
 EndFunc
 
 
 Func _ImageSearchAreaMouseMove($findImage,$resultPosition,$x1,$y1,$right,$bottom,ByRef $x, ByRef $y, $tolerance, $speed = 10)
 
-	if $tolerance>0 then $findImage = "*" & $tolerance & " " & $findImage
+  if $tolerance>0 then $findImage = "*" & $tolerance & " " & $findImage
 
   ;method 1
   ;This works, when running from script, but not from exe.
-	;$result = DllCall(".\lib\dll\ImageSearchDLL.dll", "str", "ImageSearch", "int", $x1, "int", $y1, "int", $right, "int", $bottom, "str", $findImage)
+  ;$result = DllCall(".\lib\dll\ImageSearchDLL.dll", "str", "ImageSearch", "int", $x1, "int", $y1, "int", $right, "int", $bottom, "str", $findImage)
 
   ;method 2
   ;This works, when running from script, but not from exe.
@@ -571,18 +562,18 @@ Func _ImageSearchAreaMouseMove($findImage,$resultPosition,$x1,$y1,$right,$bottom
   DllClose($hDLL)
 
   ; If error exit
-    if $result[0]="0" then return 0
+  if $result[0]="0" then return 0
 
-	; Otherwise get the x,y location of the match and the size of the image to
-	; compute the centre of search
-	$array = StringSplit($result[0],"|")
+  ; Otherwise get the x,y location of the match and the size of the image to
+  ; compute the centre of search
+  $array = StringSplit($result[0],"|")
 
-   $x=Int(Number($array[2]))
-   $y=Int(Number($array[3]))
-   if $resultPosition=1 then
-      $x=$x + Int(Number($array[4])/2)
-      $y=$y + Int(Number($array[5])/2)
-   endif
-   mousemove($x,$y,$speed)
-   return 1
+  $x=Int(Number($array[2]))
+  $y=Int(Number($array[3]))
+  if $resultPosition=1 then
+    $x=$x + Int(Number($array[4])/2)
+    $y=$y + Int(Number($array[5])/2)
+  endif
+  mousemove($x,$y,$speed)
+  return 1
 EndFunc
