@@ -15,6 +15,7 @@
 #include <GUIConstantsEx.au3>
 #include <lib\filelocations.au3>
 #include <lib\applieddpi.au3>
+#include <Misc.au3>
 
 ;$R = GetScale()
 $R = 1
