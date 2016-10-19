@@ -42,7 +42,7 @@ Func ReflexGui()
         run("rmrun.exe")
         ExitLoop
       Case $idCreate
-        run("rmcreate.exe")
+        run("rmcreate-demo.exe")
         ExitLoop
       Case $idPlugin
         MsgBox(64, "ReflexMem Lite", "You are running ReflexMem Lite which is free and doesn't have the ability to import or run plugins. Please go to www.reflexmem.com and buy the pro version of ReflexMem. In the meantime, thanks for using reflexmem lite!")

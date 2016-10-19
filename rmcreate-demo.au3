@@ -828,7 +828,7 @@ Func WaitForIfInput()
 		Switch $hMsg
 			Case $GUI_EVENT_CLOSE
 				GUIDelete($hGUI)
-				Exit
+				ReturnToMain()
 			Case $hButton0
 				DetermineRecipeTrigger()
 			Case $hButton
@@ -849,7 +849,6 @@ Func WaitForIfInput()
 				EraseExtraIf()
 				GUIDelete($hGUI)
 				ReturnToMain()
-				Exit
 			case Else
 				SetLabel1()
 				DemoClick($disabled_triggers)
@@ -864,7 +863,7 @@ Func WaitForThenInput()
 		Switch $hMsg
 			Case $GUI_EVENT_CLOSE
 				GUIDelete($hGUI)
-				Exit
+				ReturnToMain()
 			Case $hButton7
 				SendKeysBehavior()
 			Case $hButton8
@@ -929,7 +928,7 @@ EndFunc
 
 
 Func ReturnToMain()
-	Run("reflexmem.exe")
+	Run("reflexmem-demo.exe")
 	GUIDelete($hGUI)
 	Exit
 EndFunc
