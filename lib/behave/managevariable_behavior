@@ -74,15 +74,15 @@ Func GetVariableBehavior() ;must put a escape chaaracter before and apostrophese
 	Local $sAnswer = InputBox("Get Variable Behavior", "Which variable? (0 to 31)", "1", "")
 	Local $sAnswer1 = Msgbox(4,"Get Variable Behavior", "View variable in message box?")
 	if $sAnswer1 == 6 then
-		$sAnswer1 == "msg"
+		$sAnswer1 = "msg"
 	elseif $sAnswer1 == 7 then
-		$sAnswer1 == "nomsg"
+		$sAnswer1 = "nomsg"
 		Local $sAnswer1 = Msgbox(4,"Get Variable Behavior", "Copy variable to clipboard?")
 		if $sAnswer1 == 6 then
-			$sAnswer1 == "clip"
+			$sAnswer1 = "clip"
 		endif
 		if $sAnswer1 == 7 then
-			$sAnswer1 == "noclip"
+			$sAnswer1 = "noclip"
 		endif
 	endif
 	if $sAnswer <> "" And $sAnswer1 <> "" then

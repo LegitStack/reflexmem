@@ -90,7 +90,11 @@ Func ActionMapThen($command, $arguments)
       return "Assign('paused',True,2)"
     case "setvar" ; text
       $args = StringSplit($arguments, " ", 2)
-      return "Assign('uservar" & $args[0] & "'," & $args[1] & ",1)"
+      local $combined = ""
+      For $i = 1 To Ubound($args) - 1
+         $combined = $combined & " " & $args[$i]
+      Next
+      return "Assign('uservar" & $args[0] & "'," & $combined & ",1)"
     case "gettext"
       $args = StringSplit($arguments, " ", 2)
       return "ClipPut(SaveScreen($throwaway, " & $args[0] & ", " & $args[1] & ", " & $args[2] & ", " & $args[3] & ", true))"

@@ -366,6 +366,7 @@ Func PopulateGui()
               FileDelete(GetScriptsPath("if") & $i & ".txt")
               FileDelete(GetScriptsPath("then") & $i & ".txt")
               FileDelete(GetScriptsPath("names") & $i & ".txt")
+              FileDelete(GetScriptsPath("recipe") & $i & ".txt")
               GUICtrlDelete ( $idCheckbox[$i] )
               GUICtrlDelete ( $idDelete[$i] )
               GUICtrlDelete ( $idModify[$i] )
@@ -379,6 +380,7 @@ Func PopulateGui()
                   $idModify[$j]       = $idModify[$j+1]
                   $idBlist[$j]        = $idBlist[$j+1]
                   $triggers[$j]       = $triggers[$j+1]
+                  $recipes[$j]        = $recipes[$j+1]
                   $triggernames[$j]   = $triggernames[$j+1]
                   $tcounts[$j]        = $tcounts[$j+1]
                   $locCx[$j]          = $locCx[$j+1]

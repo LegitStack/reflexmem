@@ -1,5 +1,6 @@
 #NoTrayIcon
 
+#include <MsgBoxConstants.au3>
 #include <WindowsConstants.au3>
 #include <GUIConstantsEx.au3>
 #include <StaticConstants.au3>
