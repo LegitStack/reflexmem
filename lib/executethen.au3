@@ -133,13 +133,14 @@ Func ActionMapThen($command, $arguments)
     Case "tip" ; x y message
       $args = StringSplit($arguments, " ", 2)
       local $combined = ""
-      For $i = 1 To Ubound($args) - 1
+      For $i = 2 To Ubound($args) - 1
          $combined = $combined & " " & $args[$i]
       Next
       if $args[0] == "meh" then
-        return "ToolTip('" & $combined & "')"
+        msgbox(64,"","ToolTip(" & $combined & ")")
+        return "ToolTip(" & $combined & ")"
       else
-        return "ToolTip('" & $combined & "'," & $args[0] & "," & $args[1] & ")"
+        return "ToolTip(" & $combined & "," & $args[0] & "," & $args[1] & ")"
       endif
     Case "run" ; programname.exe, .\ c:\somewhere\  , max min hide
       $args = StringSplit($arguments, " ", 2)

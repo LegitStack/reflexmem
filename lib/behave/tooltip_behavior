@@ -1,12 +1,12 @@
 Func ToolTipBehavior()
 	local $mess = AskForTipMessage()
-	local $locs = AskForTipMessage()
-	local $locs = stringsplit($locs," ",2)
+	local $locz = AskForTipLocations()
+	local $locs = stringsplit($locz," ",2)
 	local $locx = $locs[0]
 	local $locy = $locs[1]
-	if $mess <> "" && $mess <> "''" then
+	if $mess <> "" And $mess <> "''" then
 		if $locx <> "" then
-			$totrig = $locx & " " & $locy & " " & $mess
+			$totrig = "tip " & $locx & " " & $locy & " " & $mess
 			AddToBehavior($totrig)
 		endif
 	endif
