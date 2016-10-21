@@ -61,6 +61,10 @@ Func ActionMapThen($command, $arguments)
       return "Send('" & $arguments & "')"
     Case "click" ; primary secondary, x, y
       return "MouseClick('" & $arguments & "')"
+    Case "clickdown" ; primary secondary, x, y
+      return "MouseDown('" & $arguments & "')"
+    Case "clickup" ; primary secondary, x, y
+      return "MouseUp('" & $arguments & "')"
     Case "mouse" ; x, y
       $args = StringSplit($arguments, " ", 2)
       if ubound($args) > 2 then
