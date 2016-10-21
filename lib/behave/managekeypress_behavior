@@ -1,0 +1,24 @@
+Func ManageKeyPressBehavior()
+  Local $hChild11 = GUICreate("Key Press Behavior", 400*$R, 200*$R, -1, -1, -1, -1, $hGUI)
+  GUICtrlCreateLabel("Press and hold a key down or lift a key up?", 20*$R, 20*$R, 360*$R, 35*$R)
+  GUICtrlSetStyle(-1, $SS_CENTER)
+  local $button111 = GUICtrlCreateButton("Up", 20*$R, 80*$R, 160*$R, 60*$R)
+  local $button112 = GUICtrlCreateButton("Down", 220*$R, 80*$R, 160*$R, 60*$R)
+  GUISetState()
+  While 1
+  	$hMsg = GUIGetMsg()
+  	Switch $hMsg
+  		Case $GUI_EVENT_CLOSE
+  			GUIDelete($hChild11)
+  			ExitLoop
+  		Case $button111
+        KeyUpBehavior()
+  			GUIDelete($hChild11)
+  			ExitLoop
+  		Case $button112
+        KeyDownBehavior()
+  		  GUIDelete($hChild11)
+  			ExitLoop
+  	EndSwitch
+  WEnd
+EndFunc

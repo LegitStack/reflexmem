@@ -1,5 +1,5 @@
 Func MouseAtTrigger()
-	msgbox(64, "Mouse in Region Trigger", "Please select region by clicking and dragging your mouse.")
+	;msgbox(64, "Mouse in Region Trigger", "Please select region by clicking and dragging your mouse.")
 	Local $iX1, $iY1, $iX2, $iY2, $aPos, $sMsg, $sBMP_Path
 	local $i, $sFile
 	While 1

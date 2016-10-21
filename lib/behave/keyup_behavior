@@ -38,8 +38,10 @@ Func KeyUpBehavior()
 				$sAnswer = StringReplace($sAnswer, "+", "")
 				$sAnswer = StringReplace($sAnswer, "!", "")
 				$sAnswer = StringReplace($sAnswer, "#", "")
-				$totrig = "send {" & StringLeft($sAnswer, 1) & " up}"
-				AddToBehavior($totrig)
+				if $sAnswer <> "" then
+					$totrig = "send {" & StringLeft($sAnswer, 1) & " up}"
+					AddToBehavior($totrig)
+				endif
 				GUIDelete($hChild9)
 				ExitLoop
 			Case $button92
@@ -124,7 +126,7 @@ Func KeyUpBehavior()
 					$hMsg = GUIGetMsg()
 					Switch $hMsg
 						Case $GUI_EVENT_CLOSE
-							GUIDelete($hChild7a)
+							GUIDelete($hChild8a)
 							ExitLoop
 						Case $button9a1
 							$totrig = "send {F1 up}"

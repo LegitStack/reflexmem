@@ -34,9 +34,11 @@ Func ProgramRunsTrigger()
 				ExitLoop
 			Case $button3c
 				$totrig = InputBox("Program is Running Trigger", "What is the name of the program?", "chrome.exe", "")
-				$name = $totrig & " is running"
-				$totrig = "ProcessExists('" & $totrig & "')"
-				AddToTrigger($totrig, $name)
+				if $totrig <> "" then
+					$name = $totrig & " is running"
+					$totrig = "ProcessExists('" & $totrig & "')"
+					AddToTrigger($totrig, $name)
+				endif
 				GUIDelete($hChild3)
 				ExitLoop
 		EndSwitch

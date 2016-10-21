@@ -1,5 +1,5 @@
 Func TextOnScreenBehavior()
-	msgbox(64, "Get Text On Screen Behavior", "Press ok then select the region of the screen where the text will be.")
+	;msgbox(64, "Get Text On Screen Behavior", "Press ok then select the region of the screen where the text will be.")
 
 	Local $iX1, $iY1, $iX2, $iY2, $aPos, $sMsg, $sBMP_Path
 	local $throwaway, $totrig

@@ -48,6 +48,9 @@
 #include <lib\behave\mousewheel_behavior>
 #include <lib\behave\sendkeys_behavior>
 #include <lib\behave\textonscreen_behavior>
+#include <lib\behave\managekeypress_behavior>
+#include <lib\behave\tooltip_behavior>
+
 
 ;DllCall("User32.dll", "bool", "SetProcessDPIAwareness")
 ;GUISetFont(8.5 * _GDIPlus_GraphicsGetDPIRatio()[0])
@@ -274,16 +277,15 @@ EndFunc
 
 
 Func CreateBehaviors()
-
 	Global $hGroup1   = GUICtrlCreateGroup("Behaviors", 							310*$R, 	10*$R, 	280*$R, 615*$R)
 	Global $hButton7  = GUICtrlCreateButton("Send Keys",							330*$R, 	35*$R, 	250*$R, 35*$R) ;done
-	Global $hButton8  = GUICtrlCreateButton("Key Down", 							330*$R, 	80*$R, 	250*$R, 35*$R) ;done
-	Global $hButton9  = GUICtrlCreateButton("Key Up", 								330*$R, 	125*$R, 	250*$R, 35*$R) ;done
+	Global $hButton8  = GUICtrlCreateButton("Key Up / Down", 					330*$R, 	80*$R, 	250*$R, 35*$R) ;done
+	Global $hButton13 = GUICtrlCreateButton("Copy / Paste", 					330*$R, 	125*$R, 	250*$R, 35*$R) ;done
 	Global $hButton10 = GUICtrlCreateButton("Move Mouse", 						330*$R, 	170*$R, 	250*$R, 35*$R) ;done
 	Global $hButton11 = GUICtrlCreateButton("Mouse Click", 						330*$R, 	215*$R, 	250*$R, 35*$R) ;done
 	Global $hButton12 = GUICtrlCreateButton("Scroll Mouse Wheel", 		330*$R, 	260*$R, 	250*$R, 35*$R) ;done
-	Global $hButton13 = GUICtrlCreateButton("Copy / Paste", 					330*$R, 	305*$R, 	250*$R, 35*$R) ;done
-	Global $hButton14 = GUICtrlCreateButton("Manage Programs",    		330*$R, 	350*$R, 	250*$R, 35*$R) ;done
+	Global $hButton14 = GUICtrlCreateButton("Manage Programs",    		330*$R, 	305*$R, 	250*$R, 35*$R) ;done
+	Global $hButton9  = GUICtrlCreateButton("Display ToolTip",				330*$R, 	350*$R, 	250*$R, 35*$R) ;done
 	Global $hButton18 = GUICtrlCreateButton("Display Message",				330*$R, 	395*$R, 	250*$R, 35*$R) ;done
 	Global $hButton15 = GUICtrlCreateButton("Wait", 									330*$R, 	440*$R, 	250*$R, 35*$R) ;done
 	Global $hButton19 = GUICtrlCreateButton("Manage ReflexMem",				330*$R, 	485*$R, 	250*$R, 35*$R) ;??????
@@ -886,9 +888,9 @@ Func WaitForThenInput()
 			Case $hButton7
 				SendKeysBehavior()
 			Case $hButton8
-				KeyDownBehavior()
+				ManageKeyPressBehavior()
 			Case $hButton9
-				KeyUpBehavior()
+				ToolTipBehavior()
 			Case $hButton10
 				ManageMouseMoveBehavior()
 			Case $hButton11

@@ -93,6 +93,8 @@ Source: "C:\sites\reflexmem\lib\behave\managevariable_behavior"; DestDir: "{app}
 Source: "C:\sites\reflexmem\lib\behave\mousewheel_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\behave\sendkeys_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\behave\textonscreen_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
+Source: "C:\sites\reflexmem\lib\behave\managekeypress_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
+Source: "C:\sites\reflexmem\lib\behave\tooltip_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\tesseract\*"; DestDir: "{app}\tesseract\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\tesseract\doc\*"; DestDir: "{app}\tesseract\doc\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\tesseract\tessdata\*"; DestDir: "{app}\tesseract\tessdata\"; Flags: ignoreversion

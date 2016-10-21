@@ -1,10 +1,10 @@
 Func ManageTextOnScreenTrigger()
 	local $hMain_GUI = GUICreate("Text on Screen Trigger",600*$R, 200*$R, -1, -1, -1, -1, $hGUI)
-	GUICtrlCreateLabel("What text should the trigger look for?", 20*$R, 20*$R, 560*$R, 35*$R)
+	GUICtrlCreateLabel("The text should match...", 20*$R, 20*$R, 560*$R, 35*$R)
 	GUICtrlSetStyle(-1, $SS_CENTER)
-	local $hmButton1 = GUICtrlCreateButton("a Value", 20*$R, 80*$R, 160*$R, 60*$R)
-	local $hmButton2 = GUICtrlCreateButton("a Variable", 220*$R, 80*$R, 160*$R, 60*$R)
-	local $hmButton3 = GUICtrlCreateButton("the Clipboard", 420*$R, 80*$R, 160*$R, 60*$R)
+	local $hmButton1 = GUICtrlCreateButton("a specific Value", 20*$R, 80*$R, 160*$R, 60*$R)
+	local $hmButton2 = GUICtrlCreateButton("the value of a Variable", 220*$R, 80*$R, 160*$R, 60*$R)
+	local $hmButton3 = GUICtrlCreateButton("whatever is on the Clipboard", 420*$R, 80*$R, 160*$R, 60*$R)
 	GUISetState()
 
 	While 1

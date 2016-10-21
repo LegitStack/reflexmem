@@ -52,8 +52,10 @@ Func SendKeysBehavior()
 				$sAnswer = StringReplace($sAnswer, "+", "")
 				$sAnswer = StringReplace($sAnswer, "!", "")
 				$sAnswer = StringReplace($sAnswer, "#", "")
-				$totrig = $sAnswer
-				addSendToBehavior($shift, $alt, $control, $totrig)
+				if $sAnswer <> "" then
+					$totrig = $sAnswer
+					addSendToBehavior($shift, $alt, $control, $totrig)
+				endif
 				GUIDelete($hChild7)
 				ExitLoop
 			Case $button72

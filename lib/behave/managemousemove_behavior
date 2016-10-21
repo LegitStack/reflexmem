@@ -31,8 +31,8 @@ EndFunc
 
 
 Func MouseMoveLocation()
-	$msgbox = msgbox(1, "Mouse Move Behavior", "Click ok, then click on the screen at the location you'd like the mouse to move")
-	if $msgbox == 1 then
+	;$msgbox = msgbox(1, "Mouse Move Behavior", "Click ok, then click on the screen at the location you'd like the mouse to move")
+	;if $msgbox == 1 then
 		Local $aPos
 		While 1
 		  $aPos = MouseGetPos()
@@ -46,7 +46,7 @@ Func MouseMoveLocation()
 		Local $ycord = InputBox("Mouse Move Behavior", "What X coordinate would you like the mouse to move to?", $aPos[1], "")
 		local $totrig = "mouse " & $xcord & " " & $ycord
 		MouseMoveSetSpeed($totrig)
-	endif
+	;endif
 EndFunc
 
 
