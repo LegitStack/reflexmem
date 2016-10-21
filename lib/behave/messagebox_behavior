@@ -3,7 +3,7 @@ Func MessageBoxBehavior()
 	if $title <> "" then
 		Local $message = InputBox("Display Message Behavior", "What would you like the message to be?", "Hello World!", "")
 		if $message <> "" then
-			local $totrig = "message " & $title & " " & $message
+			local $totrig = "message " & $title & " | " & $message
 			AddToBehavior($totrig)
 		else
 			msgbox(64, "Display Message Behavior", "You must include both a title and a message to successfully create this Behavior")

@@ -113,8 +113,23 @@ Func ActionMapThen($command, $arguments)
       return "Exit"
     case "message" ; text
       $args = StringSplit($arguments, " ", 2)
-      $restofargs = StringReplace ($arguments, $args[0] & " ", "", 1 , 1)
-      return "MsgBox(64, '" & $args[0] & "','" & $restofargs & "')"
+      ;$restofargs = StringReplace ($arguments, $args[0] & " ", "", 1 , 1)
+      local $last = ""
+      local $title = ""
+      local $messagebox = ""
+      For $i = 0 To Ubound($args) - 1
+        if $args[$i] == "|" then
+          $last = $i
+          $i = Ubound($args) + 1
+        else
+          $title = $title & " " & $args[$i]
+        endif
+      Next
+      For $i = $last+1 To Ubound($args) - 1
+        $messagebox = $messagebox & " " & $args[$i]
+      Next
+      return "MsgBox(64, '" & $title & "','" & $messagebox & "')"
+      ;return "MsgBox(64, '" & $args[0] & "','" & $restofargs & "')"
     Case "run" ; programname.exe, .\ c:\somewhere\  , max min hide
       $args = StringSplit($arguments, " ", 2)
       if Ubound($args) == 3 then
