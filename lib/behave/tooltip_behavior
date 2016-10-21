@@ -1,12 +1,99 @@
 Func ToolTipBehavior()
-	Local $title = InputBox("Display ToolTip Behavior", "What would you like to display?", "Alert" , "")
-	if $title <> "" then
-		Local $message = InputBox("Display Message Behavior", "What would you like the message to be?", "Hello World!", "")
-		if $message <> "" then
-			local $totrig = "message " & $title & " " & $message
+	local $mess = AskForTipMessage()
+	local $locs = AskForTipMessage()
+	local $locs = stringsplit($locs," ",2)
+	local $locx = $locs[0]
+	local $locy = $locs[1]
+	if $mess <> "" && $mess <> "''" then
+		if $locx <> "" then
+			$totrig = $locx & " " & $locy & " " & $mess
 			AddToBehavior($totrig)
-		else
-			msgbox(64, "Display Message Behavior", "You must include both a title and a message to successfully create this Behavior")
 		endif
+	endif
+EndFunc
+
+
+Func GetTipMessage()
+	return "'" & InputBox("Tip Message - Text", "What text should be displayed?", "Et tu, Brute?", "") & "'"
+EndFunc
+
+Func GetTipVariableName()
+	local $sAnswer = InputBox("Tip Message - Variable", "Which Variable should be displayed? (0 - 31)", "1", "")
+	if $sAnswer <> "" then
+		return "$uservar" & $sAnswer
+	endif
+EndFunc
+
+
+Func AskForTipMessage()
+	Local $hChild11 = GUICreate("Tool Tip Behavior", 400*$R, 200*$R, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("What message should the Tip diplay?", 20*$R, 20*$R, 360*$R, 35*$R)
+	GUICtrlSetStyle(-1, $SS_CENTER)
+	local $button111 = GUICtrlCreateButton("Text", 20*$R, 80*$R, 160*$R, 60*$R)
+	local $button112 = GUICtrlCreateButton("Variable", 220*$R, 80*$R, 160*$R, 60*$R)
+	GUISetState()
+	While 1
+		$hMsg = GUIGetMsg()
+		Switch $hMsg
+			Case $GUI_EVENT_CLOSE
+				GUIDelete($hChild11)
+				ExitLoop
+			Case $button111
+				local $mess = GetTipMessage()
+				GUIDelete($hChild11)
+				ExitLoop
+			Case $button112
+				local $mess = GetTipVariableName()
+				GUIDelete($hChild11)
+				ExitLoop
+		EndSwitch
+	WEnd
+	return $mess
+EndFunc
+
+
+Func AskForTipLocations()
+	Local $hChild11 = GUICreate("Tool Tip Behavior", 600*$R, 200*$R, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("Where should be Tip be displayed on the screen?", 20*$R, 20*$R, 560*$R, 35*$R)
+	GUICtrlSetStyle(-1, $SS_CENTER)
+	local $button111 = GUICtrlCreateButton("Near CursorText", 20*$R, 80*$R, 160*$R, 60*$R)
+	local $button112 = GUICtrlCreateButton("At X and Y Coordinates", 220*$R, 80*$R, 160*$R, 60*$R)
+	local $button113 = GUICtrlCreateButton("At X and Y Variables", 420*$R, 80*$R, 160*$R, 60*$R)
+	GUISetState()
+	While 1
+		$hMsg = GUIGetMsg()
+		Switch $hMsg
+			Case $GUI_EVENT_CLOSE
+				GUIDelete($hChild11)
+				ExitLoop
+			Case $button111
+				GUIDelete($hChild11)
+				ExitLoop
+			Case $button112
+				local $locx = GetTipStaticX()
+				local $locy = GetTipStaticY()
+				GUIDelete($hChild11)
+				ExitLoop
+			Case $button113
+				local $locx = GetTipVariableX()
+				local $locy = GetTipVariableY()
+				GUIDelete($hChild11)
+				ExitLoop
+		EndSwitch
+	WEnd
+	return $locx & " " & $locy
+EndFunc
+
+Func GetTipVariableX()
+	local $sAnswer = InputBox("Tip Location - Variable", "Which Variable (0 - 31) should become the X-axis value?", "1", "")
+	if $sAnswer <> "" then
+		return "$uservar" & $sAnswer
+	endif
+EndFunc
+
+Func GetTipVariableY()
+	local $sAnswer = InputBox("Tip Location - Variable", "Which Variable (0 - 31) should become the Y-axis value?", "1", "")
+	if $sAnswer <> "" then
+		return "$uservar" & $sAnswer
 	endif
 EndFunc

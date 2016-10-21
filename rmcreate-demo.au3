@@ -272,7 +272,7 @@ Func CreateBehaviors()
 	Global $hButton11 = GUICtrlCreateButton("Mouse Click", 						330*$R, 	215*$R, 	250*$R, 35*$R) ;done
 	Global $hButton12 = GUICtrlCreateButton("Scroll Mouse Wheel", 		330*$R, 	260*$R, 	250*$R, 35*$R) ;done
 	Global $hButton14 = GUICtrlCreateButton("Manage Programs",    		330*$R, 	305*$R, 	250*$R, 35*$R) ;done
-	Global $hButton9  = GUICtrlCreateButton("Display ToolTip",				330*$R, 	350*$R, 	250*$R, 35*$R) ;done
+	Global $hButton9  = GUICtrlCreateButton("Display Tip",						330*$R, 	350*$R, 	250*$R, 35*$R) ;done
 	Global $hButton18 = GUICtrlCreateButton("Display Message",				330*$R, 	395*$R, 	250*$R, 35*$R) ;done
 	Global $hButton15 = GUICtrlCreateButton("Wait", 									330*$R, 	440*$R, 	250*$R, 35*$R) ;done
 	Global $hButton19 = GUICtrlCreateButton("Manage ReflexMem",				330*$R, 	485*$R, 	250*$R, 35*$R) ;??????
