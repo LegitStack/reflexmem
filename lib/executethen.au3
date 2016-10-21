@@ -137,7 +137,6 @@ Func ActionMapThen($command, $arguments)
          $combined = $combined & " " & $args[$i]
       Next
       if $args[0] == "meh" then
-        msgbox(64,"","ToolTip(" & $combined & ")")
         return "ToolTip(" & $combined & ")"
       else
         return "ToolTip(" & $combined & "," & $args[0] & "," & $args[1] & ")"
