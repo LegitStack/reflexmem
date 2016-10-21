@@ -60,6 +60,9 @@ Func AskForTipLocations()
 	local $button112 = GUICtrlCreateButton("At X and Y Coordinates", 220*$R, 80*$R, 160*$R, 60*$R)
 	local $button113 = GUICtrlCreateButton("At X and Y Variables", 420*$R, 80*$R, 160*$R, 60*$R)
 	GUISetState()
+	local $locs = ""
+	local $locx = ""
+	local $locy = ""
 	While 1
 		$hMsg = GUIGetMsg()
 		Switch $hMsg
@@ -67,16 +70,19 @@ Func AskForTipLocations()
 				GUIDelete($hChild11)
 				ExitLoop
 			Case $button111
+				$locx = "meh"
+				$locy = "meh"
 				GUIDelete($hChild11)
 				ExitLoop
 			Case $button112
-				local $locx = GetTipStaticX()
-				local $locy = GetTipStaticY()
+				$locs = stringsplit(GetTipLocationByMouse()," ",2)
+				$locx = $locs[0]
+				$locy = $locs[1]
 				GUIDelete($hChild11)
 				ExitLoop
 			Case $button113
-				local $locx = GetTipVariableX()
-				local $locy = GetTipVariableY()
+				$locx = GetTipVariableX()
+				$locy = GetTipVariableY()
 				GUIDelete($hChild11)
 				ExitLoop
 		EndSwitch
@@ -96,4 +102,19 @@ Func GetTipVariableY()
 	if $sAnswer <> "" then
 		return "$uservar" & $sAnswer
 	endif
+EndFunc
+
+Func GetTipLocationByMouse()
+	Local $aPos
+	While 1
+	  $aPos = MouseGetPos()
+		ToolTip("X: " & $aPos[0] & "  Y: " & $aPos[1])
+	  If _IsPressed("01") Then
+			$aPos = MouseGetPos()
+	    ExitLoop
+	  endIf
+	WEnd
+	Local $xcord = InputBox("Tip Location - Static", "What X coordinate would you like the Tip to display at?", $aPos[0], "")
+	Local $ycord = InputBox("Tip Location - Static", "What Y coordinate would you like the Tip to display at?", $aPos[1], "")
+	return $xcord & " " & $ycord
 EndFunc
