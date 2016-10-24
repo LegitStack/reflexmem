@@ -339,7 +339,7 @@ Func SetLabel()
 				GUICtrlSetData($hlabel, $data)
 			EndIf
 		elseif $a[4] == $hButton9 Then
-			$data = "Lift a key up as if not holding it down on they keyboard any longer." & @CRLF & @CRLF & "Which key?"
+			$data = "Ask the user to input data or answer a yes / no question. Save that result to the clipboard, in a variable, or in a file." & @CRLF & @CRLF & "What question?" & @CRLF & @CRLF & "Where should we save the answer?"
 			if GUICtrlRead($hlabel) <> $data Then
 				GUICtrlSetData($hlabel, $data)
 			EndIf
@@ -359,7 +359,7 @@ Func SetLabel()
 				GUICtrlSetData($hlabel, $data)
 			EndIf
 		elseif $a[4] == $hButton13 Then
-			$data = "Put data on the clipboard." & @CRLF & @CRLF & "What Text?"
+			$data = "Put data on the clipboard or retrieve data from clipboard." & @CRLF & @CRLF & "What text?" & @CRLF & @CRLF & "What method?"
 			if GUICtrlRead($hlabel) <> $data Then
 				GUICtrlSetData($hlabel, $data)
 			EndIf
@@ -374,7 +374,7 @@ Func SetLabel()
 				GUICtrlSetData($hlabel, $data)
 			EndIf
 		elseif $a[4] == $hButton18 Then
-			$data = "Display Informational Message." & @CRLF & @CRLF & "What message?"
+			$data = "Display Informational Message Box with OK button, or display a ToolTip at a certain location." & @CRLF & @CRLF & "What message?"
 			if GUICtrlRead($hlabel) <> $data Then
 				GUICtrlSetData($hlabel, $data)
 			EndIf
@@ -389,7 +389,7 @@ Func SetLabel()
 				GUICtrlSetData($hlabel, $data)
 			EndIf
 		elseif $a[4] == $hButton21 Then
-				$data = "Reads Text that is displayed on the screen and copies it to the clipboard."
+				$data = "Reads Text that is displayed on the screen and copies it to the clipboard." & @CRLF & @CRLF & "Choose as small an area as possible to read text from."& @CRLF & @CRLF & "This can take sometime."
 				if GUICtrlRead($hlabel) <> $data Then
 				GUICtrlSetData($hlabel, $data)
 			EndIf
