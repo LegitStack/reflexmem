@@ -1,0 +1,78 @@
+Func UserInteractionBehavior()
+  Local $hChild11 = GUICreate("User Interaction Behavior", 400*$R, 200*$R, -1, -1, -1, -1, $hGUI)
+  GUICtrlCreateLabel("Ask User for input or ask a 'yes or no' question? ", 20*$R, 20*$R, 360*$R, 35*$R)
+  GUICtrlSetStyle(-1, $SS_CENTER)
+  local $button111 = GUICtrlCreateButton("User Input", 20*$R, 80*$R, 160*$R, 60*$R)
+  local $button112 = GUICtrlCreateButton("Yes/No Question", 220*$R, 80*$R, 160*$R, 60*$R)
+  GUISetState()
+  While 1
+  	$hMsg = GUIGetMsg()
+  	Switch $hMsg
+  		Case $GUI_EVENT_CLOSE
+  			GUIDelete($hChild11)
+  			ExitLoop
+  		Case $button111
+        local $interaction = "(InputBox('User Interaction','"
+  			GUIDelete($hChild11)
+  			ExitLoop
+  		Case $button112
+        local $interaction = "SetYesNo(MsgBox(4, 'User Interaction','"
+  		  GUIDelete($hChild11)
+  			ExitLoop
+  	EndSwitch
+  WEnd
+
+  ;what question should you ask the user?
+  $userQuestion = GetQuestionForUser()
+  $interaction = $interaction & $userQuestion & "'))"
+  ;ask where to save the interaction - file? clipboard? variable?
+  UserInputSaveTo($interaction)
+EndFunc
+
+Func GetQuestionForUser()
+	local $sAnswer = InputBox("User Interaction Behavior", "What do you want to ask the user?", "I am, therefore I think?", "")
+	if $sAnswer <> "" then
+		return $sAnswer
+	endif
+EndFunc
+
+Func UserInputSaveTo($interaction)
+  Local $hChild11 = GUICreate("User Interaction Behavior", 600*$R, 200*$R, -1, -1, -1, -1, $hGUI)
+  GUICtrlCreateLabel("Where do you want to save User Input?", 20*$R, 20*$R, 360*$R, 35*$R)
+  GUICtrlSetStyle(-1, $SS_CENTER)
+  local $button111 = GUICtrlCreateButton("a Variable",    20*$R,  80*$R, 160*$R, 60*$R)
+  local $button112 = GUICtrlCreateButton("the Clipboard", 220*$R, 80*$R, 160*$R, 60*$R)
+  local $button113 = GUICtrlCreateButton("a File",        420*$R, 80*$R, 160*$R, 60*$R)
+  GUISetState()
+  While 1
+  	$hMsg = GUIGetMsg()
+  	Switch $hMsg
+  		Case $GUI_EVENT_CLOSE
+  			GUIDelete($hChild11)
+  			ExitLoop
+  		Case $button111
+        local $sAnswer = InputBox("User Interaction Behavior", "Whihch variable should it be saved to? (0 - 31)", "1", "")
+        if $sAnswer <> "" then
+          local $totrig = "setvar " & $sAnswer & " " & $interaction
+          AddToBehavior($totrig)
+        endif
+  			GUIDelete($hChild11)
+  			ExitLoop
+  		Case $button112
+        local $totrig = "execute ClipPut(" & $interaction & ")"
+        AddToBehavior($totrig)
+  		  GUIDelete($hChild11)
+  			ExitLoop
+      Case $button113
+        Local $sAnswer = FileSaveDialog  ("Save File", @MyDocumentsDir & "\", "Text (*.txt)", $FD_FILEMUSTEXIST)
+        if $sAnswer <> "" then
+          local $totrig = "execute OpenWriteFile('" & $sAnswer & "'," & $interaction & ")"
+          AddToBehavior($totrig)
+        endif
+        GUIDelete($hChild11)
+        ExitLoop
+  	EndSwitch
+  WEnd
+
+  ;ask where to save the interaction - file? clipboard? variable?
+EndFunc

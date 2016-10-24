@@ -31,6 +31,7 @@ Func AskForTipMessage()
 	GUICtrlSetStyle(-1, $SS_CENTER)
 	local $button111 = GUICtrlCreateButton("Text", 20*$R, 80*$R, 160*$R, 60*$R)
 	local $button112 = GUICtrlCreateButton("Variable", 220*$R, 80*$R, 160*$R, 60*$R)
+	local $mess 		 = ""
 	GUISetState()
 	While 1
 		$hMsg = GUIGetMsg()
@@ -39,11 +40,11 @@ Func AskForTipMessage()
 				GUIDelete($hChild11)
 				ExitLoop
 			Case $button111
-				local $mess = GetTipMessage()
+				$mess = GetTipMessage()
 				GUIDelete($hChild11)
 				ExitLoop
 			Case $button112
-				local $mess = GetTipVariableName()
+				$mess = GetTipVariableName()
 				GUIDelete($hChild11)
 				ExitLoop
 		EndSwitch

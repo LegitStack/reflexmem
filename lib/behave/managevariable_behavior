@@ -32,12 +32,13 @@ Func ModifyVariableBehavior() ;must put a escape chaaracter before and apostroph
 	if $sAnswer <> "" then
 		local $totrig = "setvar " & $sAnswer & " "
 	endif
-	local $hMain_GUI = GUICreate("Modify Variable Behavior",600*$R, 200*$R, -1, -1, -1, -1, $hGUI)
-	GUICtrlCreateLabel("What should it contain?", 20*$R, 20*$R, 560*$R, 35*$R)
+	local $hMain_GUI = GUICreate("Modify Variable Behavior",400*$R, 260*$R, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("What should it contain?", 20*$R, 20*$R, 360*$R, 35*$R)
 	GUICtrlSetStyle(-1, $SS_CENTER)
-	local $hmButton1 = GUICtrlCreateButton("a Value", 			20*$R, 80*$R, 160*$R, 60*$R)
-	local $hmButton2 = GUICtrlCreateButton("a Variable", 		220*$R, 80*$R, 160*$R, 60*$R)
-	local $hmButton3 = GUICtrlCreateButton("the Clipboard", 420*$R, 80*$R, 160*$R, 60*$R)
+	local $hmButton1 = GUICtrlCreateButton("a Value", 			20*$R,  80*$R,  160*$R, 60*$R)
+	local $hmButton2 = GUICtrlCreateButton("a Variable", 		220*$R, 80*$R,  160*$R, 60*$R)
+	local $hmButton3 = GUICtrlCreateButton("the Clipboard", 20*$R,  160*$R, 160*$R, 60*$R)
+	local $hmButton4 = GUICtrlCreateButton("a File", 				220*$R, 160*$R,  160*$R, 60*$R)
 	GUISetState()
 	While 1
 		Switch GUIGetMsg()
@@ -63,6 +64,14 @@ Func ModifyVariableBehavior() ;must put a escape chaaracter before and apostroph
 			Case $hmButton3
 				$totrig = $totrig & "ClipGet()"
 				AddToBehavior($totrig)
+				GUIDelete($hMain_GUI)
+				ExitLoop
+			Case $hmButton4
+				Local $sAnswer = FileOpenDialog ( "Open File", @MyDocumentsDir & "\", "Text (*.txt)", $FD_FILEMUSTEXIST)
+				if $sAnswer <> "" then
+					$totrig = $totrig & "OpenReadFile('" & $sAnswer & "')"
+					AddToBehavior($totrig)
+				endif
 				GUIDelete($hMain_GUI)
 				ExitLoop
 			EndSwitch

@@ -141,16 +141,9 @@ Func ActionMapThen($command, $arguments)
       else
         return "ToolTip(" & $combined & "," & $args[0] & "," & $args[1] & ")"
       endif
-    Case "run" ; programname.exe, .\ c:\somewhere\  , max min hide
-      $args = StringSplit($arguments, " ", 2)
-      if Ubound($args) == 3 then
-          ;_arrayDisplay($args, "args")
-          return "Run('" & $args[0] & "', '" & $args[1] & "'," & Execute($args[2]) & ")"
-      elseif Ubound($args) == 2 then
-        return "Run('" & $args[0] & "', '" & $args[1] & "')"
-      else
-        return "Run('" & $arguments & "')"
-      endif
+    Case "execute" ; programname.exe, .\ c:\somewhere\  , max min hide
+      ;msgbox(64,"",$arguments)
+      return $arguments
     Case Else
     ;case keydown
     ;case keyup

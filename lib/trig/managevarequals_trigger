@@ -3,9 +3,9 @@ Func ManageVarEqualsTrigger() ;must put a escape chaaracter before and apostroph
 	local $hMain_GUI = GUICreate("Variable Equals Trigger",600*$R, 200*$R, -1, -1, -1, -1, $hGUI)
 	GUICtrlCreateLabel("What should the trigger check?", 20*$R, 20*$R, 560*$R, 35*$R)
 	GUICtrlSetStyle(-1, $SS_CENTER)
-	local $hmButton1 = GUICtrlCreateButton("Variable  =  a Value", 		20*$R, 80*$R, 160*$R, 60*$R)
+	local $hmButton1 = GUICtrlCreateButton("Variable  =  a Value", 						20*$R,  80*$R, 160*$R, 60*$R)
 	local $hmButton2 = GUICtrlCreateButton("Variable  =  another Variable", 	220*$R, 80*$R, 160*$R, 60*$R)
-	local $hmButton3 = GUICtrlCreateButton("Variable has Changed",420*$R, 80*$R, 160*$R, 60*$R)
+	local $hmButton3 = GUICtrlCreateButton("Variable has Changed",						420*$R, 80*$R, 160*$R, 60*$R)
 	GUISetState()
 
 	While 1
