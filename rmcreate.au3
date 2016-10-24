@@ -276,21 +276,21 @@ EndFunc
 
 
 Func CreateBehaviors()
-	Global $hGroup1   = GUICtrlCreateGroup("Behaviors", 							310*$R, 	10*$R, 	280*$R, 615*$R)
-	Global $hButton7  = GUICtrlCreateButton("Send Keys",							330*$R, 	35*$R, 	250*$R, 35*$R) ;done
-	Global $hButton8  = GUICtrlCreateButton("Key Up / Down", 					330*$R, 	80*$R, 	250*$R, 35*$R) ;done
-	Global $hButton13 = GUICtrlCreateButton("Copy / Paste", 					330*$R, 	125*$R, 	250*$R, 35*$R) ;done
-	Global $hButton10 = GUICtrlCreateButton("Move Mouse", 						330*$R, 	170*$R, 	250*$R, 35*$R) ;done
-	Global $hButton11 = GUICtrlCreateButton("Mouse Click", 						330*$R, 	215*$R, 	250*$R, 35*$R) ;done
-	Global $hButton12 = GUICtrlCreateButton("Scroll Mouse Wheel", 		330*$R, 	260*$R, 	250*$R, 35*$R) ;done
-	Global $hButton14 = GUICtrlCreateButton("Manage Programs",    		330*$R, 	305*$R, 	250*$R, 35*$R) ;done
-	Global $hButton9  = GUICtrlCreateButton("User Interaction",				330*$R, 	350*$R, 	250*$R, 35*$R) ;done
-	Global $hButton18 = GUICtrlCreateButton("Display Message",				330*$R, 	395*$R, 	250*$R, 35*$R) ;done
-	Global $hButton15 = GUICtrlCreateButton("Wait", 									330*$R, 	440*$R, 	250*$R, 35*$R) ;done
-	Global $hButton19 = GUICtrlCreateButton("Manage ReflexMem",				330*$R, 	485*$R, 	250*$R, 35*$R) ;??????
-	Global $hButton20 = GUICtrlCreateButton("Manage Variables",				330*$R, 	530*$R, 	250*$R, 35*$R) ;done
-	Global $hButton21 = GUICtrlCreateButton("Get On Screen Text",			330*$R, 	575*$R, 	250*$R, 35*$R) ;done
-	Global $hButton17 = GUICtrlCreateButton("Submit Behaviors",				310*$R, 	655*$R, 	280*$R, 50*$R) ;done
+	Global $hGroup1   = GUICtrlCreateGroup("Behaviors", 					310*$R, 	10*$R, 	280*$R, 615*$R)
+	Global $hButton7  = GUICtrlCreateButton("Send Keys",					330*$R, 	35*$R, 	250*$R, 35*$R) ;done
+	Global $hButton8  = GUICtrlCreateButton("Key Up / Down", 			330*$R, 	80*$R, 	250*$R, 35*$R) ;done
+	Global $hButton13 = GUICtrlCreateButton("Copy / Paste", 			330*$R, 	125*$R, 	250*$R, 35*$R) ;done
+	Global $hButton10 = GUICtrlCreateButton("Move Mouse", 				330*$R, 	170*$R, 	250*$R, 35*$R) ;done
+	Global $hButton11 = GUICtrlCreateButton("Mouse Click", 				330*$R, 	215*$R, 	250*$R, 35*$R) ;done
+	Global $hButton12 = GUICtrlCreateButton("Scroll Mouse Wheel", 330*$R, 	260*$R, 	250*$R, 35*$R) ;done
+	Global $hButton9  = GUICtrlCreateButton("User Interaction",		330*$R, 	305*$R, 	250*$R, 35*$R) ;done
+	Global $hButton18 = GUICtrlCreateButton("Display Message",		330*$R, 	350*$R, 	250*$R, 35*$R) ;done
+	Global $hButton15 = GUICtrlCreateButton("Wait", 							330*$R, 	395*$R, 	250*$R, 35*$R) ;done
+	Global $hButton21 = GUICtrlCreateButton("Get On Screen Text",	330*$R, 	440*$R, 	250*$R, 35*$R) ;done
+	Global $hButton14 = GUICtrlCreateButton("Manage Programs",    330*$R, 	485*$R, 	250*$R, 35*$R) ;done
+	Global $hButton20 = GUICtrlCreateButton("Manage Variables",		330*$R, 	530*$R, 	250*$R, 35*$R) ;done
+	Global $hButton19 = GUICtrlCreateButton("Manage ReflexMem",		330*$R, 	575*$R, 	250*$R, 35*$R) ;??????
+	Global $hButton17 = GUICtrlCreateButton("Submit Behaviors",		310*$R, 	655*$R, 	280*$R, 50*$R) ;done
 	GUICtrlSetFont(-1, 10)
 
 	Global $hlistbehavs 		= GUICTRLCreateListView("Behaviors                             ", 35*$R, 245*$R, 240*$R, 380*$R)
@@ -756,17 +756,24 @@ Func SaveTrigger()
   local $file = GetScriptsPath("if") & $triggerNumber & ".txt"
 	local $filename = GetScriptsPath("names") & $triggerNumber & ".txt"
 	local $recipefile = GetScriptsPath("recipe") & $triggerNumber & ".txt"
-	FileWrite($filename, $triggerTextNames)
-	FileWrite($recipefile, $triggerRecipeName)
-  If Not FileWrite($file, $triggerText) Then
-    MsgBox($MB_SYSTEMMODAL, $triggerNumber, "couldn't write trigger")
-    Return False
-	else
-		GUICtrlSetState($hButton16, $GUI_HIDE)
-		sleep(1000)
-		msgbox(64, "Trigger", "Successfully Saved")
-	EndIf
+	Local $hFileOpen1 = FileOpen($file, $FO_CREATEPATH + $FO_OVERWRITE)
+	Local $hFileOpen2 = FileOpen($filename, $FO_CREATEPATH + $FO_OVERWRITE)
+	Local $hFileOpen3 = FileOpen($recipefile, $FO_CREATEPATH + $FO_OVERWRITE)
 
+		FileWrite($filename, $triggerTextNames)
+		FileWrite($recipefile, $triggerRecipeName)
+	  If Not FileWrite($file, $triggerText) Then
+	    MsgBox($MB_SYSTEMMODAL, $triggerNumber, "couldn't write trigger")
+	    Return False
+		else
+			GUICtrlSetState($hButton16, $GUI_HIDE)
+			sleep(1000)
+			msgbox(64, "Trigger", "Successfully Saved")
+		EndIf
+
+  FileClose($hFileOpen1)
+	FileClose($hFileOpen2)
+	FileClose($hFileOpen3)
 EndFunc
 
 Func SaveBehavior()
@@ -785,15 +792,18 @@ Func SaveBehavior()
 
 	local $file = GetScriptsPath("then") & $triggerNumber & ".txt"
 
-	If Not FileWrite($file, $behaviorText) Then
-		MsgBox($MB_SYSTEMMODAL, $triggerNumber, "couldn't write behavior")
-		Return False
-	else
-		GUICtrlSetState($hButton17, $GUI_HIDE)
-		sleep(1000)
-		msgbox(64, "Behavior", "Successfully Saved")
-	EndIf
+	Local $hFileOpen1 = FileOpen($file, $FO_CREATEPATH + $FO_OVERWRITE)
 
+		If Not FileWrite($file, $behaviorText) Then
+			MsgBox($MB_SYSTEMMODAL, $triggerNumber, "couldn't write behavior")
+			Return False
+		else
+			GUICtrlSetState($hButton17, $GUI_HIDE)
+			sleep(1000)
+			msgbox(64, "Behavior", "Successfully Saved")
+		EndIf
+
+	FileClose($hFileOpen1)
 EndFunc
 
 

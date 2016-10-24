@@ -4,6 +4,7 @@ Func UserInteractionBehavior()
   GUICtrlSetStyle(-1, $SS_CENTER)
   local $button111 = GUICtrlCreateButton("User Input", 20*$R, 80*$R, 160*$R, 60*$R)
   local $button112 = GUICtrlCreateButton("Yes/No Question", 220*$R, 80*$R, 160*$R, 60*$R)
+  local $interaction = ""
   GUISetState()
   While 1
   	$hMsg = GUIGetMsg()
@@ -12,21 +13,22 @@ Func UserInteractionBehavior()
   			GUIDelete($hChild11)
   			ExitLoop
   		Case $button111
-        local $interaction = "(InputBox('User Interaction','"
+        $interaction = "(InputBox('User Interaction','"
   			GUIDelete($hChild11)
   			ExitLoop
   		Case $button112
-        local $interaction = "SetYesNo(MsgBox(4, 'User Interaction','"
+        $interaction = "SetYesNo(MsgBox(4, 'User Interaction','"
   		  GUIDelete($hChild11)
   			ExitLoop
   	EndSwitch
   WEnd
-
-  ;what question should you ask the user?
-  $userQuestion = GetQuestionForUser()
-  $interaction = $interaction & $userQuestion & "'))"
-  ;ask where to save the interaction - file? clipboard? variable?
-  UserInputSaveTo($interaction)
+  if $interaction <> "" then
+    ;what question should you ask the user?
+    $userQuestion = GetQuestionForUser()
+    $interaction = $interaction & $userQuestion & "'))"
+    ;ask where to save the interaction - file? clipboard? variable?
+    UserInputSaveTo($interaction)
+  endif
 EndFunc
 
 Func GetQuestionForUser()

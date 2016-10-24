@@ -588,8 +588,8 @@ Func OpenReadFile($sFilePath)
     Return "File Not Found"
   EndIf
 
-  ; Read the contents of the file using the handle returned by FileOpen.
-  Local $sFileRead = FileRead($hFileOpen)
+    ; Read the contents of the file using the handle returned by FileOpen.
+    Local $sFileRead = FileRead($hFileOpen)
 
   ; Close the handle returned by FileOpen.
   FileClose($hFileOpen)
@@ -599,11 +599,13 @@ EndFunc
 
 
 Func OpenWriteFile($sFilePath, $data)
-  ; Create a temporary file to read data from.
-  If Not FileWrite($sFilePath, $data) Then
-    Return "File Not Created"
-  EndIf
-EndFunc   ;==>Example
+  Local $hFileOpen = FileOpen($sFilePath, $FO_CREATEPATH + $FO_OVERWRITE)
+    ; Create a temporary file to read data from.
+    If Not FileWrite($sFilePath, $data) Then
+      Return "File Not Created"
+    EndIf
+  FileClose($hFileOpen)
+EndFunc
 
 
 Func SetYesNo($data)
