@@ -457,7 +457,7 @@ Func SetLabel1()
 				GUICtrlSetData($hLabel1, $data)
 			EndIf
 		elseif $a[4] == $hButton24 Then
-			$data = "No Trigger needed, behaviors immediately executes when this recipe is active."
+			$data = "No Trigger needed, behaviors immediately executes when this recipe is active and stay active. When using the 'Do' Trigger it is adviced that you include the 'Exit ReflexMem' behavior."
 			if GUICtrlRead($hLabel1) <> $data Then
 				GUICtrlSetData($hLabel1, $data)
 			EndIf

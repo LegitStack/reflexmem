@@ -43,10 +43,10 @@ Func ReflexGui()
         run("rmcreate.exe")
         ExitLoop
       Case $idPlugin
-        MsgBox(64, "ReflexMem Lite", "You are running ReflexMem Lite which is free and doesn't have the ability to import or run plugins. Please go to www.reflexmem.com and buy the pro version of ReflexMem. In the meantime, thanks for using reflexmem lite!")
+        MsgBox(64, "ReflexMem Elite", "You are running ReflexMem Elite which doesn't yet have the ability to import or run plugins. Please go to www.reflexmem.com and buy the Elite version of ReflexMem. In the meantime, thanks for using ReflexMem Elite!")
         ImportFileToInclude()
       Case $idAbout
-        MsgBox(64, "About ReflexMem Lite 1.0", "ReflexMem is an attempt to create non-coding trigger-based automation on windows. It was created by ReflexMem Industrries LLC and is free to use. If you have feedback about this product or find this software useful please contact us at reflexmem@gmail.com.")
+        MsgBox(64, "About ReflexMem Elite 1.0", "ReflexMem is an attempt to create non-coding trigger-based automation on Windows. It was created by ReflexMem Industrries LLC. If you have feedback about this product or find this software useful please contact us at reflexmem@gmail.com.")
    EndSwitch
   wend
   GUIDelete($hGUI)
