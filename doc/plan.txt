@@ -1,4 +1,4 @@
-1   extract ocr stuff out into its own libraries.
+﻿1   extract ocr stuff out into its own libraries.
 
 2   add module for other abilities such as reading large amounts of text and matching an answer
 
@@ -515,3 +515,15 @@ we could do 1-10, then 2-10 then 1-9 then 2-9 then 3-10 then 1-8 etc. until you 
 1 and just 10. that could be a good approximation to the best match to the
 question, except it would undoubtedly sometimes catch things you didn't want caught.
 anyway. we'll have to think more about this. I've run out of time.
+
+
+
+
+
+
+
+
+
+14. one features we could add is the Wake up computer Feature - which could be part of a Manage Windows Behavior. anyway, the idea is that if you know the computer will be or might be asleep you add in this behavior, followed by wait several seconds at the top of a recipe. If the computer is already on, it does nothing, but if the computer is off it wakes it up. I don't know if this is possible but this might help
+
+https://www.autoitscript.com/forum/topic/21575-hibernate-and-wakeup-the-computer/
