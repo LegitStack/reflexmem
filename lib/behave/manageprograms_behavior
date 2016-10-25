@@ -26,11 +26,19 @@ Func ManageProgramsBehavior()
 EndFunc
 
 Func RunProgramBehavior()
-	local $sFile = FileOpenDialog("Choose Program...", @ProgramFilesDir & "\Internet Explorer\", "All (*.*)",  $FD_FILEMUSTEXIST, "iexplore.exe")
+
+	If DirGetSize(@ProgramFilesDir & "\Internet Explorer\") <> -1 Then
+		local $sFile = FileOpenDialog("Choose Program...", @ProgramFilesDir & "\Internet Explorer\", "All (*.*)",  $FD_FILEMUSTEXIST, "iexplore.exe")
+	else
+		local $sFile = FileOpenDialog("Choose Program...", @ProgramFilesDir, "All (*.*)",  $FD_FILEMUSTEXIST)
+	EndIf
 	if $sFile == "" then
 		return
 	endif
 	local $arguments 	= " " & InputBox("Run Program Behavior", "Any arguments to run this program with? (such as: https://www.google.com)", "", "")
+	if $arguments = " " then
+		$arguments = ""
+	endif
 	local $split 		 	= StringInStr($sFile, "\", 0, -1)
 	local $program 		= stringright($sFile, StringLen($sFile)-$split)
 	local $location 	= StringLeft($sFile, $split)
