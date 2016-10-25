@@ -1,0 +1,1 @@
+run("C:\Windows\system32\dsa.msc")

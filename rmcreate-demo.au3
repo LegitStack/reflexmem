@@ -15,6 +15,8 @@
 #include <lib\screencapturedpi.au3>
 #include <lib\applieddpi.au3>
 ;#include <lib\dpiawareness.au3>
+
+;DEMO STUFF
 #include <lib\upgrademessage.au3>
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -27,6 +29,9 @@
 #include <lib\behave\mouseclick_behavior>
 #include <lib\behave\messagebox_behavior>
 #include <lib\behave\wait_behavior>
+#include <lib\behave\tooltip_behavior>
+#include <lib\behave\managedisplay_behavior>
+;END DEMO
 
 ;DllCall("User32.dll", "bool", "SetProcessDPIAwareness")
 ;GUISetFont(8.5 * _GDIPlus_GraphicsGetDPIRatio()[0])
@@ -199,9 +204,9 @@ Func ShowBehaviors($includeback = true)
 	GUICtrlSetState($hlistbehavs, $GUI_SHOW)
 	if $includeback then
 		GUICtrlSetState($hButtonCancel2, $GUI_SHOW)
+		GUICtrlSetState($hButtonUp2, $GUI_SHOW)
+		GUICtrlSetState($hButtonDown2, $GUI_SHOW)
 	endif
-	GUICtrlSetState($hButtonUp2, $GUI_SHOW)
-	GUICtrlSetState($hButtonDown2, $GUI_SHOW)
 	GUICtrlSetState($hButtonDelete2, $GUI_SHOW)
 EndFunc
 
@@ -238,7 +243,7 @@ Func CreateTriggers()
 	Global $hButton16 = GUICtrlCreateButton("Submit Triggers", 				20*$R, 	655*$R, 	280*$R, 50*$R)
 	GUICtrlSetFont(-1, 10)
 
-	Global $hlisttrigs = GUICTRLCreateListView("Triggers                               ", 330*$R, 245*$R, 240*$R, 380*$R)
+	Global $hlisttrigs 			= GUICTRLCreateListView("Triggers                               ", 330*$R, 245*$R, 240*$R, 380*$R)
 	Global $hButtonCancel1 	= GUICtrlCreateButton("Cancel", 330*$R, 655*$R, 80*$R, 50*$R)
 	Global $hButtonUp1 			= GUICtrlCreateButton("↑", 415*$R, 655*$R, 30*$R, 50*$R)
 	Global $hButtonDown1 		= GUICtrlCreateButton("↓", 450*$R, 655*$R, 30*$R, 50*$R)
@@ -248,6 +253,7 @@ Func CreateTriggers()
 	GUICtrlSetStyle(-1, $SS_CENTER)
 
 	GUISetState()
+	;DEMO STUFF
 	GUICtrlSetState ($hButton1,$GUI_DISABLE)
 	GUICtrlSetState ($hButton22,$GUI_DISABLE)
 	GUICtrlSetState ($hButton2,$GUI_DISABLE)
@@ -258,40 +264,41 @@ Func CreateTriggers()
 	GUICtrlSetState ($hButton23,$GUI_DISABLE)
 	GUICtrlSetState ($hButton24,$GUI_DISABLE)
 	Global $disabled_triggers[9] = [$hButton1, $hButton2, $hButton22, $hButton3, $hButton4, $hButton5, $hButton6, $hButton23, $hButton24]
+	;END DEMO
 
 EndFunc
 
 
 Func CreateBehaviors()
-
-	Global $hGroup1   = GUICtrlCreateGroup("Behaviors", 							310*$R, 	10*$R, 	280*$R, 615*$R)
-	Global $hButton7  = GUICtrlCreateButton("Send Keys",							330*$R, 	35*$R, 	250*$R, 35*$R) ;done
-	Global $hButton8  = GUICtrlCreateButton("Key Up / Down", 					330*$R, 	80*$R, 	250*$R, 35*$R) ;done
-	Global $hButton13 = GUICtrlCreateButton("Copy / Paste", 					330*$R, 	125*$R, 	250*$R, 35*$R) ;done
-	Global $hButton10 = GUICtrlCreateButton("Move Mouse", 						330*$R, 	170*$R, 	250*$R, 35*$R) ;done
-	Global $hButton11 = GUICtrlCreateButton("Mouse Click", 						330*$R, 	215*$R, 	250*$R, 35*$R) ;done
-	Global $hButton12 = GUICtrlCreateButton("Scroll Mouse Wheel", 		330*$R, 	260*$R, 	250*$R, 35*$R) ;done
-	Global $hButton14 = GUICtrlCreateButton("Manage Programs",    		330*$R, 	305*$R, 	250*$R, 35*$R) ;done
-	Global $hButton9  = GUICtrlCreateButton("Display Tip",						330*$R, 	350*$R, 	250*$R, 35*$R) ;done
-	Global $hButton18 = GUICtrlCreateButton("Display Message",				330*$R, 	395*$R, 	250*$R, 35*$R) ;done
-	Global $hButton15 = GUICtrlCreateButton("Wait", 									330*$R, 	440*$R, 	250*$R, 35*$R) ;done
-	Global $hButton19 = GUICtrlCreateButton("Manage ReflexMem",				330*$R, 	485*$R, 	250*$R, 35*$R) ;??????
-	Global $hButton20 = GUICtrlCreateButton("Manage Variables",				330*$R, 	530*$R, 	250*$R, 35*$R) ;done
-	Global $hButton21 = GUICtrlCreateButton("Get On Screen Text",			330*$R, 	575*$R, 	250*$R, 35*$R) ;done
-	Global $hButton17 = GUICtrlCreateButton("Submit Behaviors",				310*$R, 	655*$R, 	280*$R, 50*$R) ;done
+	Global $hGroup1   = GUICtrlCreateGroup("Behaviors", 					310*$R, 	10*$R, 	280*$R, 615*$R)
+	Global $hButton7  = GUICtrlCreateButton("Send Keys",					330*$R, 	35*$R, 	250*$R, 35*$R) ;done
+	Global $hButton8  = GUICtrlCreateButton("Key Up / Down", 			330*$R, 	80*$R, 	250*$R, 35*$R) ;done
+	Global $hButton13 = GUICtrlCreateButton("Copy / Paste", 			330*$R, 	125*$R, 	250*$R, 35*$R) ;done
+	Global $hButton10 = GUICtrlCreateButton("Move Mouse", 				330*$R, 	170*$R, 	250*$R, 35*$R) ;done
+	Global $hButton11 = GUICtrlCreateButton("Mouse Click", 				330*$R, 	215*$R, 	250*$R, 35*$R) ;done
+	Global $hButton12 = GUICtrlCreateButton("Scroll Mouse Wheel", 330*$R, 	260*$R, 	250*$R, 35*$R) ;done
+	Global $hButton9  = GUICtrlCreateButton("User Interaction",		330*$R, 	305*$R, 	250*$R, 35*$R) ;done
+	Global $hButton18 = GUICtrlCreateButton("Display Message",		330*$R, 	350*$R, 	250*$R, 35*$R) ;done
+	Global $hButton15 = GUICtrlCreateButton("Wait", 							330*$R, 	395*$R, 	250*$R, 35*$R) ;done
+	Global $hButton21 = GUICtrlCreateButton("Get On Screen Text",	330*$R, 	440*$R, 	250*$R, 35*$R) ;done
+	Global $hButton14 = GUICtrlCreateButton("Manage Programs",    330*$R, 	485*$R, 	250*$R, 35*$R) ;done
+	Global $hButton20 = GUICtrlCreateButton("Manage Variables",		330*$R, 	530*$R, 	250*$R, 35*$R) ;done
+	Global $hButton19 = GUICtrlCreateButton("Manage ReflexMem",		330*$R, 	575*$R, 	250*$R, 35*$R) ;??????
+	Global $hButton17 = GUICtrlCreateButton("Submit Behaviors",		310*$R, 	655*$R, 	280*$R, 50*$R) ;done
 	GUICtrlSetFont(-1, 10)
 
-	Global $hlistbehavs = GUICTRLCreateListView("Behaviors                             ", 35*$R, 245*$R, 240*$R, 380*$R)
-	Global $hButtonCancel2 = GUICtrlCreateButton("Cancel", 35*$R, 655*$R, 80*$R, 50*$R)
-	Global $hButtonUp2 			= GUICtrlCreateButton("↑", 120*$R, 655*$R, 30*$R, 50*$R)
+	Global $hlistbehavs 	 	= GUICTRLCreateListView("Behaviors                             ", 35*$R, 245*$R, 240*$R, 380*$R)
+	Global $hButtonCancel2 	= GUICtrlCreateButton("Cancel", 35*$R, 655*$R, 80*$R, 50*$R)
+	Global $hButtonUp2 		 	= GUICtrlCreateButton("↑", 120*$R, 655*$R, 30*$R, 50*$R)
 	Global $hButtonDown2 		= GUICtrlCreateButton("↓", 155*$R, 655*$R, 30*$R, 50*$R)
-	Global $hButtonDelete2 = GUICtrlCreateButton("Delete", 190*$R, 655*$R, 85*$R, 50*$R)
+	Global $hButtonDelete2 	= GUICtrlCreateButton("Delete", 190*$R, 655*$R, 85*$R, 50*$R)
 
 	Global $hLabel = GUICtrlCreateLabel("", 35*$R, 35*$R, 240*$R, 200*$R)
 	GUICtrlSetStyle(-1, $SS_CENTER)
 
 	GUISetState()
 
+	;DEMO STUFF
 	GUICtrlSetState ($hButton7,$GUI_DISABLE)
 	GUICtrlSetState ($hButton8,$GUI_DISABLE)
 	GUICtrlSetState ($hButton9,$GUI_DISABLE)
@@ -302,7 +309,7 @@ Func CreateBehaviors()
 	GUICtrlSetState ($hButton20,$GUI_DISABLE)
 	GUICtrlSetState ($hButton21,$GUI_DISABLE)
 	Global $disabled_behaviors[9] = [$hButton7, $hButton8, $hButton9, $hButton12, $hButton13, $hButton14, $hButton19, $hButton20, $hButton21]
-
+	;END DEMO
 
 	LoadThenModify()
 
@@ -339,7 +346,7 @@ Func SetLabel()
 				GUICtrlSetData($hlabel, $data)
 			EndIf
 		elseif $a[4] == $hButton9 Then
-			$data = "Lift a key up as if not holding it down on they keyboard any longer." & @CRLF & @CRLF & "Which key?"
+			$data = "Ask the user to input data or answer a yes / no question. Save that result to the clipboard, in a variable, or in a file." & @CRLF & @CRLF & "What question?" & @CRLF & @CRLF & "Where should we save the answer?"
 			if GUICtrlRead($hlabel) <> $data Then
 				GUICtrlSetData($hlabel, $data)
 			EndIf
@@ -359,7 +366,7 @@ Func SetLabel()
 				GUICtrlSetData($hlabel, $data)
 			EndIf
 		elseif $a[4] == $hButton13 Then
-			$data = "Put data on the clipboard." & @CRLF & @CRLF & "What Text?"
+			$data = "Put data on the clipboard or retrieve data from clipboard." & @CRLF & @CRLF & "What text?" & @CRLF & @CRLF & "What method?"
 			if GUICtrlRead($hlabel) <> $data Then
 				GUICtrlSetData($hlabel, $data)
 			EndIf
@@ -374,7 +381,7 @@ Func SetLabel()
 				GUICtrlSetData($hlabel, $data)
 			EndIf
 		elseif $a[4] == $hButton18 Then
-			$data = "Display Informational Message." & @CRLF & @CRLF & "What message?"
+			$data = "Display Informational Message Box with OK button, or display a ToolTip at a certain location." & @CRLF & @CRLF & "What message?"
 			if GUICtrlRead($hlabel) <> $data Then
 				GUICtrlSetData($hlabel, $data)
 			EndIf
@@ -389,7 +396,7 @@ Func SetLabel()
 				GUICtrlSetData($hlabel, $data)
 			EndIf
 		elseif $a[4] == $hButton21 Then
-				$data = "Reads Text that is displayed on the screen and copies it to the clipboard."
+				$data = "Reads Text that is displayed on the screen and copies it to the clipboard." & @CRLF & @CRLF & "Choose as small an area as possible to read text from."& @CRLF & @CRLF & "This can take sometime."
 				if GUICtrlRead($hlabel) <> $data Then
 				GUICtrlSetData($hlabel, $data)
 			EndIf
@@ -467,7 +474,6 @@ Func SetLabel1()
 		endIf
 	EndIf
 EndFunc
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -868,9 +874,9 @@ Func WaitForThenInput()
 			Case $hButton7
 				SendKeysBehavior()
 			Case $hButton8
-				KeyDownBehavior()
+				ManageKeyPressBehavior()
 			Case $hButton9
-				KeyUpBehavior()
+				UserInteractionBehavior()
 			Case $hButton10
 				ManageMouseMoveBehavior()
 			Case $hButton11
@@ -882,7 +888,7 @@ Func WaitForThenInput()
 			Case $hButton14
 				ManageProgramsBehavior()
 			Case $hButton18
-				MessageBoxBehavior()
+				ManageDisplayBehavior()
 			Case $hButton15
 				WaitBehavior()
 			Case $hButton19
@@ -908,7 +914,9 @@ Func WaitForThenInput()
 				WaitForIfInput()
 			case Else
 				SetLabel()
+				;DEMO STUFF
 				DemoClick($disabled_behaviors)
+				;END DEMO
 		EndSwitch
 	WEnd
 

@@ -59,42 +59,49 @@ Name: "{app}\tesseract\tesseract\tessconfigs\"
 Source: "C:\sites\reflexmem\reflexmem-pro.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\rmcreate.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\rmrun.exe"; DestDir: "{app}"; Flags: ignoreversion
+
 Source: "C:\sites\reflexmem\lib\alllcs.au3"; DestDir: "{app}\lib\"; Flags: ignoreversion 
 Source: "C:\sites\reflexmem\lib\levenshtein.au3"; DestDir: "{app}\lib\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\tesseract_stdout.au3"; DestDir: "{app}\lib\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\combinealllcsandtesseract.au3"; DestDir: "{app}\lib\"; Flags: ignoreversion
-Source: "C:\sites\reflexmem\lib\dll\ImageSearchDLL.dll"; DestDir: "{app}\lib\dll\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\executeif.au3"; DestDir: "{app}\lib\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\executethen.au3"; DestDir: "{app}\lib\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\filelocations.au3"; DestDir: "{app}\lib\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\applieddpi.au3"; DestDir: "{app}\lib\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\upgrademessage.au3"; DestDir: "{app}\lib\"; Flags: ignoreversion
-Source: "C:\sites\reflexmem\lib\trig\keypress_trigger"; DestDir: "{app}\lib\trig\"; Flags: ignoreversion
+
+Source: "C:\sites\reflexmem\lib\dll\ImageSearchDLL.dll"; DestDir: "{app}\lib\dll\"; Flags: ignoreversion
+
 Source: "C:\sites\reflexmem\lib\trig\clipboard_trigger"; DestDir: "{app}\lib\trig\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\trig\dateto_trigger"; DestDir: "{app}\lib\trig\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\trig\do_trigger"; DestDir: "{app}\lib\trig\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\trig\imageonscreen_trigger"; DestDir: "{app}\lib\trig\"; Flags: ignoreversion
+Source: "C:\sites\reflexmem\lib\trig\keypress_trigger"; DestDir: "{app}\lib\trig\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\trig\managetextonscreen_trigger"; DestDir: "{app}\lib\trig\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\trig\managevarequals_trigger"; DestDir: "{app}\lib\trig\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\trig\markrect_trigger"; DestDir: "{app}\lib\trig\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\trig\mouseat_trigger"; DestDir: "{app}\lib\trig\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\trig\mouseclick_trigger"; DestDir: "{app}\lib\trig\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\trig\programruns_trigger"; DestDir: "{app}\lib\trig\"; Flags: ignoreversion
-Source: "C:\sites\reflexmem\lib\behave\wait_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
-Source: "C:\sites\reflexmem\lib\behave\mouseclick_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
-Source: "C:\sites\reflexmem\lib\behave\messagebox_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
+
 Source: "C:\sites\reflexmem\lib\behave\clipboard_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\behave\keydown_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\behave\keyup_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
+Source: "C:\sites\reflexmem\lib\behave\managedisplay_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
+Source: "C:\sites\reflexmem\lib\behave\managekeypress_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\behave\managemousemove_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\behave\manageprograms_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\behave\managereflexmem_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\behave\managevariable_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
+Source: "C:\sites\reflexmem\lib\behave\messagebox_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
+Source: "C:\sites\reflexmem\lib\behave\mouseclick_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\behave\mousewheel_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\behave\sendkeys_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\behave\textonscreen_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
-Source: "C:\sites\reflexmem\lib\behave\managekeypress_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\behave\tooltip_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
+Source: "C:\sites\reflexmem\lib\behave\userinteraction_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
+Source: "C:\sites\reflexmem\lib\behave\wait_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
+
 Source: "C:\sites\reflexmem\tesseract\*"; DestDir: "{app}\tesseract\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\tesseract\doc\*"; DestDir: "{app}\tesseract\doc\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\tesseract\tessdata\*"; DestDir: "{app}\tesseract\tessdata\"; Flags: ignoreversion
