@@ -26,21 +26,21 @@ Func ManageProgramsBehavior()
 EndFunc
 
 Func RunProgramBehavior()
-	local $sFile = FileOpenDialog("Choose Program...", @TempDir, "All (*.*)")
+	local $sFile = FileOpenDialog("Choose Program...", @ProgramFilesDir & "\Internet Explorer\", "All (*.*)",  $FD_FILEMUSTEXIST, "iexplore.exe")
 	if $sFile == "" then
 		return
 	endif
-	local $split = StringInStr($sFile, "\", 0, -1)
-	local $program = stringright($sFile, StringLen($sFile)-$split)
-	local $location = StringLeft($sFile, $split)
+	local $arguments 	= " " & InputBox("Run Program Behavior", "Any arguments to run this program with? (such as: https://www.google.com)", "", "")
+	local $split 		 	= StringInStr($sFile, "\", 0, -1)
+	local $program 		= stringright($sFile, StringLen($sFile)-$split)
+	local $location 	= StringLeft($sFile, $split)
 
-
-	Local $hChild14 = GUICreate("Run Program Behavior", 400*$R, 220*$R, -1, -1, -1, -1, $hGUI)
-	GUICtrlCreateLabel("How should this program be run?", 20*$R, 20*$R, 360*$R, 35*$R)
+	Local $hChild14 = GUICreate("Run Program Behavior", 		400*$R, 220*$R, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("How should this program be run?", 	20*$R, 	20*$R, 	360*$R, 35*$R)
 	GUICtrlSetStyle(-1, $SS_CENTER)
-	local $button141 = GUICtrlCreateButton("Maximized", 		20*$R, 80*$R, 160*$R, 40*$R)
-	local $button142 = GUICtrlCreateButton("Minimized", 		220*$R, 80*$R, 160*$R, 40*$R)
-	local $button143 = GUICtrlCreateButton("Hidden", 				20*$R, 140*$R, 160*$R, 40*$R)
+	local $button141 = GUICtrlCreateButton("Maximized", 		20*$R,	80*$R, 	160*$R, 40*$R)
+	local $button142 = GUICtrlCreateButton("Minimized", 		220*$R, 80*$R, 	160*$R, 40*$R)
+	local $button143 = GUICtrlCreateButton("Hidden", 				20*$R, 	140*$R, 160*$R, 40*$R)
 	local $button144 = GUICtrlCreateButton("No Preference", 220*$R, 140*$R, 160*$R, 40*$R)
 	GUISetState()
 
@@ -52,22 +52,22 @@ Func RunProgramBehavior()
 				GUIDelete($hChild14)
 				ExitLoop
 			Case $button141
-				$totrig = "run " & $program & " " & $location & " @SW_MAXIMIZE"
+				$totrig = "execute Run('" & $location & $program & $arguments & "','', @SW_MAXIMIZE)"
 				AddToBehavior($totrig)
 				GUIDelete($hChild14)
 				ExitLoop
 			Case $button142
-				$totrig = "run " & $program & " " & $location & " @SW_MINIMIZE"
+				$totrig = "execute Run('"  & $location & $program & $arguments & "','', @SW_MINIMIZE)"
 				AddToBehavior($totrig)
 				GUIDelete($hChild14)
 				ExitLoop
 			Case $button143
-				$totrig = "run " & $program & " " & $location & " @SW_HIDE"
+				$totrig = "execute Run('"  & $location & $program & $arguments & "','', @SW_HIDE)"
 				AddToBehavior($totrig)
 				GUIDelete($hChild14)
 				ExitLoop
 			Case $button144
-				$totrig = "run " & $program & " " & $location
+				$totrig = "execute Run('"  & $location & $program & $arguments & "')"
 				AddToBehavior($totrig)
 				GUIDelete($hChild14)
 				ExitLoop
