@@ -259,9 +259,12 @@ EndFunc
 
 
 Func addKeyPressToTrigger($data)
-;HotKeySet("^a", "GetPos") ;control
-;HotKeySet("+a", "GetPos") ;  Shift
-;HotKeySet("!a", "GetPos") ;alt
+	;HotKeySet("^a", "GetPos") ;control
+	;HotKeySet("+a", "GetPos") ;  Shift
+	;HotKeySet("!a", "GetPos") ;alt
+	if $data == "" then
+		return
+	endif
 	local $name = $data & " key is pressed"
 	if $data 			== "{BACKSPACE}" 	then
 		$data = "08"
@@ -461,6 +464,8 @@ Func addKeyPressToTrigger($data)
 	;	$name = "{CONTROL} key is pressed And " & $name
 	;endif
 ;	$totrig = "HotKeySet('" & $totrig & $data & "', 'HotKeyTrigger')"
-	$totrig = $totrig & "_IsPressed('" & $data & "')"
-	AddToTrigger($totrig, $name)
+	if $data <> "" then
+		$totrig = $totrig & "_IsPressed('" & $data & "')"
+		AddToTrigger($totrig, $name)
+	endif
 EndFunc
