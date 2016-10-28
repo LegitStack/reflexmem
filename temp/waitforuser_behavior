@@ -1,0 +1,36 @@
+
+Func WaitForUserBehavior()
+	;Local $hChild12 = GUICreate("Wait For User Behavior", 400*$R, 200*$R, -1, -1, -1, -1, $hGUI)
+	;GUICtrlCreateLabel("Wait for user to press a key or click the mouse?", 20*$R, 20*$R, 360*$R, 35*$R)
+	;GUICtrlSetStyle(-1, $SS_CENTER)
+	;local $button121 = GUICtrlCreateButton("Press any Key", 20*$R, 80*$R, 160*$R, 40*$R)
+	;local $button122 = GUICtrlCreateButton("Click any Mouse Button", 220*$R, 80*$R, 160*$R, 40*$R)
+	;local $button123 = GUICtrlCreateButton("Press a Specific Key", 20*$R, 140*$R, 160*$R, 40*$R)
+	;local $button124 = GUICtrlCreateButton("Click a Specific Button", 220*$R, 140*$R, 160*$R, 40*$R)
+
+	;GUISetState()
+
+	;local $totrig = ""
+	;While 1
+	;	$hMsg = GUIGetMsg()
+	;	Switch $hMsg
+	;		Case $GUI_EVENT_CLOSE
+	;			GUIDelete($hChild12)
+	;			ExitLoop
+	;		Case $button121
+      	$totrig = "await key"
+				AddToBehavior($totrig)
+	;			GUIDelete($hChild12)
+	;			ExitLoop
+	;		Case $button122
+  ;      $totrig = "await click"
+	;			GUIDelete($hChild12)
+	;			ExitLoop
+	;	EndSwitch
+	;WEnd
+EndFunc
+
+
+; I'm only able to get the await user click to work for now so no need to show a gui.
+
+; In fact this has been subsumed into userinteraction_behavior

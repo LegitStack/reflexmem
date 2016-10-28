@@ -99,6 +99,9 @@ Func ActionMapThen($command, $arguments)
          $combined = $combined & " " & $args[$i]
       Next
       return "Assign('uservar" & $args[0] & "'," & $combined & ",1)"
+
+    case "await"
+      return "AwaitUserAction()"
     case "gettext"
       $args = StringSplit($arguments, " ", 2)
       return "ClipPut(SaveScreen($throwaway, " & $args[0] & ", " & $args[1] & ", " & $args[2] & ", " & $args[3] & ", true))"

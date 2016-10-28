@@ -379,7 +379,7 @@ Func SetLabel()
 				GUICtrlSetData($hlabel, $data)
 			EndIf
 		elseif $a[4] == $hButton19 Then
-				$data = "Tell ReflexMem to temporarilly ignore anything it my see as a trigger so that it does no behaviors or to stop ignoring triggers and reacting to them again. Managing ReflexMem one can have two keys that can turn triggers off and on dymanically."
+				$data = "Tell ReflexMem to temporarilly ignore anything it might see as a trigger so that it does no behaviors or to stop ignoring triggers and start reacting to them again. Managing ReflexMem one can have two keys that can turn triggers off and on dymanically."
 				if GUICtrlRead($hlabel) <> $data Then
 				GUICtrlSetData($hlabel, $data)
 			EndIf

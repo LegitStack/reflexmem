@@ -1,9 +1,10 @@
 Func UserInteractionBehavior()
-  Local $hChild11 = GUICreate("User Interaction Behavior", 400*$R, 200*$R, -1, -1, -1, -1, $hGUI)
+  Local $hChild11 = GUICreate("User Interaction Behavior", 400*$R, 300*$R, -1, -1, -1, -1, $hGUI)
   GUICtrlCreateLabel("Ask User for input or ask a 'yes or no' question? ", 20*$R, 20*$R, 360*$R, 35*$R)
   GUICtrlSetStyle(-1, $SS_CENTER)
   local $button111 = GUICtrlCreateButton("User Input", 20*$R, 80*$R, 160*$R, 60*$R)
   local $button112 = GUICtrlCreateButton("Yes/No Question", 220*$R, 80*$R, 160*$R, 60*$R)
+  local $button113 = GUICtrlCreateButton("Wait for User to click a button Click", 20*$R, 160*$R, 360*$R, 60*$R)
   local $interaction = ""
   GUISetState()
   While 1
@@ -20,6 +21,11 @@ Func UserInteractionBehavior()
         $interaction = "SetYesNo(MsgBox(4, 'User Interaction','"
   		  GUIDelete($hChild11)
   			ExitLoop
+      Case $button113
+        $totrig = "await"
+        AddToBehavior($totrig)
+        GUIDelete($hChild11)
+        ExitLoop
   	EndSwitch
   WEnd
   if $interaction <> "" then

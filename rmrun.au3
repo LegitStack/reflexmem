@@ -4,6 +4,7 @@
 #include <GuiListView.au3>
 #include <FileConstants.au3>
 #include <File.au3>
+#include <WindowsConstants.au3>
 #include <lib\executeif.au3>
 #include <lib\executethen.au3>
 #include <lib\filelocations.au3>
@@ -615,4 +616,34 @@ Func SetYesNo($data)
     return 'No'
   endif
 
+EndFunc   ;==>Example
+
+
+
+
+Func AwaitUserAction($data = "click")
+  local $waiting = true
+  if $data == "click" then
+    While $waiting
+      If _IsPressed("01") Then
+        $waiting = False
+      elseif _IsPressed("02") Then
+        $waiting = False
+      EndIf
+    WEnd
+  elseif $data == "key" then
+    if $WM_KEYDOWN then
+      $waiting = false
+    endif
+
+    ;$hGui = GUICreate("Press any key within 10s...", 400, 100)
+    ;GUISetState()
+    ;Sleep(10000)
+    ;GUIDelete($hGui)
+    ;Exit
+
+    ;Func IsPressed()
+     ;   MsgBox(4096, "Test", "Key is pressed!", 2)
+     ;EndFunc
+  endif
 EndFunc   ;==>Example
