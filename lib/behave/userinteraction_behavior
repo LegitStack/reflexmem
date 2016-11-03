@@ -4,7 +4,7 @@ Func UserInteractionBehavior()
   GUICtrlSetStyle(-1, $SS_CENTER)
   local $button111 = GUICtrlCreateButton("User Input", 20*$R, 80*$R, 160*$R, 60*$R)
   local $button112 = GUICtrlCreateButton("Yes/No Question", 220*$R, 80*$R, 160*$R, 60*$R)
-  local $button113 = GUICtrlCreateButton("Wait for User to click a button Click", 20*$R, 160*$R, 360*$R, 60*$R)
+  local $button113 = GUICtrlCreateButton("Wait for User to Click", 20*$R, 160*$R, 360*$R, 60*$R)
   local $interaction = ""
   GUISetState()
   While 1
