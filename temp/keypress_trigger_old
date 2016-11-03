@@ -1,0 +1,471 @@
+Func KeyPressedTrigger()
+	Local $hChild7 = GUICreate("Key Pressed Trigger", 400*$R, 640*$R, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("Which key(s) should be pressed for this Trigger?", 20*$R, 20*$R, 360*$R, 40*$R)
+	GUICtrlSetStyle(-1, $SS_CENTER)
+	local $button71 = GUICtrlCreateButton("Single Letter or Number", 20*$R, 60*$R, 160*$R, 30*$R)
+	local $button72 = GUICtrlCreateButton("Enter", 					220*$R, 60*$R, 160*$R, 30*$R)
+	local $button73 = GUICtrlCreateButton("Space", 					20*$R, 100*$R, 160*$R, 30*$R)
+	local $button74 = GUICtrlCreateButton("Shift", 					220*$R, 100*$R, 160*$R, 30*$R)
+	local $button75 = GUICtrlCreateButton("Alt", 						20*$R, 140*$R, 160*$R, 30*$R)
+	local $button76 = GUICtrlCreateButton("Control", 				220*$R, 140*$R, 160*$R, 30*$R)
+	local $button77 = GUICtrlCreateButton("Left", 					20*$R, 180*$R, 160*$R, 30*$R)
+	local $button78 = GUICtrlCreateButton("Right", 					220*$R, 180*$R, 160*$R, 30*$R)
+	local $button79 = GUICtrlCreateButton("Up", 						20*$R, 220*$R, 160*$R, 30*$R)
+	local $button710 = GUICtrlCreateButton("Down", 					220*$R, 220*$R, 160*$R, 30*$R)
+	local $button711 = GUICtrlCreateButton("Tab", 					20*$R, 260*$R, 160*$R, 30*$R)
+	local $button712 = GUICtrlCreateButton("Escape", 				220*$R,260*$R, 160*$R, 30*$R)
+	local $button713 = GUICtrlCreateButton("Page Up", 			20*$R, 300*$R, 160*$R, 30*$R)
+	local $button714 = GUICtrlCreateButton("Page Down", 		220*$R, 300*$R, 160*$R, 30*$R)
+	local $button715 = GUICtrlCreateButton("Home", 					20*$R, 340*$R, 160*$R, 30*$R)
+	local $button716 = GUICtrlCreateButton("End", 					220*$R, 340*$R, 160*$R, 30*$R)
+	local $button717 = GUICtrlCreateButton("Delete", 				20*$R, 380*$R, 160*$R, 30*$R)
+	local $button718 = GUICtrlCreateButton("Backspace", 		220*$R, 380*$R, 160*$R, 30*$R)
+	local $button719 = GUICtrlCreateButton("Caps Lock", 		20*$R, 420*$R, 160*$R, 30*$R)
+	local $button720 = GUICtrlCreateButton("Num Lock", 			220*$R, 420*$R, 160*$R, 30*$R)
+	local $button721 = GUICtrlCreateButton("Print Screen", 	20*$R, 460*$R, 160*$R, 30*$R)
+	local $button722 = GUICtrlCreateButton("Windows Key", 	220*$R, 460*$R, 160*$R, 30*$R)
+	local $button723 = GUICtrlCreateButton("Insert", 				20*$R, 500*$R, 160*$R, 30*$R)
+	local $button727 = GUICtrlCreateButton("Plus (+)", 			20*$R, 540*$R, 160*$R, 30*$R)
+	local $button728 = GUICtrlCreateButton("F Keys", 				220*$R, 500*$R, 160*$R, 30*$R)
+	GUISetState()
+
+	local $totrig = ""
+	Local $sAnswer = ""
+
+	While 1
+		$hMsg = GUIGetMsg()
+		Switch $hMsg
+			Case $GUI_EVENT_CLOSE
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button71
+				$sAnswer = InputBox("Key Press Trigger", "What single key should be the trigger? (Letters and numbers allowed.)", "a", "")
+				$sAnswer = StringReplace($sAnswer, "{", "")
+				$sAnswer = StringReplace($sAnswer, "}", "")
+				$sAnswer = StringReplace($sAnswer, "^", "")
+				$sAnswer = StringReplace($sAnswer, "+", "")
+				$sAnswer = StringReplace($sAnswer, "!", "")
+				$sAnswer = StringReplace($sAnswer, "#", "")
+				$totrig = StringLeft($sAnswer, 1)
+				addKeyPressToTrigger($totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button72
+				$totrig = "{ENTER}"
+				addKeyPressToTrigger($totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button73
+				$totrig = "{SPACE}"
+				addKeyPressToTrigger($totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button74
+				$totrig = "{LSHIFT}"
+				addKeyPressToTrigger($totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button75
+				$totrig = "{ALT}"
+				addKeyPressToTrigger($totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button76
+				$totrig = "{LCTRL}"
+				addKeyPressToTrigger($totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button77
+				$totrig = "{LEFT}"
+				addKeyPressToTrigger($totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button78
+				$totrig = "{RIGHT}"
+				addKeyPressToTrigger($totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button79
+				$totrig = "{UP}"
+				addKeyPressToTrigger($totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button710
+				$totrig = "{DOWN}"
+				addKeyPressToTrigger($totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button711
+				$totrig = "{TAB}"
+				addKeyPressToTrigger($totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button712
+				$totrig = "{ESCAPE}"
+				addKeyPressToTrigger($totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button713
+				$totrig = "{PGUP}"
+				addKeyPressToTrigger($totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button714
+				$totrig = "{PGDN}"
+				addKeyPressToTrigger($totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button715
+				$totrig = "{HOME}"
+				addKeyPressToTrigger($totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button716
+				$totrig = "{END}"
+				addKeyPressToTrigger($totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button717
+				$totrig = "{DELETE}"
+				addKeyPressToTrigger($totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button718
+				$totrig = "{BACKSPACE}"
+				addKeyPressToTrigger($totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button719
+				$totrig = "{CAPSLOCK}"
+				addKeyPressToTrigger($totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button720
+				$totrig = "{NUMLOCK}"
+				addKeyPressToTrigger($totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button721
+				$totrig = "{PRINTSCREEN}"
+				addKeyPressToTrigger($totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button722
+				$totrig = "{LWIN}"
+				addKeyPressToTrigger($totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button723
+				$totrig = "{INSERT}"
+				addKeyPressToTrigger($totrig)
+				GUIDelete($hChild7)
+				ExitLoop
+			Case $button727 ;Special keys
+				$totrig = "{+}"
+				addKeyPressToTrigger($totrig)
+				GUIDelete($hChild7a)
+				ExitLoop
+			Case $button728 ;F keys
+				$hChild7a = GUICreate("Function Key Press Trigger", 400*$R, 440*$R, -1, -1, -1, -1, $hChild7)
+				GUICtrlCreateLabel("Which F key should be set as the keypress trigger?", 20*$R, 20*$R, 360*$R, 40*$R)
+				GUICtrlSetStyle(-1, $SS_CENTER)
+				$button7a1 = GUICtrlCreateButton("F1", 	20*$R, 80*$R, 160*$R, 40*$R)
+				$button7a2 = GUICtrlCreateButton("F2", 	220*$R, 80*$R, 160*$R, 40*$R)
+				$button7a3 = GUICtrlCreateButton("F3", 	20*$R, 140*$R, 160*$R, 40*$R)
+				$button7a4 = GUICtrlCreateButton("F4", 	220*$R, 140*$R, 160*$R, 40*$R)
+				$button7a5 = GUICtrlCreateButton("F5", 	20*$R, 200*$R, 160*$R, 40*$R)
+				$button7a6 = GUICtrlCreateButton("F6", 	220*$R, 200*$R, 160*$R, 40*$R)
+				$button7a7 = GUICtrlCreateButton("F7", 	20*$R, 260*$R, 160*$R, 40*$R)
+				$button7a8 = GUICtrlCreateButton("F8", 	220*$R, 260*$R, 160*$R, 40*$R)
+				$button7a9 = GUICtrlCreateButton("F9", 	20*$R, 320*$R, 160*$R, 40*$R)
+				$button7a10 = GUICtrlCreateButton("F10",220*$R, 320*$R, 160*$R, 40*$R)
+				$button7a11 = GUICtrlCreateButton("F11",20*$R, 380*$R, 160*$R, 40*$R)
+				$button7a12 = GUICtrlCreateButton("F12",220*$R, 380*$R, 160*$R, 40*$R)
+				GUISetState()
+				local $totrig = ""
+				While 1
+					$hMsg = GUIGetMsg()
+					Switch $hMsg
+						Case $GUI_EVENT_CLOSE
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a1
+							$totrig = "{F1}"
+							addKeyPressToTrigger($totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a2
+							$totrig = "{F2}"
+							addKeyPressToTrigger($totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a3
+							$totrig = "{F3}"
+							addKeyPressToTrigger($totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a4
+							$totrig = "{F4}"
+							addKeyPressToTrigger($totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a5
+							$totrig = "{F5}"
+							addKeyPressToTrigger($totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a6
+							$totrig = "{F6}"
+							addKeyPressToTrigger($totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a7
+							$totrig = "{F7}"
+							addKeyPressToTrigger($totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a8
+							$totrig = "{F8}"
+							addKeyPressToTrigger($totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a9
+							$totrig = "{F9}"
+							addKeyPressToTrigger($totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a10
+							$totrig = "{F10}"
+							addKeyPressToTrigger($totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a11
+							$totrig = "{F11}"
+							addKeyPressToTrigger($totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+						Case $button7a12
+							$totrig = "{F12}"
+							addKeyPressToTrigger($totrig)
+							GUIDelete($hChild7a)
+							ExitLoop
+					EndSwitch
+				WEnd
+				GUIDelete($hChild7)
+				ExitLoop
+		EndSwitch
+	WEnd
+EndFunc
+
+
+Func addKeyPressToTrigger($data)
+	;HotKeySet("^a", "GetPos") ;control
+	;HotKeySet("+a", "GetPos") ;  Shift
+	;HotKeySet("!a", "GetPos") ;alt
+	if $data == "" then
+		return
+	endif
+	local $name = $data & " key is pressed"
+	if $data 			== "{BACKSPACE}" 	then
+		$data = "08"
+	elseif $data 	== "{TAB}" 				then
+		$data = "09"
+	elseif $data 	== "{ENTER}" 			then
+		$data = "0D"
+	elseif $data 	== "{LSHIFT}"			then
+		$data = "10"
+	elseif $data 	== "{LCTRL}"			then
+		$data = "11"
+	elseif $data 	== "{ALT}" 				then
+		$data = "12"
+	elseif $data 	== "{PAUSE}"			then
+		$data = "13"
+	elseif $data 	== "{CAPSLOCK}"		then
+		$data = "14"
+	elseif $data 	== "{ESCAPE}"			then
+		$data = "1B"
+	elseif $data 	== "{SPACE}" 			then
+		$data = "20"
+	elseif $data 	== "{PGUP}" 			then
+		$data = "21"
+	elseif $data 	== "{PGDN}"				then
+		$data = "22"
+	elseif $data 	== "{END}" 				then
+		$data = "23"
+	elseif $data 	== "{HOME}" 			then
+		$data = "24"
+	elseif $data 	== "{LEFT}"				then
+		$data = "25"
+	elseif $data 	== "{UP}" 				then
+		$data = "26"
+	elseif $data 	== "{RIGHT}"			then
+		$data = "27"
+	elseif $data 	== "{DOWN}" 			then
+		$data = "28"
+	elseif $data 	== "{PRINTSCREEN}"then
+		$data = "2C"
+	elseif $data 	== "{INSERT}"			then
+		$data = "2D"
+	elseif $data 	== "{DELETE}"			then
+		$data = "2E"
+	elseif $data 	== "{NUMLOCK}"		then
+		$data = "90"
+	elseif $data 	== "{LWIN}"				then
+		$data = "5B"
+	elseif $data 	== "{F1}"					then
+		$data = "70"
+	elseif $data 	== "{F2}"					then
+		$data = "71"
+	elseif $data 	== "{F3}"					then
+		$data = "72"
+	elseif $data 	== "{F4}"					then
+		$data = "73"
+	elseif $data 	== "{F5}"					then
+		$data = "74"
+	elseif $data 	== "{F6}"					then
+		$data = "75"
+	elseif $data 	== "{F7}"					then
+		$data = "76"
+	elseif $data 	== "{F8}"					then
+		$data = "77"
+	elseif $data 	== "{F9}"					then
+		$data = "78"
+	elseif $data 	== "{F10}"				then
+		$data = "79"
+	elseif $data 	== "{F11}"				then
+		$data = "7A"
+	elseif $data 	== "{F12}"				then
+		$data = "7B"
+	elseif $data 	== "0" 						then
+		$data = "30"
+	elseif $data 	== "1" 						then
+		$data = "31"
+	elseif $data 	== "2" 						then
+		$data = "32"
+	elseif $data 	== "3" 						then
+		$data = "33"
+	elseif $data 	== "4" 						then
+		$data = "34"
+	elseif $data 	== "5" 						then
+		$data = "35"
+	elseif $data 	== "6" 						then
+		$data = "36"
+	elseif $data 	== "7" 						then
+		$data = "37"
+	elseif $data 	== "8" 						then
+		$data = "38"
+	elseif $data 	== "9" 						then
+		$data = "39"
+	elseif $data 	== "9" 						then
+		$data = "39"
+	elseif $data 	== "{!}"					then
+		$data = "6B"
+	elseif $data 	== "{#}"					then
+		$data = "6B"
+	elseif $data 	== "{+}"					then
+		$data = "6B"
+	elseif $data 	== "{^}"					then
+		$data = "6B"
+	elseif $data 	== "{}}" 					then
+		$data = "6B"
+	elseif $data 	== "{{}" 					then
+		$data = "6B"
+	elseif $data 	== ";"						then
+		$data = "BA"
+	elseif $data 	== "="						then
+		$data = "BB"
+	elseif $data 	== ","						then
+		$data = "BC"
+	elseif $data 	== "-"						then
+		$data = "BD"
+	elseif $data 	== "." 						then
+		$data = "BE"
+	elseif $data 	== "/" 						then
+		$data = "BF"
+	elseif $data 	== "`"						then
+		$data = "C0"
+	elseif $data 	== "["						then
+		$data = "DB"
+	elseif $data 	== "\" 						then
+		$data = "DC"
+	elseif $data 	== "]" 						then
+		$data = "DD"
+	elseif $data 	== "*" 						then
+		$data = "6A"
+	elseif $data 	== "A" Or $data == "a" then
+	 	$data = "41"
+	elseif $data 	== "B" Or $data == "b" then
+		$data = "42"
+	elseif $data 	== "C" Or $data == "c" 	then
+		$data = "43"
+	elseif $data 	== "D" Or $data == "d" 	then
+		$data = "44"
+	elseif $data 	== "E" Or $data == "e" 	then
+		$data = "45"
+	elseif $data 	== "F" Or $data == "f" 	then
+		$data = "46"
+	elseif $data 	== "G" Or $data == "g" 	then
+		$data = "47"
+	elseif $data 	== "H" Or $data == "h" 	then
+		$data = "48"
+	elseif $data 	== "I" Or $data == "i" 	then
+		$data = "49"
+	elseif $data 	== "J" Or $data == "j" 	then
+		$data = "4A"
+	elseif $data 	== "K" Or $data == "k" 	then
+		$data = "4B"
+	elseif $data 	== "L" Or $data == "l" 	then
+		$data = "4C"
+	elseif $data 	== "M" Or $data == "m" 	then
+		$data = "4D"
+	elseif $data 	== "N" Or $data == "n" 	then
+		$data = "4E"
+	elseif $data 	== "O" Or $data == "o" 	then
+		$data = "4F"
+	elseif $data 	== "P" Or $data == "p" 	then
+		$data = "50"
+	elseif $data 	== "Q" Or $data == "q" 	then
+		$data = "51"
+	elseif $data 	== "R" Or $data == "r" 	then
+		$data = "52"
+	elseif $data 	== "S" Or $data == "s" 	then
+		$data = "53"
+	elseif $data 	== "T" Or $data == "t" 	then
+		$data = "54"
+	elseif $data 	== "U" Or $data == "u" 	then
+		$data = "55"
+	elseif $data 	== "V" Or $data == "v" 	then
+		$data = "56"
+	elseif $data 	== "W" Or $data == "w" 	then
+		$data = "57"
+	elseif $data 	== "X" Or $data == "x" 	then
+		$data = "58"
+	elseif $data 	== "Y" Or $data == "y" 	then
+		$data = "59"
+	elseif $data 	== "Z" Or $data == "z" 	then
+		$data = "5A"
+	else
+		$data = "6B"
+	endif
+	local $totrig = ""
+	;if $shift then
+;		$totrig = $totrig & "+"
+	;	$totrig = "_IsPressed('10') And "
+	;	$name = "{SHIFT} key is pressed And " & $name
+	;endif
+	;if $alt then
+;		$totrig = $totrig & "!"
+	;	$totrig = "_IsPressed('12') And "
+	;	$name = "{ALT} key is pressed And " & $name
+	;endif
+	;if $control then
+;		$totrig = $totrig & "^"
+	;	$totrig = "_IsPressed('11') And "
+	;	$name = "{CONTROL} key is pressed And " & $name
+	;endif
+;	$totrig = "HotKeySet('" & $totrig & $data & "', 'HotKeyTrigger')"
+	if $data <> "" then
+		$totrig = $totrig & "_IsPressed('" & $data & "')"
+		AddToTrigger($totrig, $name)
+	endif
+EndFunc

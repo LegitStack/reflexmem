@@ -16,6 +16,7 @@
 #include <lib\applieddpi.au3>
 ;#include <lib\dpiawareness.au3>
 #include <lib\upgrademessage.au3>
+#include <lib\choosebuttonhelper.au3>
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;triggers - demo
@@ -52,7 +53,6 @@
 #include <lib\behave\tooltip_behavior>
 #include <lib\behave\managedisplay_behavior>
 #include <lib\behave\userinteraction_behavior>
-
 ;DllCall("User32.dll", "bool", "SetProcessDPIAwareness")
 ;GUISetFont(8.5 * _GDIPlus_GraphicsGetDPIRatio()[0])
 

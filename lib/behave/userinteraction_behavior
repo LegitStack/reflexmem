@@ -22,8 +22,7 @@ Func UserInteractionBehavior()
   		  GUIDelete($hChild11)
   			ExitLoop
       Case $button113
-        $totrig = "await"
-        AddToBehavior($totrig)
+        GetAwaitButton()
         GUIDelete($hChild11)
         ExitLoop
   	EndSwitch
@@ -77,6 +76,73 @@ Func UserInputSaveTo($interaction)
           local $totrig = "execute OpenWriteFile('" & $sAnswer & "'," & $interaction & ")"
           AddToBehavior($totrig)
         endif
+        GUIDelete($hChild11)
+        ExitLoop
+  	EndSwitch
+  WEnd
+
+  ;ask where to save the interaction - file? clipboard? variable?
+EndFunc
+
+
+
+Func GetAwaitButton()
+  Local $hChild11 = GUICreate("User Interaction Behavior", 600*$R, 400*$R, -1, -1, -1, -1, $hGUI)
+  GUICtrlCreateLabel("What do you want the computer to wait for?", 20*$R, 20*$R, 360*$R, 35*$R)
+  GUICtrlSetStyle(-1, $SS_CENTER)
+  local $button111 = GUICtrlCreateButton("Any User Behavior",     20*$R,  80*$R, 160*$R, 60*$R)
+  local $button112 = GUICtrlCreateButton("Press any Key",         220*$R, 80*$R, 160*$R, 60*$R)
+  local $button113 = GUICtrlCreateButton("Click any Mouse Button",420*$R, 80*$R, 160*$R, 60*$R)
+  local $button114 = GUICtrlCreateButton("Primary Mouse Button",  20*$R,  180*$R, 160*$R, 60*$R)
+  local $button115 = GUICtrlCreateButton("Secondary Mouse Button",220*$R, 180*$R, 160*$R, 60*$R)
+  local $button116 = GUICtrlCreateButton("Middle Mouse Button",   420*$R, 180*$R, 160*$R, 60*$R)
+  local $button117 = GUICtrlCreateButton("Forward Mouse Button",  20*$R,  280*$R, 240*$R, 60*$R)
+  local $button118 = GUICtrlCreateButton("Backward Mouse Button", 320*$R, 280*$R, 240*$R, 60*$R)
+  GUISetState()
+  While 1
+  	$hMsg = GUIGetMsg()
+  	Switch $hMsg
+  		Case $GUI_EVENT_CLOSE
+  			GUIDelete($hChild11)
+  			ExitLoop
+  		Case $button111
+        local $totrig = "await any"
+        AddToBehavior($totrig)
+  			GUIDelete($hChild11)
+  			ExitLoop
+  		Case $button112
+        local $totrig = "await key"
+        AddToBehavior($totrig)
+        GUIDelete($hChild11)
+        ExitLoop
+      Case $button113
+        local $totrig = "await click"
+        AddToBehavior($totrig)
+        GUIDelete($hChild11)
+        ExitLoop
+      Case $button114
+        local $totrig = "await 01"
+        AddToBehavior($totrig)
+        GUIDelete($hChild11)
+        ExitLoop
+      Case $button115
+        local $totrig = "await 02"
+        AddToBehavior($totrig)
+        GUIDelete($hChild11)
+        ExitLoop
+      Case $button116
+        local $totrig = "await 04"
+        AddToBehavior($totrig)
+        GUIDelete($hChild11)
+        ExitLoop
+      Case $button117
+        local $totrig = "await 05"
+        AddToBehavior($totrig)
+        GUIDelete($hChild11)
+        ExitLoop
+      Case $button118
+        local $totrig = "await 06"
+        AddToBehavior($totrig)
         GUIDelete($hChild11)
         ExitLoop
   	EndSwitch
