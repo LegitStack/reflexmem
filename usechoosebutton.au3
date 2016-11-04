@@ -1,4 +1,4 @@
-#include <lib\behave\choosebuttonhelper_behavior>
+#include <lib\choosebuttonhelper.au3>
 #include <Misc.au3>
 
 

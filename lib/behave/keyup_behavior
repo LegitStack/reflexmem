@@ -1,197 +1,48 @@
 Func KeyUpBehavior()
-	Local $hChild9 = GUICreate("Key Up Behavior", 400*$R, 360*$R, -1, -1, -1, -1, $hGUI)
-	GUICtrlCreateLabel("Which key(s) should be unpressed?", 20*$R, 20*$R, 360*$R, 40*$R)
+	Local $hChild9 = GUICreate("Key Up Behavior", 400*$R, 300*$R, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("Press Record key, then press the key on your keyboard to indicate which button should be lifted up.", 20*$R, 20*$R, 360*$R, 40*$R)
 	GUICtrlSetStyle(-1, $SS_CENTER)
-	local $button91 = GUICtrlCreateButton("Single Letter or Number", 20*$R, 60*$R, 160*$R, 30*$R)
-	local $button92 = GUICtrlCreateButton("Enter", 			220*$R, 60*$R, 160*$R, 30*$R)
-	local $button93 = GUICtrlCreateButton("Space", 			20*$R, 100*$R, 160*$R, 30*$R)
-	local $button94 = GUICtrlCreateButton("Shift", 			220*$R, 100*$R, 160*$R, 30*$R)
-	local $button95 = GUICtrlCreateButton("Alt", 				20*$R, 140*$R, 160*$R, 30*$R)
-	local $button96 = GUICtrlCreateButton("Control", 		220*$R, 140*$R, 160*$R, 30*$R)
-	local $button97 = GUICtrlCreateButton("Left", 			20*$R, 180*$R, 160*$R, 30*$R)
-	local $button98 = GUICtrlCreateButton("Right", 			220*$R, 180*$R, 160*$R, 30*$R)
-	local $button99 = GUICtrlCreateButton("Up", 				20*$R, 220*$R, 160*$R, 30*$R)
-	local $button910 = GUICtrlCreateButton("Down", 			220*$R, 220*$R, 160*$R, 30*$R)
-	local $button911 = GUICtrlCreateButton("Delete", 		20*$R, 260*$R, 160*$R, 30*$R)
-	local $button912 = GUICtrlCreateButton("Backspace", 220*$R, 260*$R, 160*$R, 30*$R)
-	local $button913 = GUICtrlCreateButton("Tab", 			20*$R, 300*$R, 160*$R, 30*$R)
-	local $button914 = GUICtrlCreateButton("F Keys", 		220*$R, 300*$R, 160*$R, 30*$R)
+	local $button91 = GUICtrlCreateButton("Record Key", 		20*$R,  100*$R, 360*$R, 80*$R)
+	local $button92 = GUICtrlCreateButton("Clear Shift", 		20*$R,  200*$R, 100*$R, 80*$R)
+	local $button93 = GUICtrlCreateButton("Clear Control", 	150*$R, 200*$R, 100*$R, 80*$R)
+	local $button94 = GUICtrlCreateButton("Clear Alt", 			280*$R, 200*$R, 100*$R, 80*$R)
 	GUISetState()
-
-	local $totrig = ""
-	Local $sAnswer = ""
-	local $Shift = false
-	local $alt = false
-	local $control = false
 
 	While 1
 		$hMsg = GUIGetMsg()
 		Switch $hMsg
 			Case $GUI_EVENT_CLOSE
-				GUIDelete($hChild9)
 				ExitLoop
 			Case $button91
-				$sAnswer = InputBox("Key Up Behavior", "What single key should be lifted up? (Letters, numbers and these symbols allowed: @$%&*()-_=~/|\[];:?)", "a", "")
-				$sAnswer = StringReplace($sAnswer, "{", "")
-				$sAnswer = StringReplace($sAnswer, "}", "")
-				$sAnswer = StringReplace($sAnswer, "^", "")
-				$sAnswer = StringReplace($sAnswer, "+", "")
-				$sAnswer = StringReplace($sAnswer, "!", "")
-				$sAnswer = StringReplace($sAnswer, "#", "")
-				if $sAnswer <> "" then
-					$totrig = "send {" & StringLeft($sAnswer, 1) & " up}"
-					AddToBehavior($totrig)
-				endif
-				GUIDelete($hChild9)
+				GUICtrlSetData($button91, "Now please press any key")
+				GUICtrlSetState($button91,$GUI_DISABLE)
+				GUICtrlSetState($button92,$GUI_DISABLE)
+				GUICtrlSetState($button93,$GUI_DISABLE)
+				GUICtrlSetState($button94,$GUI_DISABLE)
+				local $nameofthing
+				local $data = ChooseButtonHelper($nameofthing, true)
+				addKeyUpToBehavior($data)
 				ExitLoop
 			Case $button92
-				$totrig = "send {ENTER up}"
+				local $totrig = "send {SHIFTDOWN}{SHIFTUP}"
 				AddToBehavior($totrig)
-				GUIDelete($hChild9)
 				ExitLoop
 			Case $button93
-				$totrig = "send {SPACE up}"
+				local $totrig = "send {CTRLDOWN}{CTRLUP}"
 				AddToBehavior($totrig)
-				GUIDelete($hChild9)
 				ExitLoop
 			Case $button94
-				$totrig = "send {LSHIFT up}"
+				local $totrig = "send {ALTDOWN}{ALTUP}"
 				AddToBehavior($totrig)
-				GUIDelete($hChild9)
-				ExitLoop
-			Case $button95
-				$totrig = "send {ALT up}"
-				AddToBehavior($totrig)
-				GUIDelete($hChild9)
-				ExitLoop
-			Case $button96
-				$totrig = "send {LCTRL up}"
-				AddToBehavior($totrig)
-				GUIDelete($hChild9)
-				ExitLoop
-			Case $button97
-				$totrig = "send {LEFT up}"
-				AddToBehavior($totrig)
-				GUIDelete($hChild9)
-				ExitLoop
-			Case $button98
-				$totrig = "send {RIGHT up}"
-				AddToBehavior($totrig)
-				GUIDelete($hChild9)
-				ExitLoop
-			Case $button99
-				$totrig = "send {UP up}"
-				AddToBehavior($totrig)
-				GUIDelete($hChild9)
-				ExitLoop
-			Case $button910
-				$totrig = "send {DOWN up}"
-				AddToBehavior($totrig)
-				GUIDelete($hChild9)
-				ExitLoop
-			Case $button911
-				$totrig = "send {DELETE up}"
-				AddToBehavior($totrig)
-				GUIDelete($hChild9)
-				ExitLoop
-			Case $button912
-				$totrig = "send {BACKSPACE up}"
-				AddToBehavior($totrig)
-				GUIDelete($hChild9)
-				ExitLoop
-			Case $button913
-				$totrig = "send {TAB up}"
-				AddToBehavior($totrig)
-				GUIDelete($hChild9)
-				ExitLoop
-			Case $button914 ;F keys
-				$hChild9a = GUICreate("Key Up Function keys", 400*$R, 440*$R, -1, -1, -1, -1, $hChild9)
-				GUICtrlCreateLabel("Which F key should be unpressed?", 20*$R, 20*$R, 360*$R, 40*$R)
-				GUICtrlSetStyle(-1, $SS_CENTER)
-				$button9a1 = GUICtrlCreateButton("F1", 20*$R, 80*$R, 160*$R, 40*$R)
-				$button9a2 = GUICtrlCreateButton("F2", 220*$R, 80*$R, 160*$R, 40*$R)
-				$button9a3 = GUICtrlCreateButton("F3", 20*$R, 140*$R, 160*$R, 40*$R)
-				$button9a4 = GUICtrlCreateButton("F4", 220*$R, 140*$R, 160*$R, 40*$R)
-				$button9a5 = GUICtrlCreateButton("F5", 20*$R, 200*$R, 160*$R, 40*$R)
-				$button9a6 = GUICtrlCreateButton("F6", 220*$R, 200*$R, 160*$R, 40*$R)
-				$button9a7 = GUICtrlCreateButton("F7", 20*$R, 260*$R, 160*$R, 40*$R)
-				$button9a8 = GUICtrlCreateButton("F8", 220*$R, 260*$R, 160*$R, 40*$R)
-				$button9a9 = GUICtrlCreateButton("F9", 20*$R, 320*$R, 160*$R, 40*$R)
-				$button9a10 = GUICtrlCreateButton("F10", 220*$R, 320*$R, 160*$R, 40*$R)
-				$button9a11 = GUICtrlCreateButton("F11", 20*$R, 380*$R, 160*$R, 40*$R)
-				$button9a12 = GUICtrlCreateButton("F12", 220*$R, 380*$R, 160*$R, 40*$R)
-				GUISetState()
-				local $totrig = ""
-				While 1
-					$hMsg = GUIGetMsg()
-					Switch $hMsg
-						Case $GUI_EVENT_CLOSE
-							GUIDelete($hChild8a)
-							ExitLoop
-						Case $button9a1
-							$totrig = "send {F1 up}"
-							AddToBehavior($totrig)
-							GUIDelete($hChild9a)
-							ExitLoop
-						Case $button9a2
-							$totrig = "send {F2 up}"
-							AddToBehavior($totrig)
-							GUIDelete($hChild9a)
-							ExitLoop
-						Case $button9a3
-							$totrig = "send {F3 up}"
-							AddToBehavior($totrig)
-							GUIDelete($hChild9a)
-							ExitLoop
-						Case $button9a4
-							$totrig = "send {F4 up}"
-							AddToBehavior($totrig)
-							GUIDelete($hChild9a)
-							ExitLoop
-						Case $button9a5
-							$totrig = "send {F5 up}"
-							AddToBehavior($totrig)
-							GUIDelete($hChild9a)
-							ExitLoop
-						Case $button9a6
-							$totrig = "send {F6 up}"
-							AddToBehavior($totrig)
-							GUIDelete($hChild9a)
-							ExitLoop
-						Case $button9a7
-							$totrig = "send {F7 up}"
-							AddToBehavior($totrig)
-							GUIDelete($hChild9a)
-							ExitLoop
-						Case $button9a8
-							$totrig = "send {F8 up}"
-							AddToBehavior($totrig)
-							GUIDelete($hChild9a)
-							ExitLoop
-						Case $button9a9
-							$totrig = "send {F9 up}"
-							AddToBehavior($totrig)
-							GUIDelete($hChild9a)
-							ExitLoop
-						Case $button9a10
-							$totrig = "send {F10 up}"
-							AddToBehavior($totrig)
-							GUIDelete($hChild9a)
-							ExitLoop
-						Case $button9a11
-							$totrig = "send {F11 up}"
-							AddToBehavior($totrig)
-							GUIDelete($hChild9a)
-							ExitLoop
-						Case $button9a12
-							$totrig = "send {F12 up}"
-							AddToBehavior($totrig)
-							GUIDelete($hChild9a)
-							ExitLoop
-					EndSwitch
-				WEnd
-				GUIDelete($hChild9)
 				ExitLoop
 		EndSwitch
 	WEnd
+	GUIDelete($hChild9)
+EndFunc
+
+Func addKeyUpToBehavior($data)
+	if $data <> "" then
+		local $totrig = "send {" & $data & " up}"
+		AddToBehavior($totrig)
+	endif
 EndFunc

@@ -32,7 +32,7 @@ Func ChooseButtonHelper(ByRef $nameofchoice, $shouldsend = false)
     elseif _IsPressed("03") Then
       $nameofchoice = "Control-break processing"
       $return = "03"
-      $send = ""
+      $send = "BREAK"
       $waiting = False
     elseif _IsPressed("08") Then
       $nameofchoice = "BACKSPACE"
@@ -52,17 +52,17 @@ Func ChooseButtonHelper(ByRef $nameofchoice, $shouldsend = false)
     elseif _IsPressed("0D") Then
       $nameofchoice = "ENTER"
       $return = "0D"
-      $send = ""
+      $send = "ENTER"
       $waiting = False
     elseif _IsPressed("10") Then
       $nameofchoice = "SHIFT"
       $return = "10"
-      $send = ""
+      $send = "LSHIFT"
       $waiting = False
     elseif _IsPressed("11") Then
       $nameofchoice = "CTRL"
       $return = "11"
-      $send = ""
+      $send = "LCTRL"
       $waiting = False
     elseif _IsPressed("12") Then
       $nameofchoice = "ALT"
@@ -72,12 +72,12 @@ Func ChooseButtonHelper(ByRef $nameofchoice, $shouldsend = false)
     elseif _IsPressed("13") Then
       $nameofchoice = "PAUSE"
       $return = "13"
-      $send = ""
+      $send = "PAUSE"
       $waiting = False
     elseif _IsPressed("14") Then
       $nameofchoice = "CAPS LOCK"
       $return = "14"
-      $send = ""
+      $send = "CAPSLOCK toggle"
       $waiting = False
     elseif _IsPressed("1B") Then
       $nameofchoice = "ESC"
@@ -87,7 +87,7 @@ Func ChooseButtonHelper(ByRef $nameofchoice, $shouldsend = false)
     elseif _IsPressed("20") Then
       $nameofchoice = "SPACE"
       $return = "20"
-      $send = ""
+      $send = "SPACE"
       $waiting = False
     elseif _IsPressed("21") Then
       $nameofchoice = "PAGE UP"
@@ -162,182 +162,182 @@ Func ChooseButtonHelper(ByRef $nameofchoice, $shouldsend = false)
     elseif _IsPressed("30") Then
       $nameofchoice = "0"
       $return = "30"
-      $send = ""
+      $send = "0"
       $waiting = False
     elseif _IsPressed("31") Then
       $nameofchoice = "1"
       $return = "31"
-      $send = ""
+      $send = "1"
       $waiting = False
     elseif _IsPressed("32") Then
       $nameofchoice = "2"
       $return = "32"
-      $send = ""
+      $send = "2"
       $waiting = False
     elseif _IsPressed("33") Then
       $nameofchoice = "3"
       $return = "33"
-      $send = ""
+      $send = "3"
       $waiting = False
     elseif _IsPressed("34") Then
       $nameofchoice = "4"
       $return = "34"
-      $send = ""
+      $send = "4"
       $waiting = False
     elseif _IsPressed("35") Then
       $nameofchoice = "5"
       $return = "35"
-      $send = ""
+      $send = "5"
       $waiting = False
     elseif _IsPressed("36") Then
       $nameofchoice = "6"
       $return = "36"
-      $send = ""
+      $send = "6"
       $waiting = False
     elseif _IsPressed("37") Then
       $nameofchoice = "7"
       $return = "37"
-      $send = ""
+      $send = "7"
       $waiting = False
     elseif _IsPressed("38") Then
       $nameofchoice = "8"
       $return = "38"
-      $send = ""
+      $send = "8"
       $waiting = False
     elseif _IsPressed("39") Then
       $nameofchoice = "9"
       $return = "39"
-      $send = ""
+      $send = "9"
       $waiting = False
     elseif _IsPressed("41") Then
       $nameofchoice = "A"
       $return = "41"
-      $send = ""
+      $send = "a"
       $waiting = False
     elseif _IsPressed("42") Then
       $nameofchoice = "B"
       $return = "42"
-      $send = ""
+      $send = "b"
       $waiting = False
     elseif _IsPressed("43") Then
       $nameofchoice = "C"
       $return = "43"
-      $send = ""
+      $send = "c"
       $waiting = False
     elseif _IsPressed("44") Then
       $nameofchoice = "D"
       $return = "44"
-      $send = ""
+      $send = "d"
       $waiting = False
     elseif _IsPressed("45") Then
       $nameofchoice = "E"
       $return = "45"
-      $send = ""
+      $send = "e"
       $waiting = False
     elseif _IsPressed("46") Then
       $nameofchoice = "F"
       $return = "46"
-      $send = ""
+      $send = "f"
       $waiting = False
     elseif _IsPressed("47") Then
       $nameofchoice = "G"
       $return = "47"
-      $send = ""
+      $send = "g"
       $waiting = False
     elseif _IsPressed("48") Then
       $nameofchoice = "H"
       $return = "48"
-      $send = ""
+      $send = "h"
       $waiting = False
     elseif _IsPressed("49") Then
       $nameofchoice = "I"
       $return = "49"
-      $send = ""
+      $send = "i"
       $waiting = False
     elseif _IsPressed("4A") Then
       $nameofchoice = "J"
       $return = "4A"
-      $send = ""
+      $send = "j"
       $waiting = False
     elseif _IsPressed("4B") Then
       $nameofchoice = "K"
       $return = "4B"
-      $send = ""
+      $send = "k"
       $waiting = False
     elseif _IsPressed("4C") Then
       $nameofchoice = "L"
       $return = "4C"
-      $send = ""
+      $send = "l"
       $waiting = False
     elseif _IsPressed("4D") Then
       $nameofchoice = "M"
       $return = "4D"
-      $send = ""
+      $send = "m"
       $waiting = False
     elseif _IsPressed("4E") Then
       $nameofchoice = "N"
       $return = "4E"
-      $send = ""
+      $send = "n"
       $waiting = False
     elseif _IsPressed("4F") Then
       $nameofchoice = "O"
       $return = "4F"
-      $send = ""
+      $send = "o"
       $waiting = False
     elseif _IsPressed("50") Then
       $nameofchoice = "P"
       $return = "50"
-      $send = ""
+      $send = "p"
       $waiting = False
     elseif _IsPressed("52") Then
       $nameofchoice = "Q"
       $return = "52"
-      $send = ""
+      $send = "q"
       $waiting = False
     elseif _IsPressed("51") Then
       $nameofchoice = "R"
       $return = "51"
-      $send = ""
+      $send = "r"
       $waiting = False
     elseif _IsPressed("53") Then
       $nameofchoice = "S"
       $return = "53"
-      $send = ""
+      $send = "s"
       $waiting = False
     elseif _IsPressed("54") Then
       $nameofchoice = "T"
       $return = "54"
-      $send = ""
+      $send = "t"
       $waiting = False
     elseif _IsPressed("55") Then
       $nameofchoice = "U"
       $return = "55"
-      $send = ""
+      $send = "u"
       $waiting = False
     elseif _IsPressed("56") Then
       $nameofchoice = "V"
       $return = "56"
-      $send = ""
+      $send = "v"
       $waiting = False
     elseif _IsPressed("57") Then
       $nameofchoice = "W"
       $return = "57"
-      $send = ""
+      $send = "w"
       $waiting = False
     elseif _IsPressed("58") Then
       $nameofchoice = "X"
       $return = "58"
-      $send = ""
+      $send = "x"
       $waiting = False
     elseif _IsPressed("59") Then
       $nameofchoice = "Y"
       $return = "59"
-      $send = ""
+      $send = "y"
       $waiting = False
     elseif _IsPressed("5A") Then
       $nameofchoice = "Z"
       $return = "5A"
-      $send = ""
+      $send = "z"
       $waiting = False
     elseif _IsPressed("5B") Then
       $nameofchoice = "Left Windows"
@@ -352,62 +352,62 @@ Func ChooseButtonHelper(ByRef $nameofchoice, $shouldsend = false)
     elseif _IsPressed("60") Then
       $nameofchoice = "Numeric keypad 0"
       $return = "60"
-      $send = ""
+      $send = "NUMPAD0"
       $waiting = False
     elseif _IsPressed("61") Then
       $nameofchoice = "Numeric keypad 1"
       $return = "61"
-      $send = ""
+      $send = "NUMPAD1"
       $waiting = False
     elseif _IsPressed("62") Then
       $nameofchoice = "Numeric keypad 2"
       $return = "62"
-      $send = ""
+      $send = "NUMPAD2"
       $waiting = False
     elseif _IsPressed("63") Then
       $nameofchoice = "Numeric keypad 3"
       $return = "63"
-      $send = ""
+      $send = "NUMPAD3"
       $waiting = False
     elseif _IsPressed("64") Then
       $nameofchoice = "Numeric keypad 4"
       $return = "64"
-      $send = ""
+      $send = "NUMPAD4"
       $waiting = False
     elseif _IsPressed("65") Then
       $nameofchoice = "Numeric keypad 5"
       $return = "65"
-      $send = ""
+      $send = "NUMPAD5"
       $waiting = False
     elseif _IsPressed("66") Then
       $nameofchoice = "Numeric keypad 6"
       $return = "66"
-      $send = ""
+      $send = "NUMPAD6"
       $waiting = False
     elseif _IsPressed("67") Then
       $nameofchoice = "Numeric keypad 7"
       $return = "67"
-      $send = ""
+      $send = "NUMPAD7"
       $waiting = False
     elseif _IsPressed("68") Then
       $nameofchoice = "Numeric keypad 8"
       $return = "68"
-      $send = ""
+      $send = "NUMPAD8"
       $waiting = False
     elseif _IsPressed("69") Then
       $nameofchoice = "Numeric keypad 9"
       $return = "69"
-      $send = ""
+      $send = "NUMPAD9"
       $waiting = False
     elseif _IsPressed("6A") Then
       $nameofchoice = "Multiply"
       $return = "6A"
-      $send = ""
+      $send = "NUMPADMULT"
       $waiting = False
     elseif _IsPressed("6B") Then
       $nameofchoice = "Add"
       $return = "6B"
-      $send = ""
+      $send = "NUMPADADD"
       $waiting = False
     elseif _IsPressed("6C") Then
       $nameofchoice = "Separator"
@@ -417,17 +417,17 @@ Func ChooseButtonHelper(ByRef $nameofchoice, $shouldsend = false)
     elseif _IsPressed("6D") Then
       $nameofchoice = "Subtract"
       $return = "6D"
-      $send = ""
+      $send = "NUMPADSUB"
       $waiting = False
     elseif _IsPressed("6E") Then
       $nameofchoice = "Decimal"
       $return = "6E"
-      $send = ""
+      $send = "NUMPADDOT"
       $waiting = False
     elseif _IsPressed("6F") Then
       $nameofchoice = "Divide"
       $return = "6F"
-      $send = ""
+      $send = "NUMPADDIV"
       $waiting = False
     elseif _IsPressed("70") Then
       $nameofchoice = "F1"
@@ -552,12 +552,12 @@ Func ChooseButtonHelper(ByRef $nameofchoice, $shouldsend = false)
     elseif _IsPressed("90") Then
       $nameofchoice = "NUM LOCK"
       $return = "90"
-      $send = "NUMLOCK "
+      $send = "NUMLOCK toggle"
       $waiting = False
     elseif _IsPressed("91") Then
       $nameofchoice = "SCROLL LOCK"
       $return = "91"
-      $send = ""
+      $send = "SCROLLLOCK toggle"
       $waiting = False
     elseif _IsPressed("A0") Then
       $nameofchoice = "Left SHIFT"
@@ -582,62 +582,62 @@ Func ChooseButtonHelper(ByRef $nameofchoice, $shouldsend = false)
     elseif _IsPressed("A4") Then
       $nameofchoice = "Left MENU"
       $return = "A4"
-      $send = ""
+      $send = "APPSKEY"
       $waiting = False
     elseif _IsPressed("A5") Then
       $nameofchoice = "Right MENU"
       $return = "A5"
-      $send = ""
+      $send = "APPSKEY"
       $waiting = False
     elseif _IsPressed("BA") Then
       $nameofchoice = ";"
       $return = "BA"
-      $send = ""
+      $send = ";"
       $waiting = False
     elseif _IsPressed("BB") Then
       $nameofchoice = "="
       $return = "BB"
-      $send = ""
+      $send = "="
       $waiting = False
     elseif _IsPressed("BC") Then
       $nameofchoice = ","
       $return = "BC"
-      $send = ""
+      $send = ","
       $waiting = False
     elseif _IsPressed("BD") Then
       $nameofchoice = "-"
       $return = "BD"
-      $send = ""
+      $send = "-"
       $waiting = False
     elseif _IsPressed("BE") Then
       $nameofchoice = "."
       $return = "BE"
-      $send = ""
+      $send = "."
       $waiting = False
     elseif _IsPressed("BF") Then
       $nameofchoice = "/"
       $return = "BF"
-      $send = ""
+      $send = "/"
       $waiting = False
     elseif _IsPressed("C0") Then
       $nameofchoice = "`"
       $return = "C0"
-      $send = ""
+      $send = "`"
       $waiting = False
     elseif _IsPressed("DB") Then
       $nameofchoice = "["
       $return = "DB"
-      $send = ""
+      $send = "["
       $waiting = False
     elseif _IsPressed("DC") Then
       $nameofchoice = "\"
       $return = "DC"
-      $send = ""
+      $send = "\"
       $waiting = False
     elseif _IsPressed("DD") Then
       $nameofchoice = "]"
       $return = "DD"
-      $send = ""
+      $send = "]"
       $waiting = False
     EndIf
   WEnd

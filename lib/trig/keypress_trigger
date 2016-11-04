@@ -1,8 +1,8 @@
 Func KeyPressedTrigger()
 	Local $hChild7 = GUICreate("Key Pressed Trigger", 400*$R, 200*$R, -1, -1, -1, -1, $hGUI)
-	GUICtrlCreateLabel("Click 'OK' then " & @CRLF & @CRLF & "Press any Key  or  Click any Mouse Button", 20*$R, 20*$R, 360*$R, 80*$R)
+	GUICtrlCreateLabel("Click 'Record Key' then " & @CRLF & @CRLF & "Press any Key  or  Click any Mouse Button", 20*$R, 20*$R, 360*$R, 80*$R)
 	GUICtrlSetStyle(-1, $SS_CENTER)
-	local $button71 = GUICtrlCreateButton("OK", 20*$R, 100*$R, 360*$R, 80*$R)
+	local $button71 = GUICtrlCreateButton("Record Key", 20*$R, 100*$R, 360*$R, 80*$R)
 	GUISetState()
 
 	local $totrig = ""
@@ -15,6 +15,8 @@ Func KeyPressedTrigger()
 				GUIDelete($hChild7)
 				ExitLoop
 			Case $button71
+				GUICtrlSetData($button71, "Now please press any key")
+				GUICtrlSetState($button71,$GUI_DISABLE)
 				local $nameofthing
 				local $data = ChooseButtonHelper($nameofthing)
 				addKeyPressToTrigger($nameofthing, $data)
