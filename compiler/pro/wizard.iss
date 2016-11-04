@@ -68,7 +68,8 @@ Source: "C:\sites\reflexmem\lib\executeif.au3"; DestDir: "{app}\lib\"; Flags: ig
 Source: "C:\sites\reflexmem\lib\executethen.au3"; DestDir: "{app}\lib\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\filelocations.au3"; DestDir: "{app}\lib\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\applieddpi.au3"; DestDir: "{app}\lib\"; Flags: ignoreversion
-Source: "C:\sites\reflexmem\lib\upgrademessage.au3"; DestDir: "{app}\lib\"; Flags: ignoreversion
+Source: "C:\sites\reflexmem\lib\upgrademessage.au3"; DestDir: "{app}\lib\"; Flags: ignoreversion     
+Source: "C:\sites\reflexmem\lib\choosebuttonhelper.au3"; DestDir: "{app}\lib\"; Flags: ignoreversion
 
 Source: "C:\sites\reflexmem\lib\dll\ImageSearchDLL.dll"; DestDir: "{app}\lib\dll\"; Flags: ignoreversion
 
