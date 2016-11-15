@@ -14,21 +14,21 @@ GUISetState(@SW_SHOW, $GUI)
 WinSetOnTop($GUI, '', '1')
 
 While 1
-If Not $Pause Then
-$Pos = MouseGetPos()
-$Pixel = PixelGetColor($Pos['0'], $Pos['1'])
-$Pixel = '0x' & Hex($Pixel, '6')
-GUICtrlSetData($Input, $Pixel)
-GUICtrlSetData($Input2, "X: " & $Pos['0'] & "  Y: " & $Pos['1'])
-EndIf
-Sleep(15)
+  If Not $Pause Then
+    $Pos = MouseGetPos()
+    $Pixel = PixelGetColor($Pos['0'], $Pos['1'])
+    $Pixel = '0x' & Hex($Pixel, '6')
+    GUICtrlSetData($Input, $Pixel)
+    GUICtrlSetData($Input2, "X: " & $Pos['0'] & "  Y: " & $Pos['1'])
+  EndIf
+  Sleep(15)
 WEnd
 
 Func _Pause()
-If Not $Pause Then ClipPut(GUICtrlRead ($Input) & @CRLF & GUICtrlRead ($Input2))
-$Pause = Not $Pause
+  If Not $Pause Then ClipPut(GUICtrlRead ($Input) & @CRLF & GUICtrlRead ($Input2))
+  $Pause = Not $Pause
 EndFunc   ;==>_Pause
 
 Func _Exit()
-Exit
+  Exit
 EndFunc   ;==>_Exit
