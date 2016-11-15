@@ -81,9 +81,9 @@ Func TrimBlankArea(Byref $x1, Byref $x2, Byref $y1, Byref $y2)
 EndFunc
 
 
-$xx1 = 2192
-$xx2 = 2991
-$yy1 = 522
-$yy2 = 895
-TrimBlankArea($xx1, $xx2, $yy1, $yy2)
-msgbox(64, $xx1 & " " & $xx2, $yy1 & " " & $yy2)
+;$xx1 = 2192
+;$xx2 = 2991
+;$yy1 = 522
+;$yy2 = 895
+;TrimBlankArea($xx1, $xx2, $yy1, $yy2)
+;msgbox(64, $xx1 & " " & $xx2, $yy1 & " " & $yy2)

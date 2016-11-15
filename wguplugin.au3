@@ -70,3 +70,24 @@ proc 0
   loop
   endl
 endp
+
+
+Proc 7 COMMENTS
+  ;Setup
+    ;get the general area of questions.
+    ;get the answer icons.
+  ;execute - when you press the button for new question
+    ;find the x1, x2, y1, y2 of each answer icons. keep the main test area in mind.
+      ;add those those icon coordinates to an array.
+    ;take that array and the test area coordinates and send to partician screen
+      ;PartitionScreenIntoAreas(ByRef $x1, ByRef $x2, ByRef $y1, ByRef $y2, ByRef $sx1, ByRef $sx2, ByRef $sy1, ByRef $sy2)
+    ;take that array and the test area coordinates and send them to the trim blank area. one at a time
+      ;TrimBlankArea(Byref $x1, Byref $x2, Byref $y1, Byref $y2)
+    ;take images of the screen at those coordinates. and get the text of them using tesseract
+    ;send question and answer text to the server
+    ;await reply
+    ;move mouse to the location of the answer.
+  ;clean up
+    ;delete all files.
+    ;exit.
+endp
