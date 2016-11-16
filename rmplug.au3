@@ -192,7 +192,13 @@ Func ExecuteCode(Byref $read, Byref $r, Byref $arg1, Byref $arg2, Byref $temp, B
       $return = ExecuteProc($r[1])
     endif
   elseif ($command == "set " Or $command == "Set ") And ($ift == "" Or stringright($ift, 1) == "t") then
-    if ubound($r) == 3 then
+    if ubound($r) == 2 then
+      if stringleft($r[1], 1) == "$" then
+        execute($r[1])
+      else
+        $v[$r[1]] = $r[2]
+      endif
+    elseif ubound($r) == 3 then
       if stringleft($r[2], 1) == "$" then
         $v[$r[1]] = execute($r[2])
       else

@@ -1,32 +1,88 @@
-
-hkps ` 1      ;new qeustion
-hkps 1 2      ;question top left
-hkps 2 3      ;question bottom right
-hkps 3 4      ;answer checkbox top left
-hkps 4 5      ;answer checkbox bottom right
-hkps {ESC} 6  ;Terminate
-
-
 ; Variables
-; 0 - question left
-; 1 - question top
-; 2 - question right
-; 3 - TEMP (checkbox left)
-; 4 - TEMP (checkbox top)
-; 5 - TEMP (checkbox right)
-; 6 - TEMP (checkbox bottom)
-; 7 - Counter for answers (while creating)
-; 11 - answer 1 x
-; ...
-; 20 - answer 10 x
-; 21 - answer 1 y
-; ...
-; 30 - answer 10 y
-; 31 - answer 1 text
-; ...
-; 40 - answer 10 text
+; 0 - counter i
+; 1 - counter j
+; 2 - counter k
+; 3 - tempvar
+; 4 - tempvar
+; 5 - tempvar
+; 6 - tempvar
+; 7 - tempvar
+; 8 - tempvar
+; 9 - counter for # of answer images. - A. B. C. D. E. ...
+; 10 - question and answer section left
+; 11 - question and answer section top
+; 12 - question and answer section right
+; 13 - question and answer section bottom
+; 14 - TEMP (checkbox left)
+; 15 - TEMP (checkbox top)
+; 16 - TEMP (checkbox right)
+; 17 - TEMP (checkbox bottom)
+; 18 - (checkbox left)    array of x1 - created when image found on screen
+; 19 - (checkbox top)     array of y1 - created when image found on screen
+; 20 - (checkbox right)   array of x2 - created when image found on screen
+; 21 - (checkbox bottom)  array of y2 - created when image found on screen
 
-Proc 1 indicate new question
+
+hkps {ESC} 1  ;Terminate
+hkps ` 4      ;new qeustion
+hkps 1 5      ;question top left
+hkps 2 6      ;question bottom right
+hkps 3 7      ;answer checkbox top left
+hkps 4 8      ;answer checkbox bottom right
+
+
+proc 0
+  loop
+  endl
+endp
+
+
+Proc 1 Terminate
+  Exit
+endp
+
+
+Proc 2 Setup / Cleanup - Remove Files
+  ift FileExists(GetScriptsPath("images") & "Cheetah\")
+    FileDelete(GetScriptsPath("images") & "Cheetah\*.*")
+  elif
+    DirCreate(GetScriptsPath("images") & "Cheetah\")
+  endi
+endp
+
+
+Proc 3 Setup / Cleanup - Clear Variables
+  set 0 0
+  loop
+    set 0 $v[0]+1
+    ;untested...
+    set $v[$v[0]]=0
+    ift $v[0] >= 200
+      bklp
+    endi
+  endl
+endp
+
+
+Proc 4 indicate new question  - see proc 7 comments.
+  ; find the locations of each of the questions
+  set 0 0
+  loop
+    set 0 $v[0]+1
+    ;untested...
+    ift FileExists(GetScriptsPath("images") & "Cheetah\" & $v[0] &".bmp")
+      _ImageSearchArea(GetScriptsPath("images") & "Cheetah\" & $v[0] &".bmp",1,0,0,@DesktopWidth,@DesktopHeight, $X1, $Y1, ,)
+
+    ; 18 - (checkbox left)    array of x1 - created when image found on screen
+    ; 19 - (checkbox top)     array of y1 - created when image found on screen
+    ; 20 - (checkbox right)   array of x2 - created when image found on screen
+    ; 21 - (checkbox bottom)  array of y2 - created when image found on screen
+
+    elif
+      bklp
+    endi
+  endl
+
   ; get question
   ; get all answers
     ;use counter to save 3,4,5,6 in approapriate variables
@@ -41,53 +97,63 @@ Proc 1 indicate new question
   ; send corresponding answer to website.
 endp
 
-Proc 6 Terminate
-  Exit
+
+Proc 5 indicate top of question
+  ; this is the beginning of the setup so...
+  ; delete all the existing files first.
+  goto 2
+
+  ; and clear all the variables
+  goto 3
+
+  ; set the first two variables to the top left of the question/area.
+  set 10 MouseGetPos(0)
+  set 11 MouseGetPos(1)
 endp
 
-Proc 2 indicate top of question
-  set 0 MouseGetPos(0)
-  set 1 MouseGetPos(1)
+Proc 6 indicate question right bottom
+  set 12 MouseGetPos(0)
+  set 13 MouseGetPos(0)
 endp
 
-Proc 3 indicate question right (technically we dont care about the bottom)
-  set 2 MouseGetPos(0)
+Proc 7 indicate answer checkbox top left
+  set 14 MouseGetPos(0)
+  set 15 MouseGetPos(1)
 endp
 
-Proc 4 indicate answer checkbox top left
-  set 3 MouseGetPos(0)
-  set 4 MouseGetPos(1)
-endp
+Proc 8 indicate answer checkbox bottom right
+  set 16 MouseGetPos(0)
+  set 17 MouseGetPos(1)
 
-Proc 5 indicate answer checkbox bottom right
-  set 5 MouseGetPos(0)
-  set 6 MouseGetPos(1)
-  ;capture image
-endp
+  ; increment counter
+  set 9 $v[9]+1
 
-
-proc 0
-  loop
-  endl
+  ; capture image and save it as the next number.
+  $sBMP_Path = GetScriptsPath("images") & "Cheetah\" & $v[9] & ".bmp"
+  _ScreenCapture_Capture($sBMP_Path, $v[14], $v[15], $v[16], $v[16], False)
 endp
 
 
-Proc 7 COMMENTS
-  ;Setup
-    ;get the general area of questions.
-    ;get the answer icons.
-  ;execute - when you press the button for new question
-    ;find the x1, x2, y1, y2 of each answer icons. keep the main test area in mind.
-      ;add those those icon coordinates to an array.
-    ;take that array and the test area coordinates and send to partician screen
-      ;PartitionScreenIntoAreas(ByRef $x1, ByRef $x2, ByRef $y1, ByRef $y2, ByRef $sx1, ByRef $sx2, ByRef $sy1, ByRef $sy2)
-    ;take that array and the test area coordinates and send them to the trim blank area. one at a time
-      ;TrimBlankArea(Byref $x1, Byref $x2, Byref $y1, Byref $y2)
-    ;take images of the screen at those coordinates. and get the text of them using tesseract
-    ;send question and answer text to the server
-    ;await reply
-    ;move mouse to the location of the answer.
-  ;clean up
-    ;delete all files.
-    ;exit.
+Proc 9 COMMENTS
+;done
+;  ; Setup
+;    ; get the general area of questions.
+;    ; get the answer icons.
+
+  ; execute - when you press the button for new question
+    ; find the x1, x2, y1, y2 of each answer icons. keep the main test area in mind.
+      ; add those those icon coordinates to an array.
+    ; take that array and the test area coordinates and send to partician screen
+      ; PartitionScreenIntoAreas(ByRef $x1, ByRef $x2, ByRef $y1, ByRef $y2, ByRef $sx1, ByRef $sx2, ByRef $sy1, ByRef $sy2)
+    ; take that array and the test area coordinates and send them to the trim blank area. one at a time
+      ; TrimBlankArea(Byref $x1, Byref $x2, Byref $y1, Byref $y2)
+    ; take images of the screen at those coordinates. and get the text of them using tesseract
+    ; send question and answer text to the server
+    ; await reply
+    ; move mouse to the location of the answer.
+
+;done
+;  ; clean up
+;    ; delete all files.
+;    ; exit.
 endp

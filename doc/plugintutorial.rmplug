@@ -1,9 +1,16 @@
 ;how to set a hotkey key procnumber - must be first thing you do.
 hkps {END} 3
 
+;proc 0 is the natural entry point to the program.
+;If you want it to constantly run, and wait for user hotkey then make proc 0 look like this:
+;proc 0
+;  loop
+;  endl
+;endp
 ;here's a sudo-function. only numbers (as the name) allowed. No need to specify arguments
 proc 0
-  ;heres a comment
+  ; this how you make comment
+  ;
 
   ; make a call:
   goto 1
@@ -30,7 +37,7 @@ proc 1
   ; make some regular autoit code
   msgbox(64,"1","hello world")
 
-  ; 8 max arguments allowed arguments only allow single words or numbers or variables
+  ; 8 max arguments allowed. arguments only allow single words or numbers or variables
   goto 2 hello $v[1]
 
   ; how to access the return
@@ -39,10 +46,10 @@ Endp
 
 proc 2 args are ignored if you write them in here.
 
-  ;here's how to use args, 1 or 2 args allowed
+  ; here's how to use args, 1 or 2 args allowed
   msgbox(64, "2", $arg1 & " " & $arg2)
 
-  ;  if you want to return a value simply add it onto the end of this line
+  ; if you want to return a value simply add it onto the end of this line
 Endp goodbyeworld
 
 

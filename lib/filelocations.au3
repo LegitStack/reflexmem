@@ -36,7 +36,6 @@ Func VarifyFolders()
       DirCreate (GetScriptsPath($exact))
     EndIf
   next
-
 EndFunc
 
 Func _IsChecked($idControlID)
