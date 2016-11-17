@@ -55,22 +55,25 @@ endp
 Proc 3 Setup / Cleanup - Clear Variables
   set 0 0
   loop
-    set 0 $v[0]+1
-    ;untested...
-    set $v[$v[0]]=0
+    set  0     $v[0]+1
+    set  $v[0] ""
+    setb $v[0] ""
+    setc $v[0] ""
+    setd $v[0] ""
+    sete $v[0] ""
     ift $v[0] >= 200
       bklp
     endi
   endl
+
 endp
 
 
 Proc 4 indicate new question - see proc 7 comments.
-  ; find the locations of each of the questions
+  ; find the locations of each of the answers
   set 0 0
   loop
     set 0 $v[0]+1
-    ;untested...
     ift FileExists(GetScriptsPath("images") & "Cheetah\" & $v[0] & ".bmp")
 
       ; find the image on the screen
@@ -95,18 +98,53 @@ Proc 4 indicate new question - see proc 7 comments.
     endi
   endl
 
-  ; get question
-  ; get all answers
-    ;use counter to save 3,4,5,6 in approapriate variables
-    ift $v[7] < 10
-      set $v[7]+10 $v[3]
-      set $v[7]+20 $v[4]
-      set $v[7]+30 "answer_text"
+  ; take that array and the test area coordinates and send to partician screen
+  set 14 $v[10]
+  set 15 $v[11]
+  set 16 $v[12]
+  set 17 $v[13]
+  PartitionScreenIntoAreas($v[14], $v[16], $v[15], $v[17], $b, $c, $d, $e)
+
+  ; take that array and the test area coordinates and send them to the trim blank area. one at a time
+  TrimBlankArea($v[14], $v[16], $v[15], $v[17])
+  set 0 0
+  loop
+    ift $b[$i] == ""
+      bklp
     endi
-  ; send in to get result
-  ; move mouse to answer that website indicates
-  ; wait for next click that is in an answer
-  ; send corresponding answer to website.
+    TrimBlankArea($b[$v[0]], $c[$v[0]], $d[$v[0]], $e[$v[0]])
+    set 0 $v[0]+1
+  endl
+
+  ; take images of the screen at those coordinates
+  ; and get the text of them using tesseract
+  set 99 SaveScreen($v[1],$v[14],$v[15],$v[16],$v[17],true)
+  set 0 0
+  loop
+    ift $b[$i] == ""
+      bklp
+    endi
+    set $v[0]+100 SaveScreen($v[1],$b[14],$d[15],$c[16],$e[17],true)
+    set 0 $v[0]+1
+  endl
+
+  ; compile question and answer texts into one list
+  set 98 "'::::START::::' "
+  set 0 0
+  loop
+    ift $b[$i] == ""
+      bklp
+    endi
+    set 98 $v[98]&" '::::NEXT::::' "& $v[99]+$v[0]
+    set 0 $v[0]+1
+  endl
+
+  ; send question and answer text to the server and await reply
+  ;set $v[5] = toweb .... returns a number - 0 for the first answer
+
+  ; move mouse to the location of the answer.
+  MouseMove($b[$v[5]],$c[$v[5]])
+
 endp
 
 

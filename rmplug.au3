@@ -197,15 +197,29 @@ Func ExecuteCode(Byref $read, Byref $r, Byref $arg1, Byref $arg2, Byref $temp, B
     endif
   elseif ($command == "set " Or $command == "Set ") And ($ift == "" Or stringright($ift, 1) == "t") then
     if ubound($r) == 3 then
-      if stringleft($r[2], 1) == "$" And stringleft($r[1], 1) == "$" then
-        $v[execute($r[1])] = execute($r[2])
-      elseif stringleft($r[2], 1) == "$" then
-        $v[$r[1]] = execute($r[2])
-      elseif stringleft($r[1], 1) == "$" then
-        $v[execute($r[1])] = $r[2]
-      else
-        $v[$r[1]] = $r[2]
+      if StringIsDigit(stringleft($r[2], 1)) == 0 and stringleft($r[2], 1) <> "'" and stringleft($r[2], 1) <> '"' then ;2 is code
+        if StringIsDigit(stringleft($r[1], 1)) == 0 and stringleft($r[1], 1) <> "'" and stringleft($r[1], 1) <> '"' then ;1 is code
+          $v[execute($r[1])] = execute($r[2])
+        else ;1 is not code
+          $v[$r[1]] = execute($r[2])
+        endif
+      else ;2 is not code
+        if StringIsDigit(stringleft($r[1], 1)) == 0 and stringleft($r[1], 1) <> "'" and stringleft($r[1], 1) <> '"' then ;1 is code
+          $v[execute($r[1])] = $r[2]
+        else;1 is not code
+          $v[$r[1]] = $r[2]
+        endif
       endif
+      ;oldway
+      ;if stringleft($r[2], 1) == "$" And stringleft($r[1], 1) == "$" then
+      ;  $v[execute($r[1])] = execute($r[2])
+      ;elseif stringleft($r[2], 1) == "$" then
+      ;  $v[$r[1]] = execute($r[2])
+      ;elseif stringleft($r[1], 1) == "$" then
+      ;  $v[execute($r[1])] = $r[2]
+      ;else
+      ;  $v[$r[1]] = $r[2]
+      ;endif
     elseif ubound($r) > 3 then
       for $temp = 2 to ubound($r)-1
         $a[$r[1]][$temp-2] = $r[$temp]
