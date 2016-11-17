@@ -15,6 +15,7 @@
 #include <GUIConstantsEx.au3>
 #include <lib\filelocations.au3>
 #include <lib\applieddpi.au3>
+#include <lib\httprequest.au3>
 #include <Misc.au3>
 
 ;$R = GetScale()
@@ -121,16 +122,4 @@ Func AskForLogin()
    EndSwitch
   wend
   GUIDelete($loginGUI)
-EndFunc
-
-Func HttpRequest($username, $password)
-  Dim $obj = ObjCreate ("WinHttp.WinHttpRequest.5.1")
-  $Header = "Content-Type: application/x-www-form-urlencoded"
-  $Host = "login.reflexmem.com"
-  $File = "/register.html"
-  $URL = "http://" & $Host & $File
-  $PostData = "UserID=" & $username & "&Password=" & $password
-  $obj.Open("PUT", $URL, false)
-  $obj.Send($PostData)
-  msgbox(64,"title",$obj.ResponseText)
 EndFunc
