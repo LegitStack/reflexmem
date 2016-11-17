@@ -4,6 +4,9 @@ Func PartitionScreenIntoAreas(ByRef $x1, ByRef $x2, ByRef $y1, ByRef $y2, ByRef 
   local $lowestx = 1000000
   local $i = 0
   while $i < ubound($sy1)
+    if $sy1[$i] == "" then
+      break
+    endif
     if $lowesty > $sy1[$i] Then
       $lowesty = $sy1[$i]
     endif
@@ -20,6 +23,9 @@ Func PartitionScreenIntoAreas(ByRef $x1, ByRef $x2, ByRef $y1, ByRef $y2, ByRef 
   local $sx3 = $sx1
   $i = 0
   While $i < Ubound($sx1)
+    if $sx1[$i] == "" then
+      break
+    endif
 
     $sx1[$i] = $sx2[$i]
     $sx2[$i] = _GetClosestRightX($i, $x2,       $sx3, $sx4      )
@@ -35,6 +41,9 @@ Func _GetClosestRightX($j, $x, $sx3, $sx4)
   Local $i    = 0
   local $lowestx1 = 10000000
   while $i < ubound($sx3)
+    if $sx3[$i] == "" then
+      break
+    endif
     if $i == $j then
     elseif $sx3[$i] > $sx4[$j] + 100 then
       if $lowestx1 > $sx3[$i] then
@@ -54,6 +63,9 @@ Func _GetClosestDownY($j, $y, $sx2, $sx3, $sx4, $sy1)
   Local $i    = 0
   local $lowesty1 = 10000000
   while $i < ubound($sx3)
+    if $sx3[$i] == "" then
+      break
+    endif
     if $i == $j then
     elseif $sx4[$i] < $sx3[$j] then
     elseif $sx3[$i] > $sx2[$j] then

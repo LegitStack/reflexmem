@@ -17,10 +17,11 @@
 ; 15 - TEMP (checkbox top)
 ; 16 - TEMP (checkbox right)
 ; 17 - TEMP (checkbox bottom)
-; 18 - (checkbox left)    array of x1 - created when image found on screen
-; 19 - (checkbox top)     array of y1 - created when image found on screen
-; 20 - (checkbox right)   array of x2 - created when image found on screen
-; 21 - (checkbox bottom)  array of y2 - created when image found on screen
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; extra ARRAYs
+; b - (checkbox left)    array of x1 - created when image found on screen
+; c - (checkbox top)     array of y1 - created when image found on screen
+; d - (checkbox right)   array of x2 - created when image found on screen
+; e - (checkbox bottom)  array of y2 - created when image found on screen
 
 
 hkps {ESC} 1  ;Terminate
@@ -64,20 +65,31 @@ Proc 3 Setup / Cleanup - Clear Variables
 endp
 
 
-Proc 4 indicate new question  - see proc 7 comments.
+Proc 4 indicate new question - see proc 7 comments.
   ; find the locations of each of the questions
   set 0 0
   loop
     set 0 $v[0]+1
     ;untested...
-    ift FileExists(GetScriptsPath("images") & "Cheetah\" & $v[0] &".bmp")
-      _ImageSearchArea(GetScriptsPath("images") & "Cheetah\" & $v[0] &".bmp",1,0,0,@DesktopWidth,@DesktopHeight, $X1, $Y1, ,)
+    ift FileExists(GetScriptsPath("images") & "Cheetah\" & $v[0] & ".bmp")
 
-    ; 18 - (checkbox left)    array of x1 - created when image found on screen
-    ; 19 - (checkbox top)     array of y1 - created when image found on screen
-    ; 20 - (checkbox right)   array of x2 - created when image found on screen
-    ; 21 - (checkbox bottom)  array of y2 - created when image found on screen
+      ; find the image on the screen
+      ift _ImageSearchArea(GetScriptsPath("images") & "Cheetah\" & $v[0] & ".bmp",1,0,0,@DesktopWidth,@DesktopHeight, $v[3], $v[4], 0) == 1
 
+        ; get the dimentions of it.
+        _GDIPlus_Startup ()
+          set 7 _GDIPlus_ImageLoadFromFile(GetScriptsPath("images")&"Cheetah\"&$v[0]&".bmp")
+          set 5 _GDIPlus_ImageGetWidth($hImage)+$v[3]
+          set 6 _GDIPlus_ImageGetHeight($hImage)+$v[4]
+          _GDIPlus_ImageDispose ($v[7])
+        _GDIPlus_ShutDown ()
+
+        ; save the dimentions in an array
+        setb $v[0] $v[3]
+        setc $v[0] $v[4]
+        setd $v[0] $v[5]
+        sete $v[0] $v[6]
+      endi
     elif
       bklp
     endi

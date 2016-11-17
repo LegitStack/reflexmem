@@ -17,6 +17,7 @@
 #include <lib\tesseract_stdout.au3>
 #include <lib\combinealllcsandtesseract.au3>
 ;#include <lib\tesseract.au3>
+#Include <GDIPlus.au3>
 
 Global $procs[256][256]
 Global $loops[256][256]
@@ -24,7 +25,10 @@ Global $v[65000]
 Global $a[256][256]
 Global $hotkey[100]
 Global $hotproc[100]
-
+Global $b[256]
+Global $c[256]
+Global $d[256]
+Global $e[256]
 
 Func HotkeyPlugin()
   for $hki = 0 to ubound($hotkey)-1
@@ -192,15 +196,13 @@ Func ExecuteCode(Byref $read, Byref $r, Byref $arg1, Byref $arg2, Byref $temp, B
       $return = ExecuteProc($r[1])
     endif
   elseif ($command == "set " Or $command == "Set ") And ($ift == "" Or stringright($ift, 1) == "t") then
-    if ubound($r) == 2 then
-      if stringleft($r[1], 1) == "$" then
-        execute($r[1])
-      else
-        $v[$r[1]] = $r[2]
-      endif
-    elseif ubound($r) == 3 then
-      if stringleft($r[2], 1) == "$" then
+    if ubound($r) == 3 then
+      if stringleft($r[2], 1) == "$" And stringleft($r[1], 1) == "$" then
+        $v[execute($r[1])] = execute($r[2])
+      elseif stringleft($r[2], 1) == "$" then
         $v[$r[1]] = execute($r[2])
+      elseif stringleft($r[1], 1) == "$" then
+        $v[execute($r[1])] = $r[2]
       else
         $v[$r[1]] = $r[2]
       endif
@@ -208,6 +210,54 @@ Func ExecuteCode(Byref $read, Byref $r, Byref $arg1, Byref $arg2, Byref $temp, B
       for $temp = 2 to ubound($r)-1
         $a[$r[1]][$temp-2] = $r[$temp]
       next
+    endif
+  elseif ($command == "setb " Or $command == "Setb ") And ($ift == "" Or stringright($ift, 1) == "t") then
+    if ubound($r) == 3 then
+      if stringleft($r[2], 1) == "$" And stringleft($r[1], 1) == "$" then
+        $b[execute($r[1])] = execute($r[2])
+      elseif stringleft($r[2], 1) == "$" then
+        $b[$r[1]] = execute($r[2])
+      elseif stringleft($r[1], 1) == "$" then
+        $b[execute($r[1])] = $r[2]
+      else
+        $b[$r[1]] = $r[2]
+      endif
+    endif
+  elseif ($command == "setc " Or $command == "Setc ") And ($ift == "" Or stringright($ift, 1) == "t") then
+    if ubound($r) == 3 then
+      if stringleft($r[2], 1) == "$" And stringleft($r[1], 1) == "$" then
+        $c[execute($r[1])] = execute($r[2])
+      elseif stringleft($r[2], 1) == "$" then
+        $c[$r[1]] = execute($r[2])
+      elseif stringleft($r[1], 1) == "$" then
+        $c[execute($r[1])] = $r[2]
+      else
+        $c[$r[1]] = $r[2]
+      endif
+    endif
+  elseif ($command == "setd " Or $command == "Setd ") And ($ift == "" Or stringright($ift, 1) == "t") then
+    if ubound($r) == 3 then
+      if stringleft($r[2], 1) == "$" And stringleft($r[1], 1) == "$" then
+        $d[execute($r[1])] = execute($r[2])
+      elseif stringleft($r[2], 1) == "$" then
+        $d[$r[1]] = execute($r[2])
+      elseif stringleft($r[1], 1) == "$" then
+        $d[execute($r[1])] = $r[2]
+      else
+        $d[$r[1]] = $r[2]
+      endif
+    endif
+  elseif ($command == "sete " Or $command == "Sete ") And ($ift == "" Or stringright($ift, 1) == "t") then
+    if ubound($r) == 3 then
+      if stringleft($r[2], 1) == "$" And stringleft($r[1], 1) == "$" then
+        $e[execute($r[1])] = execute($r[2])
+      elseif stringleft($r[2], 1) == "$" then
+        $e[$r[1]] = execute($r[2])
+      elseif stringleft($r[1], 1) == "$" then
+        $e[execute($r[1])] = $r[2]
+      else
+        $e[$r[1]] = $r[2]
+      endif
     endif
   elseif ($command == "loop" Or $command == "Loop") And ($ift == "" Or stringright($ift, 1) == "t") then
     ExecuteLoop($r[1], $arg1, $arg2, $temp, $temp1, $return, $command)
