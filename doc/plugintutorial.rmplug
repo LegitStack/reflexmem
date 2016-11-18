@@ -28,16 +28,22 @@ endp
 
 proc 1
 
-  ; make a variable only numbers (as the name) allowed
-  set 1 world
+  ; make a variable - use number as variable name
+  set 1 "world"
+  msgbox(64,"1","hello " & $v[1])
 
-  ; make an array
-  set 1 a b c d e f g
+  ; variable substitution available on name or value.
+  set 9 1
+  set $v[9] "world!"
+  msgbox(64,"1","hello " & $v[1])
+
+  ; make an array - substitution not not allowed when creating these, its litteral
+  set 1 "a" b "c" d "e" f
 
   ; make some regular autoit code
   msgbox(64,"1","hello world")
 
-  ; 8 max arguments allowed. arguments only allow single words or numbers or variables
+  ; 3 max arguments allowed. arguments only allow single words or numbers or variables
   goto 2 hello $v[1]
 
   ; how to access the return
@@ -111,7 +117,7 @@ proc 6 but for large loops or embedded loops "loop" might work best.
   loop
     set 2 $v[2]+1
     tooltip($v[2])
-    sleep(1)
+    sleep(1000)
     ift $v[2] >= 2
       bklp
     endi
@@ -124,14 +130,14 @@ proc 6 but for large loops or embedded loops "loop" might work best.
     loop
       set 3 $v[3]+1
       tooltip($v[3])
-      sleep(1)
+      sleep(1000)
       ift $v[3] >= 2
         bklp
       endi
     endl
     set 4 $v[4]+1
     tooltip($v[4])
-    sleep(1)
+    sleep(1000)
     ift $v[4] >= 2
       bklp
     endi

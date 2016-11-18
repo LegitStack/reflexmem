@@ -165,8 +165,12 @@ EndFunc
 
 
 Func ExecuteCode(Byref $read, Byref $r, Byref $arg1, Byref $arg2, Byref $temp, Byref $temp1, Byref $return, Byref $ift, Byref $embeddedif, Byref $command)
+  local $tempread1
+  local $tempread2
+  local $execute1 = false
+  local $execute2 = false
 
-  if     ($command == "goto" Or $command == "Goto") And ($ift == "" Or stringright($ift, 1) == "t") then
+  if ($command == "goto" Or $command == "Goto") And ($ift == "" Or stringright($ift, 1) == "t") then
     if Ubound($r) == 4 then
       if stringleft($r[2], 1) == "$" and stringleft($r[3], 1) == "$" then
         $return = ExecuteProc($r[1], execute($r[2]), execute($r[3]))
@@ -188,15 +192,107 @@ Func ExecuteCode(Byref $read, Byref $r, Byref $arg1, Byref $arg2, Byref $temp, B
     endif
   elseif ($command == "set " Or $command == "Set ") And ($ift == "" Or stringright($ift, 1) == "t") then
     if ubound($r) == 3 then
-      if stringleft($r[2], 1) == "$" then
-        $v[$r[1]] = execute($r[2])
-      else
-        $v[$r[1]] = $r[2]
+      if StringLeft($r[1], 1) == "'" or StringLeft($r[1], 1) == '"'  then ; 1 is text
+        $tempread1 = StringTrimLeft(StringTrimRight($r[1], 1), 1)
+      elseif StringIsDigit(Stringleft($r[1], 1)) == 1 then ; 1 is number
+        $tempread1 = $r[1]
+      else ; its code so we're going to execute it.
+        $execute1 = true
       endif
+
+      if StringLeft($r[2], 1) == "'" or StringLeft($r[2], 1) == '"'  then ; 2 is text
+        $tempread2 = StringTrimLeft(StringTrimRight($r[2], 1), 1)
+      elseif StringIsDigit(Stringleft($r[2], 1)) == 1 then ; 2 is number
+        $tempread2 = $r[2]
+      else ; its code so we're going to execute it.
+        $execute2 = true
+      endif
+
+      if $execute1 And $execute2 then
+        $v[execute($tempread1)] = execute($tempread2)
+      elseif $execute1 then
+        $v[execute($tempread1)] = $tempread2
+      elseif $execute2 then
+        $v[$tempread1] = execute($tempread2)
+      else
+        $v[$tempread1] = $tempread2
+      endif
+      ;old way of doing things
+      ;if StringIsDigit(stringleft($r[2], 1)) == 0 and stringleft($r[2], 1) <> "'" and stringleft($r[2], 1) <> '"' then ;2 is code
+      ;  if StringIsDigit(stringleft($r[1], 1)) == 0 and stringleft($r[1], 1) <> "'" and stringleft($r[1], 1) <> '"' then ;1 is code
+      ;    $v[execute($r[1])] = execute($r[2])
+      ;  else ;1 is not code
+      ;    $v[$r[1]] = execute($r[2])
+      ;  endif
+      ;else ;2 is not code
+      ;  if StringIsDigit(stringleft($r[1], 1)) == 0 and stringleft($r[1], 1) <> "'" and stringleft($r[1], 1) <> '"' then ;1 is code
+      ;    $v[execute($r[1])] = $r[2]
+      ;  else;1 is not code
+      ;    $v[$r[1]] = $r[2]
+      ;  endif
+      ;endif
+      ; original way of doing things:
+      ;if stringleft($r[2], 1) == "$" And stringleft($r[1], 1) == "$" then
+      ;  $v[execute($r[1])] = execute($r[2])
+      ;elseif stringleft($r[2], 1) == "$" then
+      ;  $v[$r[1]] = execute($r[2])
+      ;elseif stringleft($r[1], 1) == "$" then
+      ;  $v[execute($r[1])] = $r[2]
+      ;else
+      ;  $v[$r[1]] = $r[2]
+      ;endif
     elseif ubound($r) > 3 then
       for $temp = 2 to ubound($r)-1
         $a[$r[1]][$temp-2] = $r[$temp]
       next
+    endif
+  elseif ($command == "setb " Or $command == "Setb ") And ($ift == "" Or stringright($ift, 1) == "t") then
+    if ubound($r) == 3 then
+      if stringleft($r[2], 1) == "$" And stringleft($r[1], 1) == "$" then
+        $b[execute($r[1])] = execute($r[2])
+      elseif stringleft($r[2], 1) == "$" then
+        $b[$r[1]] = execute($r[2])
+      elseif stringleft($r[1], 1) == "$" then
+        $b[execute($r[1])] = $r[2]
+      else
+        $b[$r[1]] = $r[2]
+      endif
+    endif
+  elseif ($command == "setc " Or $command == "Setc ") And ($ift == "" Or stringright($ift, 1) == "t") then
+    if ubound($r) == 3 then
+      if stringleft($r[2], 1) == "$" And stringleft($r[1], 1) == "$" then
+        $c[execute($r[1])] = execute($r[2])
+      elseif stringleft($r[2], 1) == "$" then
+        $c[$r[1]] = execute($r[2])
+      elseif stringleft($r[1], 1) == "$" then
+        $c[execute($r[1])] = $r[2]
+      else
+        $c[$r[1]] = $r[2]
+      endif
+    endif
+  elseif ($command == "setd " Or $command == "Setd ") And ($ift == "" Or stringright($ift, 1) == "t") then
+    if ubound($r) == 3 then
+      if stringleft($r[2], 1) == "$" And stringleft($r[1], 1) == "$" then
+        $d[execute($r[1])] = execute($r[2])
+      elseif stringleft($r[2], 1) == "$" then
+        $d[$r[1]] = execute($r[2])
+      elseif stringleft($r[1], 1) == "$" then
+        $d[execute($r[1])] = $r[2]
+      else
+        $d[$r[1]] = $r[2]
+      endif
+    endif
+  elseif ($command == "sete " Or $command == "Sete ") And ($ift == "" Or stringright($ift, 1) == "t") then
+    if ubound($r) == 3 then
+      if stringleft($r[2], 1) == "$" And stringleft($r[1], 1) == "$" then
+        $e[execute($r[1])] = execute($r[2])
+      elseif stringleft($r[2], 1) == "$" then
+        $e[$r[1]] = execute($r[2])
+      elseif stringleft($r[1], 1) == "$" then
+        $e[execute($r[1])] = $r[2]
+      else
+        $e[$r[1]] = $r[2]
+      endif
     endif
   elseif ($command == "loop" Or $command == "Loop") And ($ift == "" Or stringright($ift, 1) == "t") then
     ExecuteLoop($r[1], $arg1, $arg2, $temp, $temp1, $return, $command)
@@ -262,6 +358,7 @@ Func ExecuteCode(Byref $read, Byref $r, Byref $arg1, Byref $arg2, Byref $temp, B
   endif
 
 EndFunc
+
 
 
 
