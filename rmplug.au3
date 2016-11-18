@@ -176,20 +176,20 @@ EndFunc
 Func ExecuteCode(Byref $read, Byref $r, Byref $arg1, Byref $arg2, Byref $temp, Byref $temp1, Byref $return, Byref $ift, Byref $embeddedif, Byref $command)
   local $tempread1
   local $tempread2
+  local $tempread3
   local $execute1 = false
   local $execute2 = false
+  local $execute3 = false
 
   if ($command == "goto" Or $command == "Goto") And ($ift == "" Or stringright($ift, 1) == "t") then
+    if StringLeft($r[1], 1) == "'" or StringLeft($r[1], 1) == '"'  then ; 1 is text
+      $tempread1 = StringTrimLeft(StringTrimRight($r[1], 1), 1)
+    elseif StringIsDigit(Stringleft($r[1], 1)) == 1 then ; 1 is number
+      $tempread1 = $r[1]
+    else ; its code so we're going to execute it.
+      $execute1 = true
+    endif
     if Ubound($r) == 4 then
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;INTEGRATE
-      if StringLeft($r[1], 1) == "'" or StringLeft($r[1], 1) == '"'  then ; 1 is text
-        $tempread1 = StringTrimLeft(StringTrimRight($r[1], 1), 1)
-      elseif StringIsDigit(Stringleft($r[1], 1)) == 1 then ; 1 is number
-        $tempread1 = $r[1]
-      else ; its code so we're going to execute it.
-        $execute1 = true
-      endif
-
       if StringLeft($r[2], 1) == "'" or StringLeft($r[2], 1) == '"'  then ; 2 is text
         $tempread2 = StringTrimLeft(StringTrimRight($r[2], 1), 1)
       elseif StringIsDigit(Stringleft($r[2], 1)) == 1 then ; 2 is number
@@ -198,34 +198,55 @@ Func ExecuteCode(Byref $read, Byref $r, Byref $arg1, Byref $arg2, Byref $temp, B
         $execute2 = true
       endif
 
-      if $execute1 And $execute2 then
-        $v[execute($tempread1)] = execute($tempread2)
-      elseif $execute1 then
-        $v[execute($tempread1)] = $tempread2
-      elseif $execute2 then
-        $v[$tempread1] = execute($tempread2)
-      else
-        $v[$tempread1] = $tempread2
+      if StringLeft($r[3], 1) == "'" or StringLeft($r[3], 1) == '"'  then ; 3 is text
+        $tempread3 = StringTrimLeft(StringTrimRight($r[3], 1), 1)
+      elseif StringIsDigit(Stringleft($r[3], 1)) == 1 then ; 3 is number
+        $tempread3 = $r[3]
+      else ; its code so we're going to execute it.
+        $execute3 = true
       endif
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;INTEGRATE above
 
-      if stringleft($r[2], 1) == "$" and stringleft($r[3], 1) == "$" then
-        $return = ExecuteProc($r[1], execute($r[2]), execute($r[3]))
-      elseif stringleft($r[2], 1) <> "$" and stringleft($r[3], 1) == "$" then
-        $return = ExecuteProc($r[1], $r[2], execute($r[3]))
-      elseif stringleft($r[2], 1) == "$" and stringleft($r[3], 1) <> "$" then
-        $return = ExecuteProc($r[1], execute($r[2]), $r[3])
+      if $execute1 And $execute2 And $execute3 then
+        $return = ExecuteProc(execute($tempread1), execute($tempread2), execute($tempread3))
+      elseif $execute1 And $execute2 then
+        $return = ExecuteProc(execute($tempread1), execute($tempread2),         $tempread3 )
+      elseif $execute1 And $execute3 then
+        $return = ExecuteProc(execute($tempread1),         $tempread2 , execute($tempread3))
+      elseif $execute2 And $execute3 then
+        $return = ExecuteProc(        $tempread1 , execute($tempread2), execute($tempread3))
+      elseif $execute1 then
+        $return = ExecuteProc(execute($tempread1),         $tempread2 ,         $tempread3 )
+      elseif $execute2 then
+        $return = ExecuteProc(        $tempread1 , execute($tempread2),         $tempread3 )
+      elseif $execute3 then
+        $return = ExecuteProc(        $tempread1 ,         $tempread2 , execute($tempread3))
       else
-        $return = ExecuteProc($r[1], $r[2], $r[3])
+        $return = ExecuteProc(        $tempread1 ,         $tempread2 ,         $tempread3 )
       endif
     elseif Ubound($r) == 3 then
-      if stringleft($r[2], 1) == "$" then
-        $return = ExecuteProc($r[1], execute($r[2]))
+      if StringLeft($r[2], 1) == "'" or StringLeft($r[2], 1) == '"'  then ; 2 is text
+        $tempread2 = StringTrimLeft(StringTrimRight($r[2], 1), 1)
+      elseif StringIsDigit(Stringleft($r[2], 1)) == 1 then ; 2 is number
+        $tempread2 = $r[2]
+      else ; its code so we're going to execute it.
+        $execute2 = true
+      endif
+
+      elseif $execute1 And $execute2 then
+        $return = ExecuteProc(execute($tempread1), execute($tempread2))
+      elseif $execute1 then
+        $return = ExecuteProc(execute($tempread1),         $tempread2 )
+      elseif $execute2 then
+        $return = ExecuteProc(        $tempread1 , execute($tempread2))
       else
-        $return = ExecuteProc($r[1], $r[2])
+        $return = ExecuteProc(        $tempread1 ,         $tempread2 )
       endif
     elseif Ubound($r) == 2 then
-      $return = ExecuteProc($r[1])
+      if $execute1 then
+        $return = ExecuteProc(execute($tempread1))
+      else
+        $return = ExecuteProc(        $tempread1 )
+      endif
     endif
   elseif ($command == "set " Or $command == "Set ") And ($ift == "" Or stringright($ift, 1) == "t") then
     if UBound($r) == 3 then
@@ -261,50 +282,114 @@ Func ExecuteCode(Byref $read, Byref $r, Byref $arg1, Byref $arg2, Byref $temp, B
     endif
   elseif ($command == "setb " Or $command == "Setb ") And ($ift == "" Or stringright($ift, 1) == "t") then
     if ubound($r) == 3 then
-      if stringleft($r[2], 1) == "$" And stringleft($r[1], 1) == "$" then
-        $b[execute($r[1])] = execute($r[2])
-      elseif stringleft($r[2], 1) == "$" then
-        $b[$r[1]] = execute($r[2])
-      elseif stringleft($r[1], 1) == "$" then
-        $b[execute($r[1])] = $r[2]
+      if StringLeft($r[1], 1) == "'" or StringLeft($r[1], 1) == '"'  then ; 1 is text
+        $tempread1 = StringTrimLeft(StringTrimRight($r[1], 1), 1)
+      elseif StringIsDigit(Stringleft($r[1], 1)) == 1 then ; 1 is number
+        $tempread1 = $r[1]
+      else ; its code so we're going to execute it.
+        $execute1 = true
+      endif
+
+      if StringLeft($r[2], 1) == "'" or StringLeft($r[2], 1) == '"'  then ; 2 is text
+        $tempread2 = StringTrimLeft(StringTrimRight($r[2], 1), 1)
+      elseif StringIsDigit(Stringleft($r[2], 1)) == 1 then ; 2 is number
+        $tempread2 = $r[2]
+      else ; its code so we're going to execute it.
+        $execute2 = true
+      endif
+
+      if $execute1 And $execute2 then
+        $b[execute($tempread1)] = execute($tempread2)
+      elseif $execute1 then
+        $b[execute($tempread1)] = $tempread2
+      elseif $execute2 then
+        $b[$tempread1] = execute($tempread2)
       else
-        $b[$r[1]] = $r[2]
+        $b[$tempread1] = $tempread2
       endif
     endif
   elseif ($command == "setc " Or $command == "Setc ") And ($ift == "" Or stringright($ift, 1) == "t") then
     if ubound($r) == 3 then
-      if stringleft($r[2], 1) == "$" And stringleft($r[1], 1) == "$" then
-        $c[execute($r[1])] = execute($r[2])
-      elseif stringleft($r[2], 1) == "$" then
-        $c[$r[1]] = execute($r[2])
-      elseif stringleft($r[1], 1) == "$" then
-        $c[execute($r[1])] = $r[2]
+      if StringLeft($r[1], 1) == "'" or StringLeft($r[1], 1) == '"'  then ; 1 is text
+        $tempread1 = StringTrimLeft(StringTrimRight($r[1], 1), 1)
+      elseif StringIsDigit(Stringleft($r[1], 1)) == 1 then ; 1 is number
+        $tempread1 = $r[1]
+      else ; its code so we're going to execute it.
+        $execute1 = true
+      endif
+
+      if StringLeft($r[2], 1) == "'" or StringLeft($r[2], 1) == '"'  then ; 2 is text
+        $tempread2 = StringTrimLeft(StringTrimRight($r[2], 1), 1)
+      elseif StringIsDigit(Stringleft($r[2], 1)) == 1 then ; 2 is number
+        $tempread2 = $r[2]
+      else ; its code so we're going to execute it.
+        $execute2 = true
+      endif
+
+      if $execute1 And $execute2 then
+        $c[execute($tempread1)] = execute($tempread2)
+      elseif $execute1 then
+        $c[execute($tempread1)] = $tempread2
+      elseif $execute2 then
+        $c[$tempread1] = execute($tempread2)
       else
-        $c[$r[1]] = $r[2]
+        $c[$tempread1] = $tempread2
       endif
     endif
   elseif ($command == "setd " Or $command == "Setd ") And ($ift == "" Or stringright($ift, 1) == "t") then
     if ubound($r) == 3 then
-      if stringleft($r[2], 1) == "$" And stringleft($r[1], 1) == "$" then
-        $d[execute($r[1])] = execute($r[2])
-      elseif stringleft($r[2], 1) == "$" then
-        $d[$r[1]] = execute($r[2])
-      elseif stringleft($r[1], 1) == "$" then
-        $d[execute($r[1])] = $r[2]
+      if StringLeft($r[1], 1) == "'" or StringLeft($r[1], 1) == '"'  then ; 1 is text
+        $tempread1 = StringTrimLeft(StringTrimRight($r[1], 1), 1)
+      elseif StringIsDigit(Stringleft($r[1], 1)) == 1 then ; 1 is number
+        $tempread1 = $r[1]
+      else ; its code so we're going to execute it.
+        $execute1 = true
+      endif
+
+      if StringLeft($r[2], 1) == "'" or StringLeft($r[2], 1) == '"'  then ; 2 is text
+        $tempread2 = StringTrimLeft(StringTrimRight($r[2], 1), 1)
+      elseif StringIsDigit(Stringleft($r[2], 1)) == 1 then ; 2 is number
+        $tempread2 = $r[2]
+      else ; its code so we're going to execute it.
+        $execute2 = true
+      endif
+
+      if $execute1 And $execute2 then
+        $d[execute($tempread1)] = execute($tempread2)
+      elseif $execute1 then
+        $d[execute($tempread1)] = $tempread2
+      elseif $execute2 then
+        $d[$tempread1] = execute($tempread2)
       else
-        $d[$r[1]] = $r[2]
+        $d[$tempread1] = $tempread2
       endif
     endif
   elseif ($command == "sete " Or $command == "Sete ") And ($ift == "" Or stringright($ift, 1) == "t") then
     if ubound($r) == 3 then
-      if stringleft($r[2], 1) == "$" And stringleft($r[1], 1) == "$" then
-        $e[execute($r[1])] = execute($r[2])
-      elseif stringleft($r[2], 1) == "$" then
-        $e[$r[1]] = execute($r[2])
-      elseif stringleft($r[1], 1) == "$" then
-        $e[execute($r[1])] = $r[2]
+      if StringLeft($r[1], 1) == "'" or StringLeft($r[1], 1) == '"'  then ; 1 is text
+        $tempread1 = StringTrimLeft(StringTrimRight($r[1], 1), 1)
+      elseif StringIsDigit(Stringleft($r[1], 1)) == 1 then ; 1 is number
+        $tempread1 = $r[1]
+      else ; its code so we're going to execute it.
+        $execute1 = true
+      endif
+
+      if StringLeft($r[2], 1) == "'" or StringLeft($r[2], 1) == '"'  then ; 2 is text
+        $tempread2 = StringTrimLeft(StringTrimRight($r[2], 1), 1)
+      elseif StringIsDigit(Stringleft($r[2], 1)) == 1 then ; 2 is number
+        $tempread2 = $r[2]
+      else ; its code so we're going to execute it.
+        $execute2 = true
+      endif
+
+      if $execute1 And $execute2 then
+        $e[execute($tempread1)] = execute($tempread2)
+      elseif $execute1 then
+        $e[execute($tempread1)] = $tempread2
+      elseif $execute2 then
+        $e[$tempread1] = execute($tempread2)
       else
-        $e[$r[1]] = $r[2]
+        $e[$tempread1] = $tempread2
       endif
     endif
   elseif ($command == "loop" Or $command == "Loop") And ($ift == "" Or stringright($ift, 1) == "t") then

@@ -43,7 +43,7 @@ proc 1
   ; make some regular autoit code
   msgbox(64,"1","hello world")
 
-  ; 3 max arguments allowed. arguments only allow single words or numbers or variables
+  ; 2 max arguments allowed. arguments only allow single words or numbers or variables
   goto 2 hello $v[1]
 
   ; how to access the return
