@@ -96,11 +96,11 @@ Source: "C:\sites\reflexmem\lib\behave\managereflexmem_behavior"; DestDir: "{app
 Source: "C:\sites\reflexmem\lib\behave\managevariable_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\behave\messagebox_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\behave\mouseclick_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
-Source: "C:\sites\reflexmem\lib\behave\mousewheel_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\behave\sendkeys_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\behave\textonscreen_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\behave\tooltip_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\behave\userinteraction_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
+Source: "C:\sites\reflexmem\lib\behave\volume_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\behave\wait_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
 
 Source: "C:\sites\reflexmem\tesseract\*"; DestDir: "{app}\tesseract\"; Flags: ignoreversion

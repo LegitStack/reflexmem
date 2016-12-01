@@ -92,6 +92,12 @@ Func ActionMapThen($command, $arguments)
       return "Assign('paused',False,2)"
     case "pause" ; text
       return "Assign('paused',True,2)"
+    case "volume" ; text
+      if $arguments == "up" then
+        return "Send('{VOLUME_UP}')"
+      elseif $arguments == "down" then
+        return "Send('{VOLUME_DOWN}')"
+      endif
     case "setvar" ; text
       $args = StringSplit($arguments, " ", 2)
       local $combined = ""

@@ -1,6 +1,6 @@
-Func MouseWheelBehavior()
-	Local $hChild12 = GUICreate("Mouse Wheel Behavior", 400*$R, 200*$R, -1, -1, -1, -1, $hGUI)
-	GUICtrlCreateLabel("Which direction should mouse wheel scroll?", 20*$R, 20*$R, 360*$R, 35*$R)
+Func VolumeBehavior()
+	Local $hChild12 = GUICreate("Volume Behavior", 400*$R, 200*$R, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("Should the volume go up or down?", 20*$R, 20*$R, 360*$R, 35*$R)
 	GUICtrlSetStyle(-1, $SS_CENTER)
 	local $button121 = GUICtrlCreateButton("Up", 20*$R, 80*$R, 160*$R, 60*$R)
 	local $button122 = GUICtrlCreateButton("Down", 220*$R, 80*$R, 160*$R, 60*$R)
@@ -14,12 +14,12 @@ Func MouseWheelBehavior()
 				GUIDelete($hChild12)
 				ExitLoop
 			Case $button121
-				$totrig = "wheel up"
+				$totrig = "volume up"
 				AddToBehavior($totrig)
 				GUIDelete($hChild12)
 				ExitLoop
 			Case $button122
-				$totrig = "wheel down"
+				$totrig = "volume down"
 				AddToBehavior($totrig)
 				GUIDelete($hChild12)
 				ExitLoop

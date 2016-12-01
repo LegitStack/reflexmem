@@ -1,13 +1,17 @@
 Func MouseClickBehavior()
-	Local $hChild11 = GUICreate("Mouse Click Behavior", 400*$R, 260*$R, -1, -1, -1, -1, $hGUI)
+	Local $hChild11 = GUICreate("Mouse Click Behavior", 400*$R, 340*$R, -1, -1, -1, -1, $hGUI)
 	GUICtrlCreateLabel("Which button should be cliked?", 20*$R, 20*$R, 360*$R, 35*$R)
 	GUICtrlSetStyle(-1, $SS_CENTER)
 	local $button111 = GUICtrlCreateButton("Primary ( Left Click )", 20*$R, 60*$R, 160*$R, 60*$R)
 	local $button112 = GUICtrlCreateButton("Secondary ( Right Click )", 220*$R, 60*$R, 160*$R, 60*$R)
+
 	local $button113 = GUICtrlCreateButton("Primary ( hold down )", 20*$R, 140*$R, 160*$R, 40*$R)
 	local $button114 = GUICtrlCreateButton("Secondary ( hold down )", 220*$R, 140*$R, 160*$R, 40*$R)
 	local $button115 = GUICtrlCreateButton("Primary ( let up )", 20*$R, 200*$R, 160*$R, 40*$R)
 	local $button116 = GUICtrlCreateButton("Secondary ( let up )", 220*$R, 200*$R, 160*$R, 40*$R)
+
+	local $button117 = GUICtrlCreateButton("Wheel ( roll up )", 20*$R, 260*$R, 160*$R, 60*$R)
+	local $button118 = GUICtrlCreateButton("Wheel ( roll down )", 220*$R, 260*$R, 160*$R, 60*$R)
 	GUISetState()
 
 	local $totrig = ""
@@ -44,6 +48,16 @@ Func MouseClickBehavior()
 				ExitLoop
 			Case $button116
 				$totrig = "clickup secondary"
+				AddToBehavior($totrig)
+				GUIDelete($hChild11)
+				ExitLoop
+			Case $button117
+				$totrig = "wheel up"
+				AddToBehavior($totrig)
+				GUIDelete($hChild11)
+				ExitLoop
+			Case $button118
+				$totrig = "wheel down"
 				AddToBehavior($totrig)
 				GUIDelete($hChild11)
 				ExitLoop
