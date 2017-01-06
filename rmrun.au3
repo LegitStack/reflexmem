@@ -29,8 +29,8 @@ Func GetTriggers()
 
   global $triggers[1]
   global $triggernames[1]
-  global $behaviors[100][1]
-  global $behaviornames[100][1]
+  global $behaviors[1000][1]
+  global $behaviornames[1000][1]
   global $tcounts[1]
   global $recipes[1]
 
@@ -39,8 +39,8 @@ Func GetTriggers()
   While FileExists(GetScriptsPath("if") & $i & ".txt")
     ReDim $triggers[$i + 1]
     Redim $triggernames[$i + 1]
-    ReDim $behaviors[100][$i + 1]
-    ReDim $behaviornames[100][$i + 1]
+    ReDim $behaviors[1000][$i + 1]
+    ReDim $behaviornames[1000][$i + 1]
     ReDim $tcounts[$i + 1]
     ReDim $recipes[$i + 1]
     $triggers[$i] = ReadFileIf($i)
@@ -320,9 +320,9 @@ Func PopulateGui()
           $codetemp = $codetemp & "while 1" & @CRLF
           for $c = 0 to ubound($trigs)-1
             $codetemp = $codetemp & "if " & $triggers[$c] & " then" & @CRLF
-            for $i = 0 to 100
+            for $i = 0 to 1000
               if $behaviors[$i][$c] == ""  then
-                $i = 101
+                $i = 1001
               else
                 $codetemp = $codetemp & $behaviors[$i][$c] & @CRLF
               endif
@@ -452,9 +452,9 @@ Func PopulateGui()
             if $trigs[$c] == 1 then
               $tcounts[$c] = $tcounts[$c] + 1
               if Execute($triggers[$c]) then
-                for $i = 0 to 100
+                for $i = 0 to 1000
                   if $behaviors[$i][$c] == ""  then
-                    $i = 101
+                    $i = 1001
                   else
                     ;msgbox(64, $paused, $behaviors[$i][$c])
                     if $paused == true then
