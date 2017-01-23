@@ -1,0 +1,35 @@
+Func ManageAudioBehavior()
+
+	local $hMain_GUI = GUICreate("Manage Audio Behavior",400*$R, 200*$R, -1, -1, -1, -1, $hGUI)
+	GUICtrlCreateLabel("What should happen?", 20*$R, 20*$R, 360*$R, 35*$R)
+	GUICtrlSetStyle(-1, $SS_CENTER)
+	local $hmButton1 = GUICtrlCreateButton("Play a Sound", 		20*$R, 80*$R, 160*$R, 60*$R)
+	local $hmButton2 = GUICtrlCreateButton("Modify Volume", 			220*$R, 80*$R, 160*$R, 60*$R)
+	GUISetState()
+
+	While 1
+		Switch GUIGetMsg()
+			Case $GUI_EVENT_CLOSE
+				GUIDelete($hMain_GUI)
+				ExitLoop
+			Case $hmButton1
+				local $sFile = FileOpenDialog("Choose Sound...", @DesktopCommonDir, "All (*.*)")
+				if $sFile == "" then
+					GUIDelete($hMain_GUI)
+					ExitLoop
+				endif
+				PlayBehavior($sFile)
+				GUIDelete($hMain_GUI)
+				ExitLoop
+			Case $hmButton2
+				VolumeBehavior()
+				GUIDelete($hMain_GUI)
+				ExitLoop
+			EndSwitch
+	WEnd
+EndFunc
+
+Func PlayBehavior($soundfile)
+	$totrig = "play " & $soundfile
+	AddToBehavior($totrig)
+EndFunc

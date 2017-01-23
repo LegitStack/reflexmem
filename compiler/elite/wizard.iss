@@ -84,6 +84,7 @@ Source: "C:\sites\reflexmem\lib\trig\programruns_trigger"; DestDir: "{app}\lib\t
 Source: "C:\sites\reflexmem\lib\behave\clipboard_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\behave\keydown_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\behave\keyup_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
+Source: "C:\sites\reflexmem\lib\behave\manageaudio_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\behave\managedisplay_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\behave\managekeypress_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion
 Source: "C:\sites\reflexmem\lib\behave\managemousemove_behavior"; DestDir: "{app}\lib\behave\"; Flags: ignoreversion

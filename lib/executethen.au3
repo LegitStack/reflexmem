@@ -80,6 +80,8 @@ Func ActionMapThen($command, $arguments)
       else
         return "_ImageSearchAreaMouseMove('" & $args[0] & "',1," & $args[1] & "," & $args[2] & "," & $args[3] & "," & $args[4] & ", $X1, $Y1, " & $args[5] & ")"
       endif
+    Case "play"
+      return "SoundPlay('" & $arguments & "')"
     Case "wheel" ; up down
       return "MouseWheel('" & $arguments & "')"
     case "copy" ; text

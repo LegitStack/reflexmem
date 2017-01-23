@@ -53,6 +53,7 @@
 #include <lib\behave\tooltip_behavior>
 #include <lib\behave\managedisplay_behavior>
 #include <lib\behave\userinteraction_behavior>
+#include <lib\behave\manageaudio_behavior>
 ;DllCall("User32.dll", "bool", "SetProcessDPIAwareness")
 ;GUISetFont(8.5 * _GDIPlus_GraphicsGetDPIRatio()[0])
 
@@ -299,7 +300,7 @@ Func CreateBehaviors()
 	Global $hButton13 = GUICtrlCreateButton("Copy / Paste", 			330*$R, 	125*$R, 	250*$R, 35*$R) ;done
 	Global $hButton10 = GUICtrlCreateButton("Move Mouse", 				330*$R, 	170*$R, 	250*$R, 35*$R) ;done
 	Global $hButton11 = GUICtrlCreateButton("Mouse Click", 				330*$R, 	215*$R, 	250*$R, 35*$R) ;done
-	Global $hButton12 = GUICtrlCreateButton("Change Volume",			330*$R, 	260*$R, 	250*$R, 35*$R) ;done
+	Global $hButton12 = GUICtrlCreateButton("Manage Audio",				330*$R, 	260*$R, 	250*$R, 35*$R) ;done
 	Global $hButton9  = GUICtrlCreateButton("User Interaction",		330*$R, 	305*$R, 	250*$R, 35*$R) ;done
 	Global $hButton18 = GUICtrlCreateButton("Display Message",		330*$R, 	350*$R, 	250*$R, 35*$R) ;done
 	Global $hButton15 = GUICtrlCreateButton("Wait", 							330*$R, 	395*$R, 	250*$R, 35*$R) ;done
@@ -909,7 +910,7 @@ Func WaitForThenInput()
 			Case $hButton11
 				MouseClickBehavior()
 			Case $hButton12
-				VolumeBehavior()
+				ManageAudioBehavior()
 			Case $hButton13
 				ClipboardBehavior()
 			Case $hButton14
