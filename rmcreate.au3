@@ -822,6 +822,7 @@ Func SaveBehavior()
 		EndIf
 
 	FileClose($hFileOpen1)
+	ReturnToMain()
 EndFunc
 
 
@@ -964,12 +965,17 @@ EndFunc
 Func ReturnToMain()
 	if FileExists("reflexmem-pro.exe") then
 		Run("reflexmem-pro.exe")
+	elseif FileExists("reflexmem-elite.exe") then
+		Run("reflexmem-elite.exe")
 	else
 		Run("reflexmem.exe")
 	endif
 	GUIDelete($hGUI)
 	Exit
 EndFunc
+
+
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

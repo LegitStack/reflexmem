@@ -306,7 +306,7 @@ Func PopulateGui()
           $loop2 = 0
           $loop1 = 0
           Guidelete($hGUI)
-          Exit
+          ReturnToMain()
         Case $idStart
           SetUnPause($loop1, $loop2, $loop3, $idStart)
           for $i = 0 to ubound($triggers)-1
@@ -363,6 +363,7 @@ Func PopulateGui()
                 $loop2 = 0
                 $loop1 = 0
                 Guidelete($hGUI)
+                Run("explorer.exe " & GetScriptsPath("scripts"))
                 Exit
             elseif $msg == $idDelete[$i] then
               FileDelete(GetScriptsPath("if") & $i & ".txt")
@@ -428,7 +429,7 @@ Func PopulateGui()
           $loop3 = 0
           $loop1 = 0
           Guidelete($hGUI)
-          Exit
+          ReturnToMain()
         Case $idStart
           SetPause($loop1, $loop2, $loop3, $idStart)
           SetPLabel($pLabel, "")
@@ -489,7 +490,7 @@ Func PopulateGui()
   WEnd
   ; Delete the previous GUI and all controls.
   GUIDelete($hGUI)
-  Exit
+  ReturnToMain()
 EndFunc   ;==>Example
 
 Func SetPLabel($pLabel, $data)
@@ -554,7 +555,17 @@ Func SetYesNo($data)
 EndFunc   ;==>Example
 
 
-
+Func ReturnToMain()
+	if FileExists("reflexmem-pro.exe") then
+		Run("reflexmem-pro.exe")
+	elseif FileExists("reflexmem-elite.exe") then
+		Run("reflexmem-elite.exe")
+	else
+		Run("reflexmem.exe")
+	endif
+	GUIDelete($hGUI)
+	Exit
+EndFunc
 
 Func AwaitUserAction($data = "click")
   local $waiting = true
