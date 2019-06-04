@@ -1,4 +1,8 @@
 
+Compile reflexmem, rmcreate and rmrun
+
+run reflexmem
+
  Requirements: (highly outdated.)
 
 -   Windows 7 or higher
